@@ -1,0 +1,101 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+    bind:
+      $appName: '%kishlin.app.name%'
+
+
+  ##> Messaging
+
+  Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Bus\Command\InMemoryCommandBusUsingSymfony'
+    arguments:
+      - '@symfony.messenger.bus.command'
+    tags:
+        - { name: messenger.bus }
+
+  Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Bus\Event\InMemoryEventDispatcherUsingSymfony'
+    arguments:
+      - '@symfony.messenger.bus.event'
+    tags:
+        - { name: messenger.bus }
+
+  Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Bus\Query\InMemoryQueryBusUsingSymfony'
+    arguments:
+      - '@symfony.messenger.bus.query'
+    tags:
+        - { name: messenger.bus }
+
+
+  ##> Monitoring
+
+  Kishlin\Backend\Shared\Infrastructure\Monitoring\:
+    resource: '../../../Infrastructure/Monitoring'
+
+
+  ##> Randomness
+
+  Kishlin\Backend\Shared\Infrastructure\Randomness\UuidGeneratorUsingRamsey:
+  Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator:
+    alias: 'Kishlin\Backend\Shared\Infrastructure\Randomness\UuidGeneratorUsingRamsey'
+
+  Kishlin\Backend\Shared\Domain\Randomness\GenerateUuidCommandUsingSymfony:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Randomness\GenerateUuidCommandUsingSymfony'
+    tags: ['console.command']
+
+
+  ##> Time
+
+  Kishlin\Backend\Shared\Domain\Time\Clock:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Time\SystemClock'
+
+
+##>
+
+  _instanceof:
+
+  ##> Application
+
+    Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler:
+      public: true
+      tags:
+        - { name: messenger.message_handler, bus: Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus }
+
+    Kishlin\Backend\Shared\Domain\Bus\Event\DomainEventSubscriber:
+      public: true
+      tags:
+        - { name: messenger.message_handler, bus: Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher }
+
+    Kishlin\Backend\Shared\Domain\Bus\Query\QueryHandler:
+      public: true
+      tags:
+        - { name: messenger.message_handler, bus: Kishlin\Backend\Shared\Domain\Bus\Command\QueryBus }
+
+  ##> Monitoring
+
+    Kishlin\Backend\Shared\Infrastructure\Monitoring\Probe\Probe:
+      tags: ['kishlin.shared.infrastructure.monitoring.probe']
+
+
+##> Make some services public to override them in tests
+
+when@test:
+  services:
+
+    Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus:
+      public: true
+      tags:
+        - { name: messenger.bus }
+
+    Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher:
+        public: true
+        tags:
+          - { name: messenger.bus }
+
+    Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus:
+        public: true
+        tags:
+          - { name: messenger.bus }
