@@ -1,0 +1,33 @@
+###> PHPStorm ###
+/.idea
+###< PHPStorm ###
+
+###> Dev Env ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/.docker-cache
+/docker-compose.yaml
+###< Dev Env ###
+
+###> Symfony/Composer ###
+/vendor/
+/apps/RPGIdleGame/backend/var/
+###< Symfony ###
+
+###> Node ###
+/apps/RPGIdleGame/frontend/node
+/apps/RPGIdleGame/frontend/build
+/apps/RPGIdleGame/frontend/node_modules
+/apps/RPGIdleGame/frontend/yarn-*.log
+###< Node ###
+
+###> phpunit/phpunit ###
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+/apps/RPGIdleGame/backend/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###

@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+
+  postgres:
+    container_name: postgres-${PROJECT}
+    image: ${PROJECT}-postgres:${DB_VERSION}
+    build:
+      context: ./.docker/postgres/${DB_VERSION}
+    restart: on-failure
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ${PWD}:/${PROJECT}
+    ports:
+      - "${DB_PORT_EXTERNAL}:5432"
+    working_dir: "/${PROJECT}"
+    networks:
+      - "docker-${PROJECT}"
+
+  frontend:
+    container_name: node-${PROJECT}
+    image: ${PROJECT}-node:${NODE_VERSION}
+    env_file:
+      - .env
+      - .env.local
+    build:
+      context: ./.docker/node/${NODE_VERSION}
+      args:
+        DOCKER_USER: <DOCKER_USER>
+        DOCKER_USER_ID: <DOCKER_USER_ID>
+    restart: on-failure
+    volumes:
+      - ${PWD}:/${PROJECT}
+      - cache:/srv/cache
+    ports:
+      - "${FRONTEND_SERVER_PORT_EXTERNAL}:3000"
+    working_dir: "/${PROJECT}/apps/RPGIdleGame/frontend"
+    user: <DOCKER_USER>
+    command: npm start
+    networks:
+      - "docker-${PROJECT}"
+
+  backend:
+    env_file:
+        - .env
+        - .env.local
+    build:
+      context: .docker/php/${PHP_VERSION}
+      args:
+        DOCKER_USER: <DOCKER_USER>
+        DOCKER_USER_ID: <DOCKER_USER_ID>
+    container_name: backend-${PROJECT}
+    image: ${PROJECT}-backend:${PHP_VERSION}
+    ports:
+      - "${BACKEND_SERVER_PORT_EXTERNAL}:8000"
+      - "${BACKEND_XDEBUG_PORT_EXTERNAL}:9003"
+    depends_on:
+      - postgres
+    restart: on-failure
+    environment:
+        COMPOSER_CACHE_DIR: /srv/cache/composer-cache
+        SSH_AUTH_SOCK: /ssh-agent
+        TZ: ${TIMEZONE}
+        XDEBUG_SESSION: PHPSTORM
+    volumes:
+        - ${PWD}:/${PROJECT}
+        - $SSH_AUTH_SOCK:/ssh-agent
+        - cache:/srv/cache
+    working_dir: "/${PROJECT}/apps/RPGIdleGame/backend"
+    user: <DOCKER_USER>
+    command: symfony server:start --dir=/rpgidlegame/apps/RPGIdleGame/backend/public --port=8000 --force-php-discovery
+    networks:
+        - "docker-${PROJECT}"
+
+networks:
+  docker-rpgidlegame:
+    driver: bridge
+
+volumes:
+  cache:
+    external: true

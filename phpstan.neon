@@ -1,0 +1,19 @@
+includes:
+  - /rpgidlegame/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+  - /rpgidlegame/vendor/phpstan/phpstan-doctrine/extension.neon
+  - /rpgidlegame/vendor/phpstan/phpstan-symfony/extension.neon
+  - /rpgidlegame/vendor/phpstan/phpstan-phpunit/extension.neon
+  - /rpgidlegame/vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+	level: 9
+	paths:
+		- /rpgidlegame/src
+		- /rpgidlegame/tests
+		- /rpgidlegame/apps/RPGIdleGame/backend/src
+		- /rpgidlegame/apps/RPGIdleGame/backend/tests
+	symfony:
+		container_xml_path: '%currentWorkingDirectory%/var/cache/dev/Kishlin_Apps_RPGIdleGame_Backend_RPGIdleGameKernelDevDebugContainer.xml'
+	ignoreErrors:
+		- '#Property Kishlin\\Backend\\RPGIdleGame\\Character\\Domain\\Character::\$[\w]+ is never read, only written.#'
+		- '#Property Kishlin\\Backend\\Account\\Domain\\Account::\$[\w]+ is never read, only written.#'

@@ -1,0 +1,5 @@
+default:
+  suites:
+    use_case_tests:
+      paths:    [ features ]
+      contexts: [ Kishlin\Tests\Backend\UseCaseTests\Context\RPGIdleGameContext ]
