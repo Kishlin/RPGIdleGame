@@ -1,0 +1,17 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+
+  ##> Application
+
+  Kishlin\Backend\Account\Application\:
+    resource: '../../../Application/'
+    exclude: '../../../Application/*/*Command.php'
+
+
+  ##> Gateways
+
+  Kishlin\Backend\Account\Domain\AccountGateway:
+    class: 'Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountRepository'
