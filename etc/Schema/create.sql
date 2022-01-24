@@ -35,6 +35,25 @@ CREATE TABLE public.accounts (
 
 ALTER TABLE public.accounts OWNER TO rpgidlegame;
 
+--
+-- Name: characters; Type: TABLE; Schema: public; Owner: rpgidlegame
+--
+
+CREATE TABLE public.characters (
+                                   character_id character varying(36) NOT NULL,
+                                   character_owner character varying(36) NOT NULL,
+                                   character_name character varying(255) NOT NULL,
+                                   character_skill_points integer NOT NULL,
+                                   character_health integer NOT NULL,
+                                   character_attack integer NOT NULL,
+                                   character_defense integer NOT NULL,
+                                   character_magik integer NOT NULL,
+                                   character_rank integer NOT NULL,
+                                   character_fights_count integer NOT NULL
+);
+
+
+ALTER TABLE public.characters OWNER TO rpgidlegame;
 
 --
 -- Name: doctrine_migration_versions; Type: TABLE; Schema: public; Owner: rpgidlegame
@@ -71,6 +90,7 @@ COPY public.characters (character_id, character_owner, character_name, character
 
 COPY public.doctrine_migration_versions (version, executed_at, execution_time) FROM stdin;
 Kishlin\\Migrations\\Version20220121150906	2022-01-21 15:14:29	9
+Kishlin\\Migrations\\Version20220124185735	2022-01-24 18:58:14	11
 \.
 
 
@@ -80,6 +100,14 @@ Kishlin\\Migrations\\Version20220121150906	2022-01-21 15:14:29	9
 
 ALTER TABLE ONLY public.accounts
     ADD CONSTRAINT accounts_pkey PRIMARY KEY (account_id);
+
+
+--
+-- Name: characters characters_pkey; Type: CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.characters
+    ADD CONSTRAINT characters_pkey PRIMARY KEY (character_id);
 
 
 --

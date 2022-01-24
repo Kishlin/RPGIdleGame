@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Kishlin\Backend\RPGIdleGame\Character\Domain\Character" table="characters">
+        <id name="characterId" type="character_id" column="character_id" length="36" />
+
+        <embedded name="characterName" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName" use-column-prefix="false" />
+
+        <field name="characterOwner" type="character_owner" column="character_owner" length="36" />
+
+        <embedded name="characterSkillPoint" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint" use-column-prefix="false" />
+
+        <embedded name="characterHealth" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth" use-column-prefix="false" />
+
+        <embedded name="characterAttack" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack" use-column-prefix="false" />
+
+        <embedded name="characterDefense" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense" use-column-prefix="false" />
+
+        <embedded name="characterMagik" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik" use-column-prefix="false" />
+
+        <embedded name="characterRank" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank" use-column-prefix="false" />
+
+        <embedded name="characterFightsCount" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterFightsCount" use-column-prefix="false" />
+
+</entity>
+
+</doctrine-mapping>
