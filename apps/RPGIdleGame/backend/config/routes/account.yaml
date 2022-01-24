@@ -1,0 +1,5 @@
+account:
+  resource: ../../src/Account/Controller/
+  prefix: /account
+  type: annotation
+  stateless: true

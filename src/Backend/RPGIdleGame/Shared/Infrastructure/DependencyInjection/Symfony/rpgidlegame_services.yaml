@@ -1,0 +1,20 @@
+imports:
+  - { resource: ../../../../Character/Infrastructure/DependencyInjection/Symfony/character_services.yaml }
+
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+
+##> Persistence
+
+  Doctrine\ORM\EntityManagerInterface:
+    factory: [ Kishlin\Backend\RPGIdleGame\Shared\Infrastructure\Persistence\Doctrine\EntityManagerFactory\RPGIdleGameEntityManagerFactory, create ]
+    arguments:
+        $parameters:
+          url: '%kishlin.database.url%'
+        $environment: '%kishlin.app.environment%'
+    public: true
+
+  kishlin.app.infrastructure.entity_manager: '@Doctrine\ORM\EntityManagerInterface'

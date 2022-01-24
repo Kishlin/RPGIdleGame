@@ -1,0 +1,29 @@
+parameters:
+  kishlin.app.name: 'rpgidlegame-backend'
+  kishlin.app.environment: '%env(APP_ENV)%'
+  kishlin.database.url: '%env(DATABASE_URL)%'
+  kishlin.src.dir: '/rpgidlegame'
+
+imports:
+  - { resource: ../../../../src/Backend/RPGIdleGame/Shared/Infrastructure/DependencyInjection/Symfony/rpgidlegame_services.yaml }
+  - { resource: ../../../../src/Backend/Account/Infrastructure/DependencyInjection/Symfony/account_services.yaml }
+  - { resource: ../../../../src/Backend/Shared/Infrastructure/DependencyInjection/Symfony/shared_services.yaml }
+
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+
+##> Account
+
+  Kishlin\Apps\RPGIdleGame\Backend\Account\Controller\:
+    resource: '../src/Account/Controller'
+    tags: ['controller.service_arguments']
+
+
+##> Monitoring
+
+  Kishlin\Apps\RPGIdleGame\Backend\Monitoring\Controller\:
+    resource: '../src/Monitoring/Controller'
+    tags: ['controller.service_arguments']
