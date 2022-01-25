@@ -9,7 +9,6 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
-use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 
 class CharacterGatewaySpy implements CharacterGateway
 {
@@ -33,17 +32,19 @@ class CharacterGatewaySpy implements CharacterGateway
 
     public function findAllForOwner(CharacterOwner $characterOwner): array
     {
-        return array_filter($this->characters, static function (Character $character) use ($characterOwner) {
-            return $characterOwner->equals(self::characterOwner($character));
-        });
+        $filterForOwner = static function (Character $character) use ($characterOwner) {
+            return $characterOwner->equals($character->characterOwner());
+        };
+
+        return array_filter($this->characters, $filterForOwner);
     }
 
     public function ownerAlreadyHasACharacterWithName(CharacterName $characterName, CharacterOwner $characterOwner): bool
     {
         foreach ($this->characters as $character) {
             if (
-                $characterName->equals(self::characterName($character))
-                && $characterOwner->equals(self::characterOwner($character))
+                $characterName->equals($character->characterName())
+                && $characterOwner->equals($character->characterOwner())
             ) {
                 return true;
             }
@@ -55,21 +56,5 @@ class CharacterGatewaySpy implements CharacterGateway
     public function has(CharacterId $characterId): bool
     {
         return array_key_exists($characterId->value(), $this->characters);
-    }
-
-    public static function characterOwner(Character $character): CharacterOwner
-    {
-        $characterOwner = ReflectionHelper::propertyValue($character, 'characterOwner');
-        assert($characterOwner instanceof CharacterOwner);
-
-        return $characterOwner;
-    }
-
-    public static function characterName(Character $character): CharacterName
-    {
-        $characterName = ReflectionHelper::propertyValue($character, 'characterName');
-        assert($characterName instanceof CharacterName);
-
-        return $characterName;
     }
 }

@@ -40,4 +40,19 @@ final class CharacterCount extends AggregateRoot
         $this->characterCountValue->decrement();
         $this->characterCountReachedLimit->limitIsNotReachedAnymore();
     }
+
+    public function characterCountOwner(): CharacterCountOwner
+    {
+        return $this->characterCountOwner;
+    }
+
+    public function characterCountValue(): CharacterCountValue
+    {
+        return $this->characterCountValue;
+    }
+
+    public function characterCountReachedLimit(): CharacterCountReachedLimit
+    {
+        return $this->characterCountReachedLimit;
+    }
 }

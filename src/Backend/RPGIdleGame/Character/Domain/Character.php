@@ -82,4 +82,14 @@ final class Character extends AggregateRoot
     {
         return $this->characterId;
     }
+
+    public function characterName(): CharacterName
+    {
+        return $this->characterName;
+    }
+
+    public function characterOwner(): CharacterOwner
+    {
+        return $this->characterOwner;
+    }
 }

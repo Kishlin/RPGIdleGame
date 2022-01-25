@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account\Constraint;
 
 use Kishlin\Backend\Account\Domain\Account;
-use Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive;
-use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use PHPUnit\Framework\Constraint\Constraint;
-use ReflectionException;
 
 final class AccountIsActiveConstraint extends Constraint
 {
@@ -19,36 +16,20 @@ final class AccountIsActiveConstraint extends Constraint
 
     /**
      * @param Account $other
-     *
-     * @throws ReflectionException
      */
     protected function matches(mixed $other): bool
     {
-        $accountIsActive = ReflectionHelper::propertyValue($other, 'accountIsActive');
-
-        if ($accountIsActive instanceof AccountIsActive) {
-            return $accountIsActive->value();
-        }
-
-        return false;
+        return $other->accountIsActive()->value();
     }
 
     /**
      * @param Account $other
-     *
-     * @throws ReflectionException
      */
     protected function additionalFailureDescription($other): string
     {
-        $accountIsActive = ReflectionHelper::propertyValue($other, 'accountIsActive');
+        $value = var_export($other->accountIsActive()->value(), true);
 
-        if ($accountIsActive instanceof AccountIsActive) {
-            $value = var_export($accountIsActive->value(), true);
-
-            return "Actual status is: {$value}.";
-        }
-
-        return 'The accountIsActive property does not have a valid AccountIsAlive object.';
+        return "Actual status is: {$value}.";
     }
 
     /**

@@ -19,15 +19,9 @@ final class CharacterCountGatewaySpy implements CharacterCountGateway, CreationA
     /** @var array<string, CharacterCount> */
     private array $characterCounts = [];
 
-    /**
-     * @throws ReflectionException
-     */
     public function save(CharacterCount $characterCount): void
     {
-        $owner = ReflectionHelper::propertyValue($characterCount, 'characterCountOwner');
-        assert($owner instanceof CharacterCountOwner);
-
-        $this->characterCounts[$owner->value()] = $characterCount;
+        $this->characterCounts[$characterCount->characterCountOwner()->value()] = $characterCount;
     }
 
     public function findForOwner(CharacterCountOwner $characterCountOwner): ?CharacterCount
@@ -35,32 +29,19 @@ final class CharacterCountGatewaySpy implements CharacterCountGateway, CreationA
         return $this->characterCounts[$characterCountOwner->value()] ?? null;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function isAllowedToCreateACharacter(UuidValueObject $characterCountOwner): bool
     {
         if (false === array_key_exists($characterCountOwner->value(), $this->characterCounts)) {
             return false;
         }
 
-        $characterCountReachedLimit = ReflectionHelper::propertyValue(
-            $this->characterCounts[$characterCountOwner->value()],
-            'characterCountReachedLimit'
-        );
-
-        assert($characterCountReachedLimit instanceof CharacterCountReachedLimit);
-
-        return false === $characterCountReachedLimit->value();
+        return false === $this->characterCounts[$characterCountOwner->value()]->characterCountReachedLimit()->value();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function countForOwnerEquals(UuidValueObject $ownerId, int $count): bool
     {
         return array_key_exists($ownerId->value(), $this->characterCounts)
-            && $count === $this->countValueFromAggregateRoot($this->characterCounts[$ownerId->value()])->value()
+            && $count === $this->characterCounts[$ownerId->value()]->characterCountValue()->value()
         ;
     }
 
@@ -76,16 +57,5 @@ final class CharacterCountGatewaySpy implements CharacterCountGateway, CreationA
 
         ReflectionHelper::writePropertyValue($characterCount, 'characterCountValue', $characterCountValue);
         ReflectionHelper::writePropertyValue($characterCount, 'characterCountReachedLimit', $characterCountReachedLimit);
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    private function countValueFromAggregateRoot(CharacterCount $characterCount): CharacterCountValue
-    {
-        $characterCountValue = ReflectionHelper::propertyValue($characterCount, 'characterCountValue');
-        assert($characterCountValue instanceof CharacterCountValue);
-
-        return $characterCountValue;
     }
 }

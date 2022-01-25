@@ -8,9 +8,7 @@ use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Infrastructure\Persistence\Doctrine\CharacterCountRepository;
 use Kishlin\Tests\Backend\Tools\Provider\CharacterCountProvider;
-use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
-use ReflectionException;
 
 /**
  * @internal
@@ -48,8 +46,6 @@ final class CharacterCountRepositoryTest extends RepositoryContractTestCase
     /**
      * @noinspection PhpDocSignatureInspection
      *
-     * @throws ReflectionException
-     *
      * @return iterable<array<CharacterCount|CharacterCountOwner>>
      */
     public function characterCountWithSurroundingLimitsProvider(): iterable
@@ -57,11 +53,8 @@ final class CharacterCountRepositoryTest extends RepositoryContractTestCase
         $characterCountBelowLimit = CharacterCountProvider::countWithAFewCharacters();
         $characterCountAtLimit    = CharacterCountProvider::countAtTheLimitOfCharacters();
 
-        $ownerBelowLimit = ReflectionHelper::propertyValue($characterCountBelowLimit, 'characterCountOwner');
-        $ownerAtLimit    = ReflectionHelper::propertyValue($characterCountAtLimit, 'characterCountOwner');
-
-        assert($ownerBelowLimit instanceof CharacterCountOwner);
-        assert($ownerAtLimit instanceof CharacterCountOwner);
+        $ownerBelowLimit = $characterCountBelowLimit->characterCountOwner();
+        $ownerAtLimit    = $characterCountAtLimit->characterCountOwner();
 
         yield [
             $ownerBelowLimit,

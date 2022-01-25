@@ -15,6 +15,5 @@ parameters:
 	symfony:
 		container_xml_path: '%currentWorkingDirectory%/var/cache/dev/Kishlin_Apps_RPGIdleGame_Backend_RPGIdleGameKernelDevDebugContainer.xml'
 	ignoreErrors:
-		- '#Property Kishlin\\Backend\\RPGIdleGame\\CharacterCount\\Domain\\CharacterCount::\$[\w]+ is never read, only written.#'
 		- '#Property Kishlin\\Backend\\RPGIdleGame\\Character\\Domain\\Character::\$[\w]+ is never read, only written.#'
 		- '#Property Kishlin\\Backend\\Account\\Domain\\Account::\$[\w]+ is never read, only written.#'

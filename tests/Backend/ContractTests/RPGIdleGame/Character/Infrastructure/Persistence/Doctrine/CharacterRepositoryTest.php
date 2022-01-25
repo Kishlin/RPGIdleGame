@@ -10,9 +10,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\CharacterRepository;
 use Kishlin\Tests\Backend\Tools\Provider\CharacterProvider;
-use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
-use ReflectionException;
 
 /**
  * @internal
@@ -78,19 +76,14 @@ final class CharacterRepositoryTest extends RepositoryContractTestCase
 
     /**
      * @depends testItCanSaveAndRetrieveACharacter
-     *
-     * @throws ReflectionException
      */
     public function testItCanDetectOwnerAlreadyHasACharacterWithAName(): void
     {
         $character  = CharacterProvider::freshCharacter();
         $repository = new CharacterRepository(self::entityManager());
 
-        $characterName = ReflectionHelper::propertyValue($character, 'characterName');
-        assert($characterName instanceof CharacterName);
-
-        $characterOwner = ReflectionHelper::propertyValue($character, 'characterOwner');
-        assert($characterOwner instanceof CharacterOwner);
+        $characterName  = $character->characterName();
+        $characterOwner = $character->characterOwner();
 
         self::assertFalse($repository->ownerAlreadyHasACharacterWithName($characterName, $characterOwner));
 

@@ -36,7 +36,7 @@ final class Account extends AggregateRoot
         $account->record(new AccountCreatedDomainEvent(
             $account->accountId,
             $account->accountUsername,
-            $account->accountEmail
+            $account->accountEmail,
         ));
 
         return $account;
@@ -45,5 +45,15 @@ final class Account extends AggregateRoot
     public function accountId(): AccountId
     {
         return $this->accountId;
+    }
+
+    public function accountEmail(): AccountEmail
+    {
+        return $this->accountEmail;
+    }
+
+    public function accountIsActive(): AccountIsActive
+    {
+        return $this->accountIsActive;
     }
 }
