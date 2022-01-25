@@ -15,8 +15,6 @@ use PHPUnit\Framework\Assert;
 
 trait AccountTrait
 {
-    private ?AccountId $accountId = null;
-
     /**
      * @Given /^an account already exists with the email$/
      */
