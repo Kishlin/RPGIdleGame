@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
+use Behat\Behat\Context\Context;
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\AccountEmail;
 use Kishlin\Backend\Account\Domain\AccountId;
@@ -18,8 +19,11 @@ use PHPUnit\Framework\Assert;
 use ReflectionException;
 use Throwable;
 
-trait CharacterTrait
+final class CharacterContext extends RPGIdleGameContext implements Context
 {
+    private const ACCOUNT_UUID   = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
+    private const CHARACTER_UUID = 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
+
     private ?CharacterId $characterId   = null;
     private ?Throwable $exceptionThrown = null;
 
@@ -28,17 +32,17 @@ trait CharacterTrait
      *
      * @throws ReflectionException
      */
-    public function aClientHasAnAccount()
+    public function aClientHasAnAccount(): void
     {
-        $this->container->accountGatewaySpy()->save(Account::createActiveAccount(
-            new AccountId($this->accountUuid()),
+        self::container()->accountGatewaySpy()->save(Account::createActiveAccount(
+            new AccountId(self::ACCOUNT_UUID),
             new AccountUsername('User'),
             new AccountPassword('password'),
-            new AccountEmail(self::emailToUse()),
+            new AccountEmail('email@example.com'),
         ));
 
-        $this->container->characterCountGatewaySpy()->save(CharacterCount::createForOwner(
-            new CharacterCountOwner($this->accountUuid()),
+        self::container()->characterCountGatewaySpy()->save(CharacterCount::createForOwner(
+            new CharacterCountOwner(self::ACCOUNT_UUID),
         ));
     }
 
@@ -47,26 +51,26 @@ trait CharacterTrait
      *
      * @throws ReflectionException
      */
-    public function itHasReachedTheCharacterLimit()
+    public function itHasReachedTheCharacterLimit(): void
     {
         $this
-            ->container
+            ->container()
             ->characterCountGatewaySpy()
-            ->manuallyOverrideCountForOwner(new AccountId($this->accountUuid()), CharacterCount::CHARACTER_LIMIT)
+            ->manuallyOverrideCountForOwner(new AccountId(self::ACCOUNT_UUID), CharacterCount::CHARACTER_LIMIT)
         ;
     }
 
     /**
      * @When /^a client creates a character$/
      */
-    public function aClientCreatesACharacter()
+    public function aClientCreatesACharacter(): void
     {
         try {
-            $response = $this->container->commandBus()->execute(
+            $response = self::container()->commandBus()->execute(
                 CreateCharacterCommand::fromScalars(
-                    characterId: $this->characterUuid(),
+                    characterId: self::CHARACTER_UUID,
                     characterName: 'Kishlin',
-                    ownerUuid: $this->accountUuid(),
+                    ownerUuid: self::ACCOUNT_UUID,
                 )
             );
 
@@ -82,10 +86,10 @@ trait CharacterTrait
     /**
      * @Then /^the character is registered$/
      */
-    public function theCharacterIsRegistered()
+    public function theCharacterIsRegistered(): void
     {
         Assert::assertNotNull($this->characterId);
-        Assert::assertTrue($this->container->characterGatewaySpy()->has($this->characterId));
+        Assert::assertTrue(self::container()->characterGatewaySpy()->has($this->characterId));
     }
 
     /**
@@ -93,29 +97,19 @@ trait CharacterTrait
      *
      * @throws ReflectionException
      */
-    public function theCharacterCountIsIncrementedAccordingly()
+    public function theCharacterCountIsIncremented(): void
     {
-        $ownerId = new CharacterCountOwner($this->accountUuid());
+        $ownerId = new CharacterCountOwner(self::ACCOUNT_UUID);
 
-        Assert::assertTrue($this->container->characterCountGatewaySpy()->countForOwnerEquals($ownerId, 1));
+        Assert::assertTrue(self::container()->characterCountGatewaySpy()->countForOwnerEquals($ownerId, 1));
     }
 
     /**
      * @Then /^the creation was refused$/
      */
-    public function theCreationWasRefused()
+    public function theCreationWasRefused(): void
     {
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(HasReachedCharacterLimitException::class, $this->exceptionThrown);
-    }
-
-    private function accountUuid(): string
-    {
-        return '97c116cc-21b0-4624-8e02-88b9b1a977a7';
-    }
-
-    private function characterUuid(): string
-    {
-        return 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
     }
 }

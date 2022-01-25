@@ -42,8 +42,8 @@ class CharacterGatewaySpy implements CharacterGateway
     {
         foreach ($this->characters as $character) {
             if (
-                $characterName->equals(self::characterName($character)) &&
-                $characterOwner->equals(self::characterOwner($character))
+                $characterName->equals(self::characterName($character))
+                && $characterOwner->equals(self::characterOwner($character))
             ) {
                 return true;
             }

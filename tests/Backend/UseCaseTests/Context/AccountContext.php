@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
+use Behat\Behat\Context\Context;
 use Kishlin\Backend\Account\Application\Signup\AnAccountAlreadyUsesTheEmailException;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\Account\Domain\Account;
@@ -13,19 +14,27 @@ use Kishlin\Backend\Account\Domain\AccountPassword;
 use Kishlin\Backend\Account\Domain\AccountUsername;
 use PHPUnit\Framework\Assert;
 use ReflectionException;
+use Throwable;
 
-trait AccountTrait
+final class AccountContext extends RPGIdleGameContext implements Context
 {
+    private const EMAIL_TO_USE          = 'user@example.com';
+    private const NEW_ACCOUNT_UUID      = '51cefa3e-c223-469e-a23c-61a32e4bf048';
+    private const EXISTING_ACCOUNT_UUID = '255c03d2-4149-4fe2-b922-65ed3ce4be0e';
+
+    private ?AccountId $accountId       = null;
+    private ?Throwable $exceptionThrown = null;
+
     /**
      * @Given /^an account already exists with the email$/
      */
     public function anAccountAlreadyExistsWithTheEmail(): void
     {
-        $this->container->accountGatewaySpy()->save(Account::createActiveAccount(
-            new AccountId(self::existingAccountUuid()),
+        self::container()->accountGatewaySpy()->save(Account::createActiveAccount(
+            new AccountId(self::EXISTING_ACCOUNT_UUID),
             new AccountUsername('Existing'),
             new AccountPassword('password'),
-            new AccountEmail(self::emailToUse()),
+            new AccountEmail(self::EMAIL_TO_USE),
         ));
     }
 
@@ -36,12 +45,12 @@ trait AccountTrait
     public function aClientCreatesAnAccount(): void
     {
         try {
-            $response = $this->container->commandBus()->execute(
+            $response = self::container()->commandBus()->execute(
                 SignupCommand::fromScalars(
-                    id: self::newAccountUuid(),
+                    id: self::NEW_ACCOUNT_UUID,
                     username: 'User',
                     password: 'password',
-                    email: self::emailToUse(),
+                    email: self::EMAIL_TO_USE,
                 )
             );
 
@@ -49,6 +58,8 @@ trait AccountTrait
 
             $this->accountId = $response;
         } catch (AnAccountAlreadyUsesTheEmailException $e) {
+            $this->exceptionThrown = $e;
+            $this->accountId       = null;
         }
     }
 
@@ -61,7 +72,7 @@ trait AccountTrait
 
         Assert::assertContainsEquals(
             $this->accountId->value(),
-            $this->container->accountGatewaySpy()->savedAccounts(),
+            self::container()->accountGatewaySpy()->savedAccounts(),
         );
     }
 
@@ -73,37 +84,25 @@ trait AccountTrait
     public function aFreshCharacterCounterIsRegistered(): void
     {
         Assert::assertNotNull($this->accountId);
-        Assert::assertTrue($this->container->characterCountGatewaySpy()->countForOwnerEquals($this->accountId, 0));
+        Assert::assertTrue(self::container()->characterCountGatewaySpy()->countForOwnerEquals($this->accountId, 0));
     }
 
     /**
      * @Then /^it did not register the new account$/
      */
-    public function itDoesNotRegisterTheNewAccount(): void
+    public function itDidRegisterTheNewAccount(): void
     {
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(AnAccountAlreadyUsesTheEmailException::class, $this->exceptionThrown);
+
         Assert::assertNotContains(
-            self::newAccountUuid(),
-            $this->container->accountGatewaySpy()->savedAccounts(),
+            self::NEW_ACCOUNT_UUID,
+            self::container()->accountGatewaySpy()->savedAccounts(),
         );
 
         Assert::assertContainsEquals(
-            self::existingAccountUuid(),
-            $this->container->accountGatewaySpy()->savedAccounts(),
+            self::EXISTING_ACCOUNT_UUID,
+            self::container()->accountGatewaySpy()->savedAccounts(),
         );
-    }
-
-    private static function emailToUse(): string
-    {
-        return 'user@example.com';
-    }
-
-    private static function newAccountUuid(): string
-    {
-        return '51cefa3e-c223-469e-a23c-61a32e4bf048';
-    }
-
-    private static function existingAccountUuid(): string
-    {
-        return '255c03d2-4149-4fe2-b922-65ed3ce4be0e';
     }
 }

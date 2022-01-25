@@ -59,8 +59,8 @@ final class CharacterCountGatewaySpy implements CharacterCountGateway, CreationA
      */
     public function countForOwnerEquals(UuidValueObject $ownerId, int $count): bool
     {
-        return array_key_exists($ownerId->value(), $this->characterCounts) &&
-            $count === $this->countValueFromAggregateRoot($this->characterCounts[$ownerId->value()])->value()
+        return array_key_exists($ownerId->value(), $this->characterCounts)
+            && $count === $this->countValueFromAggregateRoot($this->characterCounts[$ownerId->value()])->value()
         ;
     }
 

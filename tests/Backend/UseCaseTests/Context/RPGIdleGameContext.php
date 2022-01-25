@@ -4,18 +4,31 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
-use Behat\Behat\Context\Context;
-use Kishlin\Backend\Account\Domain\AccountId;
+use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
 
-final class RPGIdleGameContext implements Context
+abstract class RPGIdleGameContext
 {
-    use AccountTrait;
-    use CharacterTrait;
+    private static ?TestServiceContainer $container = null;
 
-    public function __construct(
-        private TestServiceContainer $container = new TestServiceContainer(),
-        private ?AccountId $accountId = null,
-    ) {
+    /**
+     * @AfterScenario
+     */
+    public function clearDatabase(): void
+    {
+        $container = self::container();
+
+        ReflectionHelper::writePropertyValue($container->accountGatewaySpy(), 'accounts', []);
+        ReflectionHelper::writePropertyValue($container->characterGatewaySpy(), 'characters', []);
+        ReflectionHelper::writePropertyValue($container->characterCountGatewaySpy(), 'characterCounts', []);
+    }
+
+    protected static function container(): TestServiceContainer
+    {
+        if (null === self::$container) {
+            self::$container = new TestServiceContainer();
+        }
+
+        return self::$container;
     }
 }

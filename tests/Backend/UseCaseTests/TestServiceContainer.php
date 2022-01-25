@@ -6,7 +6,6 @@ namespace Kishlin\Tests\Backend\UseCaseTests;
 
 use Kishlin\Backend\Account\Application\Signup\SignupCommandHandler;
 use Kishlin\Backend\Account\Domain\AccountCreatedDomainEvent;
-use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommandHandler;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnAccountCreated\CharacterCountForOwnerCreator;
