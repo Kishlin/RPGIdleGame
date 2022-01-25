@@ -29,4 +29,15 @@ final class UuidValueObjectTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         new class($uuid) extends UuidValueObject {};
     }
+
+    public function testItCanCompareItselfToAnotherInstance(): void
+    {
+        $reference = new class('1ca6cc42-7873-4abc-a6f7-54778a5d1d88') extends UuidValueObject {};
+
+        $shouldBeEqual = new class('1ca6cc42-7873-4abc-a6f7-54778a5d1d88') extends UuidValueObject {};
+        self::assertTrue($reference->equals($shouldBeEqual));
+
+        $shouldNotBeEqual = new class('a0550e82-671a-4b5f-bc39-5a33f32c3673') extends UuidValueObject {};
+        self::assertFalse($reference->equals($shouldNotBeEqual));
+    }
 }

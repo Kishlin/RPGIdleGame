@@ -26,6 +26,11 @@ abstract class UuidValueObject implements Stringable
         return $this->value;
     }
 
+    public function equals(self $other): bool
+    {
+        return $other->value() === $this->value;
+    }
+
     private function ensureIsValid(string $value): void
     {
         if (false === $this->isAValidUuid($value)) {
