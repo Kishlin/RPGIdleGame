@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account\ValueObject;
 
-use Kishlin\Backend\Account\Domain\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
 use Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account\ValueObject\Constraint\PasswordVerifiesHashConstraint;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @covers \Kishlin\Backend\Account\Domain\AccountPassword
+ * @covers \Kishlin\Backend\Account\Domain\ValueObject\AccountPassword
  */
 final class AccountPasswordTest extends TestCase
 {

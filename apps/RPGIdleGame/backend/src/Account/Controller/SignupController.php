@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Apps\RPGIdleGame\Backend\Account\Controller;
 
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
-use Kishlin\Backend\Account\Domain\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator;
 use Kishlin\Backend\Shared\Infrastructure\Security\Authorization\BasicAuthorization;

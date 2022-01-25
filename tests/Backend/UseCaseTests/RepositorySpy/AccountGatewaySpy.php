@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\UseCaseTests\RepositorySpy;
 
 use Kishlin\Backend\Account\Domain\Account;
-use Kishlin\Backend\Account\Domain\AccountEmail;
 use Kishlin\Backend\Account\Domain\AccountGateway;
-use Kishlin\Backend\Account\Domain\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use ReflectionException;
 use ReflectionProperty;
 

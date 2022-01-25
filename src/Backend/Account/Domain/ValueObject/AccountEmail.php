@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Backend\Account\Domain;
+namespace Kishlin\Backend\Account\Domain\ValueObject;
 
 use InvalidArgumentException;
 use Kishlin\Backend\Shared\Domain\ValueObject\StringValueObject;

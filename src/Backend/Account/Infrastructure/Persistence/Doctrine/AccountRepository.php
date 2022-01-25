@@ -6,9 +6,9 @@ namespace Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\Account\Domain\Account;
-use Kishlin\Backend\Account\Domain\AccountEmail;
 use Kishlin\Backend\Account\Domain\AccountGateway;
-use Kishlin\Backend\Account\Domain\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineRepository;
 
 final class AccountRepository extends DoctrineRepository implements AccountGateway

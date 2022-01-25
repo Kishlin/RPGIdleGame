@@ -6,7 +6,7 @@ namespace Kishlin\Backend\Account\Application\Signup;
 
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\AccountGateway;
-use Kishlin\Backend\Account\Domain\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 

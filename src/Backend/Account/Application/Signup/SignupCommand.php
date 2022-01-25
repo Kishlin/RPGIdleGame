@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\Account\Application\Signup;
 
-use Kishlin\Backend\Account\Domain\AccountEmail;
-use Kishlin\Backend\Account\Domain\AccountId;
-use Kishlin\Backend\Account\Domain\AccountPassword;
-use Kishlin\Backend\Account\Domain\AccountUsername;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Backend\Shared\Domain\Bus\Command\Command;
 use Kishlin\Backend\Shared\Domain\Bus\Message\Mapping;
 

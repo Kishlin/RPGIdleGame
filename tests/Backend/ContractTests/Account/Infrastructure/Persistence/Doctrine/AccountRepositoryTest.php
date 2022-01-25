@@ -7,7 +7,7 @@ namespace Kishlin\Tests\Backend\ContractTests\Account\Infrastructure\Persistence
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\ORMException;
 use Kishlin\Backend\Account\Domain\Account;
-use Kishlin\Backend\Account\Domain\AccountEmail;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountRepository;
 use Kishlin\Tests\Backend\Tools\Provider\AccountProvider;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;

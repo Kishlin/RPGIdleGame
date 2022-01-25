@@ -6,10 +6,10 @@ namespace Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account;
 
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\AccountCreatedDomainEvent;
-use Kishlin\Backend\Account\Domain\AccountEmail;
-use Kishlin\Backend\Account\Domain\AccountId;
-use Kishlin\Backend\Account\Domain\AccountPassword;
-use Kishlin\Backend\Account\Domain\AccountUsername;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account\Constraint\AccountIsActiveConstraint;
 use Kishlin\Tests\Backend\Tools\Test\Isolated\AggregateRootIsolatedTestCase;
 

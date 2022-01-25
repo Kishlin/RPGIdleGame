@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account\ValueObject;
 
 use InvalidArgumentException;
-use Kishlin\Backend\Account\Domain\AccountEmail;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @covers \Kishlin\Backend\Account\Domain\AccountEmail
+ * @covers \Kishlin\Backend\Account\Domain\ValueObject\AccountEmail
  */
 final class AccountEmailTest extends TestCase
 {

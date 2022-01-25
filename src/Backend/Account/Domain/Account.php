@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\Account\Domain;
 
+use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Backend\Shared\Domain\Aggregate\AggregateRoot;
 
 final class Account extends AggregateRoot

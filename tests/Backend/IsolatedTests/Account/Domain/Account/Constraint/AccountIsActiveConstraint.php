@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account\Constraint;
 
 use Kishlin\Backend\Account\Domain\Account;
-use Kishlin\Backend\Account\Domain\AccountIsActive;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use PHPUnit\Framework\Constraint\Constraint;
 use ReflectionException;

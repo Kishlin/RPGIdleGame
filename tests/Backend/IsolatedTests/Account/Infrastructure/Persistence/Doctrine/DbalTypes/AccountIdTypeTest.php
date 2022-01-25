@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\IsolatedTests\Account\Infrastructure\Persistence\Doctrine\DbalTypes;
 
-use Kishlin\Backend\Account\Domain\AccountId;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\DbalTypes\AccountIdType;
 use Kishlin\Tests\Backend\Tools\Test\Isolated\UuidTypeIsolatedTestCase;
 use ReflectionException;
