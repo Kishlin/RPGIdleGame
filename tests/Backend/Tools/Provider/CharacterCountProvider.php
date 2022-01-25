@@ -6,6 +6,7 @@ namespace Kishlin\Tests\Backend\Tools\Provider;
 
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
+use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountReachedLimit;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountValue;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use ReflectionException;
@@ -27,6 +28,24 @@ final class CharacterCountProvider
         );
 
         ReflectionHelper::writePropertyValue($characterCount, 'characterCountValue', new CharacterCountValue(5));
+
+        return $characterCount;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public static function countAtTheLimitOfCharacters(): CharacterCount
+    {
+        $characterCount = CharacterCount::createForOwner(
+            new CharacterCountOwner('fa4f069e-432d-498e-9252-71977853603f'),
+        );
+
+        $characterCountReachedLimit = new CharacterCountReachedLimit(true);
+        $characterCountValue        = new CharacterCountValue(CharacterCount::CHARACTER_LIMIT);
+
+        ReflectionHelper::writePropertyValue($characterCount, 'characterCountValue', $characterCountValue);
+        ReflectionHelper::writePropertyValue($characterCount, 'characterCountReachedLimit', $characterCountReachedLimit);
 
         return $characterCount;
     }

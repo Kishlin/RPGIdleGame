@@ -6,7 +6,6 @@ namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\CharacterCount\Infrast
 
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
-use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountValue;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Infrastructure\Persistence\Doctrine\CharacterCountRepository;
 use Kishlin\Tests\Backend\Tools\Provider\CharacterCountProvider;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
@@ -34,19 +33,16 @@ final class CharacterCountRepositoryTest extends RepositoryContractTestCase
      * @dataProvider characterCountWithSurroundingLimitsProvider
      */
     public function testItCanDetectWhenItReachedTheLimit(
-        CharacterCount $characterCount,
-        CharacterCountOwner $characterCountOwner,
-        int $exactLimit,
-        int $limitBelowCount,
-        int $limitAboveCount
+        CharacterCountOwner $ownerWhoIsBelowLimit,
+        CharacterCountOwner $ownerWhoIsAtLimit,
+        CharacterCount ...$characterCounts,
     ): void {
-        self::loadFixtures($characterCount);
+        self::loadFixtures(...$characterCounts);
 
         $repository = new CharacterCountRepository(self::entityManager());
 
-        self::assertTrue($repository->hasReachedLimit($characterCountOwner, $exactLimit));
-        self::assertTrue($repository->hasReachedLimit($characterCountOwner, $limitBelowCount));
-        self::assertFalse($repository->hasReachedLimit($characterCountOwner, $limitAboveCount));
+        self::assertTrue($repository->isAllowedToCreateACharacter($ownerWhoIsBelowLimit));
+        self::assertFalse($repository->isAllowedToCreateACharacter($ownerWhoIsAtLimit));
     }
 
     /**
@@ -54,24 +50,24 @@ final class CharacterCountRepositoryTest extends RepositoryContractTestCase
      *
      * @throws ReflectionException
      *
-     * @return iterable<array<CharacterCount|CharacterCountOwner|int>>
+     * @return iterable<array<CharacterCount|CharacterCountOwner>>
      */
     public function characterCountWithSurroundingLimitsProvider(): iterable
     {
-        $characterCount = CharacterCountProvider::countWithAFewCharacters();
+        $characterCountBelowLimit = CharacterCountProvider::countWithAFewCharacters();
+        $characterCountAtLimit    = CharacterCountProvider::countAtTheLimitOfCharacters();
 
-        $characterCountOwner = ReflectionHelper::propertyValue($characterCount, 'characterCountOwner');
-        $characterCountValue = ReflectionHelper::propertyValue($characterCount, 'characterCountValue');
-        assert($characterCountOwner instanceof CharacterCountOwner);
-        assert($characterCountValue instanceof CharacterCountValue);
-        $value = $characterCountValue->value();
+        $ownerBelowLimit = ReflectionHelper::propertyValue($characterCountBelowLimit, 'characterCountOwner');
+        $ownerAtLimit    = ReflectionHelper::propertyValue($characterCountAtLimit, 'characterCountOwner');
+
+        assert($ownerBelowLimit instanceof CharacterCountOwner);
+        assert($ownerAtLimit instanceof CharacterCountOwner);
 
         yield [
-            $characterCount,
-            $characterCountOwner,
-            $characterCountValue->value(),
-            $characterCountValue->value() - 1,
-            $value + 1,
+            $ownerBelowLimit,
+            $ownerAtLimit,
+            $characterCountBelowLimit,
+            $characterCountAtLimit,
         ];
     }
 }

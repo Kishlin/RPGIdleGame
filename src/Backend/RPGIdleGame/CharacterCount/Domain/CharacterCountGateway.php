@@ -10,5 +10,5 @@ interface CharacterCountGateway
 {
     public function save(CharacterCount $characterCount): void;
 
-    public function hasReachedLimit(CharacterCountOwner $characterCountOwner, int $countLimit): bool;
+    public function findForOwner(CharacterCountOwner $characterCountOwner): ?CharacterCount;
 }
