@@ -12,6 +12,7 @@ use Kishlin\Backend\Account\Domain\AccountId;
 use Kishlin\Backend\Account\Domain\AccountPassword;
 use Kishlin\Backend\Account\Domain\AccountUsername;
 use PHPUnit\Framework\Assert;
+use ReflectionException;
 
 trait AccountTrait
 {
@@ -62,6 +63,17 @@ trait AccountTrait
             $this->accountId->value(),
             $this->container->accountGatewaySpy()->savedAccounts(),
         );
+    }
+
+    /**
+     * @Then /^a fresh character count is registered$/
+     *
+     * @throws ReflectionException
+     */
+    public function aFreshCharacterCounterIsRegistered(): void
+    {
+        Assert::assertNotNull($this->accountId);
+        Assert::assertTrue($this->container->characterCountGatewaySpy()->countForOwnerEquals($this->accountId, 0));
     }
 
     /**

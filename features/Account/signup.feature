@@ -3,6 +3,7 @@ Feature: Account creation
   Scenario: the account is created
     When a client creates an account
     Then its credentials are registered
+    And a fresh character count is registered
 
   Scenario: two account can't use the same email
     Given an account already exists with the email
