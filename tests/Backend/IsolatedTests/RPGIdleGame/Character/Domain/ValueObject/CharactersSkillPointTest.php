@@ -17,8 +17,6 @@ final class CharactersSkillPointTest extends TestCase
     {
         $skillPoints = new CharacterSkillPoint(10);
 
-        $skillPoints->earnASkillPoint();
-
-        self::assertSame(11, $skillPoints->value());
+        self::assertSame(11, $skillPoints->earnASkillPoint()->value());
     }
 }

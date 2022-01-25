@@ -18,11 +18,11 @@ final class CharacterCountReachedLimitTest extends TestCase
         $characterCountReachedLimit = new CharacterCountReachedLimit(false);
         self::assertLimitIsNotReached($characterCountReachedLimit);
 
-        $characterCountReachedLimit->flagLimitAsReached();
-        self::assertLimitIsReached($characterCountReachedLimit);
+        $limitReached = $characterCountReachedLimit->flagLimitAsReached();
+        self::assertLimitIsReached($limitReached);
 
-        $characterCountReachedLimit->limitIsNotReachedAnymore();
-        self::assertLimitIsNotReached($characterCountReachedLimit);
+        $limitNotReached = $characterCountReachedLimit->limitIsNotReachedAnymore();
+        self::assertLimitIsNotReached($limitNotReached);
     }
 
     private static function assertLimitIsReached(CharacterCountReachedLimit $characterCountReachedLimit): void

@@ -22,8 +22,6 @@ use Kishlin\Backend\Shared\Domain\Aggregate\AggregateRoot;
 
 final class Character extends AggregateRoot
 {
-    private ?CharacterRestingUntil $characterRestingUntil = null;
-
     private function __construct(
         private CharacterId $characterId,
         private CharacterName $characterName,
@@ -35,6 +33,7 @@ final class Character extends AggregateRoot
         private CharacterMagik $characterMagik,
         private CharacterRank $characterRank,
         private CharacterFightsCount $characterFightsCount,
+        private ?CharacterRestingUntil $characterRestingUntil,
     ) {
     }
 
@@ -54,6 +53,7 @@ final class Character extends AggregateRoot
             new CharacterMagik(0),
             new CharacterRank(1),
             new CharacterFightsCount(0),
+            null,
         );
 
         $character->record(new CharacterCreatedDomainEvent($characterId, $characterOwner));
@@ -63,19 +63,19 @@ final class Character extends AggregateRoot
 
     public function wonAFight(): void
     {
-        $this->characterFightsCount->tookPartInAFight();
-        $this->characterSkillPoint->earnASkillPoint();
-        $this->characterRank->rankUp();
+        $this->characterFightsCount = $this->characterFightsCount->tookPartInAFight();
+        $this->characterSkillPoint  = $this->characterSkillPoint->earnASkillPoint();
+        $this->characterRank        = $this->characterRank->rankUp();
 
         $this->characterRestingUntil = null;
     }
 
-    public function lostAFight(DateTimeImmutable $hasToRestUntil): void
+    public function lostAFight(DateTimeImmutable $firstAvailableOn): void
     {
-        $this->characterFightsCount->tookPartInAFight();
-        $this->characterRank->rankDownIfItCan();
+        $this->characterFightsCount = $this->characterFightsCount->tookPartInAFight();
+        $this->characterRank        = $this->characterRank->rankDownIfItCan();
 
-        $this->characterRestingUntil = new CharacterRestingUntil($hasToRestUntil);
+        $this->characterRestingUntil = CharacterRestingUntil::unavailableUntil($firstAvailableOn);
     }
 
     public function characterId(): CharacterId

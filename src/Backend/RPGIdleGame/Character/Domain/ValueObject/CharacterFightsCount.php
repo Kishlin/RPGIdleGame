@@ -8,8 +8,8 @@ use Kishlin\Backend\Shared\Domain\ValueObject\PositiveIntValueObject;
 
 final class CharacterFightsCount extends PositiveIntValueObject
 {
-    public function tookPartInAFight(): void
+    public function tookPartInAFight(): self
     {
-        ++$this->value;
+        return new self($this->value + 1);
     }
 }

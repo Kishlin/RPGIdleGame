@@ -13,7 +13,6 @@ final class CharacterCount extends AggregateRoot
 {
     public const CHARACTER_LIMIT = 10;
 
-    /** @noinspection PhpPropertyOnlyWrittenInspection */
     private function __construct(
         private CharacterCountOwner $characterCountOwner,
         private CharacterCountValue $characterCountValue,
@@ -26,19 +25,20 @@ final class CharacterCount extends AggregateRoot
         return new self($characterCountOwner, new CharacterCountValue(0), new CharacterCountReachedLimit(false));
     }
 
-    public function onCreatedACharacter(): void
+    public function incrementOnCharacterCreation(): void
     {
-        $this->characterCountValue->increment();
+        $this->characterCountValue = $this->characterCountValue->increment();
 
         if ($this->characterCountValue->hasReachedLimit(self::CHARACTER_LIMIT)) {
-            $this->characterCountReachedLimit->flagLimitAsReached();
+            $this->characterCountReachedLimit = $this->characterCountReachedLimit->flagLimitAsReached();
         }
     }
 
-    public function onDeletedACharacter(): void
+    public function decrementOnCharacterDeletion(): void
     {
-        $this->characterCountValue->decrement();
-        $this->characterCountReachedLimit->limitIsNotReachedAnymore();
+        $this->characterCountValue = $this->characterCountValue->decrement();
+
+        $this->characterCountReachedLimit = $this->characterCountReachedLimit->limitIsNotReachedAnymore();
     }
 
     public function characterCountOwner(): CharacterCountOwner

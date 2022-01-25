@@ -21,7 +21,7 @@ final class CharacterCountProvider
         );
 
         foreach (range(1, 5) as $i) {
-            $characterCount->onCreatedACharacter();
+            $characterCount->incrementOnCharacterCreation();
         }
 
         return $characterCount;
@@ -34,7 +34,7 @@ final class CharacterCountProvider
         );
 
         foreach (range(1, CharacterCount::CHARACTER_LIMIT) as $i) {
-            $characterCount->onCreatedACharacter();
+            $characterCount->incrementOnCharacterCreation();
         }
 
         return $characterCount;

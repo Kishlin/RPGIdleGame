@@ -8,13 +8,13 @@ use Kishlin\Backend\Shared\Domain\ValueObject\BoolValueObject;
 
 final class CharacterCountReachedLimit extends BoolValueObject
 {
-    public function flagLimitAsReached(): void
+    public function flagLimitAsReached(): self
     {
-        $this->value = true;
+        return new self(true);
     }
 
-    public function limitIsNotReachedAnymore(): void
+    public function limitIsNotReachedAnymore(): self
     {
-        $this->value = false;
+        return new self(false);
     }
 }

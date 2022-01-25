@@ -9,7 +9,7 @@ use DateTimeImmutable;
 abstract class DateTimeValueObject
 {
     public function __construct(
-        protected DateTimeImmutable $value
+        protected readonly DateTimeImmutable $value
     ) {
     }
 

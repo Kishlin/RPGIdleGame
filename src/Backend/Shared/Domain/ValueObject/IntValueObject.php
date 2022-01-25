@@ -7,7 +7,7 @@ namespace Kishlin\Backend\Shared\Domain\ValueObject;
 abstract class IntValueObject
 {
     public function __construct(
-        protected int $value
+        protected readonly int $value
     ) {
     }
 

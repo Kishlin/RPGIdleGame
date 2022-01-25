@@ -8,15 +8,13 @@ use Kishlin\Backend\Shared\Domain\ValueObject\StrictlyPositiveIntValueObject;
 
 final class CharacterRank extends StrictlyPositiveIntValueObject
 {
-    public function rankUp(): void
+    public function rankUp(): self
     {
-        ++$this->value;
+        return new self($this->value + 1);
     }
 
-    public function rankDownIfItCan(): void
+    public function rankDownIfItCan(): self
     {
-        if (1 < $this->value) {
-            --$this->value;
-        }
+        return new self($this->value > 1 ? $this->value - 1 : $this->value);
     }
 }

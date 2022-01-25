@@ -17,21 +17,19 @@ final class CharactersRankTest extends TestCase
     {
         $rank = new CharacterRank(10);
 
-        $rank->rankUp();
-
-        self::assertSame(11, $rank->value());
+        self::assertSame(11, $rank->rankUp()->value());
     }
 
     public function testItWillNotRankDownPastRankOne(): void
     {
         $rank = new CharacterRank(2);
 
-        $rank->rankDownIfItCan();
+        $unrankedOnce = $rank->rankDownIfItCan();
 
-        self::assertSame(1, $rank->value());
+        self::assertSame(1, $unrankedOnce->value());
 
-        $rank->rankDownIfItCan();
+        $unrankedTwice = $unrankedOnce->rankDownIfItCan();
 
-        self::assertSame(1, $rank->value());
+        self::assertSame(1, $unrankedTwice->rankDownIfItCan()->value());
     }
 }

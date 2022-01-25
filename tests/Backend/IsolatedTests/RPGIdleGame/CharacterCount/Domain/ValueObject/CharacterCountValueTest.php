@@ -17,11 +17,9 @@ final class CharacterCountValueTest extends TestCase
     {
         $characterCountValue = new CharacterCountValue(5);
 
-        $characterCountValue->increment();
-        self::assertSame(6, $characterCountValue->value());
+        self::assertSame(6, $characterCountValue->increment()->value());
 
-        $characterCountValue->decrement();
-        self::assertSame(5, $characterCountValue->value());
+        self::assertSame(4, $characterCountValue->decrement()->value());
     }
 
     public function testItCanTellWhenLimitIsReached(): void

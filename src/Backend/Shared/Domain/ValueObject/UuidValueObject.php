@@ -11,7 +11,7 @@ abstract class UuidValueObject implements Stringable
     private const VALID_PATTERN = '\A[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}\z';
 
     public function __construct(
-        protected string $value
+        protected readonly string $value
     ) {
         $this->ensureIsValid($this->value);
     }

@@ -17,8 +17,6 @@ final class CharacterFightsCountTest extends TestCase
     {
         $fightsCount = new CharacterFightsCount(10);
 
-        $fightsCount->tookPartInAFight();
-
-        self::assertSame(11, $fightsCount->value());
+        self::assertSame(11, $fightsCount->tookPartInAFight()->value());
     }
 }

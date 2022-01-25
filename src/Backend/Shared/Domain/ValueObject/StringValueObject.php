@@ -7,7 +7,7 @@ namespace Kishlin\Backend\Shared\Domain\ValueObject;
 abstract class StringValueObject
 {
     public function __construct(
-        protected string $value
+        protected readonly string $value
     ) {
     }
 

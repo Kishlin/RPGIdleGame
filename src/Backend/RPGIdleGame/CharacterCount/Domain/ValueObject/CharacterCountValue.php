@@ -8,14 +8,14 @@ use Kishlin\Backend\Shared\Domain\ValueObject\PositiveIntValueObject;
 
 final class CharacterCountValue extends PositiveIntValueObject
 {
-    public function increment(): void
+    public function increment(): self
     {
-        ++$this->value;
+        return new self($this->value + 1);
     }
 
-    public function decrement(): void
+    public function decrement(): self
     {
-        --$this->value;
+        return new self($this->value - 1);
     }
 
     public function hasReachedLimit(int $limitValue): bool

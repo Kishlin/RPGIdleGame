@@ -8,8 +8,8 @@ use Kishlin\Backend\Shared\Domain\ValueObject\PositiveIntValueObject;
 
 final class CharacterSkillPoint extends PositiveIntValueObject
 {
-    public function earnASkillPoint(): void
+    public function earnASkillPoint(): self
     {
-        ++$this->value;
+        return new self($this->value + 1);
     }
 }

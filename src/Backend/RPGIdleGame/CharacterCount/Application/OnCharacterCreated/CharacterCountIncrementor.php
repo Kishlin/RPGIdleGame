@@ -24,7 +24,7 @@ final class CharacterCountIncrementor implements EventSubscriber
     {
         $characterCount = $this->findCharacterCount($event);
 
-        $characterCount->onCreatedACharacter();
+        $characterCount->incrementOnCharacterCreation();
 
         $this->characterCountGateway->save($characterCount);
     }

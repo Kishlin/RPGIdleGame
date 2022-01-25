@@ -7,7 +7,7 @@ namespace Kishlin\Backend\Shared\Domain\ValueObject;
 abstract class BoolValueObject
 {
     public function __construct(
-        protected bool $value
+        protected readonly bool $value
     ) {
     }
 
