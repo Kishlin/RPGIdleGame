@@ -6,9 +6,14 @@ namespace Kishlin\Tests\Backend\UseCaseTests;
 
 use Kishlin\Backend\Account\Application\Signup\SignupCommandHandler;
 use Kishlin\Backend\Account\Domain\AccountCreatedDomainEvent;
+use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
+use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommandHandler;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnAccountCreated\CharacterCountForOwnerCreator;
+use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterCreated\CharacterCountIncrementor;
 use Kishlin\Tests\Backend\UseCaseTests\RepositorySpy\AccountGatewaySpy;
 use Kishlin\Tests\Backend\UseCaseTests\RepositorySpy\CharacterCountGatewaySpy;
+use Kishlin\Tests\Backend\UseCaseTests\RepositorySpy\CharacterGatewaySpy;
 
 final class TestServiceContainer
 {
@@ -21,6 +26,8 @@ final class TestServiceContainer
     private ?AccountGatewaySpy $accountGatewaySpy = null;
 
     private ?CharacterCountGatewaySpy $characterCountGatewaySpy = null;
+
+    private ?CharacterGatewaySpy $characterGatewaySpy = null;
 
     public function commandBus(): TestCommandBus
     {
@@ -39,6 +46,11 @@ final class TestServiceContainer
             $this->testEventDispatcher->addSubscriber(
                 AccountCreatedDomainEvent::class,
                 new CharacterCountForOwnerCreator($this->characterCountGatewaySpy(), $this->testEventDispatcher),
+            );
+
+            $this->testEventDispatcher->addSubscriber(
+                CharacterCreatedDomainEvent::class,
+                new CharacterCountIncrementor($this->characterCountGatewaySpy()),
             );
         }
 
@@ -72,8 +84,26 @@ final class TestServiceContainer
         return $this->characterCountGatewaySpy;
     }
 
+    public function characterGatewaySpy(): CharacterGatewaySpy
+    {
+        if (null === $this->characterGatewaySpy) {
+            $this->characterGatewaySpy = new CharacterGatewaySpy();
+        }
+
+        return $this->characterGatewaySpy;
+    }
+
     public function signupCommandHandler(): SignupCommandHandler
     {
         return new SignupCommandHandler($this->accountGatewaySpy(), $this->eventDispatcher());
+    }
+
+    public function createCharacterHandler(): CreateCharacterCommandHandler
+    {
+        return new CreateCharacterCommandHandler(
+            $this->characterCountGatewaySpy(),
+            $this->characterGatewaySpy(),
+            $this->eventDispatcher()
+        );
     }
 }
