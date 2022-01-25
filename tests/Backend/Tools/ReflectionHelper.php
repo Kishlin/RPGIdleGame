@@ -42,4 +42,16 @@ final class ReflectionHelper
 
         return $reflectionProperty->getValue($subject);
     }
+
+    /**
+     * Writes into an internal property, in the given subject.
+     *
+     * @throws ReflectionException
+     */
+    public static function writePropertyValue(object $subject, string $property, mixed $value): void
+    {
+        $reflectionProperty = new ReflectionProperty($subject::class, $property);
+
+        $reflectionProperty->setValue($subject, $value);
+    }
 }

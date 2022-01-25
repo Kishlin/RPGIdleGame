@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount" table="character_counts">
+        <id name="characterCountOwner" type="character_count_owner" column="owner_id" length="36" />
+
+        <embedded name="characterCountValue" class="Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountValue" use-column-prefix="false" />
+
+        <embedded name="characterCountReachedLimit" class="Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountReachedLimit" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>

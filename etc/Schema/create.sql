@@ -25,31 +25,44 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.accounts (
-                                 account_id character varying(36) NOT NULL,
-                                 account_username character varying(255) NOT NULL,
-                                 account_email character varying(255) NOT NULL,
-                                 account_password character varying(255) NOT NULL,
-                                 account_is_active boolean NOT NULL
+    account_id character varying(36) NOT NULL,
+    account_username character varying(255) NOT NULL,
+    account_email character varying(255) NOT NULL,
+    account_password character varying(255) NOT NULL,
+    account_is_active boolean NOT NULL
 );
 
 
 ALTER TABLE public.accounts OWNER TO rpgidlegame;
 
 --
+-- Name: character_counts; Type: TABLE; Schema: public; Owner: rpgidlegame
+--
+
+CREATE TABLE public.character_counts (
+    owner_id character varying(36) NOT NULL,
+    character_count integer NOT NULL,
+    character_count_reached_limit boolean NOT NULL
+);
+
+
+ALTER TABLE public.character_counts OWNER TO rpgidlegame;
+
+--
 -- Name: characters; Type: TABLE; Schema: public; Owner: rpgidlegame
 --
 
 CREATE TABLE public.characters (
-                                   character_id character varying(36) NOT NULL,
-                                   character_owner character varying(36) NOT NULL,
-                                   character_name character varying(255) NOT NULL,
-                                   character_skill_points integer NOT NULL,
-                                   character_health integer NOT NULL,
-                                   character_attack integer NOT NULL,
-                                   character_defense integer NOT NULL,
-                                   character_magik integer NOT NULL,
-                                   character_rank integer NOT NULL,
-                                   character_fights_count integer NOT NULL
+    character_id character varying(36) NOT NULL,
+    character_owner character varying(36) NOT NULL,
+    character_name character varying(255) NOT NULL,
+    character_skill_points integer NOT NULL,
+    character_health integer NOT NULL,
+    character_attack integer NOT NULL,
+    character_defense integer NOT NULL,
+    character_magik integer NOT NULL,
+    character_rank integer NOT NULL,
+    character_fights_count integer NOT NULL
 );
 
 
@@ -60,9 +73,9 @@ ALTER TABLE public.characters OWNER TO rpgidlegame;
 --
 
 CREATE TABLE public.doctrine_migration_versions (
-                                                    version character varying(191) NOT NULL,
-                                                    executed_at timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
-                                                    execution_time integer
+    version character varying(191) NOT NULL,
+    executed_at timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    execution_time integer
 );
 
 
@@ -73,6 +86,14 @@ ALTER TABLE public.doctrine_migration_versions OWNER TO rpgidlegame;
 --
 
 COPY public.accounts (account_id, account_username, account_email, account_password, account_is_active) FROM stdin;
+\.
+
+
+--
+-- Data for Name: character_counts; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
+--
+
+COPY public.character_counts (owner_id, character_count, character_count_reached_limit) FROM stdin;
 \.
 
 
@@ -91,6 +112,7 @@ COPY public.characters (character_id, character_owner, character_name, character
 COPY public.doctrine_migration_versions (version, executed_at, execution_time) FROM stdin;
 Kishlin\\Migrations\\Version20220121150906	2022-01-21 15:14:29	9
 Kishlin\\Migrations\\Version20220124185735	2022-01-24 18:58:14	11
+Kishlin\\Migrations\\Version20220125013925	2022-01-25 01:40:16	12
 \.
 
 
@@ -100,6 +122,14 @@ Kishlin\\Migrations\\Version20220124185735	2022-01-24 18:58:14	11
 
 ALTER TABLE ONLY public.accounts
     ADD CONSTRAINT accounts_pkey PRIMARY KEY (account_id);
+
+
+--
+-- Name: character_counts character_counts_pkey; Type: CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.character_counts
+    ADD CONSTRAINT character_counts_pkey PRIMARY KEY (owner_id);
 
 
 --
