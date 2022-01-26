@@ -29,8 +29,6 @@ final class CharacterContext extends RPGIdleGameContext implements Context
 
     /**
      * @Given /^a client has an account$/
-     *
-     * @throws ReflectionException
      */
     public function aClientHasAnAccount(): void
     {
@@ -94,8 +92,6 @@ final class CharacterContext extends RPGIdleGameContext implements Context
 
     /**
      * @Then /^the character count is incremented$/
-     *
-     * @throws ReflectionException
      */
     public function theCharacterCountIsIncremented(): void
     {
