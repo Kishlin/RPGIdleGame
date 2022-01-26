@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter;
 
-use RuntimeException;
+use Kishlin\Backend\Shared\Domain\Exception\DomainException;
 
-final class DeletionIsNotAllowedException extends RuntimeException
+final class DeletionIsNotAllowedException extends DomainException
 {
 }

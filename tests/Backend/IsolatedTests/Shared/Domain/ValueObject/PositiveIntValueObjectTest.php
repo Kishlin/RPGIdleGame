@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\IsolatedTests\Shared\Domain\ValueObject;
 
-use InvalidArgumentException;
+use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 use Kishlin\Backend\Shared\Domain\ValueObject\PositiveIntValueObject;
 use PHPUnit\Framework\TestCase;
 
@@ -34,7 +34,7 @@ final class PositiveIntValueObjectTest extends TestCase
     {
         $negativeInt = -1;
 
-        self::expectException(InvalidArgumentException::class);
+        self::expectException(InvalidValueException::class);
         new class($negativeInt) extends PositiveIntValueObject {};
     }
 }

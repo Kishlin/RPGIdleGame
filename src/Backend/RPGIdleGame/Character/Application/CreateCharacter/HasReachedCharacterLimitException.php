@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter;
 
-use RuntimeException;
+use Kishlin\Backend\Shared\Domain\Exception\DomainException;
 
-final class HasReachedCharacterLimitException extends RuntimeException
+final class HasReachedCharacterLimitException extends DomainException
 {
 }

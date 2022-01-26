@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\Shared\Domain\ValueObject;
 
+use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 use Stringable;
 
 abstract class UuidValueObject implements Stringable
@@ -34,7 +35,7 @@ abstract class UuidValueObject implements Stringable
     private function ensureIsValid(string $value): void
     {
         if (false === $this->isAValidUuid($value)) {
-            throw new \InvalidArgumentException('The given value is not a valid Uuid.');
+            throw new InvalidValueException('The given value is not a valid Uuid.');
         }
     }
 

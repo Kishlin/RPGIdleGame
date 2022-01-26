@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\Shared\Domain\ValueObject;
 
-use InvalidArgumentException;
+use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 
 abstract class StrictlyPositiveIntValueObject extends IntValueObject
 {
@@ -18,7 +18,7 @@ abstract class StrictlyPositiveIntValueObject extends IntValueObject
     private function ensureIsStrictlyPositive(int $value): void
     {
         if (0 >= $value) {
-            throw new InvalidArgumentException("Given value {$value} is not positive.");
+            throw new InvalidValueException("Given value {$value} is not positive.");
         }
     }
 }

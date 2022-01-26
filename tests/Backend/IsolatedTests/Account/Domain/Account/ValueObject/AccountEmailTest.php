@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\IsolatedTests\Account\Domain\Account\ValueObject;
 
-use InvalidArgumentException;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
+use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,7 +25,7 @@ final class AccountEmailTest extends TestCase
     {
         $invalidEmail = 'invalid';
 
-        self::expectException(InvalidArgumentException::class);
+        self::expectException(InvalidValueException::class);
         new AccountEmail($invalidEmail);
     }
 }

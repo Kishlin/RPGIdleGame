@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\Account\Domain\ValueObject;
 
-use InvalidArgumentException;
+use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 use Kishlin\Backend\Shared\Domain\ValueObject\StringValueObject;
 
 final class AccountEmail extends StringValueObject
@@ -19,7 +19,7 @@ final class AccountEmail extends StringValueObject
     private function ensureIsAValidEmail(string $value): void
     {
         if (false === $this->valueIsAValidEmail($value)) {
-            throw new InvalidArgumentException('The given value is not a valid email address.');
+            throw new InvalidValueException('The given value is not a valid email address.');
         }
     }
 

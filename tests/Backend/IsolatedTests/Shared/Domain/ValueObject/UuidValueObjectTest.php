@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\IsolatedTests\Shared\Domain\ValueObject;
 
-use InvalidArgumentException;
+use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 use Kishlin\Backend\Shared\Domain\ValueObject\UuidValueObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +26,7 @@ final class UuidValueObjectTest extends TestCase
     {
         $uuid = 'invalid uuid';
 
-        self::expectException(InvalidArgumentException::class);
+        self::expectException(InvalidValueException::class);
         new class($uuid) extends UuidValueObject {};
     }
 
