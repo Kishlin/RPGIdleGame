@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Character;
 
+use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionAllowanceGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 
-class CharacterGatewaySpy implements CharacterGateway
+class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway
 {
     /** @var array<string, Character> */
     private array $characters = [];
@@ -51,6 +52,15 @@ class CharacterGatewaySpy implements CharacterGateway
         }
 
         return false;
+    }
+
+    public function requesterIsTheRightfulOwner(CharacterOwner $deletionRequester, CharacterId $characterId): bool
+    {
+        if (false === $this->has($characterId)) {
+            return false;
+        }
+
+        return $deletionRequester->equals($this->characters[$characterId->value()]->characterOwner());
     }
 
     public function has(CharacterId $characterId): bool

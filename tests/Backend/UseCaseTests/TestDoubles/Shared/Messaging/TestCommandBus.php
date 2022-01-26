@@ -6,6 +6,7 @@ namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Shared\Messaging;
 
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
+use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
 use Kishlin\Backend\Shared\Domain\Bus\Command\Command;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
@@ -25,6 +26,10 @@ final class TestCommandBus implements CommandBus
 
         if ($command instanceof CreateCharacterCommand) {
             return $this->testServiceContainer->createCharacterHandler()($command);
+        }
+
+        if ($command instanceof DeleteCharacterCommand) {
+            return $this->testServiceContainer->deleteCharacterHandler()($command);
         }
 
         throw new \RuntimeException('Unknown command type: ' . get_class($command));

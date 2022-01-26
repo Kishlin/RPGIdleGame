@@ -12,7 +12,12 @@ use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\HasReachedCharacterLimitException;
+use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
+use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionIsNotAllowedException;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
 use PHPUnit\Framework\Assert;
@@ -21,7 +26,8 @@ use Throwable;
 
 final class CharacterContext extends RPGIdleGameContext implements Context
 {
-    private const ACCOUNT_UUID   = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
+    private const CLIENT_UUID    = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
+    private const STRANGER_UUID  = 'df42d3aa-10ea-4ca3-936b-2bba5ae16fe6';
     private const CHARACTER_UUID = 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
 
     private ?CharacterId $characterId   = null;
@@ -33,14 +39,14 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     public function aClientHasAnAccount(): void
     {
         self::container()->accountGatewaySpy()->save(Account::createActiveAccount(
-            new AccountId(self::ACCOUNT_UUID),
+            new AccountId(self::CLIENT_UUID),
             new AccountUsername('User'),
             new AccountPassword('password'),
             new AccountEmail('email@example.com'),
         ));
 
         self::container()->characterCountGatewaySpy()->save(CharacterCount::createForOwner(
-            new CharacterCountOwner(self::ACCOUNT_UUID),
+            new CharacterCountOwner(self::CLIENT_UUID),
         ));
     }
 
@@ -54,8 +60,25 @@ final class CharacterContext extends RPGIdleGameContext implements Context
         $this
             ->container()
             ->characterCountGatewaySpy()
-            ->manuallyOverrideCountForOwner(new AccountId(self::ACCOUNT_UUID), CharacterCount::CHARACTER_LIMIT)
+            ->manuallyOverrideCountForOwner(new AccountId(self::CLIENT_UUID), CharacterCount::CHARACTER_LIMIT)
         ;
+    }
+
+    /**
+     * @Given /^it owns a character$/
+     */
+    public function itOwnsACharacter(): void
+    {
+        $this->container()->characterGatewaySpy()->save(Character::createFresh(
+            new CharacterId(self::CHARACTER_UUID),
+            new CharacterName('Kishlin'),
+            new CharacterOwner(self::CLIENT_UUID),
+        ));
+
+        $characterCount = CharacterCount::createForOwner(new CharacterCountOwner(self::CLIENT_UUID));
+        $characterCount->incrementOnCharacterCreation();
+
+        $this->container()->characterCountGatewaySpy()->save($characterCount);
     }
 
     /**
@@ -68,7 +91,7 @@ final class CharacterContext extends RPGIdleGameContext implements Context
                 CreateCharacterCommand::fromScalars(
                     characterId: self::CHARACTER_UUID,
                     characterName: 'Kishlin',
-                    ownerUuid: self::ACCOUNT_UUID,
+                    ownerUuid: self::CLIENT_UUID,
                 )
             );
 
@@ -77,6 +100,46 @@ final class CharacterContext extends RPGIdleGameContext implements Context
             $this->characterId     = $response;
             $this->exceptionThrown = null;
         } catch (HasReachedCharacterLimitException $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a client deletes its character$/
+     */
+    public function aClientDeletesItsCharacter(): void
+    {
+        try {
+            $response = self::container()->commandBus()->execute(
+                DeleteCharacterCommand::fromScalars(
+                    characterId: self::CHARACTER_UUID,
+                    accountRequestingDeletionUuid: self::CLIENT_UUID,
+                )
+            );
+
+            Assert::assertTrue($response);
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a stranger tries to delete the client's character$/
+     */
+    public function aClientDeletesACharacterOwnedByAnotherAccount(): void
+    {
+        try {
+            self::container()->commandBus()->execute(
+                DeleteCharacterCommand::fromScalars(
+                    characterId: self::CHARACTER_UUID,
+                    accountRequestingDeletionUuid: self::STRANGER_UUID,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
             $this->exceptionThrown = $e;
         }
     }
@@ -91,13 +154,31 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     }
 
     /**
+     * @Then /^the character is deleted$/
+     */
+    public function theCharacterIsDeleted(): void
+    {
+        Assert::assertFalse(self::container()->characterGatewaySpy()->has(new CharacterId(self::CHARACTER_UUID)));
+    }
+
+    /**
      * @Then /^the character count is incremented$/
      */
     public function theCharacterCountIsIncremented(): void
     {
-        $ownerId = new CharacterCountOwner(self::ACCOUNT_UUID);
+        $ownerId = new CharacterCountOwner(self::CLIENT_UUID);
 
         Assert::assertTrue(self::container()->characterCountGatewaySpy()->countForOwnerEquals($ownerId, 1));
+    }
+
+    /**
+     * @Then /^the character count is decremented/
+     */
+    public function theCharacterCountIsDecremented(): void
+    {
+        $ownerId = new CharacterCountOwner(self::CLIENT_UUID);
+
+        Assert::assertTrue(self::container()->characterCountGatewaySpy()->countForOwnerEquals($ownerId, 0));
     }
 
     /**
@@ -107,5 +188,14 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     {
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(HasReachedCharacterLimitException::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then /^the deletion was refused$/
+     */
+    public function theDeletionWasRefused(): void
+    {
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(DeletionIsNotAllowedException::class, $this->exceptionThrown);
     }
 }

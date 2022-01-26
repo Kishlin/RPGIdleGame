@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Character;
 
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommandHandler;
+use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommandHandler;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 
 trait CharacterServicesTrait
@@ -40,6 +41,17 @@ trait CharacterServicesTrait
         return new CreateCharacterCommandHandler(
             $this->creationAllowanceGatewaySpy(),
             $this->characterGatewaySpy(),
+            $this->eventDispatcher(),
+        );
+    }
+
+    public function deleteCharacterHandler(): DeleteCharacterCommandHandler
+    {
+        $gatewaySpy = $this->characterGatewaySpy();
+
+        return new DeleteCharacterCommandHandler(
+            $gatewaySpy,
+            $gatewaySpy,
             $this->eventDispatcher(),
         );
     }
