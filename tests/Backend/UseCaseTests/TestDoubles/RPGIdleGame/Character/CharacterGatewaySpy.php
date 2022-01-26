@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Backend\UseCaseTests\RepositorySpy;
+namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Character;
 
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;

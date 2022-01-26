@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Backend\UseCaseTests\RepositorySpy;
+namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\CharacterCount;
 
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreationAllowanceGateway;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;

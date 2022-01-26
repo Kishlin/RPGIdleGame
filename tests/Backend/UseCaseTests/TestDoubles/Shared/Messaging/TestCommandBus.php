@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Backend\UseCaseTests;
+namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Shared\Messaging;
 
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\Shared\Domain\Bus\Command\Command;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
+use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
 
 final class TestCommandBus implements CommandBus
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Backend\UseCaseTests\RepositorySpy;
+namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Account;
 
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\AccountGateway;
