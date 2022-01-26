@@ -19,7 +19,7 @@ final class CharacterCreatedDomainEvent extends DomainEvent
 
     public static function eventName(): string
     {
-        return 'account.created';
+        return 'character.created';
     }
 
     public function characterOwner(): CharacterOwner
