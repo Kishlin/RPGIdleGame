@@ -8,3 +8,6 @@ services:
 
   Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway:
     class: 'Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\CharacterRepository'
+
+  Kishlin\Backend\RPGIdleGame\Character\Domain\CreationAllowanceGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\CreationAllowanceRepository'

@@ -11,7 +11,11 @@ trait CharacterServicesTrait
 {
     private ?CharacterGatewaySpy $characterGatewaySpy = null;
 
+    private ?CreationAllowanceGatewaySpy $creationAllowanceGatewaySpy = null;
+
     abstract public function eventDispatcher(): EventDispatcher;
+
+    abstract public function characterCountGatewaySpy(): object;
 
     public function characterGatewaySpy(): CharacterGatewaySpy
     {
@@ -22,10 +26,19 @@ trait CharacterServicesTrait
         return $this->characterGatewaySpy;
     }
 
+    public function creationAllowanceGatewaySpy(): CreationAllowanceGatewaySpy
+    {
+        if (null === $this->creationAllowanceGatewaySpy) {
+            $this->creationAllowanceGatewaySpy = new CreationAllowanceGatewaySpy($this->characterCountGatewaySpy());
+        }
+
+        return $this->creationAllowanceGatewaySpy;
+    }
+
     public function createCharacterHandler(): CreateCharacterCommandHandler
     {
         return new CreateCharacterCommandHandler(
-            $this->characterCountGatewaySpy(),
+            $this->creationAllowanceGatewaySpy(),
             $this->characterGatewaySpy(),
             $this->eventDispatcher(),
         );

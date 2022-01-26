@@ -28,22 +28,6 @@ final class CharacterCountRepositoryTest extends RepositoryContractTestCase
     }
 
     /**
-     * @dataProvider characterCountWithSurroundingLimitsProvider
-     */
-    public function testItCanDetectWhenItReachedTheLimit(
-        CharacterCountOwner $ownerWhoIsBelowLimit,
-        CharacterCountOwner $ownerWhoIsAtLimit,
-        CharacterCount ...$characterCounts,
-    ): void {
-        self::loadFixtures(...$characterCounts);
-
-        $repository = new CharacterCountRepository(self::entityManager());
-
-        self::assertTrue($repository->isAllowedToCreateACharacter($ownerWhoIsBelowLimit));
-        self::assertFalse($repository->isAllowedToCreateACharacter($ownerWhoIsAtLimit));
-    }
-
-    /**
      * @noinspection PhpDocSignatureInspection
      *
      * @return iterable<array<CharacterCount|CharacterCountOwner>>
