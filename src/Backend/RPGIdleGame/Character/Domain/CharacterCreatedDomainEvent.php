@@ -7,6 +7,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\Shared\Domain\Bus\Event\DomainEvent;
+use Kishlin\Backend\Shared\Domain\ValueObject\UuidValueObject;
 
 final class CharacterCreatedDomainEvent extends DomainEvent
 {
@@ -22,7 +23,7 @@ final class CharacterCreatedDomainEvent extends DomainEvent
         return 'character.created';
     }
 
-    public function characterOwner(): CharacterOwner
+    public function characterOwner(): UuidValueObject
     {
         return $this->characterOwner;
     }

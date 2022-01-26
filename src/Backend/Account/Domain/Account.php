@@ -33,11 +33,7 @@ final class Account extends AggregateRoot
 
         $account = new self($accountId, $accountUsername, $accountPassword, $accountEmail, $accountIsActive);
 
-        $account->record(new AccountCreatedDomainEvent(
-            $account->accountId,
-            $account->accountUsername,
-            $account->accountEmail,
-        ));
+        $account->record(new AccountCreatedDomainEvent($account->accountId));
 
         return $account;
     }

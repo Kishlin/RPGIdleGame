@@ -30,10 +30,7 @@ final class AccountTest extends AggregateRootIsolatedTestCase
 
         self::assertAccountIsActive($account);
 
-        self::assertItRecordedDomainEvents(
-            $account,
-            new AccountCreatedDomainEvent($accountId, $accountUsername, $accountEmail)
-        );
+        self::assertItRecordedDomainEvents($account, new AccountCreatedDomainEvent($accountId));
     }
 
     public static function assertAccountIsActive(Account $account): void
