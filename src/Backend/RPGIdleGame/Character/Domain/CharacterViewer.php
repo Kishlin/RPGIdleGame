@@ -13,4 +13,9 @@ interface CharacterViewer
      * @throws CharacterNotFoundException
      */
     public function viewOneById(string $characterId): CompleteCharacterView;
+
+    /**
+     * @return CompleteCharacterView[]
+     */
+    public function viewAllForOwner(string $ownerUuid): array;
 }

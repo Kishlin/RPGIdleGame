@@ -16,10 +16,5 @@ interface CharacterGateway
 
     public function findOneById(CharacterId $characterId): ?Character;
 
-    /**
-     * @return Character[]
-     */
-    public function findAllForOwner(CharacterOwner $characterOwner): array;
-
     public function ownerAlreadyHasACharacterWithName(CharacterName $characterName, CharacterOwner $characterOwner): bool;
 }

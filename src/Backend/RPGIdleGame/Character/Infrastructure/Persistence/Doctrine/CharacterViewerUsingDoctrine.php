@@ -29,4 +29,24 @@ class CharacterViewerUsingDoctrine extends DoctrineViewer implements CharacterVi
 
         return CompleteCharacterView::fromSource($data);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws Exception
+     */
+    public function viewAllForOwner(string $ownerUuid): array
+    {
+        /** @var array<int, array<string, int|string>>|false $data */
+        $data = $this->entityManager->getConnection()->fetchAllAssociative(
+            'SELECT * from characters WHERE character_owner = :owner',
+            ['owner' => $ownerUuid],
+        );
+
+        if (false === $data) {
+            throw new CharacterNotFoundException();
+        }
+
+        return array_map([CompleteCharacterView::class, 'fromSource'], $data);
+    }
 }

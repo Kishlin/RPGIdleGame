@@ -34,15 +34,6 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
         return $this->characters[$characterId->value()] ?? null;
     }
 
-    public function findAllForOwner(CharacterOwner $characterOwner): array
-    {
-        $filterForOwner = static function (Character $character) use ($characterOwner) {
-            return $characterOwner->equals($character->characterOwner());
-        };
-
-        return array_filter($this->characters, $filterForOwner);
-    }
-
     public function ownerAlreadyHasACharacterWithName(CharacterName $characterName, CharacterOwner $characterOwner): bool
     {
         foreach ($this->characters as $character) {
@@ -65,18 +56,19 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
 
         $character = $this->characters[$characterId];
 
-        return CompleteCharacterView::fromSource([
-            'character_id'           => $character->characterId()->value(),
-            'character_name'         => $character->characterName()->value(),
-            'character_owner'        => $character->characterOwner()->value(),
-            'character_skill_points' => $character->characterSkillPoint()->value(),
-            'character_health'       => $character->characterHealth()->value(),
-            'character_attack'       => $character->characterAttack()->value(),
-            'character_defense'      => $character->characterDefense()->value(),
-            'character_magik'        => $character->characterMagik()->value(),
-            'character_rank'         => $character->characterRank()->value(),
-            'character_fights_count' => $character->characterFightsCount()->value(),
-        ]);
+        return CompleteCharacterView::fromEntity($character);
+    }
+
+    public function viewAllForOwner(string $ownerUuid): array
+    {
+        $filterForOwner = static function (Character $character) use ($ownerUuid) {
+            return $character->characterOwner()->value() === $ownerUuid;
+        };
+
+        return array_map(
+            [CompleteCharacterView::class, 'fromEntity'],
+            array_filter($this->characters, $filterForOwner)
+        );
     }
 
     public function requesterIsTheRightfulOwner(CharacterOwner $deletionRequester, CharacterId $characterId): bool

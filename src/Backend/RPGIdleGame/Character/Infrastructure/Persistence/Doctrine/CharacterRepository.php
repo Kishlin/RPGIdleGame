@@ -32,11 +32,6 @@ final class CharacterRepository extends DoctrineRepository implements CharacterG
         return $this->entityManager->getRepository(Character::class)->findOneBy(['characterId' => $characterId]);
     }
 
-    public function findAllForOwner(CharacterOwner $characterOwner): array
-    {
-        return $this->entityManager->getRepository(Character::class)->findBy(['characterOwner' => $characterOwner]);
-    }
-
     public function ownerAlreadyHasACharacterWithName(CharacterName $characterName, CharacterOwner $characterOwner): bool
     {
         $foundACharacterForOwnerWithName = $this->entityManager->getConnection()->fetchOne(

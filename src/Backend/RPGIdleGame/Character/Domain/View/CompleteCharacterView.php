@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain\View;
 
+use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Serializable;
 
 final class CompleteCharacterView implements Serializable
@@ -70,6 +71,26 @@ final class CompleteCharacterView implements Serializable
         $view = new self();
 
         $view->__unserialize($source);
+
+        return $view;
+    }
+
+    public static function fromEntity(Character $character): self
+    {
+        $view = new self();
+
+        $view->__unserialize([
+            'character_id'           => $character->characterId()->value(),
+            'character_name'         => $character->characterName()->value(),
+            'character_owner'        => $character->characterOwner()->value(),
+            'character_skill_points' => $character->characterSkillPoint()->value(),
+            'character_health'       => $character->characterHealth()->value(),
+            'character_attack'       => $character->characterAttack()->value(),
+            'character_defense'      => $character->characterDefense()->value(),
+            'character_magik'        => $character->characterMagik()->value(),
+            'character_rank'         => $character->characterRank()->value(),
+            'character_fights_count' => $character->characterFightsCount()->value(),
+        ]);
 
         return $view;
     }
