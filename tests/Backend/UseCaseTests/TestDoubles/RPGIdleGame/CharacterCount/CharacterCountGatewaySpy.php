@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\CharacterCount;
 
+use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreationAllowanceGateway;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCountGateway;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
@@ -13,7 +14,7 @@ use Kishlin\Backend\Shared\Domain\ValueObject\UuidValueObject;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use ReflectionException;
 
-final class CharacterCountGatewaySpy implements CharacterCountGateway
+final class CharacterCountGatewaySpy implements CharacterCountGateway, CreationAllowanceGateway
 {
     /** @var array<string, CharacterCount> */
     private array $characterCounts = [];
@@ -26,6 +27,15 @@ final class CharacterCountGatewaySpy implements CharacterCountGateway
     public function findForOwner(CharacterCountOwner $characterCountOwner): ?CharacterCount
     {
         return $this->characterCounts[$characterCountOwner->value()] ?? null;
+    }
+
+    public function isAllowedToCreateACharacter(UuidValueObject $characterOwner): bool
+    {
+        if (false === array_key_exists($characterOwner->value(), $this->characterCounts)) {
+            return false;
+        }
+
+        return false === $this->characterCounts[$characterOwner->value()]->characterCountReachedLimit()->value();
     }
 
     public function countForOwnerEquals(UuidValueObject $ownerId, int $count): bool

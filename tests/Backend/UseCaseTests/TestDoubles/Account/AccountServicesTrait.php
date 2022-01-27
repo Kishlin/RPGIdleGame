@@ -11,6 +11,8 @@ trait AccountServicesTrait
 {
     private ?AccountGatewaySpy $accountGatewaySpy = null;
 
+    private ?SignupCommandHandler $signupCommandHandler = null;
+
     abstract public function eventDispatcher(): EventDispatcher;
 
     public function accountGatewaySpy(): AccountGatewaySpy
@@ -24,6 +26,14 @@ trait AccountServicesTrait
 
     public function signupCommandHandler(): SignupCommandHandler
     {
-        return new SignupCommandHandler($this->accountGatewaySpy(), $this->accountGatewaySpy(), $this->eventDispatcher());
+        if (null === $this->signupCommandHandler) {
+            $this->signupCommandHandler = new SignupCommandHandler(
+                $this->accountGatewaySpy(),
+                $this->accountGatewaySpy(),
+                $this->eventDispatcher()
+            );
+        }
+
+        return $this->signupCommandHandler;
     }
 }

@@ -14,7 +14,13 @@ trait CharacterServicesTrait
 {
     private ?CharacterGatewaySpy $characterGatewaySpy = null;
 
-    private ?CreationAllowanceGatewaySpy $creationAllowanceGatewaySpy = null;
+    private ?DistributeSkillPointsCommandHandler $distributeSkillPointsCommandHandler = null;
+
+    private ?CreateCharacterCommandHandler $createCharacterCommandHandler = null;
+
+    private ?DeleteCharacterCommandHandler $deleteCharacterCommandHandler = null;
+
+    private ?ViewCharacterQueryHandler $viewCharacterQueryHandler = null;
 
     abstract public function eventDispatcher(): EventDispatcher;
 
@@ -29,42 +35,49 @@ trait CharacterServicesTrait
         return $this->characterGatewaySpy;
     }
 
-    public function creationAllowanceGatewaySpy(): CreationAllowanceGatewaySpy
-    {
-        if (null === $this->creationAllowanceGatewaySpy) {
-            $this->creationAllowanceGatewaySpy = new CreationAllowanceGatewaySpy($this->characterCountGatewaySpy());
-        }
-
-        return $this->creationAllowanceGatewaySpy;
-    }
-
     public function distributeSkillPointsHandler(): DistributeSkillPointsCommandHandler
     {
-        return new DistributeSkillPointsCommandHandler($this->characterGatewaySpy());
+        if (null === $this->distributeSkillPointsCommandHandler) {
+            $this->distributeSkillPointsCommandHandler = new DistributeSkillPointsCommandHandler(
+                $this->characterGatewaySpy()
+            );
+        }
+
+        return $this->distributeSkillPointsCommandHandler;
     }
 
     public function createCharacterHandler(): CreateCharacterCommandHandler
     {
-        return new CreateCharacterCommandHandler(
-            $this->creationAllowanceGatewaySpy(),
-            $this->characterGatewaySpy(),
-            $this->eventDispatcher(),
-        );
+        if (null === $this->createCharacterCommandHandler) {
+            $this->createCharacterCommandHandler = new CreateCharacterCommandHandler(
+                $this->characterCountGatewaySpy(),
+                $this->characterGatewaySpy(),
+                $this->eventDispatcher(),
+            );
+        }
+
+        return $this->createCharacterCommandHandler;
     }
 
     public function deleteCharacterHandler(): DeleteCharacterCommandHandler
     {
-        $gatewaySpy = $this->characterGatewaySpy();
+        if (null === $this->deleteCharacterCommandHandler) {
+            $this->deleteCharacterCommandHandler = new DeleteCharacterCommandHandler(
+                $this->characterGatewaySpy(),
+                $this->characterGatewaySpy(),
+                $this->eventDispatcher()
+            );
+        }
 
-        return new DeleteCharacterCommandHandler(
-            $gatewaySpy,
-            $gatewaySpy,
-            $this->eventDispatcher(),
-        );
+        return $this->deleteCharacterCommandHandler;
     }
 
     public function viewCharacterQueryHandler(): ViewCharacterQueryHandler
     {
-        return new ViewCharacterQueryHandler($this->characterGatewaySpy());
+        if (null === $this->viewCharacterQueryHandler) {
+            $this->viewCharacterQueryHandler = new ViewCharacterQueryHandler($this->characterGatewaySpy());
+        }
+
+        return $this->viewCharacterQueryHandler;
     }
 }
