@@ -7,6 +7,7 @@ namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Shared\Messaging;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
+use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommand;
 use Kishlin\Backend\Shared\Domain\Bus\Command\Command;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
@@ -22,6 +23,12 @@ final class TestCommandBus implements CommandBus
     {
         if ($command instanceof SignupCommand) {
             return $this->testServiceContainer->signupCommandHandler()($command);
+        }
+
+        if ($command instanceof DistributeSkillPointsCommand) {
+            $this->testServiceContainer->distributeSkillPointsHandler()($command);
+
+            return null;
         }
 
         if ($command instanceof CreateCharacterCommand) {

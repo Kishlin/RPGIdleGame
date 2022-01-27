@@ -12,6 +12,18 @@ Feature: It can create, update, and delete characters
     When a client creates a character
     Then the creation was refused
 
+  Scenario: skill points are distributed
+    Given a client has an account
+    And it owns a well advanced character
+    When a client distributes some skill points
+    Then the character stats are updated as wanted
+
+  Scenario: stats updates require enough skill points
+    Given a client has an account
+    And it owns a well advanced character
+    When a client tries to distribute more skill points than available
+    Then the stats update was refused
+
   Scenario: the character is deleted
     Given a client has an account
     And it owns a character

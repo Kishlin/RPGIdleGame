@@ -6,10 +6,13 @@ namespace Kishlin\Tests\Backend\IsolatedTests\RPGIdleGame\Character\Domain;
 
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\NotEnoughSkillPointsException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
+use Kishlin\Tests\Backend\Tools\Provider\CharacterProvider;
 use Kishlin\Tests\Backend\Tools\Test\Isolated\AggregateRootIsolatedTestCase;
+use ReflectionException;
 
 /**
  * @internal
@@ -29,5 +32,140 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
             $character,
             new CharacterCreatedDomainEvent($characterId, $characterOwner),
         );
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testAddingOneHealthPointCostsOneSkillPoint(): void
+    {
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, healthPoints: 5);
+
+        $character->increaseHealthBy(1);
+
+        self::assertSame(6 /* 5 + 1 */, $character->characterHealth()->value());
+        self::assertSame(99 /* 100 - 1 */, $character->characterSkillPoint()->value());
+
+        $character->increaseHealthBy(60);
+
+        self::assertSame(66 /* 6 + 60 */, $character->characterHealth()->value());
+        self::assertSame(39 /* 99 - 60 */, $character->characterSkillPoint()->value());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testTheFirstAttackPointCostsOneSkillPoint(): void
+    {
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 10, attackPoints: 0);
+
+        $character->increaseAttackBy(1);
+
+        self::assertSame(1, $character->characterAttack()->value());
+        self::assertSame(9 /* 10 - 1 */, $character->characterSkillPoint()->value());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testAttackPointsCostOneFifthOfTheCurrentLevelRoundedUp(): void
+    {
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, attackPoints: 10);
+
+        $character->increaseAttackBy(1);
+
+        self::assertSame(11, $character->characterAttack()->value());
+        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->characterSkillPoint()->value());
+
+        $character->increaseAttackBy(1);
+
+        self::assertSame(12, $character->characterAttack()->value());
+        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->characterSkillPoint()->value());
+
+        $character->increaseAttackBy(20);
+
+        self::assertSame(32, $character->characterAttack()->value());
+        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->characterSkillPoint()->value());
+
+        self::expectException(NotEnoughSkillPointsException::class);
+        $character->increaseAttackBy(1); // Would cost 7, but it has 1 skill point
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testTheFirstDefensePointCostsOneSkillPoint(): void
+    {
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 10, defensePoints: 0);
+
+        $character->increaseDefenseBy(1);
+
+        self::assertSame(1, $character->characterDefense()->value());
+        self::assertSame(9 /* 10 - 1 */, $character->characterSkillPoint()->value());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testDefensePointsCostOneFifthOfTheCurrentLevelRoundedUp(): void
+    {
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, defensePoints: 10);
+
+        $character->increaseDefenseBy(1);
+
+        self::assertSame(11, $character->characterDefense()->value());
+        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->characterSkillPoint()->value());
+
+        $character->increaseDefenseBy(1);
+
+        self::assertSame(12, $character->characterDefense()->value());
+        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->characterSkillPoint()->value());
+
+        $character->increaseDefenseBy(20);
+
+        self::assertSame(32, $character->characterDefense()->value());
+        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->characterSkillPoint()->value());
+
+        self::expectException(NotEnoughSkillPointsException::class);
+        $character->increaseDefenseBy(1); // Would cost 7, but it has 1 skill point
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testTheFirstMagikPointCostsOneSkillPoint(): void
+    {
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 10, magikPoints: 0);
+
+        $character->increaseMagikBy(1);
+
+        self::assertSame(1, $character->characterMagik()->value());
+        self::assertSame(9 /* 10 - 1 */, $character->characterSkillPoint()->value());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testMagikPointsCostOneFifthOfTheCurrentLevelRoundedUp(): void
+    {
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, magikPoints: 10);
+
+        $character->increaseMagikBy(1);
+
+        self::assertSame(11, $character->characterMagik()->value());
+        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->characterSkillPoint()->value());
+
+        $character->increaseMagikBy(1);
+
+        self::assertSame(12, $character->characterMagik()->value());
+        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->characterSkillPoint()->value());
+
+        $character->increaseMagikBy(20);
+
+        self::assertSame(32, $character->characterMagik()->value());
+        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->characterSkillPoint()->value());
+
+        self::expectException(NotEnoughSkillPointsException::class);
+        $character->increaseMagikBy(1); // Would cost 7, but it has 1 skill point
     }
 }

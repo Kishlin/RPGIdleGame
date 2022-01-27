@@ -14,12 +14,20 @@ use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateChar
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\HasReachedCharacterLimitException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionIsNotAllowedException;
+use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\NotEnoughSkillPointsException;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
+use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use PHPUnit\Framework\Assert;
 use ReflectionException;
 use Throwable;
@@ -69,16 +77,33 @@ final class CharacterContext extends RPGIdleGameContext implements Context
      */
     public function itOwnsACharacter(): void
     {
-        $this->container()->characterGatewaySpy()->save(Character::createFresh(
+        $this->addCharacterToDatabase(Character::createFresh(
             new CharacterId(self::CHARACTER_UUID),
             new CharacterName('Kishlin'),
             new CharacterOwner(self::CLIENT_UUID),
         ));
+    }
 
-        $characterCount = CharacterCount::createForOwner(new CharacterCountOwner(self::CLIENT_UUID));
-        $characterCount->incrementOnCharacterCreation();
+    /**
+     * @Given /^it owns a well advanced character$/
+     *
+     * @throws ReflectionException
+     */
+    public function itOwnsAWellAdvancedCharacter(): void
+    {
+        $character = Character::createFresh(
+            new CharacterId(self::CHARACTER_UUID),
+            new CharacterName('Kishlin'),
+            new CharacterOwner(self::CLIENT_UUID),
+        );
 
-        $this->container()->characterCountGatewaySpy()->save($characterCount);
+        ReflectionHelper::writePropertyValue($character, 'characterSkillPoint', new CharacterSkillPoint(3000));
+        ReflectionHelper::writePropertyValue($character, 'characterHealth', new CharacterHealth(80));
+        ReflectionHelper::writePropertyValue($character, 'characterAttack', new CharacterAttack(23));
+        ReflectionHelper::writePropertyValue($character, 'characterDefense', new CharacterDefense(56));
+        ReflectionHelper::writePropertyValue($character, 'characterMagik', new CharacterMagik(34));
+
+        $this->addCharacterToDatabase($character);
     }
 
     /**
@@ -100,6 +125,50 @@ final class CharacterContext extends RPGIdleGameContext implements Context
             $this->characterId     = $response;
             $this->exceptionThrown = null;
         } catch (HasReachedCharacterLimitException $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a client distributes some skill points$/
+     */
+    public function aClientDistributesSomeSkillPoints(): void
+    {
+        try {
+            self::container()->commandBus()->execute(
+                DistributeSkillPointsCommand::fromScalars(
+                    characterId: self::CHARACTER_UUID,
+                    healthPointsToAdd: 85,
+                    attackPointsToAdd: 35,
+                    defensePointsToAdd: 92,
+                    magikPointsToAdd: 56,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a client tries to distribute more skill points than available$/
+     */
+    public function aClientTriesToDistributeMoreSkillPointsThanAvailable(): void
+    {
+        try {
+            self::container()->commandBus()->execute(
+                DistributeSkillPointsCommand::fromScalars(
+                    characterId: self::CHARACTER_UUID,
+                    healthPointsToAdd: 200,
+                    attackPointsToAdd: 300,
+                    defensePointsToAdd: 0,
+                    magikPointsToAdd: 0,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
             $this->exceptionThrown = $e;
         }
     }
@@ -154,6 +223,24 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     }
 
     /**
+     * @Then /^the character stats are updated as wanted$/
+     *
+     * @see CharacterContext::itOwnsAWellAdvancedCharacter()
+     * @see CharacterContext::aClientDistributesSomeSkillPoints()
+     */
+    public function theCharacterStatsAreUpdatedAsWanted(): void
+    {
+        $character = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::CHARACTER_UUID));
+        Assert::assertNotNull($character);
+
+        Assert::assertSame(165 /* 80 + 85 */, $character->characterHealth()->value());
+        Assert::assertSame(58  /* 23 + 35 */, $character->characterAttack()->value());
+        Assert::assertSame(148 /* 56 + 92 */, $character->characterDefense()->value());
+        Assert::assertSame(90  /* 34 + 56 */, $character->characterMagik()->value());
+        Assert::assertSame(5, $character->characterSkillPoint()->value());
+    }
+
+    /**
      * @Then /^the character is deleted$/
      */
     public function theCharacterIsDeleted(): void
@@ -191,11 +278,30 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     }
 
     /**
+     * @Then /^the stats update was refused$/
+     */
+    public function theStatsUpdateWasRefused(): void
+    {
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(NotEnoughSkillPointsException::class, $this->exceptionThrown);
+    }
+
+    /**
      * @Then /^the deletion was refused$/
      */
     public function theDeletionWasRefused(): void
     {
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(DeletionIsNotAllowedException::class, $this->exceptionThrown);
+    }
+
+    private function addCharacterToDatabase(Character $character): void
+    {
+        $this->container()->characterGatewaySpy()->save($character);
+
+        $characterCount = CharacterCount::createForOwner(new CharacterCountOwner(self::CLIENT_UUID));
+        $characterCount->incrementOnCharacterCreation();
+
+        $this->container()->characterCountGatewaySpy()->save($characterCount);
     }
 }
