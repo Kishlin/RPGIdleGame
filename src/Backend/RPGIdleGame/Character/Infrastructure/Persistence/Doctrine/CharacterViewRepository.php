@@ -6,11 +6,11 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctr
 
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewer;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\CompleteCharacterView;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineViewer;
 
-class CharacterViewerUsingDoctrine extends DoctrineViewer implements CharacterViewer
+class CharacterViewRepository extends DoctrineViewer implements CharacterViewGateway
 {
     /**
      * @throws CharacterNotFoundException|Exception

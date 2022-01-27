@@ -35,7 +35,7 @@ final class DeletionAllowanceRepositoryTest extends RepositoryContractTestCase
     /**
      * @throws Exception
      */
-    public function testItProhibitsDeletionToASStranger(): void
+    public function testItProhibitsDeletionToAStranger(): void
     {
         $character = CharacterProvider::freshCharacter();
         $stranger  = new CharacterOwner('35618629-b91a-4619-9476-550a09108e44');

@@ -8,13 +8,12 @@ use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionAl
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewer;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\CompleteCharacterView;
 
-class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway, CharacterViewer
+class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway, CharacterViewGateway
 {
     /** @var array<string, Character> */
     private array $characters = [];
@@ -32,20 +31,6 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function findOneById(CharacterId $characterId): ?Character
     {
         return $this->characters[$characterId->value()] ?? null;
-    }
-
-    public function ownerAlreadyHasACharacterWithName(CharacterName $characterName, CharacterOwner $characterOwner): bool
-    {
-        foreach ($this->characters as $character) {
-            if (
-                $characterName->equals($character->characterName())
-                && $characterOwner->equals($character->characterOwner())
-            ) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function viewOneById(string $characterId): CompleteCharacterView

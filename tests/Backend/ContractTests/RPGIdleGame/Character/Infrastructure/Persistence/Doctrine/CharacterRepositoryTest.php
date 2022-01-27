@@ -44,22 +44,4 @@ final class CharacterRepositoryTest extends RepositoryContractTestCase
 
         self::assertCount(0, self::entityManager()->getRepository(Character::class)->findAll());
     }
-
-    /**
-     * @depends testItCanSaveAndRetrieveACharacter
-     */
-    public function testItCanDetectOwnerAlreadyHasACharacterWithAName(): void
-    {
-        $character  = CharacterProvider::freshCharacter();
-        $repository = new CharacterRepository(self::entityManager());
-
-        $characterName  = $character->characterName();
-        $characterOwner = $character->characterOwner();
-
-        self::assertFalse($repository->ownerAlreadyHasACharacterWithName($characterName, $characterOwner));
-
-        self::loadFixtures($character);
-
-        self::assertTrue($repository->ownerAlreadyHasACharacterWithName($characterName, $characterOwner));
-    }
 }

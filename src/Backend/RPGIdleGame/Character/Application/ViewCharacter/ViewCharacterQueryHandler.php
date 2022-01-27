@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter;
 
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewer;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
 use Kishlin\Backend\Shared\Domain\Bus\Query\QueryHandler;
 
 final class ViewCharacterQueryHandler implements QueryHandler
 {
     public function __construct(
-        private CharacterViewer $characterViewer,
+        private CharacterViewGateway $characterViewer,
     ) {
     }
 

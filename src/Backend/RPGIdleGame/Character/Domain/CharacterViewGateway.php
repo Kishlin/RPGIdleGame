@@ -7,7 +7,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\CompleteCharacterView;
 
-interface CharacterViewer
+interface CharacterViewGateway
 {
     /**
      * @throws CharacterNotFoundException

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 
 interface CharacterGateway
 {
@@ -15,6 +13,4 @@ interface CharacterGateway
     public function delete(CharacterId $characterId): void;
 
     public function findOneById(CharacterId $characterId): ?Character;
-
-    public function ownerAlreadyHasACharacterWithName(CharacterName $characterName, CharacterOwner $characterOwner): bool;
 }
