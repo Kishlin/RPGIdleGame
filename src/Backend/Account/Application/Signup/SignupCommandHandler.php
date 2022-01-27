@@ -13,6 +13,7 @@ use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 final class SignupCommandHandler implements CommandHandler
 {
     public function __construct(
+        private AccountWithEmailGateway $accountWithEmailGateway,
         private AccountGateway $accountGateway,
         private EventDispatcher $eventDispatcher,
     ) {
@@ -30,7 +31,7 @@ final class SignupCommandHandler implements CommandHandler
             $command->email(),
         );
 
-        if ($this->accountGateway->thereAlreadyIsAnAccountWithEmail($command->email())) {
+        if ($this->accountWithEmailGateway->thereAlreadyIsAnAccountWithEmail($command->email())) {
             throw new AnAccountAlreadyUsesTheEmailException($command->email());
         }
 

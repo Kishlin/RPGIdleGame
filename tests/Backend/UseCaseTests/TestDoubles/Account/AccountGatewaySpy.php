@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Account;
 
+use Kishlin\Backend\Account\Application\Signup\AccountWithEmailGateway;
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\AccountGateway;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
-use ReflectionException;
 use ReflectionProperty;
 
-final class AccountGatewaySpy implements AccountGateway
+final class AccountGatewaySpy implements AccountGateway, AccountWithEmailGateway
 {
     /** @var array<string, Account> */
     private array $accounts = [];
@@ -26,9 +26,6 @@ final class AccountGatewaySpy implements AccountGateway
         return $this->accounts[$accountId->value()] ?? null;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function thereAlreadyIsAnAccountWithEmail(AccountEmail $accountEmail): bool
     {
         $property = new ReflectionProperty(Account::class, 'accountEmail');

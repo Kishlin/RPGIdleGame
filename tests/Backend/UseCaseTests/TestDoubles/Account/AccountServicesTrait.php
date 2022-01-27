@@ -24,6 +24,6 @@ trait AccountServicesTrait
 
     public function signupCommandHandler(): SignupCommandHandler
     {
-        return new SignupCommandHandler($this->accountGatewaySpy(), $this->eventDispatcher());
+        return new SignupCommandHandler($this->accountGatewaySpy(), $this->accountGatewaySpy(), $this->eventDispatcher());
     }
 }

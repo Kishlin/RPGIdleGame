@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\ContractTests\Account\Infrastructure\Persistence\Doctrine;
 
-use Doctrine\DBAL\Exception;
-use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountRepository;
 use Kishlin\Tests\Backend\Tools\Provider\AccountProvider;
 use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
@@ -24,27 +22,8 @@ final class AccountRepositoryTest extends RepositoryContractTestCase
 
         $repository->save($account);
 
-        /** @var Account $savedAccount */
-        $savedAccount = self::entityManager()->getRepository(Account::class)->find($account->accountId());
+        $savedAccount = $repository->findOneById($account->accountId());
 
         self::assertSame($savedAccount, $account);
-    }
-
-    /**
-     * @depends testItCanSaveAnAccount
-     *
-     * @throws Exception
-     */
-    public function testItCanDetectTheEmailIsAlreadyUsed(): void
-    {
-        $repository   = new AccountRepository(self::entityManager());
-        $account      = AccountProvider::activeAccount();
-        $accountEmail = $account->accountEmail();
-
-        self::assertFalse($repository->thereAlreadyIsAnAccountWithEmail($accountEmail));
-
-        $repository->save($account);
-
-        self::assertTrue($repository->thereAlreadyIsAnAccountWithEmail($accountEmail));
     }
 }
