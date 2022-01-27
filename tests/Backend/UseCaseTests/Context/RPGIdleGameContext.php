@@ -6,6 +6,7 @@ namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
+use ReflectionException;
 
 abstract class RPGIdleGameContext
 {
@@ -13,6 +14,8 @@ abstract class RPGIdleGameContext
 
     /**
      * @AfterScenario
+     *
+     * @throws ReflectionException
      */
     public function clearDatabase(): void
     {
