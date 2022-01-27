@@ -14,7 +14,10 @@ use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateChar
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\HasReachedCharacterLimitException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionIsNotAllowedException;
+use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommand;
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQuery;
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterResponse;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\NotEnoughSkillPointsException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
@@ -27,6 +30,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
+use Kishlin\Backend\Shared\Domain\Bus\Query\Response;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use PHPUnit\Framework\Assert;
 use ReflectionException;
@@ -40,6 +44,7 @@ final class CharacterContext extends RPGIdleGameContext implements Context
 
     private ?CharacterId $characterId   = null;
     private ?Throwable $exceptionThrown = null;
+    private ?Response $response         = null;
 
     /**
      * @Given /^a client has an account$/
@@ -214,12 +219,48 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     }
 
     /**
+     * @When /^a client asks to read character infos$/
+     */
+    public function aClientAsksToReadCharacterInfos(): void
+    {
+        try {
+            $this->response = self::container()->queryBus()->ask(
+                ViewCharacterQuery::fromScalars(
+                    characterId: self::CHARACTER_UUID,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a client asks to read a character that does not exist$/
+     */
+    public function aClientAsksToReadACharacterThatDoesNotExist(): void
+    {
+        try {
+            $this->response = self::container()->queryBus()->ask(
+                ViewCharacterQuery::fromScalars(
+                    characterId: 'invalid',
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
      * @Then /^the character is registered$/
      */
     public function theCharacterIsRegistered(): void
     {
         Assert::assertNotNull($this->characterId);
-        Assert::assertTrue(self::container()->characterGatewaySpy()->has($this->characterId));
+        Assert::assertTrue(self::container()->characterGatewaySpy()->has($this->characterId->value()));
     }
 
     /**
@@ -245,7 +286,7 @@ final class CharacterContext extends RPGIdleGameContext implements Context
      */
     public function theCharacterIsDeleted(): void
     {
-        Assert::assertFalse(self::container()->characterGatewaySpy()->has(new CharacterId(self::CHARACTER_UUID)));
+        Assert::assertFalse(self::container()->characterGatewaySpy()->has(self::CHARACTER_UUID));
     }
 
     /**
@@ -293,6 +334,32 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     {
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(DeletionIsNotAllowedException::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then /^details about the character were returned$/
+     *
+     * @throws ReflectionException
+     */
+    public function detailsAboutTheCharacterWereReturned(): void
+    {
+        Assert::assertNotNull($this->response);
+        Assert::assertInstanceOf(ViewCharacterResponse::class, $this->response);
+
+        /** @var ViewCharacterResponse $response */
+        $response = $this->response;
+
+        Assert::assertSame(self::CHARACTER_UUID, ReflectionHelper::propertyValue($response->characterView(), 'id'));
+    }
+
+    /**
+     * @Then /^the query was refused$/
+     */
+    public function theQueryWasRefused(): void
+    {
+        Assert::assertNull($this->response);
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(CharacterNotFoundException::class, $this->exceptionThrown);
     }
 
     private function addCharacterToDatabase(Character $character): void

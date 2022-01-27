@@ -7,6 +7,7 @@ namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommandHandler;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommandHandler;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommandHandler;
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQueryHandler;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 
 trait CharacterServicesTrait
@@ -60,5 +61,10 @@ trait CharacterServicesTrait
             $gatewaySpy,
             $this->eventDispatcher(),
         );
+    }
+
+    public function viewCharacterQueryHandler(): ViewCharacterQueryHandler
+    {
+        return new ViewCharacterQueryHandler($this->characterGatewaySpy());
     }
 }

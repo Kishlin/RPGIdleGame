@@ -172,6 +172,16 @@ final class Character extends AggregateRoot
         return $this->characterMagik;
     }
 
+    public function characterRank(): CharacterRank
+    {
+        return $this->characterRank;
+    }
+
+    public function characterFightsCount(): CharacterFightsCount
+    {
+        return $this->characterFightsCount;
+    }
+
     /**
      * @throws PointsCanOnlyBeIncreasedException
      */
