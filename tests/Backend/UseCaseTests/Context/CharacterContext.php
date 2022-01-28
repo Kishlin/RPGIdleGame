@@ -143,6 +143,7 @@ final class CharacterContext extends RPGIdleGameContext implements Context
             self::container()->commandBus()->execute(
                 DistributeSkillPointsCommand::fromScalars(
                     characterId: self::CHARACTER_UUID,
+                    requesterId: self::CLIENT_UUID,
                     healthPointsToAdd: 85,
                     attackPointsToAdd: 35,
                     defensePointsToAdd: 92,
@@ -165,8 +166,32 @@ final class CharacterContext extends RPGIdleGameContext implements Context
             self::container()->commandBus()->execute(
                 DistributeSkillPointsCommand::fromScalars(
                     characterId: self::CHARACTER_UUID,
+                    requesterId: self::CLIENT_UUID,
                     healthPointsToAdd: 200,
                     attackPointsToAdd: 300,
+                    defensePointsToAdd: 0,
+                    magikPointsToAdd: 0,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a stranger tries to distribute skill points to its character$/
+     */
+    public function aStrangerTriesToDistributeSkillPointsToItsCharacter(): void
+    {
+        try {
+            self::container()->commandBus()->execute(
+                DistributeSkillPointsCommand::fromScalars(
+                    characterId: self::CHARACTER_UUID,
+                    requesterId: self::STRANGER_UUID,
+                    healthPointsToAdd: 1,
+                    attackPointsToAdd: 0,
                     defensePointsToAdd: 0,
                     magikPointsToAdd: 0,
                 )
@@ -346,6 +371,15 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     {
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(NotEnoughSkillPointsException::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then /^the stats update was denied$/
+     */
+    public function theStatsUpdateWasDenied(): void
+    {
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(CharacterNotFoundException::class, $this->exceptionThrown);
     }
 
     /**

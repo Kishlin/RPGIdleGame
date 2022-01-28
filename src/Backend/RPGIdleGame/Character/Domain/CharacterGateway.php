@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 
 /**
  * Saves, finds, and delete, Character entities.
@@ -19,4 +20,6 @@ interface CharacterGateway
     public function delete(CharacterId $characterId): void;
 
     public function findOneById(CharacterId $characterId): ?Character;
+
+    public function findOneByIdAndOwner(CharacterId $characterId, CharacterOwner $requester): ?Character;
 }

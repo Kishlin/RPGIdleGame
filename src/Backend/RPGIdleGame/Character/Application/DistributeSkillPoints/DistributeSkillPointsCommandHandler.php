@@ -22,7 +22,7 @@ final class DistributeSkillPointsCommandHandler implements CommandHandler
      */
     public function __invoke(DistributeSkillPointsCommand $command): void
     {
-        $character = $this->characterGateway->findOneById($command->characterId());
+        $character = $this->characterGateway->findOneByIdAndOwner($command->characterId(), $command->requesterId());
 
         if (null === $character) {
             throw new CharacterNotFoundException();
