@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Shared\Messaging;
 
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewAllCharacter\ViewAllCharactersQuery;
 use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQuery;
 use Kishlin\Backend\Shared\Domain\Bus\Query\Query;
 use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
@@ -25,6 +26,10 @@ final class TestQueryBus implements QueryBus
     {
         if ($query instanceof ViewCharacterQuery) {
             return $this->testServiceContainer->viewCharacterQueryHandler()($query);
+        }
+
+        if ($query instanceof ViewAllCharactersQuery) {
+            return $this->testServiceContainer->viewAllCharactersQueryHandler()($query);
         }
 
         throw new RuntimeException('Unknown query type: ' . get_class($query));

@@ -15,3 +15,9 @@ Feature: It can view characters
     And it owns a character
     When a stranger tries to read its character
     Then the query was refused
+
+  Scenario: a client can view the list of all of its characters
+    Given a client has an account
+    And it owns a few characters
+    When a client asks to read all of its characters
+    Then the list of all of its characters was returned

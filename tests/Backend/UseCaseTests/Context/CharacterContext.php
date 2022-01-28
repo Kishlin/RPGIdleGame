@@ -16,6 +16,8 @@ use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteChar
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionIsNotAllowedException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommand;
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewAllCharacter\ViewAllCharactersQuery;
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewAllCharacter\ViewAllCharactersResponse;
 use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQuery;
 use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterResponse;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
@@ -109,6 +111,26 @@ final class CharacterContext extends RPGIdleGameContext implements Context
         ReflectionHelper::writePropertyValue($character, 'characterMagik', new CharacterMagik(34));
 
         $this->addCharacterToDatabase($character);
+    }
+
+    /**
+     * @Given /^it owns a few characters$/
+     */
+    public function itOwnsAFewCharacters(): void
+    {
+        $charactersUuid = [
+            'bd722166-07b3-4ff8-90d9-717d316f49be' => 'Gandalf',
+            '105d85a5-a345-4e74-a883-c80306718ab9' => 'Aragorn',
+            'fcf60934-f4a2-404c-a893-70af30837974' => 'Legolas',
+        ];
+
+        foreach ($charactersUuid as $characterUuid => $characterName) {
+            $this->addCharacterToDatabase(Character::createFresh(
+                new CharacterId($characterUuid),
+                new CharacterName($characterName),
+                new CharacterOwner(self::CLIENT_UUID),
+            ));
+        }
     }
 
     /**
@@ -301,6 +323,22 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     }
 
     /**
+     * @When /^a client asks to read all of its characters$/
+     */
+    public function aClientAsksToReadAllOfItsCharacters(): void
+    {
+        try {
+            $this->response = self::container()->queryBus()->ask(
+                ViewAllCharactersQuery::fromScalars(requesterId: self::CLIENT_UUID),
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
      * @Then /^the character is registered$/
      */
     public function theCharacterIsRegistered(): void
@@ -405,6 +443,20 @@ final class CharacterContext extends RPGIdleGameContext implements Context
         $response = $this->response;
 
         Assert::assertSame(self::CHARACTER_UUID, ReflectionHelper::propertyValue($response->characterView(), 'id'));
+    }
+
+    /**
+     * @Then /^the list of all of its characters was returned$/
+     */
+    public function theListOfAllOfItsCharactersWasReturned(): void
+    {
+        Assert::assertNotNull($this->response);
+        Assert::assertInstanceOf(ViewAllCharactersResponse::class, $this->response);
+
+        /** @var ViewAllCharactersResponse $response */
+        $response = $this->response;
+
+        Assert::assertCount(3, $response->viewsList());
     }
 
     /**
