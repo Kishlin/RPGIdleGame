@@ -219,7 +219,7 @@ final class CharacterContext extends RPGIdleGameContext implements Context
     }
 
     /**
-     * @When /^a client asks to read character infos$/
+     * @When /^a client asks to read one of its character's infos$/
      */
     public function aClientAsksToReadCharacterInfos(): void
     {
@@ -227,6 +227,7 @@ final class CharacterContext extends RPGIdleGameContext implements Context
             $this->response = self::container()->queryBus()->ask(
                 ViewCharacterQuery::fromScalars(
                     characterId: self::CHARACTER_UUID,
+                    requesterId: self::CLIENT_UUID
                 )
             );
 
@@ -244,7 +245,27 @@ final class CharacterContext extends RPGIdleGameContext implements Context
         try {
             $this->response = self::container()->queryBus()->ask(
                 ViewCharacterQuery::fromScalars(
-                    characterId: 'invalid',
+                    characterId: self::CHARACTER_UUID,
+                    requesterId: self::CLIENT_UUID,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a stranger tries to read its character$/
+     */
+    public function aStrangerTriesToReadItsCharacter(): void
+    {
+        try {
+            $this->response = self::container()->queryBus()->ask(
+                ViewCharacterQuery::fromScalars(
+                    characterId: self::CHARACTER_UUID,
+                    requesterId: self::STRANGER_UUID
                 )
             );
 

@@ -33,9 +33,10 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
         return $this->characters[$characterId->value()] ?? null;
     }
 
-    public function viewOneById(string $characterId): CompleteCharacterView
+    public function viewOneById(string $characterId, string $requesterId): CompleteCharacterView
     {
-        if (false === $this->has($characterId)) {
+        if (false === $this->has($characterId)
+            || $this->characters[$characterId]->characterOwner()->value() !== $requesterId) {
             throw new CharacterNotFoundException();
         }
 

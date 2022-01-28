@@ -17,7 +17,7 @@ interface CharacterViewGateway
     /**
      * @throws CharacterNotFoundException
      */
-    public function viewOneById(string $characterId): CompleteCharacterView;
+    public function viewOneById(string $characterId, string $requesterId): CompleteCharacterView;
 
     /**
      * @return CompleteCharacterView[]

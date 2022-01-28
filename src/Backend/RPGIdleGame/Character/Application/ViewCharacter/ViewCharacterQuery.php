@@ -10,6 +10,7 @@ final class ViewCharacterQuery implements Query
 {
     private function __construct(
         private string $characterId,
+        private string $requesterId,
     ) {
     }
 
@@ -18,8 +19,13 @@ final class ViewCharacterQuery implements Query
         return $this->characterId;
     }
 
-    public static function fromScalars(string $characterId): self
+    public function requesterId(): string
     {
-        return new self($characterId);
+        return $this->requesterId;
+    }
+
+    public static function fromScalars(string $characterId, string $requesterId): self
+    {
+        return new self($characterId, $requesterId);
     }
 }

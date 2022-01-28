@@ -15,12 +15,12 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     /**
      * @throws CharacterNotFoundException|Exception
      */
-    public function viewOneById(string $characterId): CompleteCharacterView
+    public function viewOneById(string $characterId, string $requesterId): CompleteCharacterView
     {
         /** @var array<string, int|string>|false $data */
         $data = $this->entityManager->getConnection()->fetchAssociative(
-            'SELECT * from characters WHERE character_id = :id',
-            ['id' => $characterId],
+            'SELECT * from characters WHERE character_id = :id AND character_owner = :owner',
+            ['id' => $characterId, 'owner' => $requesterId],
         );
 
         if (false === $data) {

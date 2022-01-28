@@ -22,7 +22,8 @@ final class ViewCharacterQueryHandler implements QueryHandler
     {
         return new ViewCharacterResponse(
             $this->characterViewer->viewOneById(
-                $query->characterId()
+                $query->characterId(),
+                $query->requesterId(),
             )
         );
     }

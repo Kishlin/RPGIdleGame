@@ -33,9 +33,23 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
 
         $repository = new CharacterViewRepository(self::entityManager());
 
-        $view = $repository->viewOneById($character->characterId()->value());
+        $view = $repository->viewOneById($character->characterId()->value(), $character->characterOwner()->value());
 
         self::assertInstanceOf(CompleteCharacterView::class, $view);
+    }
+
+    /**
+     * @throws CharacterNotFoundException|Exception|ReflectionException
+     */
+    public function testItCannotViewACharacterFromSomeoneElse(): void
+    {
+        $character = CharacterProvider::completeCharacter();
+        self::loadFixtures($character);
+
+        $repository = new CharacterViewRepository(self::entityManager());
+
+        self::expectException(CharacterNotFoundException::class);
+        $repository->viewOneById($character->characterId()->value(), 'invalid-owner');
     }
 
     /**
