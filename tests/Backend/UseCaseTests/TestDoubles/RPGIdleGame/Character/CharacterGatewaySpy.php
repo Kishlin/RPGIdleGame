@@ -11,7 +11,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\View\CompleteCharacterView;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\SerializableCharacterView;
 
 class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway, CharacterViewGateway
 {
@@ -43,7 +43,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
         return $this->characters[$characterId->value()];
     }
 
-    public function viewOneById(string $characterId, string $requesterId): CompleteCharacterView
+    public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView
     {
         if (false === $this->has($characterId)
             || $this->characters[$characterId]->characterOwner()->value() !== $requesterId) {
@@ -52,7 +52,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
 
         $character = $this->characters[$characterId];
 
-        return CompleteCharacterView::fromEntity($character);
+        return SerializableCharacterView::fromEntity($character);
     }
 
     public function viewAllForOwner(string $ownerUuid): array
@@ -62,7 +62,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
         };
 
         return array_map(
-            [CompleteCharacterView::class, 'fromEntity'],
+            [SerializableCharacterView::class, 'fromEntity'],
             array_filter($this->characters, $filterForOwner)
         );
     }

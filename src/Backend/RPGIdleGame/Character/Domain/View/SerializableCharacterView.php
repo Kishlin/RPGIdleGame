@@ -7,7 +7,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Domain\View;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Serializable;
 
-final class CompleteCharacterView implements Serializable
+final class SerializableCharacterView implements Serializable
 {
     private string $id;
     private string $name;

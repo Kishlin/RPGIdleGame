@@ -7,7 +7,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctr
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\View\CompleteCharacterView;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\SerializableCharacterView;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineViewer;
 
 class CharacterViewRepository extends DoctrineViewer implements CharacterViewGateway
@@ -15,7 +15,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     /**
      * @throws CharacterNotFoundException|Exception
      */
-    public function viewOneById(string $characterId, string $requesterId): CompleteCharacterView
+    public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView
     {
         /** @var array<string, int|string>|false $data */
         $data = $this->entityManager->getConnection()->fetchAssociative(
@@ -27,7 +27,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
             throw new CharacterNotFoundException();
         }
 
-        return CompleteCharacterView::fromSource($data);
+        return SerializableCharacterView::fromSource($data);
     }
 
     /**
@@ -47,6 +47,6 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
             throw new CharacterNotFoundException();
         }
 
-        return array_map([CompleteCharacterView::class, 'fromSource'], $data);
+        return array_map([SerializableCharacterView::class, 'fromSource'], $data);
     }
 }

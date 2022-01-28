@@ -10,7 +10,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\View\CompleteCharacterView;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\SerializableCharacterView;
 use Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\CharacterViewRepository;
 use Kishlin\Tests\Backend\Tools\Provider\CharacterProvider;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
@@ -35,7 +35,7 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
 
         $view = $repository->viewOneById($character->characterId()->value(), $character->characterOwner()->value());
 
-        self::assertInstanceOf(CompleteCharacterView::class, $view);
+        self::assertInstanceOf(SerializableCharacterView::class, $view);
     }
 
     /**
