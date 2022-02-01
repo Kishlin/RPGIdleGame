@@ -18,11 +18,6 @@ final class CharacterDeletedDomainEvent extends DomainEvent
         parent::__construct($characterId);
     }
 
-    public static function eventName(): string
-    {
-        return 'character.deletion';
-    }
-
     public function characterOwner(): UuidValueObject
     {
         return $this->characterOwner;

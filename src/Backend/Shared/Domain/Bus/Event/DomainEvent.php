@@ -16,8 +16,6 @@ abstract class DomainEvent
     ) {
     }
 
-    abstract public static function eventName(): string;
-
     /**
      * @return UuidValueObject the Uuid of the object that raised the event
      */

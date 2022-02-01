@@ -15,11 +15,6 @@ final class AccountCreatedDomainEvent extends DomainEvent
         parent::__construct($accountId);
     }
 
-    public static function eventName(): string
-    {
-        return 'account.created';
-    }
-
     public function accountId(): UuidValueObject
     {
         return $this->aggregateUuid();

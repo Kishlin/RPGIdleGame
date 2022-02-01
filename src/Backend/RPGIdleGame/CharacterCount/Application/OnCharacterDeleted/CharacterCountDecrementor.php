@@ -24,7 +24,7 @@ final class CharacterCountDecrementor implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
-            CharacterDeletedDomainEvent::eventName(),
+            CharacterDeletedDomainEvent::class,
         ];
     }
 }

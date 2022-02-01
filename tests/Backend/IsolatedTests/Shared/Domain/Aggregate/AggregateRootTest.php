@@ -25,12 +25,7 @@ final class AggregateRootTest extends TestCase
         $root = new class() extends AggregateRoot {};
         $uuid = new class('51cefa3e-c223-469e-a23c-61a32e4bf048') extends UuidValueObject {};
 
-        $event = new class($uuid) extends DomainEvent {
-            public static function eventName(): string
-            {
-                return 'event.test';
-            }
-        };
+        $event = new class($uuid) extends DomainEvent {};
 
         self::assertEmpty($root->pullDomainEvents());
 

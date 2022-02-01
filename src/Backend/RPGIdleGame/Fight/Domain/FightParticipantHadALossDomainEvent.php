@@ -18,11 +18,6 @@ final class FightParticipantHadALossDomainEvent extends DomainEvent
         parent::__construct($this->fightId);
     }
 
-    public static function eventName(): string
-    {
-        return 'fight.result.loss';
-    }
-
     public function fightId(): UuidValueObject
     {
         return $this->fightId;

@@ -18,11 +18,6 @@ final class CharacterCreatedDomainEvent extends DomainEvent
         parent::__construct($characterId);
     }
 
-    public static function eventName(): string
-    {
-        return 'character.created';
-    }
-
     public function characterOwner(): UuidValueObject
     {
         return $this->characterOwner;

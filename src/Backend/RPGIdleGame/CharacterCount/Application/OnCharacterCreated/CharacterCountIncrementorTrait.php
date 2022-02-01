@@ -27,7 +27,7 @@ final class CharacterCountIncrementorTrait implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
-            CharacterCreatedDomainEvent::eventName(),
+            CharacterCreatedDomainEvent::class,
         ];
     }
 }
