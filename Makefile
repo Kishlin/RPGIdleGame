@@ -94,6 +94,10 @@ db.reload:
 	@docker-compose exec postgres /bin/bash -c 'psql -q -U $$POSTGRES_USER -d rpgidlegame -f /rpgidlegame/etc/Schema/create.sql &>/dev/null'
 	@echo "Done reloading database"
 
+db.dump:
+	@echo "Dump DB schema to file"
+	@docker-compose exec postgres /bin/bash -c 'pg_dump -U $$POSTGRES_USER -d rpgidlegame > /rpgidlegame/etc/Schema/create.sql'
+
 db.migrations.diff: CMD=diff
 
 db.migrations.migrate: CMD=migrate
