@@ -82,6 +82,74 @@ CREATE TABLE public.doctrine_migration_versions (
 ALTER TABLE public.doctrine_migration_versions OWNER TO rpgidlegame;
 
 --
+-- Name: fight_initiators; Type: TABLE; Schema: public; Owner: rpgidlegame
+--
+
+CREATE TABLE public.fight_initiators (
+    id character varying(36) NOT NULL,
+    character_id character varying(36) NOT NULL,
+    health integer NOT NULL,
+    attack integer NOT NULL,
+    defense integer NOT NULL,
+    magik integer NOT NULL,
+    rank integer NOT NULL
+);
+
+
+ALTER TABLE public.fight_initiators OWNER TO rpgidlegame;
+
+--
+-- Name: fight_opponents; Type: TABLE; Schema: public; Owner: rpgidlegame
+--
+
+CREATE TABLE public.fight_opponents (
+    id character varying(36) NOT NULL,
+    character_id character varying(36) NOT NULL,
+    health integer NOT NULL,
+    attack integer NOT NULL,
+    defense integer NOT NULL,
+    magik integer NOT NULL,
+    rank integer NOT NULL
+);
+
+
+ALTER TABLE public.fight_opponents OWNER TO rpgidlegame;
+
+--
+-- Name: fight_turns; Type: TABLE; Schema: public; Owner: rpgidlegame
+--
+
+CREATE TABLE public.fight_turns (
+    id character varying(36) NOT NULL,
+    fight_id character varying(255) NOT NULL,
+    attacker_id character varying(36) NOT NULL,
+    index integer NOT NULL,
+    attacker_attack integer NOT NULL,
+    attacker_magik integer NOT NULL,
+    attacker_dice_roll integer NOT NULL,
+    defender_defense integer NOT NULL,
+    damage_dealt integer NOT NULL,
+    defender_health integer NOT NULL
+);
+
+
+ALTER TABLE public.fight_turns OWNER TO rpgidlegame;
+
+--
+-- Name: fights; Type: TABLE; Schema: public; Owner: rpgidlegame
+--
+
+CREATE TABLE public.fights (
+    id character varying(36) NOT NULL,
+    initiator character varying(255) NOT NULL,
+    opponent character varying(255) NOT NULL,
+    winner_id character varying(36) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.fights OWNER TO rpgidlegame;
+
+--
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
 --
 
@@ -113,6 +181,39 @@ COPY public.doctrine_migration_versions (version, executed_at, execution_time) F
 Kishlin\\Migrations\\Version20220121150906	2022-01-21 15:14:29	9
 Kishlin\\Migrations\\Version20220124185735	2022-01-24 18:58:14	11
 Kishlin\\Migrations\\Version20220125013925	2022-01-25 01:40:16	12
+Kishlin\\Migrations\\Version20220201163853	2022-02-02 05:48:48	19
+\.
+
+
+--
+-- Data for Name: fight_initiators; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
+--
+
+COPY public.fight_initiators (id, character_id, health, attack, defense, magik, rank) FROM stdin;
+\.
+
+
+--
+-- Data for Name: fight_opponents; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
+--
+
+COPY public.fight_opponents (id, character_id, health, attack, defense, magik, rank) FROM stdin;
+\.
+
+
+--
+-- Data for Name: fight_turns; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
+--
+
+COPY public.fight_turns (id, fight_id, attacker_id, index, attacker_attack, attacker_magik, attacker_dice_roll, defender_defense, damage_dealt, defender_health) FROM stdin;
+\.
+
+
+--
+-- Data for Name: fights; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
+--
+
+COPY public.fights (id, initiator, opponent, winner_id) FROM stdin;
 \.
 
 
@@ -146,6 +247,99 @@ ALTER TABLE ONLY public.characters
 
 ALTER TABLE ONLY public.doctrine_migration_versions
     ADD CONSTRAINT doctrine_migration_versions_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: fight_initiators fight_initiators_pkey; Type: CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fight_initiators
+    ADD CONSTRAINT fight_initiators_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fight_opponents fight_opponents_pkey; Type: CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fight_opponents
+    ADD CONSTRAINT fight_opponents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fight_turns fight_turns_pkey; Type: CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fight_turns
+    ADD CONSTRAINT fight_turns_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fights fights_pkey; Type: CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fights
+    ADD CONSTRAINT fights_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_15531764ac6657e4; Type: INDEX; Schema: public; Owner: rpgidlegame
+--
+
+CREATE INDEX idx_15531764ac6657e4 ON public.fight_turns USING btree (fight_id);
+
+
+--
+-- Name: idx_9927918e451bf597; Type: INDEX; Schema: public; Owner: rpgidlegame
+--
+
+CREATE INDEX idx_9927918e451bf597 ON public.fights USING btree (initiator);
+
+
+--
+-- Name: idx_9927918ea9322aff; Type: INDEX; Schema: public; Owner: rpgidlegame
+--
+
+CREATE INDEX idx_9927918ea9322aff ON public.fights USING btree (opponent);
+
+
+--
+-- Name: fight_turns fk_15531764ac6657e4; Type: FK CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fight_turns
+    ADD CONSTRAINT fk_15531764ac6657e4 FOREIGN KEY (fight_id) REFERENCES public.fights(id);
+
+
+--
+-- Name: fights fk_9927918e451bf597; Type: FK CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fights
+    ADD CONSTRAINT fk_9927918e451bf597 FOREIGN KEY (initiator) REFERENCES public.fight_initiators(id);
+
+
+--
+-- Name: fights fk_9927918ea9322aff; Type: FK CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fights
+    ADD CONSTRAINT fk_9927918ea9322aff FOREIGN KEY (opponent) REFERENCES public.fight_opponents(id);
+
+
+--
+-- Name: fight_initiators fk_initiator_character; Type: FK CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fight_initiators
+    ADD CONSTRAINT fk_initiator_character FOREIGN KEY (character_id) REFERENCES public.characters(character_id);
+
+
+--
+-- Name: fight_opponents fk_opponent_character; Type: FK CONSTRAINT; Schema: public; Owner: rpgidlegame
+--
+
+ALTER TABLE ONLY public.fight_opponents
+    ADD CONSTRAINT fk_opponent_character FOREIGN KEY (character_id) REFERENCES public.characters(character_id);
 
 
 --

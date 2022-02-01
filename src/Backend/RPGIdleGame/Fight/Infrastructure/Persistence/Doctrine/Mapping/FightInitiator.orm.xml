@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator" table="fight_initiators">
+        <id name="id" type="fight_participant_id" column="id" length="36" />
+
+        <field name="characterId" type="fight_participant_character_id" column="character_id" length="36" />
+
+        <embedded name="health" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantHealth" use-column-prefix="false" />
+
+        <embedded name="attack" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantAttack" use-column-prefix="false" />
+
+        <embedded name="defense" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantDefense" use-column-prefix="false" />
+
+        <embedded name="magik" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantMagik" use-column-prefix="false" />
+
+        <embedded name="rank" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantRank" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>

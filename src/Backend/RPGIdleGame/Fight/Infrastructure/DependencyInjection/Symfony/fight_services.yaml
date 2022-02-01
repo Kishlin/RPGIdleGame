@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+
+  ##> Gateways
+
+  Kishlin\Backend\RPGIdleGame\Fight\Domain\FightGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightRepository'
+
+
+  ##> Dice
+
+  Kishlin\Backend\RPGIdleGame\Fight\Domain\Dice:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\RandomDice'

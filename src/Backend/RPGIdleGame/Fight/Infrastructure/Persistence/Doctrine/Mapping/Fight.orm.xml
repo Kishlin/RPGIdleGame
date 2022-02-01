@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight" table="fights">
+        <id name="id" type="fight_id" column="id" length="36" />
+
+        <one-to-many field="turns" target-entity="FightTurn" mapped-by="fight">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+            <order-by>
+                <order-by-field name="index" direction="ASC" />
+            </order-by>
+        </one-to-many>
+
+        <many-to-one field="initiator" target-entity="FightInitiator" reversed-by="fight">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+            <join-column name="initiator" referenced-column-name="id" nullable="false" unique="false" />
+        </many-to-one>
+
+        <many-to-one field="opponent" target-entity="FightOpponent" reversed-by="fight">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+            <join-column name="opponent" referenced-column-name="id" nullable="false" unique="false" />
+        </many-to-one>
+
+        <field name="winnerId" type="fight_winner_id" column="winner_id" length="36" nullable="true" />
+    </entity>
+
+</doctrine-mapping>

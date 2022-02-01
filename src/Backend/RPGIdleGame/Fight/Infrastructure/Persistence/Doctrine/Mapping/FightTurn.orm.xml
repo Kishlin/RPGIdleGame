@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Kishlin\Backend\RPGIdleGame\Fight\Domain\FightTurn" table="fight_turns">
+        <id name="id" type="fight_turn_id" column="id" length="36" />
+
+        <many-to-one field="fight" target-entity="Fight" reversed-by="turns">
+            <join-column name="fight_id" referenced-column-name="id" nullable="false" unique="false" />
+        </many-to-one>
+
+        <embedded name="index" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnIndex" use-column-prefix="false" />
+
+        <field name="attackerId" type="fight_turn_attacker_id" column="attacker_id" length="36" />
+
+        <embedded name="attackerAttack" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnAttackerAttack" use-column-prefix="false" />
+
+        <embedded name="attackerMagik" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnAttackerMagik" use-column-prefix="false" />
+
+        <embedded name="attackerDiceRoll" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnAttackerDiceRoll" use-column-prefix="false" />
+
+        <embedded name="defenderDefense" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnDefenderDefense" use-column-prefix="false" />
+
+        <embedded name="damageDealt" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnDamageDealt" use-column-prefix="false" />
+
+        <embedded name="defenderHealth" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnDefenderHealth" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>
