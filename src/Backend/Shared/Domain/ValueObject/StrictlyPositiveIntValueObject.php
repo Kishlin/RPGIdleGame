@@ -8,11 +8,9 @@ use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 
 abstract class StrictlyPositiveIntValueObject extends IntValueObject
 {
-    public function __construct(int $value)
+    protected function ensureIsValid(int $value): void
     {
         $this->ensureIsStrictlyPositive($value);
-
-        parent::__construct($value);
     }
 
     private function ensureIsStrictlyPositive(int $value): void

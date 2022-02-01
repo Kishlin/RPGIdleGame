@@ -5,42 +5,18 @@ declare(strict_types=1);
 namespace Kishlin\Backend\Shared\Domain\ValueObject;
 
 use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
-use Stringable;
 
-abstract class UuidValueObject implements Stringable
+/**
+ * @method string value()
+ */
+abstract class UuidValueObject extends NullableUuidValueObject
 {
-    private const VALID_PATTERN = '\A[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}\z';
-
-    public function __construct(
-        protected readonly string $value
-    ) {
-        $this->ensureIsValid($this->value);
-    }
-
-    public function __toString(): string
+    protected function ensureIsValid(?string $value): void
     {
-        return $this->value;
-    }
-
-    public function value(): string
-    {
-        return $this->value;
-    }
-
-    public function equals(self $other): bool
-    {
-        return $other->value() === $this->value;
-    }
-
-    private function ensureIsValid(string $value): void
-    {
-        if (false === $this->isAValidUuid($value)) {
-            throw new InvalidValueException('The given value is not a valid Uuid.');
+        if (null === $value) {
+            throw new InvalidValueException('Value cannot be null.');
         }
-    }
 
-    private function isAValidUuid(string $value): bool
-    {
-        return 1 === preg_match('/' . self::VALID_PATTERN . '/Dms', $value);
+        parent::ensureIsValid($value);
     }
 }

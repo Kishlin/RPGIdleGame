@@ -31,4 +31,11 @@ final class IntValueObjectTest extends TestCase
         $shouldNotBeEqual = new class(50) extends IntValueObject {};
         self::assertFalse($reference->equals($shouldNotBeEqual));
     }
+
+    public function testItCanBeCreatedFromOtherInt(): void
+    {
+        $other = new class(42) extends IntValueObject {};
+
+        self::assertTrue($other::fromOther($other)->equals($other));
+    }
 }

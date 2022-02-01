@@ -8,8 +8,4 @@ use Kishlin\Backend\Shared\Domain\ValueObject\UuidValueObject;
 
 final class CharacterCountOwner extends UuidValueObject
 {
-    public static function fromOther(UuidValueObject $other): self
-    {
-        return new self($other->value);
-    }
 }
