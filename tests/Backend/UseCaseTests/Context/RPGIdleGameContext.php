@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
+use Behat\Behat\Context\Context;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
 use ReflectionException;
 
-abstract class RPGIdleGameContext
+abstract class RPGIdleGameContext implements Context
 {
     private static ?TestServiceContainer $container = null;
 

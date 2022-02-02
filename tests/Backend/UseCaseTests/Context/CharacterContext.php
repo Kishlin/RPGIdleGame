@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
-use Behat\Behat\Context\Context;
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
@@ -38,7 +37,7 @@ use PHPUnit\Framework\Assert;
 use ReflectionException;
 use Throwable;
 
-final class CharacterContext extends RPGIdleGameContext implements Context
+final class CharacterContext extends RPGIdleGameContext
 {
     private const CLIENT_UUID    = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
     private const STRANGER_UUID  = 'df42d3aa-10ea-4ca3-936b-2bba5ae16fe6';

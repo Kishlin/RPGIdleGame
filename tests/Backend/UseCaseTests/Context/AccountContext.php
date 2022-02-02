@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
-use Behat\Behat\Context\Context;
 use Kishlin\Backend\Account\Application\Signup\AnAccountAlreadyUsesTheEmailException;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\Account\Domain\Account;
@@ -16,7 +15,7 @@ use PHPUnit\Framework\Assert;
 use ReflectionException;
 use Throwable;
 
-final class AccountContext extends RPGIdleGameContext implements Context
+final class AccountContext extends RPGIdleGameContext
 {
     private const EMAIL_TO_USE          = 'user@example.com';
     private const NEW_ACCOUNT_UUID      = '51cefa3e-c223-469e-a23c-61a32e4bf048';
