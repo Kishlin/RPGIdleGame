@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain\View;
 
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
-use Serializable;
+use Kishlin\Backend\Shared\Domain\View\SerializableView;
 
-final class SerializableCharacterView implements Serializable
+final class SerializableCharacterView extends SerializableView
 {
     private string $id;
     private string $name;
@@ -20,13 +20,19 @@ final class SerializableCharacterView implements Serializable
     private int $rank;
     private int $fightsCount;
 
-    private function __construct()
-    {
-    }
-
     /**
-     * @return array<string, int|string>
-     * @noinspection PhpDocSignatureInspection
+     * @return array{
+     *     character_id:           string,
+     *     character_name:         string,
+     *     character_owner:        string,
+     *     character_skill_points: int,
+     *     character_health:       int,
+     *     character_attack:       int,
+     *     character_defense:      int,
+     *     character_magik:        int,
+     *     character_rank:         int,
+     *     character_fights_count: int,
+     * }
      */
     public function __serialize(): array
     {
@@ -45,7 +51,20 @@ final class SerializableCharacterView implements Serializable
     }
 
     /**
-     * @param array<string, int|string> $data
+     * @noinspection PhpDocSignatureInspection
+     *
+     * @param array{
+     *     character_id:           string,
+     *     character_name:         string,
+     *     character_owner:        string,
+     *     character_skill_points: int,
+     *     character_health:       int,
+     *     character_attack:       int,
+     *     character_defense:      int,
+     *     character_magik:        int,
+     *     character_rank:         int,
+     *     character_fights_count: int,
+     * } $data
      */
     public function __unserialize(array $data): void
     {
@@ -64,7 +83,20 @@ final class SerializableCharacterView implements Serializable
     }
 
     /**
-     * @param array<string, int|string> $source
+     * @noinspection PhpDocSignatureInspection
+     *
+     * @param array{
+     *     character_id:           string,
+     *     character_name:         string,
+     *     character_owner:        string,
+     *     character_skill_points: int,
+     *     character_health:       int,
+     *     character_attack:       int,
+     *     character_defense:      int,
+     *     character_magik:        int,
+     *     character_rank:         int,
+     *     character_fights_count: int,
+     * } $source
      */
     public static function fromSource(array $source): self
     {
@@ -79,37 +111,16 @@ final class SerializableCharacterView implements Serializable
     {
         $view = new self();
 
-        $view->__unserialize([
-            'character_id'           => $character->characterId()->value(),
-            'character_name'         => $character->characterName()->value(),
-            'character_owner'        => $character->characterOwner()->value(),
-            'character_skill_points' => $character->characterSkillPoint()->value(),
-            'character_health'       => $character->characterHealth()->value(),
-            'character_attack'       => $character->characterAttack()->value(),
-            'character_defense'      => $character->characterDefense()->value(),
-            'character_magik'        => $character->characterMagik()->value(),
-            'character_rank'         => $character->characterRank()->value(),
-            'character_fights_count' => $character->characterFightsCount()->value(),
-        ]);
-
-        return $view;
-    }
-
-    public function serialize(): string
-    {
-        $serialized = json_encode($this->__serialize());
-        assert(false !== $serialized);
-
-        return $serialized;
-    }
-
-    public function unserialize(string $data): self
-    {
-        /** @var array<string, int|string> $source */
-        $source = json_decode($data, true);
-
-        $view = new self();
-        $view->__unserialize($source);
+        $view->id          = $character->characterId()->value();
+        $view->name        = $character->characterName()->value();
+        $view->owner       = $character->characterOwner()->value();
+        $view->skillPoints = $character->characterSkillPoint()->value();
+        $view->health      = $character->characterHealth()->value();
+        $view->attack      = $character->characterAttack()->value();
+        $view->defense     = $character->characterDefense()->value();
+        $view->magik       = $character->characterMagik()->value();
+        $view->rank        = $character->characterRank()->value();
+        $view->fightsCount = $character->characterFightsCount()->value();
 
         return $view;
     }

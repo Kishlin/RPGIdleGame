@@ -18,5 +18,4 @@ parameters:
 	ignoreErrors:
 		- '#Property Kishlin\\Backend\\RPGIdleGame\\Character\\Domain\\Character::\$[\w]+ is never read, only written.#'
 		- '#Property Kishlin\\Backend\\RPGIdleGame\\Fight\\Domain\\FightTurn::\$[\w]+ is never read, only written.#'
-		- '#Property Kishlin\\Backend\\RPGIdleGame\\[\w]+\\Domain\\View\\[\w]+::\$[\w]+ \([\w]+\) does not accept#'
 		- '#Property Kishlin\\Backend\\Account\\Domain\\Account::\$[\w]+ is never read, only written.#'
