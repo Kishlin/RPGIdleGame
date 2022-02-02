@@ -28,6 +28,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
@@ -105,9 +106,10 @@ final class CharacterContext extends RPGIdleGameContext
 
         ReflectionHelper::writePropertyValue($character, 'characterSkillPoint', new CharacterSkillPoint(3000));
         ReflectionHelper::writePropertyValue($character, 'characterHealth', new CharacterHealth(80));
-        ReflectionHelper::writePropertyValue($character, 'characterAttack', new CharacterAttack(23));
-        ReflectionHelper::writePropertyValue($character, 'characterDefense', new CharacterDefense(56));
+        ReflectionHelper::writePropertyValue($character, 'characterAttack', new CharacterAttack(56));
+        ReflectionHelper::writePropertyValue($character, 'characterDefense', new CharacterDefense(23));
         ReflectionHelper::writePropertyValue($character, 'characterMagik', new CharacterMagik(34));
+        ReflectionHelper::writePropertyValue($character, 'characterRank', new CharacterRank(125));
 
         $this->addCharacterToDatabase($character);
     }
@@ -166,8 +168,8 @@ final class CharacterContext extends RPGIdleGameContext
                     characterId: self::CHARACTER_UUID,
                     requesterId: self::CLIENT_UUID,
                     healthPointsToAdd: 85,
-                    attackPointsToAdd: 35,
-                    defensePointsToAdd: 92,
+                    attackPointsToAdd: 92,
+                    defensePointsToAdd: 35,
                     magikPointsToAdd: 56,
                 )
             );
@@ -358,8 +360,8 @@ final class CharacterContext extends RPGIdleGameContext
         Assert::assertNotNull($character);
 
         Assert::assertSame(165 /* 80 + 85 */, $character->characterHealth()->value());
-        Assert::assertSame(58  /* 23 + 35 */, $character->characterAttack()->value());
-        Assert::assertSame(148 /* 56 + 92 */, $character->characterDefense()->value());
+        Assert::assertSame(148 /* 56 + 92 */, $character->characterAttack()->value());
+        Assert::assertSame(58  /* 23 + 35 */, $character->characterDefense()->value());
         Assert::assertSame(90  /* 34 + 56 */, $character->characterMagik()->value());
         Assert::assertSame(5, $character->characterSkillPoint()->value());
     }
