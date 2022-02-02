@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Kishlin\Backend\RPGIdleGame\Shared\Infrastructure\Persistence\Doctrine\EntityManagerFactory\RPGIdleGameEntityManagerFactory;
 use Kishlin\Backend\Shared\Domain\Aggregate\AggregateRoot;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * Abstract TestCase for Contract Tests of Repositories, child classes of \Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineRepository.
@@ -52,6 +53,15 @@ abstract class RepositoryContractTestCase extends TestCase
         self::entityManager()->flush();
     }
 
+    protected static function execute(string $sql): void
+    {
+        try {
+            self::entityManager()->getConnection()->executeStatement($sql);
+        } catch (Throwable $e) {
+            self::fail($e->getMessage());
+        }
+    }
+
     private static function createEntityManager(): EntityManagerInterface
     {
         try {
@@ -59,7 +69,7 @@ abstract class RepositoryContractTestCase extends TestCase
                 ['url' => $_ENV['DATABASE_URL']],
                 'test'
             );
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             self::fail('Failed to create an entity manager: ' . $e->getMessage());
         }
     }
