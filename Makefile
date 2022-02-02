@@ -111,20 +111,6 @@ frontend.sh:
 frontend.build:
 	@docker-compose exec frontend yarn run build
 
-##> Static Analysis
-
-.PHONY: phpstan php-cs-fixer php-cs-fixer.force
-
-phpstan:
-	@docker-compose exec backend php -d xdebug.mode=off \
-		/rpgidlegame/vendor/bin/phpstan analyse -c /rpgidlegame/phpstan.neon
-
-
-php-cs-fixer: DRY_RUN="--dry-run"
-php-cs-fixer php-cs-fixer.force:
-	@docker-compose exec backend php -d xdebug.mode=off \
-		/rpgidlegame/vendor/bin/php-cs-fixer fix --config=/rpgidlegame/.php-cs-fixer.php -vv ${DRY_RUN}
-
 ##> Tests
 .PHONY: tests.backend.usecases tests.backend.src.isolated tests.backend.src.contract tests.backend.src \
 		tests.backend.app.driving tests.backend.app.functional tests.backend.app.integration tests.backend.app \
@@ -187,3 +173,23 @@ tests.frontend:
 tests.backend: tests.backend.usecases tests.backend.src tests.backend.app
 
 tests: tests.backend tests.frontend
+
+##> Static Analysis
+
+.PHONY: phpstan php-cs-fixer php-cs-fixer.force complete-analysis
+
+phpstan:
+	@echo "Running PHPStan"
+	@docker-compose exec backend php -d xdebug.mode=off \
+		/rpgidlegame/vendor/bin/phpstan analyse -c /rpgidlegame/phpstan.neon
+	@echo ""
+
+
+php-cs-fixer: DRY_RUN="--dry-run"
+php-cs-fixer php-cs-fixer.force:
+	@echo "Running PHP-Cs-Fixer ${DRY_RUN}"
+	@docker-compose exec backend php -d xdebug.mode=off \
+		/rpgidlegame/vendor/bin/php-cs-fixer fix --config=/rpgidlegame/.php-cs-fixer.php -vv ${DRY_RUN}
+	@echo ""
+
+complete-analysis: tests phpstan php-cs-fixer
