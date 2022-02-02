@@ -10,6 +10,7 @@ use Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponent;
 use Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightRepository;
+use Kishlin\Backend\Shared\Domain\ValueObject\UuidValueObject;
 use Kishlin\Tests\Backend\Tools\Provider\CharacterProvider;
 use Kishlin\Tests\Backend\Tools\Provider\FightProvider;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
@@ -48,13 +49,15 @@ final class FightRepositoryTest extends RepositoryContractTestCase
     {
         try {
             $character = CharacterProvider::freshCharacter();
-            $uuid      = ReflectionHelper::propertyValue($fight->initiator(), 'characterId');
+
+            /** @var UuidValueObject $uuid */
+            $uuid = ReflectionHelper::propertyValue($fight->initiator(), 'characterId');
 
             ReflectionHelper::writePropertyValue($character, 'characterId', CharacterId::fromOther($uuid));
 
             return $character;
         } catch (ReflectionException $e) {
-            $this->fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 
@@ -62,13 +65,15 @@ final class FightRepositoryTest extends RepositoryContractTestCase
     {
         try {
             $character = CharacterProvider::freshCharacter();
-            $uuid      = ReflectionHelper::propertyValue($fight->opponent(), 'characterId');
+
+            /** @var UuidValueObject $uuid */
+            $uuid = ReflectionHelper::propertyValue($fight->opponent(), 'characterId');
 
             ReflectionHelper::writePropertyValue($character, 'characterId', CharacterId::fromOther($uuid));
 
             return $character;
         } catch (ReflectionException $e) {
-            $this->fail($e->getMessage());
+            self::fail($e->getMessage());
         }
     }
 }

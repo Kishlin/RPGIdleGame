@@ -35,9 +35,13 @@ abstract class AbstractFightParticipant
         FightParticipantMagik $magik,
         FightParticipantRank $rank,
     ): static {
+        if (false === $characterId instanceof FightParticipantCharacterId) {
+            $characterId = FightParticipantCharacterId::fromOther($characterId);
+        }
+
         return new static(
             $id,
-            FightParticipantCharacterId::fromOther($characterId),
+            $characterId,
             $health,
             $attack,
             $defense,
@@ -87,6 +91,11 @@ abstract class AbstractFightParticipant
     public function id(): FightParticipantId
     {
         return $this->id;
+    }
+
+    public function characterId(): FightParticipantCharacterId
+    {
+        return $this->characterId;
     }
 
     public function health(): FightParticipantHealth

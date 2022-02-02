@@ -19,10 +19,15 @@ final class FightParticipantProvider
 {
     public static function fightParticipant(): AbstractFightParticipant
     {
-        return self::fightInitiator('92767fcc-506f-4562-ada7-846d108a38f6', 25, 6, 3, 4, 15);
+        return self::fightInitiator();
     }
 
-    public static function fightOpponent(
+    public static function fightInitiator(): FightInitiator
+    {
+        return self::fightInitiatorWithValues('92767fcc-506f-4562-ada7-846d108a38f6', 25, 6, 3, 4, 15);
+    }
+
+    public static function fightOpponentWithValues(
         string $id,
         int $health,
         int $attack,
@@ -41,7 +46,7 @@ final class FightParticipantProvider
         );
     }
 
-    public static function fightInitiator(
+    public static function fightInitiatorWithValues(
         string $id,
         int $health,
         int $attack,

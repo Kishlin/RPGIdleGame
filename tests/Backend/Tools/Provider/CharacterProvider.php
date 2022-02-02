@@ -62,4 +62,20 @@ final class CharacterProvider
 
         return $character;
     }
+
+    /**
+     * @param array<string, object> $overrides List of fields to override, array keys are the target property names
+     *
+     * @throws ReflectionException
+     */
+    public static function customCharacter(array $overrides): Character
+    {
+        $character = self::freshCharacter();
+
+        foreach ($overrides as $property => $value) {
+            ReflectionHelper::writePropertyValue($character, $property, $value);
+        }
+
+        return $character;
+    }
 }
