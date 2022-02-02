@@ -44,7 +44,7 @@ SQL;
     }
 
     /**
-     * @throws Exception|NoOpponentAvailableException
+     * @throws Exception|FightInitiatorNotFoundException
      */
     public function createFromExternalDetailsOfInitiator(UuidValueObject $initiatorId): FightInitiator
     {

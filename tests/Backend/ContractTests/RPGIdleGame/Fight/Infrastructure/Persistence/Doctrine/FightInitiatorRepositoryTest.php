@@ -6,7 +6,9 @@ namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Fight\Infrastructure\P
 
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightInitiatorRepository;
 use Kishlin\Backend\Shared\Infrastructure\Randomness\UuidGeneratorUsingRamsey;
 use Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\Constraint\FightParticipantRepresentsTheCharacterConstraint;
@@ -20,7 +22,7 @@ use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
 final class FightInitiatorRepositoryTest extends RepositoryContractTestCase
 {
     /**
-     * @throws Exception
+     * @throws Exception|FightInitiatorNotFoundException
      */
     public function testItCanComputeAFightInitiatorFromItsExternalDetails(): void
     {
@@ -32,6 +34,17 @@ final class FightInitiatorRepositoryTest extends RepositoryContractTestCase
         $initiator  = $repository->createFromExternalDetailsOfInitiator($character->characterId());
 
         self::assertFightInitiatorRepresentsTheCharacter($character, $initiator);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testItThrowsAnExceptionWhenItDoesNotExist(): void
+    {
+        $repository = new FightInitiatorRepository(new UuidGeneratorUsingRamsey(), self::entityManager());
+
+        self::expectException(FightInitiatorNotFoundException::class);
+        $repository->createFromExternalDetailsOfInitiator(new CharacterId('f980d452-16d7-420b-9883-e247647b25d0'));
     }
 
     public static function assertFightInitiatorRepresentsTheCharacter(Character $expected, FightInitiator $actual): void
