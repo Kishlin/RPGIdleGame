@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Fight;
 
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightCommandHandler;
+use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFight\ViewFightQueryHandler;
 use Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\RandomDice;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 use Kishlin\Backend\Shared\Infrastructure\Randomness\UuidGeneratorUsingRamsey;
@@ -17,6 +18,8 @@ trait FightServicesTrait
     private ?FightParticipantGatewaySpy $fightParticipantGatewaySpy = null;
 
     private ?InitiateAFightCommandHandler $initiateAFightCommandHandler = null;
+
+    private ?ViewFightQueryHandler $viewFightQueryHandler = null;
 
     abstract public function eventDispatcher(): EventDispatcher;
 
@@ -55,5 +58,14 @@ trait FightServicesTrait
         }
 
         return $this->initiateAFightCommandHandler;
+    }
+
+    public function viewFightQueryHandler(): ViewFightQueryHandler
+    {
+        if (null === $this->viewFightQueryHandler) {
+            $this->viewFightQueryHandler = new ViewFightQueryHandler($this->fightGatewaySpy());
+        }
+
+        return $this->viewFightQueryHandler;
     }
 }

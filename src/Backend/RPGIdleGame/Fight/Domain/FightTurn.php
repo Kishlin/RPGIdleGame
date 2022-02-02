@@ -53,4 +53,44 @@ final class FightTurn
             defenderHealth: FightTurnDefenderHealth::fromOther($defender->health()),
         );
     }
+
+    public function index(): FightTurnIndex
+    {
+        return $this->index;
+    }
+
+    public function attackerId(): FightTurnAttackerId
+    {
+        return $this->attackerId;
+    }
+
+    public function attackerAttack(): FightTurnAttackerAttack
+    {
+        return $this->attackerAttack;
+    }
+
+    public function attackerMagik(): FightTurnAttackerMagik
+    {
+        return $this->attackerMagik;
+    }
+
+    public function attackerDiceRoll(): FightTurnAttackerDiceRoll
+    {
+        return $this->attackerDiceRoll;
+    }
+
+    public function defenderDefense(): FightTurnDefenderDefense
+    {
+        return $this->defenderDefense;
+    }
+
+    public function damageDealt(): FightTurnDamageDealt
+    {
+        return $this->damageDealt;
+    }
+
+    public function defenderHealth(): FightTurnDefenderHealth
+    {
+        return $this->defenderHealth;
+    }
 }

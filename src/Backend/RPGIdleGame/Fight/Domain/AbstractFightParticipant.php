@@ -118,7 +118,12 @@ abstract class AbstractFightParticipant
         return $this->magik;
     }
 
-    public function diceRollMatchesMagik(int $diceRoll): bool
+    public function rank(): FightParticipantRank
+    {
+        return $this->rank;
+    }
+
+    private function diceRollMatchesMagik(int $diceRoll): bool
     {
         return $this->magik->value() === $diceRoll;
     }
