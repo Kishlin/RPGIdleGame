@@ -3,5 +3,6 @@ default:
     use_case_tests:
       paths:    [ features ]
       contexts:
+        - Kishlin\Tests\Backend\UseCaseTests\Context\FightContext
         - Kishlin\Tests\Backend\UseCaseTests\Context\AccountContext
         - Kishlin\Tests\Backend\UseCaseTests\Context\CharacterContext

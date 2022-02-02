@@ -8,9 +8,11 @@ use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommand;
+use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightCommand;
 use Kishlin\Backend\Shared\Domain\Bus\Command\Command;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
+use RuntimeException;
 
 final class TestCommandBus implements CommandBus
 {
@@ -19,6 +21,7 @@ final class TestCommandBus implements CommandBus
     ) {
     }
 
+    /** @noinspection PhpMixedReturnTypeCanBeReducedInspection */
     public function execute(Command $command): mixed
     {
         if ($command instanceof SignupCommand) {
@@ -39,6 +42,10 @@ final class TestCommandBus implements CommandBus
             return $this->testServiceContainer->deleteCharacterHandler()($command);
         }
 
-        throw new \RuntimeException('Unknown command type: ' . get_class($command));
+        if ($command instanceof InitiateAFightCommand) {
+            return $this->testServiceContainer->initiateAFightCommandHandler()($command);
+        }
+
+        throw new RuntimeException('Unknown command type: ' . get_class($command));
     }
 }

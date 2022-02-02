@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorNotFoundException;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\NoOpponentAvailableException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantAttack;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantCharacterId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantDefense;

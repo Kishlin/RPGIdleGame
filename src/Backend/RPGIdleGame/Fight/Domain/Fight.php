@@ -53,9 +53,8 @@ final class Fight extends AggregateRoot
             $defender = $this->opponent->clone();
             $attacker = $this->initiator->clone();
 
-            $this->turns   = [];
-            $turnsIterator = new ArrayIterator($this->turns);
             $turnIndex     = new FightTurnIndex(0);
+            $turnsIterator = new ArrayIterator([]);
 
             $this->computeTurnsUntilResult($attacker, $defender, $dice, $uuidGenerator, $turnIndex, $turnsIterator);
         }
@@ -150,6 +149,7 @@ final class Fight extends AggregateRoot
             // On next turn, the defender is now the attacker and vice versa.
             $this->computeTurnsUntilResult($defender, $attacker, $dice, $uuidGenerator, $nextTurn, $turnsIterator);
         } else {
+            $this->turns = $turnsIterator->getArrayCopy();
             $this->onFightEndsWithAClearWinner($attacker, $defender);
         }
     }
