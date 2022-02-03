@@ -7,11 +7,13 @@ namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Account;
 use Kishlin\Backend\Account\Application\Signup\AccountWithEmailGateway;
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\AccountGateway;
+use Kishlin\Backend\Account\Domain\AccountReaderGateway;
+use Kishlin\Backend\Account\Domain\ReadModel\AccountDetailsForAuthentication;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use ReflectionProperty;
 
-final class AccountGatewaySpy implements AccountGateway, AccountWithEmailGateway
+final class AccountGatewaySpy implements AccountGateway, AccountWithEmailGateway, AccountReaderGateway
 {
     /** @var array<string, Account> */
     private array $accounts = [];
@@ -41,6 +43,21 @@ final class AccountGatewaySpy implements AccountGateway, AccountWithEmailGateway
         }
 
         return false;
+    }
+
+    public function readModelForAuthentication(string $usernameOrEmail): ?AccountDetailsForAuthentication
+    {
+        foreach ($this->accounts as $account) {
+            if (in_array($usernameOrEmail, [$account->email()->value(), $account->username()->value()], true)) {
+                return AccountDetailsForAuthentication::fromScalars(
+                    $account->id()->value(),
+                    $account->password()->value(),
+                    $account->email()->value(),
+                );
+            }
+        }
+
+        return null;
     }
 
     /**

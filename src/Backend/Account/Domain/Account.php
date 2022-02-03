@@ -14,7 +14,6 @@ use Kishlin\Backend\Shared\Domain\Aggregate\AggregateRoot;
 
 final class Account extends AggregateRoot
 {
-    /** @noinspection PhpPropertyOnlyWrittenInspection */
     private function __construct(
         private AccountId $id,
         private AccountUsername $username,
@@ -46,9 +45,24 @@ final class Account extends AggregateRoot
         return $this->id;
     }
 
+    public function username(): AccountUsername
+    {
+        return $this->username;
+    }
+
+    public function password(): AccountPassword
+    {
+        return $this->password;
+    }
+
     public function email(): AccountEmail
     {
         return $this->email;
+    }
+
+    public function salt(): AccountSalt
+    {
+        return $this->salt;
     }
 
     public function isActive(): AccountIsActive

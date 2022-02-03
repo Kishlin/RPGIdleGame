@@ -17,6 +17,12 @@ services:
     class: 'Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountRepository'
 
 
+  ##> AuthenticationGenerator
+
+  Kishlin\Backend\Account\Application\AuthenticationGenerator:
+    class: 'Kishlin\Backend\Account\Infrastructure\AuthenticationGeneratorUsingFirebase'
+
+
   ##> Salt
 
   Kishlin\Backend\Account\Domain\SaltGenerator:

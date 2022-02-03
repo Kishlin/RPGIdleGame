@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
+use Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommand;
+use Kishlin\Backend\Account\Application\Authenticate\AuthenticationDeniedException;
 use Kishlin\Backend\Account\Application\Signup\AnAccountAlreadyUsesTheEmailException;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\Account\Domain\Account;
@@ -12,6 +14,7 @@ use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
+use Kishlin\Backend\Account\Domain\View\SerializableAuthentication;
 use PHPUnit\Framework\Assert;
 use ReflectionException;
 use Throwable;
@@ -21,6 +24,8 @@ final class AccountContext extends RPGIdleGameContext
     private const EMAIL_TO_USE          = 'user@example.com';
     private const NEW_ACCOUNT_UUID      = '51cefa3e-c223-469e-a23c-61a32e4bf048';
     private const EXISTING_ACCOUNT_UUID = '255c03d2-4149-4fe2-b922-65ed3ce4be0e';
+
+    private ?SerializableAuthentication $authentication = null;
 
     private ?AccountId $accountId       = null;
     private ?Throwable $exceptionThrown = null;
@@ -105,5 +110,64 @@ final class AccountContext extends RPGIdleGameContext
             self::EXISTING_ACCOUNT_UUID,
             self::container()->accountGatewaySpy()->savedAccounts(),
         );
+    }
+
+    /**
+     * @When /^a client authenticates with the correct credentials$/
+     */
+    public function aClientAuthenticatesWithTheCorrectCredentials(): void
+    {
+        try {
+            $response = self::container()->commandBus()->execute(
+                AuthenticateCommand::fromScalars('User', 'password'),
+            );
+
+            assert($response instanceof SerializableAuthentication);
+
+            $this->authentication  = $response;
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+            $this->authentication  = null;
+        }
+    }
+
+    /**
+     * @Then /^the authentication was authorized$/
+     */
+    public function theAuthenticationWasAuthorized(): void
+    {
+        Assert::assertNotNull($this->authentication);
+        Assert::assertNull($this->exceptionThrown);
+    }
+
+    /**
+     * @When /^a client tries to authenticate with wrong credentials$/
+     */
+    public function aClientTriesToAuthenticateWithWrongCredentials(): void
+    {
+        try {
+            $response = self::container()->commandBus()->execute(
+                AuthenticateCommand::fromScalars('User', 'wrong'),
+            );
+
+            assert($response instanceof SerializableAuthentication);
+
+            $this->authentication  = $response;
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+            $this->authentication  = null;
+        }
+    }
+
+    /**
+     * @Then /^the authentication was refused$/
+     */
+    public function theAuthenticationWasRefused(): void
+    {
+        Assert::assertNull($this->authentication);
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(AuthenticationDeniedException::class, $this->exceptionThrown);
     }
 }

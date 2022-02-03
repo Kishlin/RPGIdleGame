@@ -47,6 +47,12 @@ services:
     tags: ['console.command']
 
 
+  ##> Security
+
+  Kishlin\Backend\Shared\Infrastructure\Security\JWTGeneratorUsingFirebase:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Security\JWTGeneratorUsingFirebase'
+
+
   ##> Time
 
   Kishlin\Backend\Shared\Domain\Time\Clock:
