@@ -36,8 +36,8 @@ final class Version20220201163853 extends AbstractMigration
         $this->addSql('ALTER TABLE fight_turns ADD CONSTRAINT FK_15531764AC6657E4 FOREIGN KEY (fight_id) REFERENCES fights (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE fights ADD CONSTRAINT FK_9927918E451BF597 FOREIGN KEY (initiator) REFERENCES fight_initiators (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE fights ADD CONSTRAINT FK_9927918EA9322AFF FOREIGN KEY (opponent) REFERENCES fight_opponents (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE fight_initiators ADD CONSTRAINT FK_INITIATOR_CHARACTER FOREIGN KEY (character_id) REFERENCES characters (character_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE fight_opponents ADD CONSTRAINT FK_OPPONENT_CHARACTER FOREIGN KEY (character_id) REFERENCES characters (character_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE fight_initiators ADD CONSTRAINT FK_INITIATOR_CHARACTER FOREIGN KEY (character_id) REFERENCES characters (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE fight_opponents ADD CONSTRAINT FK_OPPONENT_CHARACTER FOREIGN KEY (character_id) REFERENCES characters (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void

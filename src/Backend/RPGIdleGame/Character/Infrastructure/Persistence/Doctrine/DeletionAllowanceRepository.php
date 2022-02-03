@@ -18,7 +18,7 @@ final class DeletionAllowanceRepository extends DoctrineRepository implements De
     public function requesterIsTheRightfulOwner(CharacterOwner $deletionRequester, CharacterId $characterId): bool
     {
         $requesterOwnsTheCharacter = $this->entityManager->getConnection()->fetchOne(
-            'SELECT 1 FROM characters WHERE character_owner = :requester AND character_id = :characterId LIMIT 1;',
+            'SELECT 1 FROM characters WHERE owner = :requester AND id = :characterId LIMIT 1;',
             ['requester' => $deletionRequester->value(), 'characterId' => $characterId->value()],
         );
 

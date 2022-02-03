@@ -21,82 +21,45 @@ final class SerializableCharacterView extends SerializableView
     private int $fightsCount;
 
     /**
-     * @return array{
-     *     character_id:           string,
-     *     character_name:         string,
-     *     character_owner:        string,
-     *     character_skill_points: int,
-     *     character_health:       int,
-     *     character_attack:       int,
-     *     character_defense:      int,
-     *     character_magik:        int,
-     *     character_rank:         int,
-     *     character_fights_count: int,
-     * }
+     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int}
      */
     public function __serialize(): array
     {
         return [
-            'character_id'           => $this->id,
-            'character_name'         => $this->name,
-            'character_owner'        => $this->owner,
-            'character_skill_points' => $this->skillPoints,
-            'character_health'       => $this->health,
-            'character_attack'       => $this->attack,
-            'character_defense'      => $this->defense,
-            'character_magik'        => $this->magik,
-            'character_rank'         => $this->rank,
-            'character_fights_count' => $this->fightsCount,
+            'id'           => $this->id,
+            'name'         => $this->name,
+            'owner'        => $this->owner,
+            'skill_points' => $this->skillPoints,
+            'health'       => $this->health,
+            'attack'       => $this->attack,
+            'defense'      => $this->defense,
+            'magik'        => $this->magik,
+            'rank'         => $this->rank,
+            'fights_count' => $this->fightsCount,
         ];
     }
 
     /**
-     * @noinspection PhpDocSignatureInspection
-     *
-     * @param array{
-     *     character_id:           string,
-     *     character_name:         string,
-     *     character_owner:        string,
-     *     character_skill_points: int,
-     *     character_health:       int,
-     *     character_attack:       int,
-     *     character_defense:      int,
-     *     character_magik:        int,
-     *     character_rank:         int,
-     *     character_fights_count: int,
-     * } $data
+     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int} $data
      */
     public function __unserialize(array $data): void
     {
         [
-            'character_id'           => $this->id,
-            'character_name'         => $this->name,
-            'character_owner'        => $this->owner,
-            'character_skill_points' => $this->skillPoints,
-            'character_health'       => $this->health,
-            'character_attack'       => $this->attack,
-            'character_defense'      => $this->defense,
-            'character_magik'        => $this->magik,
-            'character_rank'         => $this->rank,
-            'character_fights_count' => $this->fightsCount,
+            'id'           => $this->id,
+            'name'         => $this->name,
+            'owner'        => $this->owner,
+            'skill_points' => $this->skillPoints,
+            'health'       => $this->health,
+            'attack'       => $this->attack,
+            'defense'      => $this->defense,
+            'magik'        => $this->magik,
+            'rank'         => $this->rank,
+            'fights_count' => $this->fightsCount,
         ] = $data;
     }
 
     /**
-     * @noinspection PhpDocSignatureInspection
-     *
-     * @param array{
-     *     character_id:           string,
-     *     character_name:         string,
-     *     character_owner:        string,
-     *     character_skill_points: int,
-     *     character_health:       int,
-     *     character_attack:       int,
-     *     character_defense:      int,
-     *     character_magik:        int,
-     *     character_rank:         int,
-     *     character_fights_count: int,
-     * } $source
+     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int} $source
      */
     public static function fromSource(array $source): self
     {
@@ -111,16 +74,16 @@ final class SerializableCharacterView extends SerializableView
     {
         $view = new self();
 
-        $view->id          = $character->characterId()->value();
-        $view->name        = $character->characterName()->value();
-        $view->owner       = $character->characterOwner()->value();
-        $view->skillPoints = $character->characterSkillPoint()->value();
-        $view->health      = $character->characterHealth()->value();
-        $view->attack      = $character->characterAttack()->value();
-        $view->defense     = $character->characterDefense()->value();
-        $view->magik       = $character->characterMagik()->value();
-        $view->rank        = $character->characterRank()->value();
-        $view->fightsCount = $character->characterFightsCount()->value();
+        $view->id          = $character->id()->value();
+        $view->name        = $character->name()->value();
+        $view->owner       = $character->owner()->value();
+        $view->skillPoints = $character->skillPoint()->value();
+        $view->health      = $character->health()->value();
+        $view->attack      = $character->attack()->value();
+        $view->defense     = $character->defense()->value();
+        $view->magik       = $character->magik()->value();
+        $view->rank        = $character->rank()->value();
+        $view->fightsCount = $character->fightsCount()->value();
 
         return $view;
     }

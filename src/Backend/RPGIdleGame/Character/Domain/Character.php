@@ -15,7 +15,6 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRestingUntil;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint;
 use Kishlin\Backend\Shared\Domain\Aggregate\AggregateRoot;
 use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
@@ -23,29 +22,28 @@ use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
 final class Character extends AggregateRoot
 {
     private function __construct(
-        private CharacterId $characterId,
-        private CharacterName $characterName,
-        private CharacterOwner $characterOwner,
-        private CharacterSkillPoint $characterSkillPoint,
-        private CharacterHealth $characterHealth,
-        private CharacterAttack $characterAttack,
-        private CharacterDefense $characterDefense,
-        private CharacterMagik $characterMagik,
-        private CharacterRank $characterRank,
-        private CharacterFightsCount $characterFightsCount,
-        private ?CharacterRestingUntil $characterRestingUntil,
+        private CharacterId $id,
+        private CharacterName $name,
+        private CharacterOwner $owner,
+        private CharacterSkillPoint $skillPoint,
+        private CharacterHealth $health,
+        private CharacterAttack $attack,
+        private CharacterDefense $defense,
+        private CharacterMagik $magik,
+        private CharacterRank $rank,
+        private CharacterFightsCount $fightsCount,
     ) {
     }
 
     public static function createFresh(
-        CharacterId $characterId,
-        CharacterName $characterName,
-        CharacterOwner $characterOwner,
+        CharacterId $id,
+        CharacterName $name,
+        CharacterOwner $owner,
     ): self {
         $character = new self(
-            $characterId,
-            $characterName,
-            $characterOwner,
+            $id,
+            $name,
+            $owner,
             new CharacterSkillPoint(12),
             new CharacterHealth(10),
             new CharacterAttack(0),
@@ -53,10 +51,9 @@ final class Character extends AggregateRoot
             new CharacterMagik(0),
             new CharacterRank(1),
             new CharacterFightsCount(0),
-            null,
         );
 
-        $character->record(new CharacterCreatedDomainEvent($characterId, $characterOwner));
+        $character->record(new CharacterCreatedDomainEvent($id, $owner));
 
         return $character;
     }
@@ -74,8 +71,8 @@ final class Character extends AggregateRoot
 
         $costInSkillPoints = $healthPointsToAdd;
 
-        $this->characterSkillPoint = $this->characterSkillPoint->removeSkillPoints($costInSkillPoints);
-        $this->characterHealth     = $this->characterHealth->addHealthPoints($healthPointsToAdd);
+        $this->skillPoint = $this->skillPoint->removeSkillPoints($costInSkillPoints);
+        $this->health     = $this->health->addHealthPoints($healthPointsToAdd);
     }
 
     /**
@@ -86,13 +83,13 @@ final class Character extends AggregateRoot
         $this->refuseTheAmountIfItIsNegative($attackPointsToAdd);
 
         for ($i = $attackPointsToAdd; $i > 0; --$i) {
-            $costInSkillPoints = 0 < $this->characterAttack->value() ?
-                (int) (ceil($this->characterAttack->value() / 5)) :
+            $costInSkillPoints = 0 < $this->attack->value() ?
+                (int) (ceil($this->attack->value() / 5)) :
                 1
             ;
 
-            $this->characterSkillPoint = $this->characterSkillPoint->removeSkillPoints($costInSkillPoints);
-            $this->characterAttack     = $this->characterAttack->addAttackPoints(1);
+            $this->skillPoint = $this->skillPoint->removeSkillPoints($costInSkillPoints);
+            $this->attack     = $this->attack->addAttackPoints(1);
         }
     }
 
@@ -104,13 +101,13 @@ final class Character extends AggregateRoot
         $this->refuseTheAmountIfItIsNegative($defensePointsToAdd);
 
         for ($i = $defensePointsToAdd; $i > 0; --$i) {
-            $costInSkillPoints = 0 < $this->characterDefense->value() ?
-                (int) (ceil($this->characterDefense->value() / 5)) :
+            $costInSkillPoints = 0 < $this->defense->value() ?
+                (int) (ceil($this->defense->value() / 5)) :
                 1
             ;
 
-            $this->characterSkillPoint = $this->characterSkillPoint->removeSkillPoints($costInSkillPoints);
-            $this->characterDefense    = $this->characterDefense->addDefensePoints(1);
+            $this->skillPoint = $this->skillPoint->removeSkillPoints($costInSkillPoints);
+            $this->defense    = $this->defense->addDefensePoints(1);
         }
     }
 
@@ -122,64 +119,64 @@ final class Character extends AggregateRoot
         $this->refuseTheAmountIfItIsNegative($magikPointsToAdd);
 
         for ($i = $magikPointsToAdd; $i > 0; --$i) {
-            $costInSkillPoints = 0 < $this->characterMagik->value() ?
-                (int) (ceil($this->characterMagik->value() / 5)) :
+            $costInSkillPoints = 0 < $this->magik->value() ?
+                (int) (ceil($this->magik->value() / 5)) :
                 1
             ;
 
-            $this->characterSkillPoint = $this->characterSkillPoint->removeSkillPoints($costInSkillPoints);
-            $this->characterMagik      = $this->characterMagik->addMagikPoints(1);
+            $this->skillPoint = $this->skillPoint->removeSkillPoints($costInSkillPoints);
+            $this->magik      = $this->magik->addMagikPoints(1);
         }
     }
 
-    public function characterId(): CharacterId
+    public function id(): CharacterId
     {
-        return $this->characterId;
+        return $this->id;
     }
 
-    public function characterName(): CharacterName
+    public function name(): CharacterName
     {
-        return $this->characterName;
+        return $this->name;
     }
 
-    public function characterOwner(): CharacterOwner
+    public function owner(): CharacterOwner
     {
-        return $this->characterOwner;
+        return $this->owner;
     }
 
-    public function characterSkillPoint(): CharacterSkillPoint
+    public function skillPoint(): CharacterSkillPoint
     {
-        return $this->characterSkillPoint;
+        return $this->skillPoint;
     }
 
-    public function characterHealth(): CharacterHealth
+    public function health(): CharacterHealth
     {
-        return $this->characterHealth;
+        return $this->health;
     }
 
-    public function characterAttack(): CharacterAttack
+    public function attack(): CharacterAttack
     {
-        return $this->characterAttack;
+        return $this->attack;
     }
 
-    public function characterDefense(): CharacterDefense
+    public function defense(): CharacterDefense
     {
-        return $this->characterDefense;
+        return $this->defense;
     }
 
-    public function characterMagik(): CharacterMagik
+    public function magik(): CharacterMagik
     {
-        return $this->characterMagik;
+        return $this->magik;
     }
 
-    public function characterRank(): CharacterRank
+    public function rank(): CharacterRank
     {
-        return $this->characterRank;
+        return $this->rank;
     }
 
-    public function characterFightsCount(): CharacterFightsCount
+    public function fightsCount(): CharacterFightsCount
     {
-        return $this->characterFightsCount;
+        return $this->fightsCount;
     }
 
     /**

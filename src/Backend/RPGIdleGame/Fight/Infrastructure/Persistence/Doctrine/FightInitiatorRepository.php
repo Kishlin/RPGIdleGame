@@ -24,14 +24,14 @@ final class FightInitiatorRepository extends DoctrineRepository implements Fight
 {
     private const QUERY = <<<'SQL'
 SELECT
-       character_id,
-       character_health,
-       character_attack,
-       character_defense,
-       character_magik,
-       character_rank
+       id as character_id,
+       health as character_health,
+       attack as character_attack,
+       defense as character_defense,
+       magik as character_magik,
+       rank as character_rank
 FROM characters
-WHERE character_id = :id
+WHERE id = :id
 LIMIT 1
 SQL;
 

@@ -33,7 +33,7 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
 
         $repository = new CharacterViewRepository(self::entityManager());
 
-        $view = $repository->viewOneById($character->characterId()->value(), $character->characterOwner()->value());
+        $view = $repository->viewOneById($character->id()->value(), $character->owner()->value());
 
         self::assertInstanceOf(SerializableCharacterView::class, $view);
     }
@@ -49,7 +49,7 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
         $repository = new CharacterViewRepository(self::entityManager());
 
         self::expectException(CharacterNotFoundException::class);
-        $repository->viewOneById($character->characterId()->value(), 'invalid-owner');
+        $repository->viewOneById($character->id()->value(), 'invalid-owner');
     }
 
     /**
@@ -72,11 +72,11 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
 
         self::assertCount(2, $characterViewsForOwnerOne);
         self::assertSame(
-            $characterOneOfOwnerOne->characterId()->value(),
+            $characterOneOfOwnerOne->id()->value(),
             ReflectionHelper::propertyValue($characterViewsForOwnerOne[0], 'id'),
         );
         self::assertSame(
-            $characterTwoOfOwnerOne->characterId()->value(),
+            $characterTwoOfOwnerOne->id()->value(),
             ReflectionHelper::propertyValue($characterViewsForOwnerOne[1], 'id'),
         );
 
@@ -84,7 +84,7 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
 
         self::assertCount(1, $characterViewsForOwnerTwo);
         self::assertSame(
-            $characterOneOfOwnerTwo->characterId()->value(),
+            $characterOneOfOwnerTwo->id()->value(),
             ReflectionHelper::propertyValue($characterViewsForOwnerTwo[0], 'id'),
         );
     }

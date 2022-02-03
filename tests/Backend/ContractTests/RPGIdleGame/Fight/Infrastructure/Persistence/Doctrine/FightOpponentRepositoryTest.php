@@ -46,7 +46,7 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
         self::loadFixtures($initiator);
 
         self::expectException(NoOpponentAvailableException::class);
-        $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->characterId());
+        $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->id());
     }
 
     /**
@@ -60,7 +60,7 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
 
         self::loadFixtures($initiator, $other);
 
-        $opponent = $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->characterId());
+        $opponent = $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->id());
 
         self::assertFightOpponentRepresentsTheCharacter($other, $opponent);
     }
@@ -78,7 +78,7 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
 
         self::loadFixtures($initiator, $otherWithDistantRank, $otherWithCloseRank);
 
-        $opponent = $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->characterId());
+        $opponent = $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->id());
 
         self::assertFightOpponentRepresentsTheCharacter($otherWithCloseRank, $opponent);
     }
@@ -97,7 +97,7 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
         self::loadFixtures($initiator, $otherWhoFoughtInitiatorTwice, $otherWhoFoughtInitiatorOnce);
         self::loadFixtures(...$this->fights($initiator, $otherWhoFoughtInitiatorTwice, $otherWhoFoughtInitiatorOnce));
 
-        $opponent = $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->characterId());
+        $opponent = $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->id());
 
         self::assertFightOpponentRepresentsTheCharacter($otherWhoFoughtInitiatorOnce, $opponent);
     }
@@ -111,7 +111,7 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
     {
         try {
             return CharacterProvider::customCharacter([
-                'characterId' => new CharacterId($uuid),
+                'id' => new CharacterId($uuid),
             ]);
         } catch (ReflectionException $e) {
             self::fail($e->getMessage());
@@ -122,8 +122,8 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
     {
         try {
             return CharacterProvider::customCharacter([
-                'characterId'   => new CharacterId('3eda1c23-e562-4e75-be34-53557656902f'),
-                'characterRank' => new CharacterRank(13),
+                'id'   => new CharacterId('3eda1c23-e562-4e75-be34-53557656902f'),
+                'rank' => new CharacterRank(13),
             ]);
         } catch (ReflectionException $e) {
             self::fail($e->getMessage());
@@ -134,8 +134,8 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
     {
         try {
             return CharacterProvider::customCharacter([
-                'characterId'   => new CharacterId('4ee1dccc-96dc-42e3-9330-d4b07002cf0c'),
-                'characterRank' => new CharacterRank(20),
+                'id'   => new CharacterId('4ee1dccc-96dc-42e3-9330-d4b07002cf0c'),
+                'rank' => new CharacterRank(20),
             ]);
         } catch (ReflectionException $e) {
             self::fail($e->getMessage());
@@ -169,26 +169,26 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
     private static function fightInitiator(Character $character): FightInitiator
     {
         return FightInitiator::create(
-            $character->characterId(),
+            $character->id(),
             new FightParticipantId(self::uuidGenerator()->uuid4()),
-            new FightParticipantHealth($character->characterHealth()->value()),
-            new FightParticipantAttack($character->characterAttack()->value()),
-            new FightParticipantDefense($character->characterDefense()->value()),
-            new FightParticipantMagik($character->characterMagik()->value()),
-            new FightParticipantRank($character->characterRank()->value()),
+            new FightParticipantHealth($character->health()->value()),
+            new FightParticipantAttack($character->attack()->value()),
+            new FightParticipantDefense($character->defense()->value()),
+            new FightParticipantMagik($character->magik()->value()),
+            new FightParticipantRank($character->rank()->value()),
         );
     }
 
     private static function fightOpponent(Character $character): FightOpponent
     {
         return FightOpponent::create(
-            $character->characterId(),
+            $character->id(),
             new FightParticipantId(self::uuidGenerator()->uuid4()),
-            new FightParticipantHealth($character->characterHealth()->value()),
-            new FightParticipantAttack($character->characterAttack()->value()),
-            new FightParticipantDefense($character->characterDefense()->value()),
-            new FightParticipantMagik($character->characterMagik()->value()),
-            new FightParticipantRank($character->characterRank()->value()),
+            new FightParticipantHealth($character->health()->value()),
+            new FightParticipantAttack($character->attack()->value()),
+            new FightParticipantDefense($character->defense()->value()),
+            new FightParticipantMagik($character->magik()->value()),
+            new FightParticipantRank($character->rank()->value()),
         );
     }
 

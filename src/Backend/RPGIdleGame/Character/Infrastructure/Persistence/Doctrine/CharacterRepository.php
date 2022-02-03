@@ -21,19 +21,19 @@ final class CharacterRepository extends DoctrineRepository implements CharacterG
     public function delete(CharacterId $characterId): void
     {
         $this->entityManager->getConnection()->executeQuery(
-            'DELETE FROM characters WHERE character_id = :id;',
+            'DELETE FROM characters WHERE id = :id;',
             ['id' => $characterId->value()],
         );
     }
 
     public function findOneById(CharacterId $characterId): ?Character
     {
-        return $this->entityManager->getRepository(Character::class)->findOneBy(['characterId' => $characterId]);
+        return $this->entityManager->getRepository(Character::class)->findOneBy(['id' => $characterId]);
     }
 
     public function findOneByIdAndOwner(CharacterId $characterId, CharacterOwner $requester): ?Character
     {
-        $criteria = ['characterId' => $characterId, 'characterOwner' => $requester];
+        $criteria = ['id' => $characterId, 'owner' => $requester];
 
         return $this->entityManager->getRepository(Character::class)->findOneBy($criteria);
     }

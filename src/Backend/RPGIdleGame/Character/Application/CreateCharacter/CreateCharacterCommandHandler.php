@@ -38,6 +38,6 @@ final class CreateCharacterCommandHandler implements CommandHandler
 
         $this->eventDispatcher->dispatch(...$character->pullDomainEvents());
 
-        return $character->characterId();
+        return $character->id();
     }
 }

@@ -104,12 +104,12 @@ final class CharacterContext extends RPGIdleGameContext
             new CharacterOwner(self::CLIENT_UUID),
         );
 
-        ReflectionHelper::writePropertyValue($character, 'characterSkillPoint', new CharacterSkillPoint(3000));
-        ReflectionHelper::writePropertyValue($character, 'characterHealth', new CharacterHealth(80));
-        ReflectionHelper::writePropertyValue($character, 'characterAttack', new CharacterAttack(56));
-        ReflectionHelper::writePropertyValue($character, 'characterDefense', new CharacterDefense(23));
-        ReflectionHelper::writePropertyValue($character, 'characterMagik', new CharacterMagik(34));
-        ReflectionHelper::writePropertyValue($character, 'characterRank', new CharacterRank(125));
+        ReflectionHelper::writePropertyValue($character, 'skillPoint', new CharacterSkillPoint(3000));
+        ReflectionHelper::writePropertyValue($character, 'health', new CharacterHealth(80));
+        ReflectionHelper::writePropertyValue($character, 'attack', new CharacterAttack(56));
+        ReflectionHelper::writePropertyValue($character, 'defense', new CharacterDefense(23));
+        ReflectionHelper::writePropertyValue($character, 'magik', new CharacterMagik(34));
+        ReflectionHelper::writePropertyValue($character, 'rank', new CharacterRank(125));
 
         $this->addCharacterToDatabase($character);
     }
@@ -359,11 +359,11 @@ final class CharacterContext extends RPGIdleGameContext
         $character = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::CHARACTER_UUID));
         Assert::assertNotNull($character);
 
-        Assert::assertSame(165 /* 80 + 85 */, $character->characterHealth()->value());
-        Assert::assertSame(148 /* 56 + 92 */, $character->characterAttack()->value());
-        Assert::assertSame(58  /* 23 + 35 */, $character->characterDefense()->value());
-        Assert::assertSame(90  /* 34 + 56 */, $character->characterMagik()->value());
-        Assert::assertSame(5, $character->characterSkillPoint()->value());
+        Assert::assertSame(165 /* 80 + 85 */, $character->health()->value());
+        Assert::assertSame(148 /* 56 + 92 */, $character->attack()->value());
+        Assert::assertSame(58  /* 23 + 35 */, $character->defense()->value());
+        Assert::assertSame(90  /* 34 + 56 */, $character->magik()->value());
+        Assert::assertSame(5, $character->skillPoint()->value());
     }
 
     /**

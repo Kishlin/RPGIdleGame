@@ -15,16 +15,16 @@ use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\Doctri
 final class FightViewRepository extends DoctrineRepository implements FightViewGateway
 {
     private const ALL_FIGHTS_FOR_FIGHTER_QUERY = <<<'SQL'
-SELECT fights.id, fights.winner_id, initiators.character_name as initiator_name, fight_initiators.rank as initiator_rank, opponents.character_name as opponent_name, fight_opponents.rank as opponent_rank
+SELECT fights.id, fights.winner_id, initiators.name as initiator_name, fight_initiators.rank as initiator_rank, opponents.name as opponent_name, fight_opponents.rank as opponent_rank
 FROM fights
 LEFT JOIN fight_initiators ON fight_initiators.id = fights.initiator
 LEFT JOIN fight_opponents ON fight_opponents.id = fights.opponent
-LEFT JOIN characters opponents ON opponents.character_id = fight_opponents.character_id
-LEFT JOIN characters initiators ON initiators.character_id = fight_initiators.character_id
+LEFT JOIN characters opponents ON opponents.id = fight_opponents.character_id
+LEFT JOIN characters initiators ON initiators.id = fight_initiators.character_id
 WHERE (
-    opponents.character_owner = :requester_id AND opponents.character_id = :fighter_id
+    opponents.owner = :requester_id AND opponents.id = :fighter_id
 ) OR (
-    initiators.character_owner = :requester_id AND initiators.character_id = :fighter_id
+    initiators.owner = :requester_id AND initiators.id = :fighter_id
 )
 ;
 SQL;
@@ -32,32 +32,32 @@ SQL;
     private const FIGHT_QUERY = <<<'SQL'
 SELECT fights.id, fights.winner_id
 FROM characters
-LEFT JOIN fight_initiators ON fight_initiators.character_id = characters.character_id
-LEFT JOIN fight_opponents ON fight_opponents.character_id = characters.character_id
+LEFT JOIN fight_initiators ON fight_initiators.character_id = characters.id
+LEFT JOIN fight_opponents ON fight_opponents.character_id = characters.id
 LEFT JOIN fights ON fights.initiator = fight_initiators.id OR fights.opponent = fight_opponents.id
-WHERE characters.character_owner = :requester_id
+WHERE characters.owner = :requester_id
 AND fights.id = :fight_id
 LIMIT 1
 ;
 SQL;
 
     private const INITIATOR_QUERY = <<<'SQL'
-SELECT accounts.username as account_username, characters.character_name, fight_initiators.health, fight_initiators.attack, fight_initiators.defense, fight_initiators.magik , fight_initiators.rank
+SELECT accounts.username as account_username, characters.name as character_name, fight_initiators.health, fight_initiators.attack, fight_initiators.defense, fight_initiators.magik , fight_initiators.rank
 FROM fights
 LEFT JOIN fight_initiators ON fight_initiators.id = fights.initiator
-LEFT JOIN characters ON characters.character_id = fight_initiators.character_id
-LEFT JOIN accounts ON characters.character_owner = accounts.id
+LEFT JOIN characters ON characters.id = fight_initiators.character_id
+LEFT JOIN accounts ON characters.owner = accounts.id
 WHERE fights.id = :fight_id
 LIMIT 1
 ;
 SQL;
 
     private const OPPONENT_QUERY = <<<'SQL'
-SELECT accounts.username as account_username, characters.character_name, fight_opponents.health, fight_opponents.attack, fight_opponents.defense, fight_opponents.magik , fight_opponents.rank
+SELECT accounts.username as account_username, characters.name as character_name, fight_opponents.health, fight_opponents.attack, fight_opponents.defense, fight_opponents.magik , fight_opponents.rank
 FROM fights
 LEFT JOIN fight_opponents ON fight_opponents.id = fights.opponent
-LEFT JOIN characters ON characters.character_id = fight_opponents.character_id
-LEFT JOIN accounts ON characters.character_owner = accounts.id
+LEFT JOIN characters ON characters.id = fight_opponents.character_id
+LEFT JOIN accounts ON characters.owner = accounts.id
 WHERE fights.id = :fight_id
 LIMIT 1
 ;
@@ -67,15 +67,15 @@ SQL;
 SELECT CASE
     WHEN index % 2 = 0
         THEN (
-            SELECT character_name
+            SELECT name
             FROM characters
-            LEFT JOIN fight_initiators ON fight_initiators.character_id = characters.character_id
+            LEFT JOIN fight_initiators ON fight_initiators.character_id = characters.id
             WHERE fight_initiators.id = fight_turns.attacker_id
         )
         ELSE (
-            SELECT character_name
+            SELECT name
             FROM characters
-            LEFT JOIN fight_opponents ON fight_opponents.character_id = characters.character_id
+            LEFT JOIN fight_opponents ON fight_opponents.character_id = characters.id
             WHERE fight_opponents.id = fight_turns.attacker_id
         )
     END

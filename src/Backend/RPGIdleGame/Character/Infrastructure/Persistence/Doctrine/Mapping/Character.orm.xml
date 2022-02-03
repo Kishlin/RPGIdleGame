@@ -5,25 +5,25 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="Kishlin\Backend\RPGIdleGame\Character\Domain\Character" table="characters">
-        <id name="characterId" type="character_id" column="character_id" length="36" />
+        <id name="id" type="character_id" column="id" length="36" />
 
-        <embedded name="characterName" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName" use-column-prefix="false" />
+        <embedded name="name" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName" use-column-prefix="false" />
 
-        <field name="characterOwner" type="character_owner" column="character_owner" length="36" />
+        <field name="owner" type="character_owner" column="owner" length="36" />
 
-        <embedded name="characterSkillPoint" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint" use-column-prefix="false" />
+        <embedded name="skillPoint" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint" use-column-prefix="false" />
 
-        <embedded name="characterHealth" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth" use-column-prefix="false" />
+        <embedded name="health" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth" use-column-prefix="false" />
 
-        <embedded name="characterAttack" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack" use-column-prefix="false" />
+        <embedded name="attack" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack" use-column-prefix="false" />
 
-        <embedded name="characterDefense" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense" use-column-prefix="false" />
+        <embedded name="defense" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense" use-column-prefix="false" />
 
-        <embedded name="characterMagik" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik" use-column-prefix="false" />
+        <embedded name="magik" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik" use-column-prefix="false" />
 
-        <embedded name="characterRank" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank" use-column-prefix="false" />
+        <embedded name="rank" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank" use-column-prefix="false" />
 
-        <embedded name="characterFightsCount" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterFightsCount" use-column-prefix="false" />
+        <embedded name="fightsCount" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterFightsCount" use-column-prefix="false" />
 
 </entity>
 

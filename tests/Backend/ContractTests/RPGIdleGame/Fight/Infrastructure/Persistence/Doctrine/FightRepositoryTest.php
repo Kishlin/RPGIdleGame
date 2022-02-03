@@ -53,7 +53,7 @@ final class FightRepositoryTest extends RepositoryContractTestCase
             /** @var UuidValueObject $uuid */
             $uuid = ReflectionHelper::propertyValue($fight->initiator(), 'characterId');
 
-            ReflectionHelper::writePropertyValue($character, 'characterId', CharacterId::fromOther($uuid));
+            ReflectionHelper::writePropertyValue($character, 'id', CharacterId::fromOther($uuid));
 
             return $character;
         } catch (ReflectionException $e) {
@@ -69,7 +69,7 @@ final class FightRepositoryTest extends RepositoryContractTestCase
             /** @var UuidValueObject $uuid */
             $uuid = ReflectionHelper::propertyValue($fight->opponent(), 'characterId');
 
-            ReflectionHelper::writePropertyValue($character, 'characterId', CharacterId::fromOther($uuid));
+            ReflectionHelper::writePropertyValue($character, 'id', CharacterId::fromOther($uuid));
 
             return $character;
         } catch (ReflectionException $e) {

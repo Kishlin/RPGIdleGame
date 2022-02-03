@@ -18,21 +18,10 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView
     {
         /**
-         * @var false|array{
-         *     character_id:           string,
-         *     character_name:         string,
-         *     character_owner:        string,
-         *     character_skill_points: int,
-         *     character_health:       int,
-         *     character_attack:       int,
-         *     character_defense:      int,
-         *     character_magik:        int,
-         *     character_rank:         int,
-         *     character_fights_count: int,
-         * } $data
+         * @var array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int}|false $data
          */
         $data = $this->entityManager->getConnection()->fetchAssociative(
-            'SELECT * from characters WHERE character_id = :id AND character_owner = :owner',
+            'SELECT * from characters WHERE id = :id AND owner = :owner',
             ['id' => $characterId, 'owner' => $requesterId],
         );
 
@@ -51,21 +40,10 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     public function viewAllForOwner(string $ownerUuid): array
     {
         /**
-         * @var false|array{
-         *     character_id:           string,
-         *     character_name:         string,
-         *     character_owner:        string,
-         *     character_skill_points: int,
-         *     character_health:       int,
-         *     character_attack:       int,
-         *     character_defense:      int,
-         *     character_magik:        int,
-         *     character_rank:         int,
-         *     character_fights_count: int,
-         * }[] $data
+         * @var array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int}>|false $data
          */
         $data = $this->entityManager->getConnection()->fetchAllAssociative(
-            'SELECT * from characters WHERE character_owner = :owner',
+            'SELECT * from characters WHERE owner = :owner',
             ['owner' => $ownerUuid],
         );
 

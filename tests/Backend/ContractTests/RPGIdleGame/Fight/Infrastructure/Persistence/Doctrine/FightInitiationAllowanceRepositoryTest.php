@@ -31,8 +31,8 @@ final class FightInitiationAllowanceRepositoryTest extends RepositoryContractTes
 
         self::assertTrue(
             $repository->requesterIsAllowedToFightWithFighter(
-                requesterId: FightRequesterId::fromOther($character->characterOwner()),
-                fighterId: FighterId::fromOther($character->characterId()),
+                requesterId: FightRequesterId::fromOther($character->owner()),
+                fighterId: FighterId::fromOther($character->id()),
             )
         );
     }
@@ -52,7 +52,7 @@ final class FightInitiationAllowanceRepositoryTest extends RepositoryContractTes
         self::assertFalse(
             $repository->requesterIsAllowedToFightWithFighter(
                 requesterId: FightRequesterId::fromOther($stranger),
-                fighterId: FighterId::fromOther($character->characterId()),
+                fighterId: FighterId::fromOther($character->id()),
             )
         );
     }

@@ -18,7 +18,7 @@ final class FightParticipantRepresentsTheCharacterConstraint extends Constraint
 
     public function toString(): string
     {
-        return 'represents the character of id ' . $this->character->characterId()->value();
+        return 'represents the character of id ' . $this->character->id()->value();
     }
 
     /**
@@ -32,11 +32,11 @@ final class FightParticipantRepresentsTheCharacterConstraint extends Constraint
     {
         return $participant instanceof AbstractFightParticipant
             && $participant->id() instanceof FightParticipantId
-            && $participant->characterId()->equals($this->character->characterId())
-            && $participant->health()->equals($this->character->characterHealth())
-            && $participant->attack()->equals($this->character->characterAttack())
-            && $participant->magik()->equals($this->character->characterMagik())
-            && $participant->defense()->equals($this->character->characterDefense())
+            && $participant->characterId()->equals($this->character->id())
+            && $participant->health()->equals($this->character->health())
+            && $participant->attack()->equals($this->character->attack())
+            && $participant->magik()->equals($this->character->magik())
+            && $participant->defense()->equals($this->character->defense())
         ;
     }
 }

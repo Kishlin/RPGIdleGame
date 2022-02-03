@@ -43,13 +43,13 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character->increaseHealthBy(1);
 
-        self::assertSame(6 /* 5 + 1 */, $character->characterHealth()->value());
-        self::assertSame(99 /* 100 - 1 */, $character->characterSkillPoint()->value());
+        self::assertSame(6 /* 5 + 1 */, $character->health()->value());
+        self::assertSame(99 /* 100 - 1 */, $character->skillPoint()->value());
 
         $character->increaseHealthBy(60);
 
-        self::assertSame(66 /* 6 + 60 */, $character->characterHealth()->value());
-        self::assertSame(39 /* 99 - 60 */, $character->characterSkillPoint()->value());
+        self::assertSame(66 /* 6 + 60 */, $character->health()->value());
+        self::assertSame(39 /* 99 - 60 */, $character->skillPoint()->value());
     }
 
     /**
@@ -61,8 +61,8 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character->increaseAttackBy(1);
 
-        self::assertSame(1, $character->characterAttack()->value());
-        self::assertSame(9 /* 10 - 1 */, $character->characterSkillPoint()->value());
+        self::assertSame(1, $character->attack()->value());
+        self::assertSame(9 /* 10 - 1 */, $character->skillPoint()->value());
     }
 
     /**
@@ -74,18 +74,18 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character->increaseAttackBy(1);
 
-        self::assertSame(11, $character->characterAttack()->value());
-        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->characterSkillPoint()->value());
+        self::assertSame(11, $character->attack()->value());
+        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->skillPoint()->value());
 
         $character->increaseAttackBy(1);
 
-        self::assertSame(12, $character->characterAttack()->value());
-        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->characterSkillPoint()->value());
+        self::assertSame(12, $character->attack()->value());
+        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->skillPoint()->value());
 
         $character->increaseAttackBy(20);
 
-        self::assertSame(32, $character->characterAttack()->value());
-        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->characterSkillPoint()->value());
+        self::assertSame(32, $character->attack()->value());
+        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->skillPoint()->value());
 
         self::expectException(NotEnoughSkillPointsException::class);
         $character->increaseAttackBy(1); // Would cost 7, but it has 1 skill point
@@ -100,8 +100,8 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character->increaseDefenseBy(1);
 
-        self::assertSame(1, $character->characterDefense()->value());
-        self::assertSame(9 /* 10 - 1 */, $character->characterSkillPoint()->value());
+        self::assertSame(1, $character->defense()->value());
+        self::assertSame(9 /* 10 - 1 */, $character->skillPoint()->value());
     }
 
     /**
@@ -113,18 +113,18 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character->increaseDefenseBy(1);
 
-        self::assertSame(11, $character->characterDefense()->value());
-        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->characterSkillPoint()->value());
+        self::assertSame(11, $character->defense()->value());
+        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->skillPoint()->value());
 
         $character->increaseDefenseBy(1);
 
-        self::assertSame(12, $character->characterDefense()->value());
-        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->characterSkillPoint()->value());
+        self::assertSame(12, $character->defense()->value());
+        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->skillPoint()->value());
 
         $character->increaseDefenseBy(20);
 
-        self::assertSame(32, $character->characterDefense()->value());
-        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->characterSkillPoint()->value());
+        self::assertSame(32, $character->defense()->value());
+        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->skillPoint()->value());
 
         self::expectException(NotEnoughSkillPointsException::class);
         $character->increaseDefenseBy(1); // Would cost 7, but it has 1 skill point
@@ -139,8 +139,8 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character->increaseMagikBy(1);
 
-        self::assertSame(1, $character->characterMagik()->value());
-        self::assertSame(9 /* 10 - 1 */, $character->characterSkillPoint()->value());
+        self::assertSame(1, $character->magik()->value());
+        self::assertSame(9 /* 10 - 1 */, $character->skillPoint()->value());
     }
 
     /**
@@ -152,18 +152,18 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character->increaseMagikBy(1);
 
-        self::assertSame(11, $character->characterMagik()->value());
-        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->characterSkillPoint()->value());
+        self::assertSame(11, $character->magik()->value());
+        self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->skillPoint()->value());
 
         $character->increaseMagikBy(1);
 
-        self::assertSame(12, $character->characterMagik()->value());
-        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->characterSkillPoint()->value());
+        self::assertSame(12, $character->magik()->value());
+        self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->skillPoint()->value());
 
         $character->increaseMagikBy(20);
 
-        self::assertSame(32, $character->characterMagik()->value());
-        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->characterSkillPoint()->value());
+        self::assertSame(32, $character->magik()->value());
+        self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->skillPoint()->value());
 
         self::expectException(NotEnoughSkillPointsException::class);
         $character->increaseMagikBy(1); // Would cost 7, but it has 1 skill point

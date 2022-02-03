@@ -17,7 +17,7 @@ final class Version20220124185735 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE characters (character_id VARCHAR(36) NOT NULL, character_owner VARCHAR(36) NOT NULL, character_name VARCHAR(255) NOT NULL, character_skill_points INT NOT NULL, character_health INT NOT NULL, character_attack INT NOT NULL, character_defense INT NOT NULL, character_magik INT NOT NULL, character_rank INT NOT NULL, character_fights_count INT NOT NULL, PRIMARY KEY(character_id))');
+        $this->addSql('CREATE TABLE characters (id VARCHAR(36) NOT NULL, owner VARCHAR(36) NOT NULL, name VARCHAR(255) NOT NULL, skill_points INT NOT NULL, health INT NOT NULL, attack INT NOT NULL, defense INT NOT NULL, magik INT NOT NULL, rank INT NOT NULL, fights_count INT NOT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema): void

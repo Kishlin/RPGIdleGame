@@ -28,7 +28,7 @@ final class DeletionAllowanceRepositoryTest extends RepositoryContractTestCase
         $repository = new DeletionAllowanceRepository(self::entityManager());
 
         self::assertTrue(
-            $repository->requesterIsTheRightfulOwner($character->characterOwner(), $character->characterId())
+            $repository->requesterIsTheRightfulOwner($character->owner(), $character->id())
         );
     }
 
@@ -45,7 +45,7 @@ final class DeletionAllowanceRepositoryTest extends RepositoryContractTestCase
         $repository = new DeletionAllowanceRepository(self::entityManager());
 
         self::assertFalse(
-            $repository->requesterIsTheRightfulOwner($stranger, $character->characterId())
+            $repository->requesterIsTheRightfulOwner($stranger, $character->id())
         );
     }
 }

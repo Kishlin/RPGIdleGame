@@ -53,13 +53,13 @@ final class FightParticipantGatewaySpy implements FightInitiationAllowanceGatewa
         }
 
         return FightInitiator::create(
-            new FightParticipantCharacterId($character->characterId()->value()),
+            new FightParticipantCharacterId($character->id()->value()),
             new FightParticipantId('68e80eaf-fba4-4d1a-9207-c48ab9f38b0a'),
-            new FightParticipantHealth($character->characterHealth()->value()),
-            new FightParticipantAttack($character->characterAttack()->value()),
-            new FightParticipantDefense($character->characterDefense()->value()),
-            new FightParticipantMagik($character->characterMagik()->value()),
-            new FightParticipantRank($character->characterRank()->value()),
+            new FightParticipantHealth($character->health()->value()),
+            new FightParticipantAttack($character->attack()->value()),
+            new FightParticipantDefense($character->defense()->value()),
+            new FightParticipantMagik($character->magik()->value()),
+            new FightParticipantRank($character->rank()->value()),
         );
     }
 
@@ -78,13 +78,13 @@ final class FightParticipantGatewaySpy implements FightInitiationAllowanceGatewa
         }
 
         return FightOpponent::create(
-            new FightParticipantCharacterId($character->characterId()->value()),
+            new FightParticipantCharacterId($character->id()->value()),
             new FightParticipantId('d24331d2-02e5-42a8-a417-ea772a7b457c'),
-            new FightParticipantHealth($character->characterHealth()->value()),
-            new FightParticipantAttack($character->characterAttack()->value()),
-            new FightParticipantDefense($character->characterDefense()->value()),
-            new FightParticipantMagik($character->characterMagik()->value()),
-            new FightParticipantRank($character->characterRank()->value()),
+            new FightParticipantHealth($character->health()->value()),
+            new FightParticipantAttack($character->attack()->value()),
+            new FightParticipantDefense($character->defense()->value()),
+            new FightParticipantMagik($character->magik()->value()),
+            new FightParticipantRank($character->rank()->value()),
         );
     }
 }

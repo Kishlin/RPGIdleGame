@@ -24,7 +24,7 @@ final class CharacterRepositoryTest extends RepositoryContractTestCase
         $repository->save($character);
 
         /** @var Character $savedCharacter */
-        $savedCharacter = $repository->findOneById($character->characterId());
+        $savedCharacter = $repository->findOneById($character->id());
 
         self::assertSame($savedCharacter, $character);
     }
@@ -38,7 +38,7 @@ final class CharacterRepositoryTest extends RepositoryContractTestCase
 
         $repository = new CharacterRepository(self::entityManager());
 
-        self::assertNull($repository->findOneByIdAndOwner($character->characterId(), $stranger));
+        self::assertNull($repository->findOneByIdAndOwner($character->id(), $stranger));
     }
 
     /**
@@ -53,7 +53,7 @@ final class CharacterRepositoryTest extends RepositoryContractTestCase
 
         self::assertCount(1, self::entityManager()->getRepository(Character::class)->findAll());
 
-        $repository->delete($character->characterId());
+        $repository->delete($character->id());
 
         self::assertCount(0, self::entityManager()->getRepository(Character::class)->findAll());
     }

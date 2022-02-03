@@ -31,7 +31,7 @@ final class FightInitiatorRepositoryTest extends RepositoryContractTestCase
         self::loadFixtures($character);
 
         $repository = new FightInitiatorRepository(new UuidGeneratorUsingRamsey(), self::entityManager());
-        $initiator  = $repository->createFromExternalDetailsOfInitiator($character->characterId());
+        $initiator  = $repository->createFromExternalDetailsOfInitiator($character->id());
 
         self::assertFightInitiatorRepresentsTheCharacter($character, $initiator);
     }

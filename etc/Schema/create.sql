@@ -53,16 +53,16 @@ ALTER TABLE public.character_counts OWNER TO rpgidlegame;
 --
 
 CREATE TABLE public.characters (
-    character_id character varying(36) NOT NULL,
-    character_owner character varying(36) NOT NULL,
-    character_name character varying(255) NOT NULL,
-    character_skill_points integer NOT NULL,
-    character_health integer NOT NULL,
-    character_attack integer NOT NULL,
-    character_defense integer NOT NULL,
-    character_magik integer NOT NULL,
-    character_rank integer NOT NULL,
-    character_fights_count integer NOT NULL
+    id character varying(36) NOT NULL,
+    owner character varying(36) NOT NULL,
+    name character varying(255) NOT NULL,
+    skill_points integer NOT NULL,
+    health integer NOT NULL,
+    attack integer NOT NULL,
+    defense integer NOT NULL,
+    magik integer NOT NULL,
+    rank integer NOT NULL,
+    fights_count integer NOT NULL
 );
 
 
@@ -169,7 +169,7 @@ COPY public.character_counts (owner_id, character_count, character_count_reached
 -- Data for Name: characters; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
 --
 
-COPY public.characters (character_id, character_owner, character_name, character_skill_points, character_health, character_attack, character_defense, character_magik, character_rank, character_fights_count) FROM stdin;
+COPY public.characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count) FROM stdin;
 \.
 
 
@@ -238,7 +238,7 @@ ALTER TABLE ONLY public.character_counts
 --
 
 ALTER TABLE ONLY public.characters
-    ADD CONSTRAINT characters_pkey PRIMARY KEY (character_id);
+    ADD CONSTRAINT characters_pkey PRIMARY KEY (id);
 
 
 --
@@ -331,7 +331,7 @@ ALTER TABLE ONLY public.fights
 --
 
 ALTER TABLE ONLY public.fight_initiators
-    ADD CONSTRAINT fk_initiator_character FOREIGN KEY (character_id) REFERENCES public.characters(character_id);
+    ADD CONSTRAINT fk_initiator_character FOREIGN KEY (character_id) REFERENCES public.characters(id);
 
 
 --
@@ -339,7 +339,7 @@ ALTER TABLE ONLY public.fight_initiators
 --
 
 ALTER TABLE ONLY public.fight_opponents
-    ADD CONSTRAINT fk_opponent_character FOREIGN KEY (character_id) REFERENCES public.characters(character_id);
+    ADD CONSTRAINT fk_opponent_character FOREIGN KEY (character_id) REFERENCES public.characters(id);
 
 
 --

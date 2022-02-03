@@ -24,23 +24,23 @@ final class FightOpponentRepository extends DoctrineRepository implements FightO
 {
     private const QUERY = <<<'SQL'
 SELECT
-       character_id,
-       character_health,
-       character_attack,
-       character_defense,
-       character_magik,
-       character_rank
+       id as character_id,
+       health as character_health,
+       attack as character_attack,
+       defense as character_defense,
+       magik as character_magik,
+       rank as character_rank
 FROM characters
-WHERE character_id != :id
-ORDER BY abs(character_rank - (SELECT character_rank FROM characters WHERE character_id = :id LIMIT 1)) ASC,
+WHERE id != :id
+ORDER BY abs(rank - (SELECT rank FROM characters WHERE id = :id LIMIT 1)) ASC,
 (
     SELECT count(fights.id)
     FROM fights
     LEFT JOIN fight_initiators ON fights.initiator = fight_initiators.id
     LEFT JOIN fight_opponents ON fights.opponent = fight_opponents.id
     WHERE (
-        (fight_initiators.character_id = characters.character_id AND fight_opponents.character_id = :id)
-        OR (fight_initiators.character_id = :id AND fight_opponents.character_id = characters.character_id)
+        (fight_initiators.character_id = characters.id AND fight_opponents.character_id = :id)
+        OR (fight_initiators.character_id = :id AND fight_opponents.character_id = characters.id)
     )
 ) ASC
 LIMIT 1

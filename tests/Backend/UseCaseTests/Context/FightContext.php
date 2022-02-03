@@ -65,11 +65,11 @@ final class FightContext extends RPGIdleGameContext
             new CharacterOwner(self::STRANGER_UUID),
         );
 
-        ReflectionHelper::writePropertyValue($opponent, 'characterHealth', new CharacterHealth(70));
-        ReflectionHelper::writePropertyValue($opponent, 'characterAttack', new CharacterAttack(48));
-        ReflectionHelper::writePropertyValue($opponent, 'characterDefense', new CharacterDefense(28));
-        ReflectionHelper::writePropertyValue($opponent, 'characterMagik', new CharacterMagik(30));
-        ReflectionHelper::writePropertyValue($opponent, 'characterRank', new CharacterRank(120));
+        ReflectionHelper::writePropertyValue($opponent, 'health', new CharacterHealth(70));
+        ReflectionHelper::writePropertyValue($opponent, 'attack', new CharacterAttack(48));
+        ReflectionHelper::writePropertyValue($opponent, 'defense', new CharacterDefense(28));
+        ReflectionHelper::writePropertyValue($opponent, 'magik', new CharacterMagik(30));
+        ReflectionHelper::writePropertyValue($opponent, 'rank', new CharacterRank(120));
 
         self::container()->characterGatewaySpy()->save($opponent);
     }

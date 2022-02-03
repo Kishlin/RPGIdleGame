@@ -20,7 +20,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
 
     public function save(Character $character): void
     {
-        $this->characters[$character->characterId()->value()] = $character;
+        $this->characters[$character->id()->value()] = $character;
     }
 
     public function delete(CharacterId $characterId): void
@@ -36,7 +36,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function findOneByIdAndOwner(CharacterId $characterId, CharacterOwner $requester): ?Character
     {
         if (false === $this->has($characterId->value())
-            || false === $this->characters[$characterId->value()]->characterOwner()->equals($requester)) {
+            || false === $this->characters[$characterId->value()]->owner()->equals($requester)) {
             return null;
         }
 
@@ -46,7 +46,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView
     {
         if (false === $this->has($characterId)
-            || $this->characters[$characterId]->characterOwner()->value() !== $requesterId) {
+            || $this->characters[$characterId]->owner()->value() !== $requesterId) {
             throw new CharacterNotFoundException();
         }
 
@@ -58,7 +58,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function viewAllForOwner(string $ownerUuid): array
     {
         $filterForOwner = static function (Character $character) use ($ownerUuid) {
-            return $character->characterOwner()->value() === $ownerUuid;
+            return $character->owner()->value() === $ownerUuid;
         };
 
         return array_map(
@@ -73,7 +73,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
             return false;
         }
 
-        return $deletionRequester->equals($this->characters[$characterId->value()]->characterOwner());
+        return $deletionRequester->equals($this->characters[$characterId->value()]->owner());
     }
 
     public function has(string $characterId): bool

@@ -41,11 +41,11 @@ final class CharacterProvider
     ): Character {
         $character = self::freshCharacter();
 
-        ReflectionHelper::writePropertyValue($character, 'characterSkillPoint', new CharacterSkillPoint($skillPoints));
-        ReflectionHelper::writePropertyValue($character, 'characterHealth', new CharacterHealth($healthPoints));
-        ReflectionHelper::writePropertyValue($character, 'characterAttack', new CharacterAttack($attackPoints));
-        ReflectionHelper::writePropertyValue($character, 'characterDefense', new CharacterDefense($defensePoints));
-        ReflectionHelper::writePropertyValue($character, 'characterMagik', new CharacterMagik($magikPoints));
+        ReflectionHelper::writePropertyValue($character, 'skillPoint', new CharacterSkillPoint($skillPoints));
+        ReflectionHelper::writePropertyValue($character, 'health', new CharacterHealth($healthPoints));
+        ReflectionHelper::writePropertyValue($character, 'attack', new CharacterAttack($attackPoints));
+        ReflectionHelper::writePropertyValue($character, 'defense', new CharacterDefense($defensePoints));
+        ReflectionHelper::writePropertyValue($character, 'magik', new CharacterMagik($magikPoints));
 
         return $character;
     }
@@ -57,8 +57,8 @@ final class CharacterProvider
     {
         $character = self::tweakedCharacter(50, 85, 36, 28, 30);
 
-        ReflectionHelper::writePropertyValue($character, 'characterRank', new CharacterRank(15));
-        ReflectionHelper::writePropertyValue($character, 'characterFightsCount', new CharacterFightsCount(165));
+        ReflectionHelper::writePropertyValue($character, 'rank', new CharacterRank(15));
+        ReflectionHelper::writePropertyValue($character, 'fightsCount', new CharacterFightsCount(165));
 
         return $character;
     }
