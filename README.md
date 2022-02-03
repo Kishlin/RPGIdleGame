@@ -54,6 +54,8 @@ make tests.backend.app.driving && make tests.backend.app.functional && make make
 make tests.backend.src.isolated && make tests.backend.src.contract
 ```
 
+Tests use a specific database, created on startup.
+
 
 ## Alternative Installation
 
@@ -61,8 +63,9 @@ The `make start` command will:
 1. Create a `docker-compose.yaml` from the dist file, using your shell user.
 2. Create the docker cache using sudo. You'll have to input your sudo password. Otherwise, check alternatives below.
 3. Build the containers. See `docker-compose.yaml` and the `.docker/` folder for details.
-4. Install Composer and nodes dependencies.
-5. Reload the database with the dump schema file from `etc/Schema/create.sql`
+4. Install Composer and Node dependencies.
+5. Start the Symfony and React server for dev environment.
+6. Reload the dev and test databases with the dump schema file from `etc/Schema/create.sql`
 
 Alternatively, you can install the project step by step:
 1. Copy `docker-compose.yaml.dist` to `docker-compose.yaml` : `cp docker-compose.yaml.dist docker-compose.yaml`
@@ -70,9 +73,12 @@ Alternatively, you can install the project step by step:
 3. Create a docker volume named cache (or otherwise, but edit the `docker-compose.yaml` accordingly).
 4. (Optional) The `docker-compose.yaml` file isn't versioned. Modify it to your own needs.
 5. (Optional) Override the `.env` variables in a `.env.local` file, also not versioned.
-6. Up the containers `docker-compose up -d`
-7. `make vendor` and `make node_modules` will install dependencies.
-8. `make reload_db` will create the database schema from the dump file in `etc/Schema/create.sql`
-9. You're all set!
+6. Up the containers `docker-compose up -d`. Frontend dependencies will be installed then, before the servers are started.
+7. `make vendor` and install backend dependencies.
+8. `make db.reload` will create the database schema from the dump file in `etc/Schema/create.sql`
+9. `make db.reload.test` will create the specific database for tests.
+10. You're all set! 
+
+From there, you can:
 
 Base docker images come from Kishlin's docker-hub and were created from [Kishlin/docker-images](https://github.com/Kishlin/docker-images).

@@ -44,7 +44,7 @@ docker-compose.yaml:
 vendor: composer-install
 
 node_modules:
-	@docker-compose exec frontend yarn install
+	@docker-compose exec frontend npm install
 
 cache: $(CACHE)
 $(CACHE): .docker-cache
@@ -72,9 +72,9 @@ clean:
 	@if [ -f "./docker-compose.yaml" ]; then \
 		docker-compose down; \
 	fi;
-	@sudo rm -rf docker-compose.yaml vendor
+	@sudo rm -rf docker-compose.yaml vendor apps/RPGIdleGame/frontend/node_modules apps/RPGIdleGame/frontend/build
 
-start: containers vendor node_modules db.reload
+start: containers vendor db.reload db.reload.test
 	@echo "All services should be running."
 	@echo "    Backend: http://localhost:8030/monitoring/check-health"
 	@echo "    Frontend: http://localhost:3000/monitoring/check-health"
@@ -82,21 +82,24 @@ start: containers vendor node_modules db.reload
 	@echo "Run tests: \`make tests\` (see Makefile for more options)."
 
 ##> Helpers
-.PHONY: db.connect db.reload db.migrations.diff db.migrations.migrate
+.PHONY: db.connect db.reload db.reload.test db.migrations.diff db.migrations.migrate
+
+db.reload: ENV=dev
+db.reload.test: ENV=test
+
+db.reload db.reload.test:
+	@echo "Creating $(ENV) database"
+	@docker-compose exec postgres /bin/bash -c 'dropdb -U $$POSTGRES_USER --if-exists rpgidlegame-$(ENV) &>/dev/null'
+	@docker-compose exec postgres /bin/bash -c 'createdb -U $$POSTGRES_USER rpgidlegame-$(ENV)'
+	@docker-compose exec postgres /bin/bash -c 'psql -q -U $$POSTGRES_USER -d rpgidlegame-$(ENV) -f /rpgidlegame/etc/Schema/create.sql &>/dev/null'
+	@echo "Done reloading $(ENV) database"
 
 db.connect:
-	@docker-compose exec postgres /bin/bash -c 'psql -U $$POSTGRES_USER'
-
-db.reload:
-	@echo "Reloading database"
-	@docker-compose exec postgres /bin/bash -c 'dropdb -U $$POSTGRES_USER --if-exists rpgidlegame'
-	@docker-compose exec postgres /bin/bash -c 'createdb -U $$POSTGRES_USER rpgidlegame'
-	@docker-compose exec postgres /bin/bash -c 'psql -q -U $$POSTGRES_USER -d rpgidlegame -f /rpgidlegame/etc/Schema/create.sql &>/dev/null'
-	@echo "Done reloading database"
+	@docker-compose exec postgres /bin/bash -c 'psql -U $$POSTGRES_USER -d rpgidlegame-dev'
 
 db.dump:
 	@echo "Dump DB schema to file"
-	@docker-compose exec postgres /bin/bash -c 'pg_dump -U $$POSTGRES_USER -d rpgidlegame > /rpgidlegame/etc/Schema/create.sql'
+	@docker-compose exec postgres /bin/bash -c 'pg_dump -U $$POSTGRES_USER -d rpgidlegame-dev > /rpgidlegame/etc/Schema/create.sql'
 
 db.migrations.diff: CMD=diff
 

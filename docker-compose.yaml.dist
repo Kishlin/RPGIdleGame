@@ -9,6 +9,7 @@ services:
       context: ./.docker/postgres/${DB_VERSION}
     restart: on-failure
     environment:
+      POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
@@ -38,7 +39,7 @@ services:
       - "${FRONTEND_SERVER_PORT_EXTERNAL}:3000"
     working_dir: "/${PROJECT}/apps/RPGIdleGame/frontend"
     user: <DOCKER_USER>
-    command: npm start
+    command: npm run install-and-start
     networks:
       - "docker-${PROJECT}"
 
