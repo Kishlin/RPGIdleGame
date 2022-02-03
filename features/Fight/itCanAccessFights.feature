@@ -4,7 +4,7 @@ Feature: It can view fights
     Given a client has an account
     And it owns a well advanced character
     And there is an opponent available
-    And its character takes part in a fight with the opponent
+    And its character took part in a fight with the opponent
     When a client asks to view one the fight's infos
     Then details about the fight were returned
 
@@ -16,17 +16,23 @@ Feature: It can view fights
     Given a client has an account
     And it owns a well advanced character
     And there is an opponent available
-    And its character takes part in a fight with the opponent
+    And its character took part in a fight with the opponent
     When a stranger tries to view the fight's infos
     Then the query for the fight infos was refused
 
   Scenario: a client can view all the fights of one of its character
     Given a client has an account
     And it owns a well advanced character
-    And there is an opponent available
-    And its character takes part in a fight with the opponent
+    And its character took part in a few fights
     When a client asks to view the fights of its character
     Then details about all the fights were returned
+
+  Scenario: a client can gets an empty response when its character did not take part in any fight
+    Given a client has an account
+    And it owns a well advanced character
+    And its character did not take part in any fights
+    When a client asks to view the fights of its character
+    Then it gets a response with an empty fight list
 
   Scenario: a stranger cannot view fights of a client's character
     Given a client has an account

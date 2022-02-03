@@ -77,7 +77,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
      */
     private static function mapParticipantToArray(AbstractFightParticipant $participant): array
     {
-        if (self::FIGHTER_INITIATOR_ID === $participant->id()->value()) {
+        if (self::FIGHTER_UUID === $participant->characterId()->value()) {
             $accountUsername = 'Client';
             $characterName   = 'Fighter';
         } else {
@@ -123,7 +123,10 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
      */
     private static function reduceFightToView(array $carry, Fight $fight): array
     {
-        if (self::FIGHTER_UUID !== $fight->initiator()->characterId()->value() || self::FIGHTER_UUID !== $fight->opponent()->characterId()->value()) {
+        if (
+            self::FIGHTER_UUID !== $fight->initiator()->characterId()->value()
+            && self::FIGHTER_UUID !== $fight->opponent()->characterId()->value()
+        ) {
             return $carry;
         }
 

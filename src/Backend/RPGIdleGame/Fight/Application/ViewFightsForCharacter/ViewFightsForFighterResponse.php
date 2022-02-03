@@ -10,18 +10,18 @@ use Kishlin\Backend\Shared\Domain\Bus\Query\Response;
 final class ViewFightsForFighterResponse implements Response
 {
     /**
-     * @param SerializableFightListItem[] $fightView
+     * @param SerializableFightListItem[] $fightViews
      */
     public function __construct(
-        private array $fightView
+        private array $fightViews
     ) {
     }
 
     /**
      * @return SerializableFightListItem[]
      */
-    public function fightView(): array
+    public function fightViews(): array
     {
-        return $this->fightView;
+        return $this->fightViews;
     }
 }

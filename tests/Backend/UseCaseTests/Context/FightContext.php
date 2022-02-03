@@ -42,12 +42,11 @@ use Throwable;
 
 final class FightContext extends RPGIdleGameContext
 {
-    private const CLIENT_UUID          = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
-    private const STRANGER_UUID        = 'df42d3aa-10ea-4ca3-936b-2bba5ae16fe6';
-    private const FIGHTER_UUID         = 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
-    private const OPPONENT_UUID        = 'e26b33be-5253-4cc3-8480-a15e80f18b7a';
-    private const FIGHT_ID             = '695fbddb-1863-4170-85ba-c0f146b341ad';
-    private const FIGHTER_INITIATOR_ID = '4d248f5f-5f10-49ed-a921-ccdc383acdaf';
+    private const CLIENT_UUID   = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
+    private const STRANGER_UUID = 'df42d3aa-10ea-4ca3-936b-2bba5ae16fe6';
+    private const FIGHTER_UUID  = 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
+    private const OPPONENT_UUID = 'e26b33be-5253-4cc3-8480-a15e80f18b7a';
+    private const FIGHT_ID      = '695fbddb-1863-4170-85ba-c0f146b341ad';
 
     private ?FightId   $fightId         = null;
     private ?Response  $response        = null;
@@ -83,35 +82,27 @@ final class FightContext extends RPGIdleGameContext
     }
 
     /**
-     * @Given /^its character takes part in a fight with the opponent$/
+     * @Given /^its character took part in a fight with the opponent$/
      */
     public function itsCharacterTookPartInAFight(): void
     {
-        $fight = Fight::initiate(
-            new FightId(self::FIGHT_ID),
-            FightInitiator::create(
-                new CharacterId(self::FIGHTER_UUID),
-                new FightParticipantId(self::FIGHTER_INITIATOR_ID),
-                new FightParticipantHealth(80),
-                new FightParticipantAttack(56),
-                new FightParticipantDefense(23),
-                new FightParticipantMagik(34),
-                new FightParticipantRank(125),
-            ),
-            FightOpponent::create(
-                new CharacterId(self::OPPONENT_UUID),
-                new FightParticipantId('051a001a-0a0e-4f71-a0bb-6f6466ad8995'),
-                new FightParticipantHealth(70),
-                new FightParticipantAttack(48),
-                new FightParticipantDefense(28),
-                new FightParticipantMagik(30),
-                new FightParticipantRank(120),
-            ),
-        );
+        self::computeAndSaveAFight(self::FIGHT_ID);
+    }
 
-        $fight->unfold(new RandomDice(), new UuidGeneratorUsingRamsey());
+    /**
+     * @Given /^its character took part in a few fights$/
+     */
+    public function itsCharacterTookPartInAFewFights(): void
+    {
+        self::computeAndSaveAFight('cfc086d2-31e8-423f-bea9-ba8b03ff5c9f');
+        self::computeAndSaveAFight('9ec7adff-4d95-49c6-9fc0-da242a4c521f');
+    }
 
-        self::container()->fightGatewaySpy()->save($fight);
+    /**
+     * @Given /^its character did not take part in any fights$/
+     */
+    public function itsCharacterDidNotTakePartInAnyFights(): void
+    {
     }
 
     /**
@@ -307,8 +298,25 @@ final class FightContext extends RPGIdleGameContext
      */
     public function detailsAboutAllTheFightsWereReturned(): void
     {
+        /** @var ViewFightsForFighterResponse $response */
+        $response = $this->response;
+
         Assert::assertNotNull($this->response);
         Assert::assertInstanceOf(ViewFightsForFighterResponse::class, $this->response);
+        Assert::assertCount(2, $response->fightViews());
+    }
+
+    /**
+     * @Then /^it gets a response with an empty fight list$/
+     */
+    public function itGetsAResponseWithAnEmptyFightList(): void
+    {
+        /** @var ViewFightsForFighterResponse $response */
+        $response = $this->response;
+
+        Assert::assertNotNull($this->response);
+        Assert::assertInstanceOf(ViewFightsForFighterResponse::class, $this->response);
+        Assert::assertEmpty($response->fightViews());
     }
 
     /**
@@ -319,5 +327,37 @@ final class FightContext extends RPGIdleGameContext
         Assert::assertNull($this->response);
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(CannotAccessFightsException::class, $this->exceptionThrown);
+    }
+
+    private static function computeAndSaveAFight(string $fightId): void
+    {
+        $dice          = new RandomDice();
+        $uuidGenerator = new UuidGeneratorUsingRamsey();
+
+        $fight = Fight::initiate(
+            new FightId($fightId),
+            FightInitiator::create(
+                new CharacterId(self::FIGHTER_UUID),
+                new FightParticipantId($uuidGenerator->uuid4()),
+                new FightParticipantHealth(80),
+                new FightParticipantAttack(56),
+                new FightParticipantDefense(23),
+                new FightParticipantMagik(34),
+                new FightParticipantRank(125),
+            ),
+            FightOpponent::create(
+                new CharacterId(self::OPPONENT_UUID),
+                new FightParticipantId($uuidGenerator->uuid4()),
+                new FightParticipantHealth(70),
+                new FightParticipantAttack(48),
+                new FightParticipantDefense(28),
+                new FightParticipantMagik(30),
+                new FightParticipantRank(120),
+            ),
+        );
+
+        $fight->unfold($dice, $uuidGenerator);
+
+        self::container()->fightGatewaySpy()->save($fight);
     }
 }
