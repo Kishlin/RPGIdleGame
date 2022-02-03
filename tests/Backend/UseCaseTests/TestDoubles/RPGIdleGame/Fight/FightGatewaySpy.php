@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Fight;
 
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\AbstractFightParticipant;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\CannotAccessFightsException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightTurn;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightViewGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightListItem;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightView;
 
 final class FightGatewaySpy implements FightGateway, FightViewGateway
 {
     private const CLIENT_UUID          = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
+    private const FIGHTER_UUID         = 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
     private const FIGHTER_INITIATOR_ID = '4d248f5f-5f10-49ed-a921-ccdc383acdaf';
 
     /** @var array<string, Fight> */
@@ -52,6 +55,18 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
         return SerializableFightView::fromSource($source);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function viewAllForFighter(string $fighterId, string $requesterId): array
+    {
+        if (self::FIGHTER_UUID === $fighterId && self::CLIENT_UUID !== $requesterId) {
+            throw new CannotAccessFightsException();
+        }
+
+        return array_reduce($this->fights, [$this, 'reduceFightToView'], []);
+    }
+
     public function has(string $fightId): bool
     {
         return array_key_exists($fightId, $this->fights);
@@ -67,7 +82,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
             $characterName   = 'Fighter';
         } else {
             $accountUsername = 'Stranger';
-            $characterName   = 'Opponent';
+            $characterName   = 'Brawler';
         }
 
         return [
@@ -87,7 +102,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
     private static function mapTurnsToArray(FightTurn $fightTurn): array
     {
         $attackerId    = $fightTurn->attackerId()->value();
-        $characterName = self::FIGHTER_INITIATOR_ID === $attackerId ? 'Fighter' : 'Opponent';
+        $characterName = self::FIGHTER_INITIATOR_ID === $attackerId ? 'Fighter' : 'Brawler';
 
         return [
             'character_name'     => $characterName,
@@ -99,5 +114,28 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
             'damage_dealt'       => $fightTurn->damageDealt()->value(),
             'defender_health'    => $fightTurn->defenderHealth()->value(),
         ];
+    }
+
+    /**
+     * @param SerializableFightListItem[] $carry
+     *
+     * @return SerializableFightListItem[]
+     */
+    private static function reduceFightToView(array $carry, Fight $fight): array
+    {
+        if (self::FIGHTER_UUID !== $fight->initiator()->characterId()->value() || self::FIGHTER_UUID !== $fight->opponent()->characterId()->value()) {
+            return $carry;
+        }
+
+        $carry[] = SerializableFightListItem::fromSource([
+            'id'             => $fight->id()->value(),
+            'winner_id'      => $fight->winnerId()->value(),
+            'initiator_name' => $fight->initiator()->characterId()->value(),
+            'initiator_rank' => $fight->initiator()->rank()->value(),
+            'opponent_name'  => $fight->opponent()->characterId()->value(),
+            'opponent_rank'  => $fight->opponent()->rank()->value(),
+        ]);
+
+        return $carry;
     }
 }

@@ -5,13 +5,30 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\DBAL\Exception;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\CannotAccessFightsException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightViewGateway;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightListItem;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightView;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineRepository;
 
 final class FightViewRepository extends DoctrineRepository implements FightViewGateway
 {
+    private const ALL_FIGHTS_FOR_FIGHTER_QUERY = <<<'SQL'
+SELECT fights.id, fights.winner_id, initiators.character_name as initiator_name, fight_initiators.rank as initiator_rank, opponents.character_name as opponent_name, fight_opponents.rank as opponent_rank
+FROM fights
+LEFT JOIN fight_initiators ON fight_initiators.id = fights.initiator
+LEFT JOIN fight_opponents ON fight_opponents.id = fights.opponent
+LEFT JOIN characters opponents ON opponents.character_id = fight_opponents.character_id
+LEFT JOIN characters initiators ON initiators.character_id = fight_initiators.character_id
+WHERE (
+    opponents.character_owner = :requester_id AND opponents.character_id = :fighter_id
+) OR (
+    initiators.character_owner = :requester_id AND initiators.character_id = :fighter_id
+)
+;
+SQL;
+
     private const FIGHT_QUERY = <<<'SQL'
 SELECT fights.id, fights.winner_id
 FROM characters
@@ -95,6 +112,28 @@ SQL;
         $fight['turns'] = $this->getTurns($fightId);
 
         return SerializableFightView::fromSource($fight);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws CannotAccessFightsException|Exception
+     */
+    public function viewAllForFighter(string $fighterId, string $requesterId): array
+    {
+        /**
+         * @var array<array{id: string, winner_id: ?string, initiator_name: string, initiator_rank: int, opponent_name: string, opponent_rank: int}>|false $fights
+         */
+        $fights = $this->entityManager->getConnection()->fetchAllAssociative(
+            self::ALL_FIGHTS_FOR_FIGHTER_QUERY,
+            ['fighter_id' => $fighterId, 'requester_id' => $requesterId]
+        );
+
+        if (false === $fights) {
+            throw new CannotAccessFightsException();
+        }
+
+        return array_map(static fn ($source) => SerializableFightListItem::fromSource($source), $fights);
     }
 
     /**

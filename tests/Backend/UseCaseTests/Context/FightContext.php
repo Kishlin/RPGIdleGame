@@ -17,6 +17,9 @@ use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightC
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\RequesterIsNotAllowedToInitiateFight;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFight\ViewFightQuery;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFight\ViewFightResponse;
+use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFightsForCharacter\ViewFightsForFighterQuery;
+use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFightsForCharacter\ViewFightsForFighterResponse;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\CannotAccessFightsException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
@@ -213,6 +216,46 @@ final class FightContext extends RPGIdleGameContext
     }
 
     /**
+     * @When /^a client asks to view the fights of its character$/
+     */
+    public function aClientAsksToViewTheFightsOfItsCharacter(): void
+    {
+        try {
+            $this->response = null;
+            $this->response = self::container()->queryBus()->ask(
+                ViewFightsForFighterQuery::fromScalars(
+                    fighterId: self::FIGHTER_UUID,
+                    requesterId: self::CLIENT_UUID,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When /^a stranger asks to view the fights of a client's character$/
+     */
+    public function aStrangerAsksToViewTheFightsOfAClientSCharacter(): void
+    {
+        try {
+            $this->response = null;
+            $this->response = self::container()->queryBus()->ask(
+                ViewFightsForFighterQuery::fromScalars(
+                    fighterId: self::FIGHTER_UUID,
+                    requesterId: self::STRANGER_UUID,
+                )
+            );
+
+            $this->exceptionThrown = null;
+        } catch (Throwable $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
      * @Then /^the fight is registered$/
      */
     public function theFightIsRegistered(): void
@@ -257,5 +300,24 @@ final class FightContext extends RPGIdleGameContext
         Assert::assertNull($this->response);
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(FightNotFoundException::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then /^details about all the fights were returned$/
+     */
+    public function detailsAboutAllTheFightsWereReturned(): void
+    {
+        Assert::assertNotNull($this->response);
+        Assert::assertInstanceOf(ViewFightsForFighterResponse::class, $this->response);
+    }
+
+    /**
+     * @Then /^the query for all the fights was refused$/
+     */
+    public function theQueryForAllTheFightsWasRefused(): void
+    {
+        Assert::assertNull($this->response);
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(CannotAccessFightsException::class, $this->exceptionThrown);
     }
 }

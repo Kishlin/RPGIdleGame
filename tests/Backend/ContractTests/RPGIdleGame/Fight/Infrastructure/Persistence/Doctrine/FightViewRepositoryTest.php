@@ -57,6 +57,29 @@ final class FightViewRepositoryTest extends RepositoryContractTestCase
         $repository->viewOneById('fight-4', 'account-0');
     }
 
+    /**
+     * @throws Exception
+     */
+    public function testItCanViewAllFightsForAFighter(): void
+    {
+        $repository = new FightViewRepository(self::entityManager());
+
+        self::assertCount(4, $repository->viewAllForFighter('character-0', 'account-0'));
+        self::assertCount(1, $repository->viewAllForFighter('character-3', 'account-1'));
+        self::assertCount(0, $repository->viewAllForFighter('character-4', 'account-1'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testItFailsToViewAllFightsForAFighterItHasNotAccessTo(): void
+    {
+        $repository = new FightViewRepository(self::entityManager());
+
+        self::expectException(FightNotFoundException::class);
+        $repository->viewOneById('character-0', 'account-1');
+    }
+
     private static function completeFixturesQueries(): string
     {
         return <<<'SQL'
@@ -69,7 +92,8 @@ INSERT INTO characters (character_id, character_owner, character_name, character
     ('character-0', 'account-0', 'Kishlin', 12, 25, 18, 12, 10, 25, 4),
     ('character-1', 'account-1', 'Brawler', 8, 20, 16, 8, 12, 20, 2),
     ('character-2', 'account-1', 'Fighter', 15, 30, 25, 5, 10, 32, 1),
-    ('character-3', 'account-1', 'OnlyDraws', 5, 23, 1, 40, 1, 24, 1)
+    ('character-3', 'account-1', 'OnlyDraws', 5, 23, 1, 40, 1, 24, 1),
+    ('character-4', 'account-1', 'NoFights', 12, 10, 0, 0, 0, 0, 0)
 ;
 
 INSERT INTO fight_initiators (id, character_id, health, attack, defense, magik, rank) VALUES

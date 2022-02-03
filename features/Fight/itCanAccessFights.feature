@@ -19,3 +19,17 @@ Feature: It can view fights
     And its character takes part in a fight with the opponent
     When a stranger tries to read the fight's infos
     Then the query for the fight infos was refused
+
+  Scenario: a client can view all the fights of one of its character
+    Given a client has an account
+    And it owns a well advanced character
+    And there is an opponent available
+    And its character takes part in a fight with the opponent
+    When a client asks to view the fights of its character
+    Then details about all the fights were returned
+
+  Scenario: a stranger cannot view fights of a client's character
+    Given a client has an account
+    And it owns a well advanced character
+    When a stranger asks to view the fights of a client's character
+    Then the query for all the fights was refused
