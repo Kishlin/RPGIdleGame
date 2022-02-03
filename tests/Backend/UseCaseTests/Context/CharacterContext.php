@@ -8,6 +8,7 @@ use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\HasReachedCharacterLimitException;
@@ -58,6 +59,7 @@ final class CharacterContext extends RPGIdleGameContext
             new AccountUsername('User'),
             new AccountPassword('password'),
             new AccountEmail('email@example.com'),
+            new AccountSalt('salt'),
         ));
 
         self::container()->characterCountGatewaySpy()->save(CharacterCount::createForOwner(

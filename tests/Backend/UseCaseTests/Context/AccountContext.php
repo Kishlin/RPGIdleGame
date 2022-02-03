@@ -10,6 +10,7 @@ use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use PHPUnit\Framework\Assert;
 use ReflectionException;
@@ -34,6 +35,7 @@ final class AccountContext extends RPGIdleGameContext
             new AccountUsername('Existing'),
             new AccountPassword('password'),
             new AccountEmail(self::EMAIL_TO_USE),
+            new AccountSalt('salt'),
         ));
     }
 

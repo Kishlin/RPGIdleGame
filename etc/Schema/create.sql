@@ -29,6 +29,7 @@ CREATE TABLE public.accounts (
     username character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
+    salt character varying(255) NOT NULL,
     is_active boolean NOT NULL
 );
 
@@ -153,7 +154,7 @@ ALTER TABLE public.fights OWNER TO rpgidlegame;
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
 --
 
-COPY public.accounts (id, username, email, password, is_active) FROM stdin;
+COPY public.accounts (id, username, email, password, salt, is_active) FROM stdin;
 \.
 
 

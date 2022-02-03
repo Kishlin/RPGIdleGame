@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Account;
 
 use Kishlin\Backend\Account\Application\Signup\SignupCommandHandler;
+use Kishlin\Backend\Account\Infrastructure\SaltGeneratorUsingRandomBytes;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 
 trait AccountServicesTrait
@@ -30,7 +31,8 @@ trait AccountServicesTrait
             $this->signupCommandHandler = new SignupCommandHandler(
                 $this->accountGatewaySpy(),
                 $this->accountGatewaySpy(),
-                $this->eventDispatcher()
+                new SaltGeneratorUsingRandomBytes(),
+                $this->eventDispatcher(),
             );
         }
 

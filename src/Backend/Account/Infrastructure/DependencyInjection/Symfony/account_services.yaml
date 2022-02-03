@@ -15,3 +15,9 @@ services:
 
   Kishlin\Backend\Account\Domain\AccountGateway:
     class: 'Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountRepository'
+
+
+  ##> Salt
+
+  Kishlin\Backend\Account\Domain\SaltGenerator:
+    class: 'Kishlin\Backend\Account\Infrastructure\SaltGeneratorUsingRandomBytes'

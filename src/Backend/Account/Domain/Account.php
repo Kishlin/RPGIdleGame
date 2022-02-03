@@ -8,6 +8,7 @@ use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Backend\Shared\Domain\Aggregate\AggregateRoot;
 
@@ -19,6 +20,7 @@ final class Account extends AggregateRoot
         private AccountUsername $username,
         private AccountPassword $password,
         private AccountEmail $email,
+        private AccountSalt $salt,
         private AccountIsActive $isActive,
     ) {
     }
@@ -28,10 +30,11 @@ final class Account extends AggregateRoot
         AccountUsername $username,
         AccountPassword $password,
         AccountEmail $email,
+        AccountSalt $salt,
     ): self {
         $isActive = new AccountIsActive(true);
 
-        $account = new self($id, $username, $password, $email, $isActive);
+        $account = new self($id, $username, $password, $email, $salt, $isActive);
 
         $account->record(new AccountCreatedDomainEvent($account->id));
 

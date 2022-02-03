@@ -83,9 +83,9 @@ final class FightViewRepositoryTest extends RepositoryContractTestCase
     private static function completeFixturesQueries(): string
     {
         return <<<'SQL'
-INSERT INTO accounts (id, username, email, password, is_active) VALUES
-    ('account-0', 'User', 'user@example.com', 'password', true),
-    ('account-1', 'Stranger', 'stranger@example.com', 'password', true)
+INSERT INTO accounts (id, username, email, password, salt, is_active) VALUES
+    ('account-0', 'User', 'user@example.com', 'password', 'salt-0', true),
+    ('account-1', 'Stranger', 'stranger@example.com', 'password', 'salt-1', true)
 ;
 
 INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count) VALUES

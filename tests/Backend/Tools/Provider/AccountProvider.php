@@ -8,6 +8,7 @@ use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
+use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 
 final class AccountProvider
@@ -19,6 +20,7 @@ final class AccountProvider
             new AccountUsername('User'),
             new AccountPassword('password'),
             new AccountEmail('fresh.account@example.com'),
+            new AccountSalt('salt'),
         );
     }
 }

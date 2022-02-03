@@ -13,6 +13,8 @@
 
         <embedded name="password" class="Kishlin\Backend\Account\Domain\ValueObject\AccountPassword" use-column-prefix="false" />
 
+        <embedded name="salt" class="Kishlin\Backend\Account\Domain\ValueObject\AccountSalt" use-column-prefix="false" />
+
         <embedded name="isActive" class="Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive" use-column-prefix="false" />
     </entity>
 
