@@ -30,7 +30,7 @@ final class FightParticipantGatewaySpy implements FightInitiationAllowanceGatewa
     /**
      * @see FightParticipantGatewaySpy::createFromExternalDetailsOfAnAvailableOpponent()
      */
-    public const OPPONENT_UUID = 'e26b33be-5253-4cc3-8480-a15e80f18b7a';
+    private const OPPONENT_UUID = 'e26b33be-5253-4cc3-8480-a15e80f18b7a';
 
     public function __construct(
         private CharacterGatewaySpy $characterGatewaySpy,
