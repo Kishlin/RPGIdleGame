@@ -5,11 +5,11 @@ Feature: It can view fights
     And it owns a well advanced character
     And there is an opponent available
     And its character takes part in a fight with the opponent
-    When a client asks to read one the fight's infos
+    When a client asks to view one the fight's infos
     Then details about the fight were returned
 
   Scenario: a client cannot view details of a fight that does not exist
-    When a client asks to read a fight that does not exist
+    When a client asks to view a fight that does not exist
     Then the query for the fight infos was refused
 
   Scenario: a stranger cannot access the details of a fight none of his character were a part of
@@ -17,7 +17,7 @@ Feature: It can view fights
     And it owns a well advanced character
     And there is an opponent available
     And its character takes part in a fight with the opponent
-    When a stranger tries to read the fight's infos
+    When a stranger tries to view the fight's infos
     Then the query for the fight infos was refused
 
   Scenario: a client can view all the fights of one of its character

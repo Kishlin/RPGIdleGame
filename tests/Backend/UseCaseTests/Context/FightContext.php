@@ -156,9 +156,9 @@ final class FightContext extends RPGIdleGameContext
     }
 
     /**
-     * @When /^a client asks to read one the fight's infos$/
+     * @When /^a client asks to view one the fight's infos$/
      */
-    public function aClientAsksToReadOneTheFightSInfos(): void
+    public function aClientAsksToViewOneTheFightSInfos(): void
     {
         try {
             $this->response = null;
@@ -176,9 +176,9 @@ final class FightContext extends RPGIdleGameContext
     }
 
     /**
-     * @When /^a client asks to read a fight that does not exist$/
+     * @When /^a client asks to view a fight that does not exist$/
      */
-    public function aClientAsksToReadAFightThatDoesNotExist(): void
+    public function aClientAsksToViewAFightThatDoesNotExist(): void
     {
         try {
             $this->response = null;
@@ -196,9 +196,9 @@ final class FightContext extends RPGIdleGameContext
     }
 
     /**
-     * @When /^a stranger tries to read the fight's infos$/
+     * @When /^a stranger tries to view the fight's infos$/
      */
-    public function aStrangerTriesToReadTheFightSInfos(): void
+    public function aStrangerTriesToViewTheFightSInfos(): void
     {
         try {
             $this->response = null;
