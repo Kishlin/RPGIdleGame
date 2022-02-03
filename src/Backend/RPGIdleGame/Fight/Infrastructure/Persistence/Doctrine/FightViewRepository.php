@@ -42,22 +42,22 @@ LIMIT 1
 SQL;
 
     private const INITIATOR_QUERY = <<<'SQL'
-SELECT accounts.account_username, characters.character_name, fight_initiators.health, fight_initiators.attack, fight_initiators.defense, fight_initiators.magik , fight_initiators.rank
+SELECT accounts.username as account_username, characters.character_name, fight_initiators.health, fight_initiators.attack, fight_initiators.defense, fight_initiators.magik , fight_initiators.rank
 FROM fights
 LEFT JOIN fight_initiators ON fight_initiators.id = fights.initiator
 LEFT JOIN characters ON characters.character_id = fight_initiators.character_id
-LEFT JOIN accounts ON characters.character_owner = accounts.account_id
+LEFT JOIN accounts ON characters.character_owner = accounts.id
 WHERE fights.id = :fight_id
 LIMIT 1
 ;
 SQL;
 
     private const OPPONENT_QUERY = <<<'SQL'
-SELECT accounts.account_username, characters.character_name, fight_opponents.health, fight_opponents.attack, fight_opponents.defense, fight_opponents.magik , fight_opponents.rank
+SELECT accounts.username as account_username, characters.character_name, fight_opponents.health, fight_opponents.attack, fight_opponents.defense, fight_opponents.magik , fight_opponents.rank
 FROM fights
 LEFT JOIN fight_opponents ON fight_opponents.id = fights.opponent
 LEFT JOIN characters ON characters.character_id = fight_opponents.character_id
-LEFT JOIN accounts ON characters.character_owner = accounts.account_id
+LEFT JOIN accounts ON characters.character_owner = accounts.id
 WHERE fights.id = :fight_id
 LIMIT 1
 ;

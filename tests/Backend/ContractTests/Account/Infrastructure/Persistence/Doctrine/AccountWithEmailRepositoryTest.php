@@ -22,7 +22,7 @@ final class AccountWithEmailRepositoryTest extends RepositoryContractTestCase
     {
         $repository   = new AccountWithEmailRepository(self::entityManager());
         $account      = AccountProvider::activeAccount();
-        $accountEmail = $account->accountEmail();
+        $accountEmail = $account->email();
 
         self::assertFalse($repository->thereAlreadyIsAnAccountWithEmail($accountEmail));
 

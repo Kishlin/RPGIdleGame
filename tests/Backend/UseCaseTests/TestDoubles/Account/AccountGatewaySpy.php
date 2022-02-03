@@ -18,7 +18,7 @@ final class AccountGatewaySpy implements AccountGateway, AccountWithEmailGateway
 
     public function save(Account $account): void
     {
-        $this->accounts[$account->accountId()->value()] = $account;
+        $this->accounts[$account->id()->value()] = $account;
     }
 
     public function findOneById(AccountId $accountId): ?Account
@@ -28,7 +28,7 @@ final class AccountGatewaySpy implements AccountGateway, AccountWithEmailGateway
 
     public function thereAlreadyIsAnAccountWithEmail(AccountEmail $accountEmail): bool
     {
-        $property = new ReflectionProperty(Account::class, 'accountEmail');
+        $property = new ReflectionProperty(Account::class, 'email');
 
         foreach ($this->accounts as $account) {
             $other = $property->getValue($account);

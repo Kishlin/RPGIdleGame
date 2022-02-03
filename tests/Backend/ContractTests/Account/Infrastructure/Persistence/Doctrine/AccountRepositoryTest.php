@@ -22,7 +22,7 @@ final class AccountRepositoryTest extends RepositoryContractTestCase
 
         $repository->save($account);
 
-        $savedAccount = $repository->findOneById($account->accountId());
+        $savedAccount = $repository->findOneById($account->id());
 
         self::assertSame($savedAccount, $account);
     }

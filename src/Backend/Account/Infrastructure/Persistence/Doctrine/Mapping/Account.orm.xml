@@ -5,15 +5,15 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="Kishlin\Backend\Account\Domain\Account" table="accounts">
-        <id name="accountId" type="account_id" column="account_id" length="36" />
+        <id name="id" type="account_id" column="id" length="36" />
 
-        <embedded name="accountUsername" class="Kishlin\Backend\Account\Domain\ValueObject\AccountUsername" use-column-prefix="false" />
+        <embedded name="username" class="Kishlin\Backend\Account\Domain\ValueObject\AccountUsername" use-column-prefix="false" />
 
-        <embedded name="accountEmail" class="Kishlin\Backend\Account\Domain\ValueObject\AccountEmail" use-column-prefix="false" />
+        <embedded name="email" class="Kishlin\Backend\Account\Domain\ValueObject\AccountEmail" use-column-prefix="false" />
 
-        <embedded name="accountPassword" class="Kishlin\Backend\Account\Domain\ValueObject\AccountPassword" use-column-prefix="false" />
+        <embedded name="password" class="Kishlin\Backend\Account\Domain\ValueObject\AccountPassword" use-column-prefix="false" />
 
-        <embedded name="accountIsActive" class="Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive" use-column-prefix="false" />
+        <embedded name="isActive" class="Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive" use-column-prefix="false" />
     </entity>
 
 </doctrine-mapping>

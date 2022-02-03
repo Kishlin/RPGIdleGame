@@ -19,6 +19,6 @@ final class AccountRepository extends DoctrineRepository implements AccountGatew
 
     public function findOneById(AccountId $accountId): ?Account
     {
-        return $this->entityManager->getRepository(Account::class)->findOneBy(['accountId' => $accountId]);
+        return $this->entityManager->getRepository(Account::class)->findOneBy(['id' => $accountId]);
     }
 }

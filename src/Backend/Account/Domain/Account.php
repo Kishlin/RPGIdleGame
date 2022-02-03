@@ -15,41 +15,41 @@ final class Account extends AggregateRoot
 {
     /** @noinspection PhpPropertyOnlyWrittenInspection */
     private function __construct(
-        private AccountId $accountId,
-        private AccountUsername $accountUsername,
-        private AccountPassword $accountPassword,
-        private AccountEmail $accountEmail,
-        private AccountIsActive $accountIsActive,
+        private AccountId $id,
+        private AccountUsername $username,
+        private AccountPassword $password,
+        private AccountEmail $email,
+        private AccountIsActive $isActive,
     ) {
     }
 
     public static function createActiveAccount(
-        AccountId $accountId,
-        AccountUsername $accountUsername,
-        AccountPassword $accountPassword,
-        AccountEmail $accountEmail,
+        AccountId $id,
+        AccountUsername $username,
+        AccountPassword $password,
+        AccountEmail $email,
     ): self {
-        $accountIsActive = new AccountIsActive(true);
+        $isActive = new AccountIsActive(true);
 
-        $account = new self($accountId, $accountUsername, $accountPassword, $accountEmail, $accountIsActive);
+        $account = new self($id, $username, $password, $email, $isActive);
 
-        $account->record(new AccountCreatedDomainEvent($account->accountId));
+        $account->record(new AccountCreatedDomainEvent($account->id));
 
         return $account;
     }
 
-    public function accountId(): AccountId
+    public function id(): AccountId
     {
-        return $this->accountId;
+        return $this->id;
     }
 
-    public function accountEmail(): AccountEmail
+    public function email(): AccountEmail
     {
-        return $this->accountEmail;
+        return $this->email;
     }
 
-    public function accountIsActive(): AccountIsActive
+    public function isActive(): AccountIsActive
     {
-        return $this->accountIsActive;
+        return $this->isActive;
     }
 }

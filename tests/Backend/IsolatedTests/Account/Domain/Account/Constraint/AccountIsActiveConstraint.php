@@ -19,7 +19,7 @@ final class AccountIsActiveConstraint extends Constraint
      */
     protected function matches(mixed $other): bool
     {
-        return $other->accountIsActive()->value();
+        return $other->isActive()->value();
     }
 
     /**
@@ -27,7 +27,7 @@ final class AccountIsActiveConstraint extends Constraint
      */
     protected function additionalFailureDescription($other): string
     {
-        $value = var_export($other->accountIsActive()->value(), true);
+        $value = var_export($other->isActive()->value(), true);
 
         return "Actual status is: {$value}.";
     }

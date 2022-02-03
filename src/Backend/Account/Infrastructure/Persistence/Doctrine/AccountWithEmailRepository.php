@@ -17,7 +17,7 @@ final class AccountWithEmailRepository extends DoctrineRepository implements Acc
     public function thereAlreadyIsAnAccountWithEmail(AccountEmail $accountEmail): bool
     {
         $foundAnAccountWithEmail = $this->entityManager->getConnection()->fetchOne(
-            'SELECT 1 FROM accounts WHERE account_email = :email LIMIT 1;',
+            'SELECT 1 FROM accounts WHERE email = :email LIMIT 1;',
             ['email' => $accountEmail->value()],
         );
 

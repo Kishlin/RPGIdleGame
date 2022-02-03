@@ -83,7 +83,7 @@ final class FightViewRepositoryTest extends RepositoryContractTestCase
     private static function completeFixturesQueries(): string
     {
         return <<<'SQL'
-INSERT INTO accounts (account_id, account_username, account_email, account_password, account_is_active) VALUES
+INSERT INTO accounts (id, username, email, password, is_active) VALUES
     ('account-0', 'User', 'user@example.com', 'password', true),
     ('account-1', 'Stranger', 'stranger@example.com', 'password', true)
 ;

@@ -25,11 +25,11 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.accounts (
-    account_id character varying(36) NOT NULL,
-    account_username character varying(255) NOT NULL,
-    account_email character varying(255) NOT NULL,
-    account_password character varying(255) NOT NULL,
-    account_is_active boolean NOT NULL
+    id character varying(36) NOT NULL,
+    username character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    is_active boolean NOT NULL
 );
 
 
@@ -153,7 +153,7 @@ ALTER TABLE public.fights OWNER TO rpgidlegame;
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
 --
 
-COPY public.accounts (account_id, account_username, account_email, account_password, account_is_active) FROM stdin;
+COPY public.accounts (id, username, email, password, is_active) FROM stdin;
 \.
 
 
@@ -222,7 +222,7 @@ COPY public.fights (id, initiator, opponent, winner_id) FROM stdin;
 --
 
 ALTER TABLE ONLY public.accounts
-    ADD CONSTRAINT accounts_pkey PRIMARY KEY (account_id);
+    ADD CONSTRAINT accounts_pkey PRIMARY KEY (id);
 
 
 --

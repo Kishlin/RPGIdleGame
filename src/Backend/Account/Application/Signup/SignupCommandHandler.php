@@ -39,6 +39,6 @@ final class SignupCommandHandler implements CommandHandler
 
         $this->eventDispatcher->dispatch(...$account->pullDomainEvents());
 
-        return $account->accountId();
+        return $account->id();
     }
 }
