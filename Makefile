@@ -144,25 +144,25 @@ tests.backend.src:
 	@echo ""
 
 tests.backend.app.driving:
-	@echo "Running Driving Tests for the Backoffice App"
+	@echo "Running Driving Tests for the Backend App"
 	@docker-compose exec backend php -d xdebug.mode=off \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite driving
 	@echo ""
 
 tests.backend.app.functional:
-	@echo "Running Functional Tests for the Backoffice App"
+	@echo "Running Functional Tests for the Backend App"
 	@docker-compose exec backend php -d xdebug.mode=off \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite functional
 	@echo ""
 
 tests.backend.app.integration:
-	@echo "Running Integration Tests for the Backoffice App"
+	@echo "Running Integration Tests for the Backend App"
 	@docker-compose exec backend php -d xdebug.mode=off \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite integration
 	@echo ""
 
 tests.backend.app:
-	@echo "Running Tests for the Backoffice App"
+	@echo "Running Tests for the Backend App"
 	@docker-compose exec backend php -d xdebug.mode=off \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml
 	@echo ""
