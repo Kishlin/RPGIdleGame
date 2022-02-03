@@ -19,7 +19,7 @@ final class CharacterCountRepository extends DoctrineRepository implements Chara
 
     public function findForOwner(CharacterCountOwner $characterCountOwner): ?CharacterCount
     {
-        $criteria = ['characterCountOwner' => $characterCountOwner];
+        $criteria = ['owner' => $characterCountOwner];
 
         return $this->entityManager->getRepository(CharacterCount::class)->findOneBy($criteria);
     }

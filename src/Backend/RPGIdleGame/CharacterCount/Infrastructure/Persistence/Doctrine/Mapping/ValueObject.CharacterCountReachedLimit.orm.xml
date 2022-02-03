@@ -5,7 +5,7 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <embeddable name="Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountReachedLimit" table="character_counts">
-        <field name="value" type="boolean" column="character_count_reached_limit" />
+        <field name="value" type="boolean" column="reached_limit" />
     </embeddable>
 
 </doctrine-mapping>

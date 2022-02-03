@@ -20,6 +20,6 @@ final class CharacterCountTest extends TestCase
 
         $characterCount = CharacterCount::createForOwner($ownerId);
 
-        self::assertSame(0, $characterCount->characterCountValue()->value());
+        self::assertSame(0, $characterCount->count()->value());
     }
 }

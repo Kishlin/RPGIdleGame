@@ -17,7 +17,7 @@ final class Version20220125013925 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE character_counts (owner_id VARCHAR(36) NOT NULL, character_count INT NOT NULL, character_count_reached_limit BOOLEAN NOT NULL, PRIMARY KEY(owner_id))');
+        $this->addSql('CREATE TABLE character_counts (owner_id VARCHAR(36) NOT NULL, count INT NOT NULL, reached_limit BOOLEAN NOT NULL, PRIMARY KEY(owner_id))');
     }
 
     public function down(Schema $schema): void

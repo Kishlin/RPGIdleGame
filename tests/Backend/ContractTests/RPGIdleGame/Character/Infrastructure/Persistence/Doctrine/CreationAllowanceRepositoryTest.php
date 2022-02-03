@@ -49,7 +49,7 @@ final class CreationAllowanceRepositoryTest extends RepositoryContractTestCase
     public function loadCharacterCountFixture(string $ownerUuid, int $count, bool $hasReachedLimit): void
     {
         $query = <<<'SQL'
-INSERT INTO character_counts (owner_id, character_count, character_count_reached_limit)
+INSERT INTO character_counts (owner_id, character_count, reached_limit)
 VALUES (:owner, :count, :hasReachedLimit);
 SQL;
 

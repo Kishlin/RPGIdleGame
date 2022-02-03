@@ -14,45 +14,45 @@ final class CharacterCount extends AggregateRoot
     public const CHARACTER_LIMIT = 10;
 
     private function __construct(
-        private CharacterCountOwner $characterCountOwner,
-        private CharacterCountValue $characterCountValue,
-        private CharacterCountReachedLimit $characterCountReachedLimit,
+        private CharacterCountOwner $owner,
+        private CharacterCountValue $count,
+        private CharacterCountReachedLimit $reachedLimit,
     ) {
     }
 
-    public static function createForOwner(CharacterCountOwner $characterCountOwner): self
+    public static function createForOwner(CharacterCountOwner $owner): self
     {
-        return new self($characterCountOwner, new CharacterCountValue(0), new CharacterCountReachedLimit(false));
+        return new self($owner, new CharacterCountValue(0), new CharacterCountReachedLimit(false));
     }
 
     public function incrementOnCharacterCreation(): void
     {
-        $this->characterCountValue = $this->characterCountValue->increment();
+        $this->count = $this->count->increment();
 
-        if ($this->characterCountValue->hasReachedLimit(self::CHARACTER_LIMIT)) {
-            $this->characterCountReachedLimit = $this->characterCountReachedLimit->flagLimitAsReached();
+        if ($this->count->hasReachedLimit(self::CHARACTER_LIMIT)) {
+            $this->reachedLimit = $this->reachedLimit->flagLimitAsReached();
         }
     }
 
     public function decrementOnCharacterDeletion(): void
     {
-        $this->characterCountValue = $this->characterCountValue->decrement();
+        $this->count = $this->count->decrement();
 
-        $this->characterCountReachedLimit = $this->characterCountReachedLimit->limitIsNotReachedAnymore();
+        $this->reachedLimit = $this->reachedLimit->limitIsNotReachedAnymore();
     }
 
-    public function characterCountOwner(): CharacterCountOwner
+    public function owner(): CharacterCountOwner
     {
-        return $this->characterCountOwner;
+        return $this->owner;
     }
 
-    public function characterCountValue(): CharacterCountValue
+    public function count(): CharacterCountValue
     {
-        return $this->characterCountValue;
+        return $this->count;
     }
 
-    public function characterCountReachedLimit(): CharacterCountReachedLimit
+    public function reachedLimit(): CharacterCountReachedLimit
     {
-        return $this->characterCountReachedLimit;
+        return $this->reachedLimit;
     }
 }

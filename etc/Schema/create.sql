@@ -42,7 +42,7 @@ ALTER TABLE public.accounts OWNER TO rpgidlegame;
 CREATE TABLE public.character_counts (
     owner_id character varying(36) NOT NULL,
     character_count integer NOT NULL,
-    character_count_reached_limit boolean NOT NULL
+    reached_limit boolean NOT NULL
 );
 
 
@@ -161,7 +161,7 @@ COPY public.accounts (id, username, email, password, is_active) FROM stdin;
 -- Data for Name: character_counts; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
 --
 
-COPY public.character_counts (owner_id, character_count, character_count_reached_limit) FROM stdin;
+COPY public.character_counts (owner_id, character_count, reached_limit) FROM stdin;
 \.
 
 
