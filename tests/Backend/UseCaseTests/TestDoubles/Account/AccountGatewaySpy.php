@@ -60,6 +60,17 @@ final class AccountGatewaySpy implements AccountGateway, AccountWithEmailGateway
         return null;
     }
 
+    public function theUserExistsWithThisSalt(string $userId, string $salt): bool
+    {
+        foreach ($this->accounts as $account) {
+            if ($userId === $account->id()->value() && $salt === $account->salt()->value()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return string[]
      */

@@ -14,18 +14,17 @@ use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
  * @internal
  * @covers \Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountReaderRepository
  */
-final class PasswordHashReaderRepositoryTest extends RepositoryContractTestCase
+final class AccountReaderRepositoryTest extends RepositoryContractTestCase
 {
     /**
      * @throws Exception
      */
     public function testItCanFindAPasswordHashWithAUsername(): void
     {
-        $account = AccountProvider::activeAccount();
+        $account    = AccountProvider::activeAccount();
+        $repository = new AccountReaderRepository(self::entityManager());
 
         self::loadFixtures($account);
-
-        $repository = new AccountReaderRepository(self::entityManager());
 
         self::assertInstanceOf(
             AccountDetailsForAuthentication::class,
@@ -38,11 +37,10 @@ final class PasswordHashReaderRepositoryTest extends RepositoryContractTestCase
      */
     public function testItCanFindAPasswordHashWithAnEmail(): void
     {
-        $account = AccountProvider::activeAccount();
+        $account    = AccountProvider::activeAccount();
+        $repository = new AccountReaderRepository(self::entityManager());
 
         self::loadFixtures($account);
-
-        $repository = new AccountReaderRepository(self::entityManager());
 
         self::assertInstanceOf(
             AccountDetailsForAuthentication::class,
@@ -58,5 +56,24 @@ final class PasswordHashReaderRepositoryTest extends RepositoryContractTestCase
         $repository = new AccountReaderRepository(self::entityManager());
 
         self::assertNull($repository->readModelForAuthentication('does not exist'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testItChecksTheExistenceOfAUserWithSalt(): void
+    {
+        $account    = AccountProvider::activeAccount();
+        $repository = new AccountReaderRepository(self::entityManager());
+
+        self::loadFixtures($account);
+
+        self::assertTrue(
+            $repository->theUserExistsWithThisSalt($account->id()->value(), $account->salt()->value()),
+        );
+
+        self::assertFalse($repository->theUserExistsWithThisSalt('invalid-user-id', $account->salt()->value()));
+
+        self::assertFalse($repository->theUserExistsWithThisSalt($account->id()->value(), 'invalid-salt'));
     }
 }

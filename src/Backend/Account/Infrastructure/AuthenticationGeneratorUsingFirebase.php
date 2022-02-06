@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Kishlin\Backend\Account\Infrastructure;
 
 use Kishlin\Backend\Account\Application\Authenticate\AuthenticationGenerator;
+use Kishlin\Backend\Account\Application\RefreshAuthentication\SimpleAuthenticationGenerator;
 use Kishlin\Backend\Shared\Infrastructure\Security\JWTGeneratorUsingFirebase;
 
-final class AuthenticationGeneratorUsingFirebase implements AuthenticationGenerator
+final class AuthenticationGeneratorUsingFirebase implements AuthenticationGenerator, SimpleAuthenticationGenerator
 {
-    private function __construct(
+    public function __construct(
         private JWTGeneratorUsingFirebase $tokenGenerator,
     ) {
     }

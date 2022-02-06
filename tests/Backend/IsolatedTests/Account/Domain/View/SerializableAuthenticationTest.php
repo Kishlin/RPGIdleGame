@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class SerializableAuthenticationTest extends TestCase
 {
-    public function testItCanBeCreatedFromSource(): void
+    public function testItCanBeCreatedFromScalars(): void
     {
         $view = SerializableAuthentication::fromScalars('token', 'refreshToken');
 
@@ -21,7 +21,7 @@ final class SerializableAuthenticationTest extends TestCase
     }
 
     /**
-     * @depends testItCanBeCreatedFromSource
+     * @depends testItCanBeCreatedFromScalars
      */
     public function testItCanBeSerialized(): void
     {

@@ -8,6 +8,10 @@ use Exception;
 use Kishlin\Backend\Account\Infrastructure\SaltGeneratorUsingRandomBytes;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class SaltGeneratorUsingRandomBytesTest extends TestCase
 {
     /**

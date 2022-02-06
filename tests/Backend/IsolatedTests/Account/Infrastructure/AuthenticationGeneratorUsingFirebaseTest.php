@@ -8,6 +8,10 @@ use Kishlin\Backend\Account\Infrastructure\AuthenticationGeneratorUsingFirebase;
 use Kishlin\Backend\Shared\Infrastructure\Security\JWTGeneratorUsingFirebase;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class AuthenticationGeneratorUsingFirebaseTest extends TestCase
 {
     private const SECRET_KEY = 'ThisKeyIsNotSoSecretButItIsTests';

@@ -25,7 +25,7 @@ final class JWTUsingFirebaseTest extends TestCase
 
         $token = $generator->token([
             'test' => true,
-            'exp' => strtotime('+10 minute'),
+            'exp'  => strtotime('+10 minute'),
         ]);
 
         $payload = (array) JWT::decode($token, new Key(self::SECRET_KEY, self::ALGORITHM));
