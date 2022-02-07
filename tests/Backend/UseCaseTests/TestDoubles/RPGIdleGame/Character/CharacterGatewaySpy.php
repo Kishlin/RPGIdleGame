@@ -52,7 +52,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
 
         $character = $this->characters[$characterId];
 
-        return SerializableCharacterView::fromEntity($character);
+        return self::characterToView($character);
     }
 
     public function viewAllForOwner(string $ownerUuid): array
@@ -62,7 +62,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
         };
 
         return array_map(
-            [SerializableCharacterView::class, 'fromEntity'],
+            [$this, 'characterToView'],
             array_filter($this->characters, $filterForOwner)
         );
     }
@@ -79,5 +79,24 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function has(string $characterId): bool
     {
         return array_key_exists($characterId, $this->characters);
+    }
+
+    private static function characterToView(Character $character): SerializableCharacterView
+    {
+        return SerializableCharacterView::fromSource([
+            'id'           => $character->id()->value(),
+            'name'         => $character->name()->value(),
+            'owner'        => $character->owner()->value(),
+            'skill_points' => $character->skillPoint()->value(),
+            'health'       => $character->health()->value(),
+            'attack'       => $character->attack()->value(),
+            'defense'      => $character->defense()->value(),
+            'magik'        => $character->magik()->value(),
+            'rank'         => $character->rank()->value(),
+            'fights_count' => 0,
+            'wins_count'   => 0,
+            'draws_count'  => 0,
+            'losses_count' => 0,
+        ]);
     }
 }

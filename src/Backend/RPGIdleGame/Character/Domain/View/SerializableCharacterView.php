@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain\View;
 
-use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\Shared\Domain\View\SerializableView;
 
 final class SerializableCharacterView extends SerializableView
@@ -18,9 +17,13 @@ final class SerializableCharacterView extends SerializableView
     private int $defense;
     private int $magik;
     private int $rank;
+    private int $fightsCount;
+    private int $winsCount;
+    private int $drawsCount;
+    private int $lossesCount;
 
     /**
-     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int}
+     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int}
      */
     public function __serialize(): array
     {
@@ -34,11 +37,15 @@ final class SerializableCharacterView extends SerializableView
             'defense'      => $this->defense,
             'magik'        => $this->magik,
             'rank'         => $this->rank,
+            'fights_count' => $this->fightsCount,
+            'wins_count'   => $this->winsCount,
+            'draws_count'  => $this->drawsCount,
+            'losses_count' => $this->lossesCount,
         ];
     }
 
     /**
-     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int} $data
+     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int} $data
      */
     public function __unserialize(array $data): void
     {
@@ -52,34 +59,21 @@ final class SerializableCharacterView extends SerializableView
             'defense'      => $this->defense,
             'magik'        => $this->magik,
             'rank'         => $this->rank,
+            'fights_count' => $this->fightsCount,
+            'wins_count'   => $this->winsCount,
+            'draws_count'  => $this->drawsCount,
+            'losses_count' => $this->lossesCount,
         ] = $data;
     }
 
     /**
-     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int} $source
+     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int} $source
      */
     public static function fromSource(array $source): self
     {
         $view = new self();
 
         $view->__unserialize($source);
-
-        return $view;
-    }
-
-    public static function fromEntity(Character $character): self
-    {
-        $view = new self();
-
-        $view->id          = $character->id()->value();
-        $view->name        = $character->name()->value();
-        $view->owner       = $character->owner()->value();
-        $view->skillPoints = $character->skillPoint()->value();
-        $view->health      = $character->health()->value();
-        $view->attack      = $character->attack()->value();
-        $view->defense     = $character->defense()->value();
-        $view->magik       = $character->magik()->value();
-        $view->rank        = $character->rank()->value();
 
         return $view;
     }
