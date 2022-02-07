@@ -23,8 +23,6 @@
 
         <embedded name="rank" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank" use-column-prefix="false" />
 
-        <embedded name="fightsCount" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterFightsCount" use-column-prefix="false" />
-
 </entity>
 
 </doctrine-mapping>

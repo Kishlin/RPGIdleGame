@@ -8,7 +8,6 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterFightsCount;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik;
@@ -31,7 +30,6 @@ final class Character extends AggregateRoot
         private CharacterDefense $defense,
         private CharacterMagik $magik,
         private CharacterRank $rank,
-        private CharacterFightsCount $fightsCount,
     ) {
     }
 
@@ -50,7 +48,6 @@ final class Character extends AggregateRoot
             new CharacterDefense(0),
             new CharacterMagik(0),
             new CharacterRank(1),
-            new CharacterFightsCount(0),
         );
 
         $character->record(new CharacterCreatedDomainEvent($id, $owner));
@@ -172,11 +169,6 @@ final class Character extends AggregateRoot
     public function rank(): CharacterRank
     {
         return $this->rank;
-    }
-
-    public function fightsCount(): CharacterFightsCount
-    {
-        return $this->fightsCount;
     }
 
     /**

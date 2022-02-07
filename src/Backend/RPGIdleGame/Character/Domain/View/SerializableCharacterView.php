@@ -18,10 +18,9 @@ final class SerializableCharacterView extends SerializableView
     private int $defense;
     private int $magik;
     private int $rank;
-    private int $fightsCount;
 
     /**
-     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int}
+     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int}
      */
     public function __serialize(): array
     {
@@ -35,12 +34,11 @@ final class SerializableCharacterView extends SerializableView
             'defense'      => $this->defense,
             'magik'        => $this->magik,
             'rank'         => $this->rank,
-            'fights_count' => $this->fightsCount,
         ];
     }
 
     /**
-     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int} $data
+     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int} $data
      */
     public function __unserialize(array $data): void
     {
@@ -54,12 +52,11 @@ final class SerializableCharacterView extends SerializableView
             'defense'      => $this->defense,
             'magik'        => $this->magik,
             'rank'         => $this->rank,
-            'fights_count' => $this->fightsCount,
         ] = $data;
     }
 
     /**
-     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int} $source
+     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int} $source
      */
     public static function fromSource(array $source): self
     {
@@ -83,7 +80,6 @@ final class SerializableCharacterView extends SerializableView
         $view->defense     = $character->defense()->value();
         $view->magik       = $character->magik()->value();
         $view->rank        = $character->rank()->value();
-        $view->fightsCount = $character->fightsCount()->value();
 
         return $view;
     }

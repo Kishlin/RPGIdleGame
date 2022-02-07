@@ -18,7 +18,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView
     {
         /**
-         * @var array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int}|false $data
+         * @var array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int}|false $data
          */
         $data = $this->entityManager->getConnection()->fetchAssociative(
             'SELECT * from characters WHERE id = :id AND owner = :owner',
@@ -40,7 +40,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     public function viewAllForOwner(string $ownerUuid): array
     {
         /**
-         * @var array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int}>|false $data
+         * @var array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int}>|false $data
          */
         $data = $this->entityManager->getConnection()->fetchAllAssociative(
             'SELECT * from characters WHERE owner = :owner',

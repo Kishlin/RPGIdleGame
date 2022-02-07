@@ -7,7 +7,6 @@ namespace Kishlin\Tests\Backend\Tools\Provider;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterFightsCount;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik;
@@ -58,7 +57,6 @@ final class CharacterProvider
         $character = self::tweakedCharacter(50, 85, 36, 28, 30);
 
         ReflectionHelper::writePropertyValue($character, 'rank', new CharacterRank(15));
-        ReflectionHelper::writePropertyValue($character, 'fightsCount', new CharacterFightsCount(165));
 
         return $character;
     }
