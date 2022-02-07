@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+
+  ##> Gateway
+
+  Kishlin\Backend\RPGIdleGame\CharacterStats\Domain\CharacterStatsGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterStats\Infrastructure\Persistence\Doctrine\CharacterStatsRepository'
