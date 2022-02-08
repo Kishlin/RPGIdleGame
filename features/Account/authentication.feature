@@ -5,11 +5,6 @@ Feature: It can authenticate
     When a client authenticates with the correct credentials
     Then the authentication was authorized
 
-  Scenario: a client cannot create an account with an email already used
-    Given a client has an account
-    When a client tries to authenticate with wrong credentials
-    Then the authentication was refused
-
   Scenario: a client can renew its authentication
     Given a client has an account
     When a client refreshes its authentication with a valid refresh token
