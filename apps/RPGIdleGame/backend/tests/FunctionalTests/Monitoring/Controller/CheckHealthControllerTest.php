@@ -14,7 +14,7 @@ use Kishlin\Tests\Backend\Apps\AbstractFunctionalTests\Controller\Monitoring\Che
  * @internal
  * @covers \Kishlin\Apps\RPGIdleGame\Backend\Monitoring\Controller\CheckHealthController
  */
-final class CheckHealthControllerControllerTest extends CheckHealthControllerTestCase
+final class CheckHealthControllerTest extends CheckHealthControllerTestCase
 {
     public function testTheAPIShowsStatusForAllServices(): void
     {
