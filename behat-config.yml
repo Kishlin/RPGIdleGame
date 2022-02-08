@@ -1,7 +1,7 @@
 default:
   suites:
     use_case_tests:
-      paths:    [ features ]
+      paths: [ features ]
       contexts:
         - Kishlin\Tests\Backend\UseCaseTests\Context\FightContext
         - Kishlin\Tests\Backend\UseCaseTests\Context\AccountContext
