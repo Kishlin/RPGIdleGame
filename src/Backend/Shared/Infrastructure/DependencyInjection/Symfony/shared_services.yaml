@@ -93,15 +93,9 @@ when@test:
 
     Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus:
       public: true
-      tags:
-        - { name: messenger.bus }
 
     Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher:
-        public: true
-        tags:
-          - { name: messenger.bus }
+      public: true
 
     Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus:
-        public: true
-        tags:
-          - { name: messenger.bus }
+      public: true
