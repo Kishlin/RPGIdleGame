@@ -28,6 +28,6 @@ final class FightWasWonByResultConstraint extends AbstractFightResultConstraint
      */
     protected function matches($fight): bool
     {
-        return $fight->winnerId()->equals($this->winner->id());
+        return $fight->winnerId()->equals($this->winner->characterId());
     }
 }

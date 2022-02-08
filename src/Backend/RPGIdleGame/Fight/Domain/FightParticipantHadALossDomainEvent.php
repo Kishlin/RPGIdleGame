@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Fight\Domain;
 
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantId;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantCharacterId;
 use Kishlin\Backend\Shared\Domain\Bus\Event\DomainEvent;
 use Kishlin\Backend\Shared\Domain\ValueObject\UuidValueObject;
 
@@ -13,7 +13,7 @@ final class FightParticipantHadALossDomainEvent extends DomainEvent
 {
     public function __construct(
         private FightId $fightId,
-        private FightParticipantId $fightParticipantId,
+        private FightParticipantCharacterId $characterId,
     ) {
         parent::__construct($this->fightId);
     }
@@ -23,8 +23,8 @@ final class FightParticipantHadALossDomainEvent extends DomainEvent
         return $this->fightId;
     }
 
-    public function fightParticipant(): UuidValueObject
+    public function characterId(): UuidValueObject
     {
-        return $this->fightParticipantId;
+        return $this->characterId;
     }
 }

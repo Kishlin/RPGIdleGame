@@ -114,16 +114,16 @@ final class Fight extends AggregateRoot
 
     private function onFightWillAlwaysBeADraw(): void
     {
-        $this->record(new FightParticipantHadADrawDomainEvent($this->id, $this->initiator->id()));
-        $this->record(new FightParticipantHadADrawDomainEvent($this->id, $this->opponent->id()));
+        $this->record(new FightParticipantHadADrawDomainEvent($this->id, $this->initiator->characterId()));
+        $this->record(new FightParticipantHadADrawDomainEvent($this->id, $this->opponent->characterId()));
     }
 
     private function onFightEndsWithAClearWinner(AbstractFightParticipant $winner, AbstractFightParticipant $loser): void
     {
-        $this->winnerId = FightWinnerId::fromOther($winner->id());
+        $this->winnerId = FightWinnerId::fromOther($winner->characterId());
 
-        $this->record(new FightParticipantHadAWinDomainEvent($this->id, $winner->id()));
-        $this->record(new FightParticipantHadALossDomainEvent($this->id, $loser->id()));
+        $this->record(new FightParticipantHadAWinDomainEvent($this->id, $winner->characterId()));
+        $this->record(new FightParticipantHadALossDomainEvent($this->id, $loser->characterId()));
     }
 
     /**

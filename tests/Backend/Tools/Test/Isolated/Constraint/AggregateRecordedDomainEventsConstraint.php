@@ -9,6 +9,7 @@ use Kishlin\Backend\Shared\Domain\Bus\Event\DomainEvent;
 use PHPUnit\Framework\Constraint\Constraint;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
+use SebastianBergmann\Exporter\Exporter;
 
 /**
  * Asserts that the AggregateRoot recorded all the expected domain events.
@@ -17,10 +18,19 @@ use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 final class AggregateRecordedDomainEventsConstraint extends Constraint
 {
     /**
-     * @param DomainEvent[] $expectedDomainEvents
+     * @var DomainEvent[]
+     */
+    private array $actualEvents = [];
+
+    private ?Exporter $exporterToUse = null;
+
+    /**
+     * @param DomainEvent[]               $expectedDomainEvents
+     * @param null|class-string<Exporter> $exporterToUseClass
      */
     public function __construct(
-        private array $expectedDomainEvents
+        private array $expectedDomainEvents,
+        private ?string $exporterToUseClass = null
     ) {
     }
 
@@ -39,22 +49,39 @@ final class AggregateRecordedDomainEventsConstraint extends Constraint
         return "recorded {$eventsCount} domain events of types: {$eventsList}";
     }
 
+    protected function exporter(): Exporter
+    {
+        if (null !== $this->exporterToUseClass && null === $this->exporterToUse) {
+            $this->exporterToUse = new $this->exporterToUseClass();
+        }
+
+        return $this->exporterToUse ?? parent::exporter();
+    }
+
     /**
      * @param AggregateRoot $other
      */
     protected function matches(mixed $other): bool
     {
-        $comparatorFactory = ComparatorFactory::getInstance();
-        $domainEvents      = $other->pullDomainEvents();
+        $comparatorFactory  = ComparatorFactory::getInstance();
+        $this->actualEvents = $other->pullDomainEvents();
 
         try {
-            $comparator = $comparatorFactory->getComparatorFor($this->expectedDomainEvents, $domainEvents);
+            $comparator = $comparatorFactory->getComparatorFor($this->expectedDomainEvents, $this->actualEvents);
 
-            $comparator->assertEquals($this->expectedDomainEvents, $domainEvents, canonicalize: true);
+            $comparator->assertEquals($this->expectedDomainEvents, $this->actualEvents, canonicalize: true);
         } catch (ComparisonFailure $f) {
             return false;
         }
 
         return true;
+    }
+
+    protected function additionalFailureDescription($other): string
+    {
+        $actual   = $this->exporter()->export($this->actualEvents);
+        $expected = $this->exporter()->export($this->expectedDomainEvents);
+
+        return "Found events to be: {$actual} when it expected: {$expected}";
     }
 }

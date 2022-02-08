@@ -12,22 +12,25 @@ use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponent;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadADrawDomainEvent;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadALossDomainEvent;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadAWinDomainEvent;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantId;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantCharacterId;
 use Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\RandomDice;
+use Kishlin\Backend\Shared\Domain\Bus\Event\DomainEvent;
 use Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator;
 use Kishlin\Backend\Shared\Infrastructure\Randomness\UuidGeneratorUsingRamsey;
 use Kishlin\Tests\Backend\IsolatedTests\RPGIdleGame\Fight\Domain\Constraint\FightIsADrawResultConstraint;
 use Kishlin\Tests\Backend\IsolatedTests\RPGIdleGame\Fight\Domain\Constraint\FightRecordedAWinnerResultConstraint;
 use Kishlin\Tests\Backend\IsolatedTests\RPGIdleGame\Fight\Domain\Constraint\FightWasWonByResultConstraint;
+use Kishlin\Tests\Backend\IsolatedTests\RPGIdleGame\Fight\Domain\Exporter\FightExporter;
 use Kishlin\Tests\Backend\Tools\Provider\FightProvider;
-use Kishlin\Tests\Backend\Tools\Test\Isolated\AggregateRootIsolatedTestCase;
+use Kishlin\Tests\Backend\Tools\Test\Isolated\Constraint\AggregateRecordedDomainEventsConstraint;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  * @covers \Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight
  * @covers \Kishlin\Backend\RPGIdleGame\Fight\Domain\FightTurn
  */
-final class FightTest extends AggregateRootIsolatedTestCase
+final class FightTest extends TestCase
 {
     public function testItCanBeCreated(): void
     {
@@ -53,10 +56,10 @@ final class FightTest extends AggregateRootIsolatedTestCase
 
         self::assertFightIsADraw($fight);
 
-        self::assertItRecordedDomainEvents(
+        self::assertFightRecordedDomainEvents(
             $fight,
-            new FightParticipantHadADrawDomainEvent($fight->id(), $fight->initiator()->id()),
-            new FightParticipantHadADrawDomainEvent($fight->id(), $fight->opponent()->id()),
+            new FightParticipantHadADrawDomainEvent($fight->id(), $fight->initiator()->characterId()),
+            new FightParticipantHadADrawDomainEvent($fight->id(), $fight->opponent()->characterId()),
         );
     }
 
@@ -75,10 +78,10 @@ final class FightTest extends AggregateRootIsolatedTestCase
 
         self::assertFightWasWonBy($fight, $expectedWinner);
 
-        self::assertItRecordedDomainEvents(
+        self::assertFightRecordedDomainEvents(
             $fight,
-            new FightParticipantHadAWinDomainEvent($fight->id(), $expectedWinner->id()),
-            new FightParticipantHadALossDomainEvent($fight->id(), $expectedLoser->id()),
+            new FightParticipantHadAWinDomainEvent($fight->id(), $expectedWinner->characterId()),
+            new FightParticipantHadALossDomainEvent($fight->id(), $expectedLoser->characterId()),
         );
     }
 
@@ -90,12 +93,12 @@ final class FightTest extends AggregateRootIsolatedTestCase
 
         self::assertFightRecordedAWinner($fight);
 
-        $loser = $fight->winnerId()->equals($fight->initiator()->id()) ? $fight->opponent() : $fight->initiator();
+        $loser = $fight->winnerId()->equals($fight->initiator()->characterId()) ? $fight->opponent() : $fight->initiator();
 
-        self::assertItRecordedDomainEvents(
+        self::assertFightRecordedDomainEvents(
             $fight,
-            new FightParticipantHadAWinDomainEvent($fight->id(), FightParticipantId::fromOther($fight->winnerId())),
-            new FightParticipantHadALossDomainEvent($fight->id(), $loser->id()),
+            new FightParticipantHadAWinDomainEvent($fight->id(), FightParticipantCharacterId::fromOther($fight->winnerId())),
+            new FightParticipantHadALossDomainEvent($fight->id(), $loser->characterId()),
         );
     }
 
@@ -128,5 +131,10 @@ final class FightTest extends AggregateRootIsolatedTestCase
         $fight = FightProvider::fightWhereOnlyOpponentCanDealDamages();
 
         yield [$fight, $fight->opponent(), $fight->initiator()];
+    }
+
+    public static function assertFightRecordedDomainEvents(Fight $fight, DomainEvent ...$events): void
+    {
+        self::assertThat($fight, new AggregateRecordedDomainEventsConstraint($events, FightExporter::class));
     }
 }
