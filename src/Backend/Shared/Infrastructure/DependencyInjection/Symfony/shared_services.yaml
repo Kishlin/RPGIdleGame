@@ -51,6 +51,10 @@ services:
 
   Kishlin\Backend\Shared\Infrastructure\Security\JWTGeneratorUsingFirebase:
     class: 'Kishlin\Backend\Shared\Infrastructure\Security\JWTGeneratorUsingFirebase'
+    bind:
+      $secretKey: '%kishlin.jwt.secretKey%'
+      $hostname: '%kishlin.hostname%'
+      $algorithm: '%kishlin.jwt.algorithm%'
 
 
   ##> Time

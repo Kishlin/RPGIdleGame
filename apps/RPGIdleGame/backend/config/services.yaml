@@ -3,6 +3,10 @@ parameters:
   kishlin.app.environment: '%env(APP_ENV)%'
   kishlin.database.url: '%env(DATABASE_URL)%'
   kishlin.src.dir: '/rpgidlegame'
+  kishlin.jwt.secretKey: '%env(JWT_SECRET_KEY)%'
+  kishlin.jwt.algorithm: '%env(JWT_ALGORITHM)%'
+  kishlin.hostname: '%env(HOSTNAME)%'
+
 
 imports:
   - { resource: ../../../../src/Backend/RPGIdleGame/Shared/Infrastructure/DependencyInjection/Symfony/rpgidlegame_services.yaml }
@@ -13,6 +17,17 @@ services:
   _defaults:
     autoconfigure: true
     autowire: true
+
+
+###> Errors
+
+  Kishlin\Apps\RPGIdleGame\Backend\Errors\OnKernelException:
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
+
+  Kishlin\Apps\RPGIdleGame\Backend\Errors\ExceptionHandlers\:
+    resource: '../src/Errors/ExceptionHandlers'
+    tags: ['kishlin.errors.exception-handler']
 
 
 ##> Account

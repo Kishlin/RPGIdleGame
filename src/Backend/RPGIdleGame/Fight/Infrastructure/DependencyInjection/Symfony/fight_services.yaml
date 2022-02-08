@@ -4,10 +4,41 @@ services:
     autowire: true
 
 
+  ##> Application
+
+  Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightCommandHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightCommandHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightCommand }
+
+  Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFight\ViewFightQueryHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFight\ViewFightQueryHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFight\ViewFightQuery }
+
+  Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFightsForCharacter\ViewFightsForFighterQueryHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFightsForCharacter\ViewFightsForFighterQueryHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFightsForCharacter\ViewFightsForFighterQuery }
+
+
   ##> Gateways
 
   Kishlin\Backend\RPGIdleGame\Fight\Domain\FightGateway:
     class: 'Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightRepository'
+
+  Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightInitiatorRepository'
+
+  Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponentGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightOpponentRepository'
+
+  Kishlin\Backend\RPGIdleGame\Fight\Domain\FightViewGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightViewRepository'
+
+  Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\FightInitiationAllowanceGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightInitiationAllowanceRepository'
+
 
 
   ##> Dice

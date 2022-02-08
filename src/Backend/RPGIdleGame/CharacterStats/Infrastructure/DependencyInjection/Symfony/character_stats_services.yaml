@@ -4,7 +4,25 @@ services:
     autowire: true
 
 
-  ##> Gateway
+  ##> Application
+
+  Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightDraw\StatsAfterADrawUpdater:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightDraw\StatsAfterADrawUpdater'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadADrawDomainEvent }
+
+  Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightLoss\StatsAfterALossUpdater:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightLoss\StatsAfterALossUpdater'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadALossDomainEvent }
+
+  Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightWin\StatsAfterAWinUpdater:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightWin\StatsAfterAWinUpdater'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadAWinDomainEvent }
+
+
+  ##> Gateways
 
   Kishlin\Backend\RPGIdleGame\CharacterStats\Domain\CharacterStatsGateway:
     class: 'Kishlin\Backend\RPGIdleGame\CharacterStats\Infrastructure\Persistence\Doctrine\CharacterStatsRepository'

@@ -1,4 +1,6 @@
 imports:
+  - { resource: ../../../../CharacterStats/Infrastructure/DependencyInjection/Symfony/character_stats_services.yaml }
+  - { resource: ../../../../CharacterCount/Infrastructure/DependencyInjection/Symfony/character_count_services.yaml }
   - { resource: ../../../../Character/Infrastructure/DependencyInjection/Symfony/character_services.yaml }
   - { resource: ../../../../Fight/Infrastructure/DependencyInjection/Symfony/fight_services.yaml }
 

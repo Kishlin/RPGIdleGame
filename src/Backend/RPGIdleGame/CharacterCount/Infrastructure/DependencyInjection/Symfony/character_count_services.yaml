@@ -1,0 +1,28 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+
+  ##> Application
+
+  Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnAccountCreated\CharacterCountForOwnerCreator:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnAccountCreated\CharacterCountForOwnerCreator'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\Account\Domain\AccountCreatedDomainEvent }
+
+  Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterCreated\CharacterCountIncrementor:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterCreated\CharacterCountIncrementor'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent }
+
+  Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterDeleted\CharacterCountDecrementor:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterDeleted\CharacterCountDecrementor'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterDeletedDomainEvent }
+
+
+  ##> Gateways
+
+  Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCountGateway:
+    class: 'Kishlin\Backend\RPGIdleGame\CharacterCount\Infrastructure\Persistence\Doctrine\CharacterCountRepository'

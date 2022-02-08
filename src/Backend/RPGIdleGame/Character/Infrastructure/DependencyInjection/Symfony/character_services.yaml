@@ -4,6 +4,34 @@ services:
     autowire: true
 
 
+  ##> Application
+
+  Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommandHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommandHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand }
+
+  Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommandHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommandHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand }
+
+  Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommandHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommandHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\DistributeSkillPointsCommand }
+
+  Kishlin\Backend\RPGIdleGame\Character\Application\ViewAllCharacter\ViewAllCharactersQueryHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Application\ViewAllCharacter\ViewAllCharactersQueryHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Application\ViewAllCharacter\ViewAllCharactersQuery }
+
+  Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQueryHandler:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQueryHandler'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQuery }
+
+
   ##> Gateways
 
   Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway:
