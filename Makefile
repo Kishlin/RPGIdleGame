@@ -115,7 +115,7 @@ frontend.build:
 	@docker-compose exec frontend yarn run build
 
 ##> Tests
-.PHONY: tests.backend.usecases tests.backend.src.isolated tests.backend.src.contract tests.backend.src \
+.PHONY: tests.backend.usecases test.backend.api tests.backend.src.isolated tests.backend.src.contract tests.backend.src \
 		tests.backend.app.driving tests.backend.app.functional tests.backend.app.integration tests.backend.app \
 		tests.backend tests.frontend tests
 
@@ -123,6 +123,12 @@ tests.backend.usecases:
 	@echo "Running Use Case Tests for src/"
 	@docker-compose exec backend php -d xdebug.mode=off \
 		/rpgidlegame/vendor/bin/behat --config /rpgidlegame/behat-config.yml --suite use_case_tests
+	@echo ""
+
+tests.backend.api:
+	@echo "Running Use Case Tests for src/"
+	@docker-compose exec backend php -d xdebug.mode=off \
+		/rpgidlegame/vendor/bin/behat --config /rpgidlegame/behat-config.yml --suite api_tests
 	@echo ""
 
 tests.backend.src.isolated:
