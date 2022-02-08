@@ -25,6 +25,7 @@ abstract class RPGIdleGameContext implements Context
         ReflectionHelper::writePropertyValue($container->accountGatewaySpy(), 'accounts', []);
         ReflectionHelper::writePropertyValue($container->characterGatewaySpy(), 'characters', []);
         ReflectionHelper::writePropertyValue($container->characterCountGatewaySpy(), 'characterCounts', []);
+        ReflectionHelper::writePropertyValue($container->characterStatsGatewaySpy(), 'characterStats', []);
         ReflectionHelper::writePropertyValue($container->fightGatewaySpy(), 'fights', []);
     }
 

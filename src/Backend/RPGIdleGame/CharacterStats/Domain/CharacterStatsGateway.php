@@ -10,5 +10,5 @@ interface CharacterStatsGateway
 {
     public function save(CharacterStats $characterStats): void;
 
-    public function findOneById(CharacterStatsCharacterId $characterId): ?CharacterStats;
+    public function findForCharacter(CharacterStatsCharacterId $characterId): ?CharacterStats;
 }

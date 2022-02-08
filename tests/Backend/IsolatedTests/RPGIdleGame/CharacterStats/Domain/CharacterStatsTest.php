@@ -34,6 +34,42 @@ final class CharacterStatsTest extends TestCase
         self::assertItRecordedStats($wins, $draws, $losses, $characterStats);
     }
 
+    /**
+     * @depends testItCanBeInitialized
+     */
+    public function testItUpdatesOnAFightWin(): void
+    {
+        $characterStats = CharacterStats::initiate(new CharacterStatsCharacterId('0dc479fe-90e1-4d6c-85b5-1648e05ef659'));
+
+        $characterStats->incrementCountsOnFightWin();
+
+        self::assertItRecordedStats(1, 0, 0, $characterStats);
+    }
+
+    /**
+     * @depends testItCanBeInitialized
+     */
+    public function testItUpdatesOnAFightDraw(): void
+    {
+        $characterStats = CharacterStats::initiate(new CharacterStatsCharacterId('0dc479fe-90e1-4d6c-85b5-1648e05ef659'));
+
+        $characterStats->incrementCountsOnFightDraw();
+
+        self::assertItRecordedStats(0, 1, 0, $characterStats);
+    }
+
+    /**
+     * @depends testItCanBeInitialized
+     */
+    public function testItUpdatesOnAFightLoss(): void
+    {
+        $characterStats = CharacterStats::initiate(new CharacterStatsCharacterId('0dc479fe-90e1-4d6c-85b5-1648e05ef659'));
+
+        $characterStats->incrementCountsOnFightLoss();
+
+        self::assertItRecordedStats(0, 0, 1, $characterStats);
+    }
+
     public static function assertItRecordedStats(int $wins, int $draws, int $losses, CharacterStats $stats): void
     {
         self::assertThat($stats, new ItRecordedStatsConstraint(wins: $wins, draws: $draws, losses: $losses));

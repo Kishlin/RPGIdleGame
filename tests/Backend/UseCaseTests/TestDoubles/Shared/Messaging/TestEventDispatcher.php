@@ -8,8 +8,14 @@ use Kishlin\Backend\Account\Domain\AccountCreatedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterDeletedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnAccountCreated\CharacterCountForOwnerCreator;
-use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterCreated\CharacterCountIncrementorTrait;
+use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterCreated\CharacterCountIncrementor;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnCharacterDeleted\CharacterCountDecrementor;
+use Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightDraw\StatsAfterADrawUpdater;
+use Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightLoss\StatsAfterALossUpdater;
+use Kishlin\Backend\RPGIdleGame\CharacterStats\Application\onFightWin\StatsAfterAWinUpdater;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadADrawDomainEvent;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadALossDomainEvent;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadAWinDomainEvent;
 use Kishlin\Backend\Shared\Domain\Bus\Event\DomainEvent;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 use Kishlin\Tests\Backend\UseCaseTests\TestServiceContainer;
@@ -28,12 +34,27 @@ final class TestEventDispatcher implements EventDispatcher
 
         $this->addSubscriber(
             CharacterCreatedDomainEvent::class,
-            new CharacterCountIncrementorTrait($testServiceContainer->characterCountGatewaySpy()),
+            new CharacterCountIncrementor($testServiceContainer->characterCountGatewaySpy()),
         );
 
         $this->addSubscriber(
             CharacterDeletedDomainEvent::class,
             new CharacterCountDecrementor($testServiceContainer->characterCountGatewaySpy()),
+        );
+
+        $this->addSubscriber(
+            FightParticipantHadADrawDomainEvent::class,
+            new StatsAfterADrawUpdater($testServiceContainer->characterStatsGatewaySpy()),
+        );
+
+        $this->addSubscriber(
+            FightParticipantHadALossDomainEvent::class,
+            new StatsAfterALossUpdater($testServiceContainer->characterStatsGatewaySpy()),
+        );
+
+        $this->addSubscriber(
+            FightParticipantHadAWinDomainEvent::class,
+            new StatsAfterAWinUpdater($testServiceContainer->characterStatsGatewaySpy()),
         );
     }
 

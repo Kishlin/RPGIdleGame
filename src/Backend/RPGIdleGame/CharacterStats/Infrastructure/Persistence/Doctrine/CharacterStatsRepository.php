@@ -33,7 +33,7 @@ final class CharacterStatsRepository extends DoctrineRepository implements Chara
     /**
      * @throws Exception
      */
-    public function findOneById(CharacterStatsCharacterId $characterId): ?CharacterStats
+    public function findForCharacter(CharacterStatsCharacterId $characterId): ?CharacterStats
     {
         /** @var array{wins_count: int, draws_count: int, losses_count: int}|false $data */
         $data = $this->entityManager->getConnection()->fetchAssociative(

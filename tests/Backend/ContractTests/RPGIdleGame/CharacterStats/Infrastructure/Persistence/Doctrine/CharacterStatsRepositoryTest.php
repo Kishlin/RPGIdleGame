@@ -33,7 +33,7 @@ final class CharacterStatsRepositoryTest extends RepositoryContractTestCase
 
         $repository->save($characterStats);
 
-        $savedStats = $repository->findOneById($characterStatsId);
+        $savedStats = $repository->findForCharacter($characterStatsId);
 
         self::assertNotNull($savedStats);
 

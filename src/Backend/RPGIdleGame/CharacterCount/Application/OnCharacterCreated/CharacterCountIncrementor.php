@@ -8,7 +8,7 @@ use Doctrine\Common\EventSubscriber;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\CharacterUpdateEventListenerTrait;
 
-final class CharacterCountIncrementorTrait implements EventSubscriber
+final class CharacterCountIncrementor implements EventSubscriber
 {
     use CharacterUpdateEventListenerTrait;
 

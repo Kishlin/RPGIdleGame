@@ -37,22 +37,22 @@ final class CharacterStats
         );
     }
 
-    public function onFightWin(): void
+    public function incrementCountsOnFightWin(): void
     {
-        $this->fightsCount->increment();
-        $this->winsCount->increment();
+        $this->fightsCount = $this->fightsCount->increment();
+        $this->winsCount   = $this->winsCount->increment();
     }
 
-    public function onFightDraw(): void
+    public function incrementCountsOnFightDraw(): void
     {
-        $this->fightsCount->increment();
-        $this->drawsCount->increment();
+        $this->fightsCount = $this->fightsCount->increment();
+        $this->drawsCount  = $this->drawsCount->increment();
     }
 
-    public function onFightLoss(): void
+    public function incrementCountsOnFightLoss(): void
     {
-        $this->fightsCount->increment();
-        $this->lossesCount->increment();
+        $this->fightsCount = $this->fightsCount->increment();
+        $this->lossesCount = $this->lossesCount->increment();
     }
 
     public function characterId(): CharacterId

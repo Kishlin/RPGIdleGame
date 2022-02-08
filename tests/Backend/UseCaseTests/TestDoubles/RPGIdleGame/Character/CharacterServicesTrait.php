@@ -27,8 +27,6 @@ trait CharacterServicesTrait
 
     abstract public function eventDispatcher(): EventDispatcher;
 
-    abstract public function characterCountGatewaySpy(): object;
-
     public function characterGatewaySpy(): CharacterGatewaySpy
     {
         if (null === $this->characterGatewaySpy) {

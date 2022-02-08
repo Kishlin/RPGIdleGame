@@ -33,6 +33,8 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
+use Kishlin\Backend\RPGIdleGame\CharacterStats\Domain\CharacterStats;
+use Kishlin\Backend\RPGIdleGame\CharacterStats\Domain\ValueObject\CharacterStatsCharacterId;
 use Kishlin\Backend\Shared\Domain\Bus\Query\Response;
 use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use PHPUnit\Framework\Assert;
@@ -476,9 +478,13 @@ final class CharacterContext extends RPGIdleGameContext
     {
         $this->container()->characterGatewaySpy()->save($character);
 
-        $characterCount = CharacterCount::createForOwner(new CharacterCountOwner(self::CLIENT_UUID));
+        $characterCount = CharacterCount::createForOwner(CharacterCountOwner::fromOther($character->owner()));
         $characterCount->incrementOnCharacterCreation();
 
         $this->container()->characterCountGatewaySpy()->save($characterCount);
+
+        $this->container()->characterStatsGatewaySpy()->save(CharacterStats::initiate(
+            CharacterStatsCharacterId::fromOther($character->id()),
+        ));
     }
 }
