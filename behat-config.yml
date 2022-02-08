@@ -6,4 +6,5 @@ default:
         - Kishlin\Tests\Backend\UseCaseTests\Context\FightContext
         - Kishlin\Tests\Backend\UseCaseTests\Context\AccountContext
         - Kishlin\Tests\Backend\UseCaseTests\Context\CharacterContext
+        - Kishlin\Tests\Backend\UseCaseTests\Context\CharacterCountContext
         - Kishlin\Tests\Backend\UseCaseTests\Context\CharacterStatsContext

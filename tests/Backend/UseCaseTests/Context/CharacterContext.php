@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
-use Kishlin\Backend\Account\Domain\Account;
-use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
-use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
-use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
-use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
-use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\HasReachedCharacterLimitException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
@@ -43,45 +37,9 @@ use Throwable;
 
 final class CharacterContext extends RPGIdleGameContext
 {
-    private const CLIENT_UUID    = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
-    private const STRANGER_UUID  = 'df42d3aa-10ea-4ca3-936b-2bba5ae16fe6';
-    private const CHARACTER_UUID = 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
-
     private ?CharacterId $characterId   = null;
     private ?Throwable $exceptionThrown = null;
     private ?Response $response         = null;
-
-    /**
-     * @Given /^a client has an account$/
-     */
-    public function aClientHasAnAccount(): void
-    {
-        self::container()->accountGatewaySpy()->save(Account::createActiveAccount(
-            new AccountId(self::CLIENT_UUID),
-            new AccountUsername('User'),
-            new AccountPassword('password'),
-            new AccountEmail('email@example.com'),
-            new AccountSalt('salt'),
-        ));
-
-        self::container()->characterCountGatewaySpy()->save(CharacterCount::createForOwner(
-            new CharacterCountOwner(self::CLIENT_UUID),
-        ));
-    }
-
-    /**
-     * @Given /^it has reached the character limit$/
-     *
-     * @throws ReflectionException
-     */
-    public function itHasReachedTheCharacterLimit(): void
-    {
-        $this
-            ->container()
-            ->characterCountGatewaySpy()
-            ->manuallyOverrideCountForOwner(new AccountId(self::CLIENT_UUID), CharacterCount::CHARACTER_LIMIT)
-        ;
-    }
 
     /**
      * @Given /^it owns a character$/
@@ -89,7 +47,7 @@ final class CharacterContext extends RPGIdleGameContext
     public function itOwnsACharacter(): void
     {
         $this->addCharacterToDatabase(Character::createFresh(
-            new CharacterId(self::CHARACTER_UUID),
+            new CharacterId(self::FIGHTER_UUID),
             new CharacterName('Kishlin'),
             new CharacterOwner(self::CLIENT_UUID),
         ));
@@ -103,7 +61,7 @@ final class CharacterContext extends RPGIdleGameContext
     public function itOwnsAWellAdvancedCharacter(): void
     {
         $character = Character::createFresh(
-            new CharacterId(self::CHARACTER_UUID),
+            new CharacterId(self::FIGHTER_UUID),
             new CharacterName('Kishlin'),
             new CharacterOwner(self::CLIENT_UUID),
         );
@@ -139,6 +97,28 @@ final class CharacterContext extends RPGIdleGameContext
     }
 
     /**
+     * @Given /^there is an opponent available$/
+     *
+     * @throws ReflectionException
+     */
+    public function thereIsAnOpponentAvailable(): void
+    {
+        $opponent = Character::createFresh(
+            new CharacterId(self::OPPONENT_UUID),
+            new CharacterName('Opponent'),
+            new CharacterOwner(self::STRANGER_UUID),
+        );
+
+        ReflectionHelper::writePropertyValue($opponent, 'health', new CharacterHealth(70));
+        ReflectionHelper::writePropertyValue($opponent, 'attack', new CharacterAttack(48));
+        ReflectionHelper::writePropertyValue($opponent, 'defense', new CharacterDefense(28));
+        ReflectionHelper::writePropertyValue($opponent, 'magik', new CharacterMagik(30));
+        ReflectionHelper::writePropertyValue($opponent, 'rank', new CharacterRank(120));
+
+        $this->addCharacterToDatabase($opponent);
+    }
+
+    /**
      * @When /^a client creates a character$/
      */
     public function aClientCreatesACharacter(): void
@@ -146,7 +126,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             $response = self::container()->commandBus()->execute(
                 CreateCharacterCommand::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     characterName: 'Kishlin',
                     ownerUuid: self::CLIENT_UUID,
                 )
@@ -169,7 +149,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             self::container()->commandBus()->execute(
                 DistributeSkillPointsCommand::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     requesterId: self::CLIENT_UUID,
                     healthPointsToAdd: 85,
                     attackPointsToAdd: 92,
@@ -192,7 +172,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             self::container()->commandBus()->execute(
                 DistributeSkillPointsCommand::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     requesterId: self::CLIENT_UUID,
                     healthPointsToAdd: 200,
                     attackPointsToAdd: 300,
@@ -215,7 +195,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             self::container()->commandBus()->execute(
                 DistributeSkillPointsCommand::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     requesterId: self::STRANGER_UUID,
                     healthPointsToAdd: 1,
                     attackPointsToAdd: 0,
@@ -238,7 +218,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             $response = self::container()->commandBus()->execute(
                 DeleteCharacterCommand::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     accountRequestingDeletionUuid: self::CLIENT_UUID,
                 )
             );
@@ -259,7 +239,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             self::container()->commandBus()->execute(
                 DeleteCharacterCommand::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     accountRequestingDeletionUuid: self::STRANGER_UUID,
                 )
             );
@@ -278,7 +258,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             $this->response = self::container()->queryBus()->ask(
                 ViewCharacterQuery::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     requesterId: self::CLIENT_UUID
                 )
             );
@@ -297,7 +277,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             $this->response = self::container()->queryBus()->ask(
                 ViewCharacterQuery::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     requesterId: self::CLIENT_UUID,
                 )
             );
@@ -316,7 +296,7 @@ final class CharacterContext extends RPGIdleGameContext
         try {
             $this->response = self::container()->queryBus()->ask(
                 ViewCharacterQuery::fromScalars(
-                    characterId: self::CHARACTER_UUID,
+                    characterId: self::FIGHTER_UUID,
                     requesterId: self::STRANGER_UUID
                 )
             );
@@ -360,7 +340,7 @@ final class CharacterContext extends RPGIdleGameContext
      */
     public function theCharacterStatsAreUpdatedAsWanted(): void
     {
-        $character = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::CHARACTER_UUID));
+        $character = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::FIGHTER_UUID));
         Assert::assertNotNull($character);
 
         Assert::assertSame(165 /* 80 + 85 */, $character->health()->value());
@@ -375,7 +355,7 @@ final class CharacterContext extends RPGIdleGameContext
      */
     public function theCharacterIsDeleted(): void
     {
-        Assert::assertFalse(self::container()->characterGatewaySpy()->has(self::CHARACTER_UUID));
+        Assert::assertFalse(self::container()->characterGatewaySpy()->has(self::FIGHTER_UUID));
     }
 
     /**
@@ -447,7 +427,7 @@ final class CharacterContext extends RPGIdleGameContext
         /** @var ViewCharacterResponse $response */
         $response = $this->response;
 
-        Assert::assertSame(self::CHARACTER_UUID, ReflectionHelper::propertyValue($response->characterView(), 'id'));
+        Assert::assertSame(self::FIGHTER_UUID, ReflectionHelper::propertyValue($response->characterView(), 'id'));
     }
 
     /**
@@ -478,7 +458,11 @@ final class CharacterContext extends RPGIdleGameContext
     {
         $this->container()->characterGatewaySpy()->save($character);
 
-        $characterCount = CharacterCount::createForOwner(CharacterCountOwner::fromOther($character->owner()));
+        $characterCount = $this->container()->characterCountGatewaySpy()->findForOwner(
+            CharacterCountOwner::fromOther($character->owner()),
+        ) ?? CharacterCount::createForOwner(CharacterCountOwner::fromOther($character->owner()))
+        ;
+
         $characterCount->incrementOnCharacterCreation();
 
         $this->container()->characterCountGatewaySpy()->save($characterCount);

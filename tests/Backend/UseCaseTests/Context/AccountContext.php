@@ -19,24 +19,35 @@ use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
 use Kishlin\Backend\Account\Domain\View\SerializableAuthentication;
 use Kishlin\Backend\Account\Domain\View\SerializableSimpleAuthentication;
+use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
+use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
 use PHPUnit\Framework\Assert;
 use Throwable;
 
 final class AccountContext extends RPGIdleGameContext
 {
-    private const CLIENT_UUID = '97c116cc-21b0-4624-8e02-88b9b1a977a7';
-
-    private const EMAIL_TO_USE          = 'user@example.com';
-    private const NEW_ACCOUNT_UUID      = '51cefa3e-c223-469e-a23c-61a32e4bf048';
-    private const EXISTING_ACCOUNT_UUID = '255c03d2-4149-4fe2-b922-65ed3ce4be0e';
-
-    private const SECRET_KEY = 'ThisKeyIsNotSoSecretButItIsTests';
-    private const ALGORITHM  = 'HS256';
-
     private SerializableAuthentication|SerializableSimpleAuthentication|null $authentication = null;
 
     private ?AccountId $accountId       = null;
     private ?Throwable $exceptionThrown = null;
+
+    /**
+     * @Given /^a client has an account$/
+     */
+    public function aClientHasAnAccount(): void
+    {
+        self::container()->accountGatewaySpy()->save(Account::createActiveAccount(
+            new AccountId(self::CLIENT_UUID),
+            new AccountUsername('User'),
+            new AccountPassword('password'),
+            new AccountEmail('email@example.com'),
+            new AccountSalt('salt'),
+        ));
+
+        self::container()->characterCountGatewaySpy()->save(CharacterCount::createForOwner(
+            new CharacterCountOwner(self::CLIENT_UUID),
+        ));
+    }
 
     /**
      * @Given /^an account already exists with the email$/

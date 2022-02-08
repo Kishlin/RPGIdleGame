@@ -9,9 +9,6 @@ use PHPUnit\Framework\Assert;
 
 final class CharacterStatsContext extends RPGIdleGameContext
 {
-    private const FIGHTER_UUID  = 'fa2e098a-1ed4-4ddb-91d1-961e0af7143b';
-    private const OPPONENT_UUID = 'e26b33be-5253-4cc3-8480-a15e80f18b7a';
-
     /**
      * @Given /^the fighting stats of both participants where updated$/
      */
