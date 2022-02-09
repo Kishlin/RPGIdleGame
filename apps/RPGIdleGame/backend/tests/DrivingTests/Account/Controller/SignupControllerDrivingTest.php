@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\Account\Controller;
 
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
-use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Account\SignupDrivingTestCaseTrait;
+use Kishlin\Tests\Backend\Apps\DrivingTests\Account\SignupDrivingTestCaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 

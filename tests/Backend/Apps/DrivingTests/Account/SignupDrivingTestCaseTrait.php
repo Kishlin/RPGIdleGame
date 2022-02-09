@@ -2,13 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Account;
+namespace Kishlin\Tests\Backend\Apps\DrivingTests\Account;
 
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
 
 /**
  * Any client willing to execute the Account/Signup use case should use this trait for its Driving Test.
+ *
+ * @method MockObject          getMockForAbstractClass(string $class)
+ * @method callable            callback(callable $callback)
+ * @method InvokedCountMatcher once()
  */
 trait SignupDrivingTestCaseTrait
 {
@@ -18,7 +24,7 @@ trait SignupDrivingTestCaseTrait
      *     - Expect to receive a correct SignupCommand, only one time.
      *     - Return the generated account's uuid.
      */
-    public function configuredCommandBusServiceMock(string $username, string $email, string $password): CommandBus
+    public function configuredCommandBusServiceMock(string $username, string $email, string $password): MockObject
     {
         $bus = $this->getMockForAbstractClass(CommandBus::class);
 
