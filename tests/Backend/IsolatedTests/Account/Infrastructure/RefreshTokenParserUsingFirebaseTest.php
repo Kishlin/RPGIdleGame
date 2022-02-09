@@ -23,7 +23,7 @@ final class RefreshTokenParserUsingFirebaseTest extends TestCase
         $userId = 'uuid';
         $parser = new RefreshTokenParserUsingFirebase(self::SECRET_KEY, self::ALGORITHM);
 
-        $refreshToken = JWT::encode(['userId' => $userId, 'salt' => $salt], self::SECRET_KEY, self::ALGORITHM);
+        $refreshToken = JWT::encode(['user' => $userId, 'salt' => $salt], self::SECRET_KEY, self::ALGORITHM);
 
         $out = $parser->payloadFromRefreshToken($refreshToken);
 

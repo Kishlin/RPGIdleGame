@@ -138,10 +138,10 @@ final class AccountContext extends RPGIdleGameContext
                 RefreshAuthenticationCommand::fromScalars(
                     JWT::encode(
                         payload: [
-                            'userId' => self::CLIENT_UUID,
-                            'salt'   => 'salt',
-                            'iat'    => strtotime('now'),
-                            'exp'    => strtotime('+1 month'),
+                            'user' => self::CLIENT_UUID,
+                            'salt' => 'salt',
+                            'iat'  => strtotime('now'),
+                            'exp'  => strtotime('+1 month'),
                         ],
                         key: self::SECRET_KEY,
                         alg: self::ALGORITHM

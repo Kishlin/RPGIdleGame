@@ -43,7 +43,7 @@ final class RefreshTokenParserUsingFirebase implements RefreshTokenParser
      */
     private function tokenHasAllRequiredKeys(array $token): bool
     {
-        return empty(array_diff(['userId', 'salt'], array_keys($token)));
+        return empty(array_diff(['user', 'salt'], array_keys($token)));
     }
 
     /**
@@ -51,6 +51,6 @@ final class RefreshTokenParserUsingFirebase implements RefreshTokenParser
      */
     private function payloadDTOFromToken(array $token): RefreshTokenPayload
     {
-        return RefreshTokenPayload::fromScalars($token['userId'], $token['salt']);
+        return RefreshTokenPayload::fromScalars($token['user'], $token['salt']);
     }
 }
