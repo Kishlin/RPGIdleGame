@@ -14,7 +14,7 @@ services:
   Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshAuthenticationCommandHandler:
     class: 'Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshAuthenticationCommandHandler'
     tags:
-      - { name: messenger.message_handler, handles: Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommand }
+      - { name: messenger.message_handler, handles: Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshAuthenticationCommand }
 
   Kishlin\Backend\Account\Application\Signup\SignupCommandHandler:
     class: 'Kishlin\Backend\Account\Application\Signup\SignupCommandHandler'
