@@ -12,8 +12,8 @@ use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightTurn;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightViewGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightListItem;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightView;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightListItem;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightView;
 
 final class FightGatewaySpy implements FightGateway, FightViewGateway
 {
@@ -34,7 +34,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
         return $this->fights[$fightId->value()] ?? null;
     }
 
-    public function viewOneById(string $fightId, string $requesterId): SerializableFightView
+    public function viewOneById(string $fightId, string $requesterId): JsonableFightView
     {
         $fight = $this->fights[$fightId] ?? null;
         if (null === $fight || self::CLIENT_UUID !== $requesterId) {
@@ -52,7 +52,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
             'winner_id' => $fight->winnerId()->value(),
         ];
 
-        return SerializableFightView::fromSource($source);
+        return JsonableFightView::fromSource($source);
     }
 
     /**
@@ -117,9 +117,9 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
     }
 
     /**
-     * @param SerializableFightListItem[] $carry
+     * @param JsonableFightListItem[] $carry
      *
-     * @return SerializableFightListItem[]
+     * @return JsonableFightListItem[]
      */
     private static function reduceFightToView(array $carry, Fight $fight): array
     {
@@ -130,7 +130,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
             return $carry;
         }
 
-        $carry[] = SerializableFightListItem::fromSource([
+        $carry[] = JsonableFightListItem::fromSource([
             'id'             => $fight->id()->value(),
             'winner_id'      => $fight->winnerId()->value(),
             'initiator_name' => $fight->initiator()->characterId()->value(),

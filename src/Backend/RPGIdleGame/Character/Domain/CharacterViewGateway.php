@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\View\SerializableCharacterView;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharacterView;
 
 /**
  * Generates View models of Character entities, to be displayed to clients external to the application.
@@ -17,10 +17,10 @@ interface CharacterViewGateway
     /**
      * @throws CharacterNotFoundException
      */
-    public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView;
+    public function viewOneById(string $characterId, string $requesterId): JsonableCharacterView;
 
     /**
-     * @return SerializableCharacterView[]
+     * @return JsonableCharacterView[]
      */
     public function viewAllForOwner(string $ownerUuid): array;
 }

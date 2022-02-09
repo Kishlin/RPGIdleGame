@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\Account\Application\RefreshAuthentication;
 
 use Kishlin\Backend\Account\Domain\AccountReaderGateway;
-use Kishlin\Backend\Account\Domain\View\SerializableSimpleAuthentication;
+use Kishlin\Backend\Account\Domain\View\JsonableSimpleAuthentication;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler;
 
 final class RefreshAuthenticationCommandHandler implements CommandHandler
@@ -20,7 +20,7 @@ final class RefreshAuthenticationCommandHandler implements CommandHandler
     /**
      * @throws CannotRefreshAuthenticationException
      */
-    public function __invoke(RefreshAuthenticationCommand $command): SerializableSimpleAuthentication
+    public function __invoke(RefreshAuthenticationCommand $command): JsonableSimpleAuthentication
     {
         $payload = $this->extractPayloadFromToken($command);
 
@@ -28,7 +28,7 @@ final class RefreshAuthenticationCommandHandler implements CommandHandler
 
         $newToken = $this->authenticationGenerator->generateToken($payload->userId());
 
-        return SerializableSimpleAuthentication::fromScalars(token: $newToken);
+        return JsonableSimpleAuthentication::fromScalars(token: $newToken);
     }
 
     /**

@@ -7,7 +7,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctr
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\View\SerializableCharacterView;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharacterView;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineViewer;
 
 class CharacterViewRepository extends DoctrineViewer implements CharacterViewGateway
@@ -15,7 +15,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     /**
      * @throws CharacterNotFoundException|Exception
      */
-    public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView
+    public function viewOneById(string $characterId, string $requesterId): JsonableCharacterView
     {
         /**
          * @var array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int}|false $data
@@ -29,7 +29,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
             throw new CharacterNotFoundException();
         }
 
-        return SerializableCharacterView::fromSource($data);
+        return JsonableCharacterView::fromSource($data);
     }
 
     /**
@@ -51,6 +51,6 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
             throw new CharacterNotFoundException();
         }
 
-        return array_map([SerializableCharacterView::class, 'fromSource'], $data);
+        return array_map([JsonableCharacterView::class, 'fromSource'], $data);
     }
 }

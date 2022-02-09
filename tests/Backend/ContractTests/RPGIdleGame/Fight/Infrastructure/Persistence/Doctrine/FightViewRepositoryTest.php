@@ -6,7 +6,7 @@ namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Fight\Infrastructure\P
 
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightView;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightView;
 use Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightViewRepository;
 use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
 
@@ -32,7 +32,7 @@ final class FightViewRepositoryTest extends RepositoryContractTestCase
 
         $view = $repository->viewOneById('fight-2', 'account-0');
 
-        self::assertInstanceOf(SerializableFightView::class, $view);
+        self::assertInstanceOf(JsonableFightView::class, $view);
     }
 
     /**

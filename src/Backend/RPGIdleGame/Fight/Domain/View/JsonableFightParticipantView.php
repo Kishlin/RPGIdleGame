@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Fight\Domain\View;
 
-use Kishlin\Backend\Shared\Domain\View\SerializableView;
+use Kishlin\Backend\Shared\Domain\View\JsonableView;
 
-final class SerializableFightParticipantView extends SerializableView
+final class JsonableFightParticipantView extends JsonableView
 {
     private string $accountUsername;
     private string $characterName;
@@ -16,10 +16,7 @@ final class SerializableFightParticipantView extends SerializableView
     private int $magik;
     private int $rank;
 
-    /**
-     * @return array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}
-     */
-    public function __serialize(): array
+    public function toArray(): array
     {
         return [
             'account_username' => $this->accountUsername,
@@ -33,29 +30,21 @@ final class SerializableFightParticipantView extends SerializableView
     }
 
     /**
-     * @param array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int} $data
-     */
-    public function __unserialize(array $data): void
-    {
-        [
-            'account_username' => $this->accountUsername,
-            'character_name'   => $this->characterName,
-            'health'           => $this->health,
-            'attack'           => $this->attack,
-            'defense'          => $this->defense,
-            'magik'            => $this->magik,
-            'rank'             => $this->rank,
-        ] = $data;
-    }
-
-    /**
      * @param array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int} $source
      */
     public static function fromSource(array $source): self
     {
         $view = new self();
 
-        $view->__unserialize($source);
+        [
+            'account_username' => $view->accountUsername,
+            'character_name'   => $view->characterName,
+            'health'           => $view->health,
+            'attack'           => $view->attack,
+            'defense'          => $view->defense,
+            'magik'            => $view->magik,
+            'rank'             => $view->rank,
+        ] = $source;
 
         return $view;
     }

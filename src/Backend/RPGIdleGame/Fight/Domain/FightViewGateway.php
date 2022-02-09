@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Fight\Domain;
 
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightListItem;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightView;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightListItem;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightView;
 
 interface FightViewGateway
 {
     /**
      * @throws FightNotFoundException
      */
-    public function viewOneById(string $fightId, string $requesterId): SerializableFightView;
+    public function viewOneById(string $fightId, string $requesterId): JsonableFightView;
 
     /**
-     * @throws CannotAccessFightsException
+     *@throws CannotAccessFightsException
      *
-     * @return SerializableFightListItem[]
+     * @return JsonableFightListItem[]
      */
     public function viewAllForFighter(string $fighterId, string $requesterId): array;
 }

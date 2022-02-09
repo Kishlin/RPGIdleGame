@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\Account\Application\Authenticate;
 
 use Kishlin\Backend\Account\Domain\AccountReaderGateway;
-use Kishlin\Backend\Account\Domain\View\SerializableAuthentication;
+use Kishlin\Backend\Account\Domain\View\JsonableAuthentication;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler;
 
 final class AuthenticateCommandHandler implements CommandHandler
@@ -19,7 +19,7 @@ final class AuthenticateCommandHandler implements CommandHandler
     /**
      * @throws AuthenticationDeniedException
      */
-    public function __invoke(AuthenticateCommand $command): SerializableAuthentication
+    public function __invoke(AuthenticateCommand $command): JsonableAuthentication
     {
         $accountDetails = $this->passwordHashReader->readModelForAuthentication($command->usernameOrEmail());
 
@@ -36,6 +36,6 @@ final class AuthenticateCommandHandler implements CommandHandler
             $accountDetails->salt()
         );
 
-        return SerializableAuthentication::fromScalars($token, $refreshToken);
+        return JsonableAuthentication::fromScalars($token, $refreshToken);
     }
 }

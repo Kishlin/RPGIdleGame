@@ -8,8 +8,8 @@ use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\CannotAccessFightsException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightViewGateway;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightListItem;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\SerializableFightView;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightListItem;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightView;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineRepository;
 
 final class FightViewRepository extends DoctrineRepository implements FightViewGateway
@@ -89,7 +89,7 @@ SQL;
     /**
      * @throws Exception|FightNotFoundException
      */
-    public function viewOneById(string $fightId, string $requesterId): SerializableFightView
+    public function viewOneById(string $fightId, string $requesterId): JsonableFightView
     {
         $connection = $this->entityManager->getConnection();
 
@@ -111,7 +111,7 @@ SQL;
 
         $fight['turns'] = $this->getTurns($fightId);
 
-        return SerializableFightView::fromSource($fight);
+        return JsonableFightView::fromSource($fight);
     }
 
     /**
@@ -133,7 +133,7 @@ SQL;
             throw new CannotAccessFightsException();
         }
 
-        return array_map(static fn ($source) => SerializableFightListItem::fromSource($source), $fights);
+        return array_map(static fn ($source) => JsonableFightListItem::fromSource($source), $fights);
     }
 
     /**

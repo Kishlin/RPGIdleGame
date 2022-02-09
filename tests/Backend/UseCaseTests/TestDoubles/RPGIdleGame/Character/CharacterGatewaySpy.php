@@ -11,7 +11,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
-use Kishlin\Backend\RPGIdleGame\Character\Domain\View\SerializableCharacterView;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharacterView;
 
 class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway, CharacterViewGateway
 {
@@ -43,7 +43,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
         return $this->characters[$characterId->value()];
     }
 
-    public function viewOneById(string $characterId, string $requesterId): SerializableCharacterView
+    public function viewOneById(string $characterId, string $requesterId): JsonableCharacterView
     {
         if (false === $this->has($characterId)
             || $this->characters[$characterId]->owner()->value() !== $requesterId) {
@@ -81,9 +81,9 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
         return array_key_exists($characterId, $this->characters);
     }
 
-    private static function characterToView(Character $character): SerializableCharacterView
+    private static function characterToView(Character $character): JsonableCharacterView
     {
-        return SerializableCharacterView::fromSource([
+        return JsonableCharacterView::fromSource([
             'id'           => $character->id()->value(),
             'name'         => $character->name()->value(),
             'owner'        => $character->owner()->value(),
