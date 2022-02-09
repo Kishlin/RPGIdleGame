@@ -9,15 +9,17 @@ use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Database\DatabaseInterface;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Database\PostgresDatabase;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\HTTPClientInterface;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\HTTPClientUsingCurl;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\Response;
 
 abstract class RPGIdleGameAPIContext implements Context
 {
     private const SYMFONY_SERVER = 'http://localhost:8000';
-    protected ?int $responseCode = null;
 
     private static ?DatabaseInterface $database = null;
 
     private static ?HTTPClientInterface $client = null;
+
+    protected ?Response $response = null;
 
     /**
      * @AfterScenario
