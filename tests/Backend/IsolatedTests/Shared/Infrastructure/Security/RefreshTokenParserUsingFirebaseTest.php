@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Backend\IsolatedTests\Account\Infrastructure;
+namespace Kishlin\Tests\Backend\IsolatedTests\Shared\Infrastructure\Security;
 
 use Firebase\JWT\JWT;
-use Kishlin\Backend\Account\Infrastructure\RefreshTokenParserUsingFirebase;
+use Kishlin\Backend\Shared\Infrastructure\Security\RefreshTokenParserUsingFirebase;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @covers \Kishlin\Backend\Account\Infrastructure\RefreshTokenParserUsingFirebase
+ * @covers \Kishlin\Backend\Shared\Infrastructure\Security\RefreshTokenParserUsingFirebase
  */
 final class RefreshTokenParserUsingFirebaseTest extends TestCase
 {

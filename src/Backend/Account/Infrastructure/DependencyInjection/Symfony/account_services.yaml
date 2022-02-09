@@ -42,12 +42,6 @@ services:
   Kishlin\Backend\Account\Application\RefreshAuthentication\SimpleAuthenticationGenerator:
     alias: 'Kishlin\Backend\Account\Application\Authenticate\AuthenticationGenerator'
 
-  Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshTokenParser:
-    class: 'Kishlin\Backend\Account\Infrastructure\RefreshTokenParserUsingFirebase'
-    bind:
-      $secretKey: '%kishlin.jwt.secretKey%'
-      $algorithm: '%kishlin.jwt.algorithm%'
-
 
   ##> Salt
 

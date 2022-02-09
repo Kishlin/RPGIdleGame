@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Backend\Account\Infrastructure;
+namespace Kishlin\Backend\Shared\Infrastructure\Security;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Kishlin\Backend\Account\Application\RefreshAuthentication\ParsingTheRefreshTokenFailedException;
-use Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshTokenParser;
-use Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshTokenPayload;
+use Kishlin\Backend\Shared\Domain\Security\ParsingTokenFailedException;
+use Kishlin\Backend\Shared\Domain\Security\RefreshTokenParser;
+use Kishlin\Backend\Shared\Domain\Security\RefreshTokenPayload;
 
 final class RefreshTokenParserUsingFirebase implements RefreshTokenParser
 {
@@ -19,20 +19,20 @@ final class RefreshTokenParserUsingFirebase implements RefreshTokenParser
     }
 
     /**
-     * @throws ParsingTheRefreshTokenFailedException
+     * @throws ParsingTokenFailedException
      */
     public function payloadFromRefreshToken(string $refreshToken): RefreshTokenPayload
     {
         try {
             // 'iat' and 'exp' claims are verified by JWT::decode(). We do not have to make the checks ourselves.
-            /** @var array{userId: string, salt: string} $token */
+            /** @var array{user: string, salt: string} $token */
             $token = (array) JWT::decode($refreshToken, new Key($this->secretKey, $this->algorithm));
         } catch (\Throwable $e) {
-            throw new ParsingTheRefreshTokenFailedException();
+            throw new ParsingTokenFailedException();
         }
 
         if (false === $this->tokenHasAllRequiredKeys($token)) {
-            throw new ParsingTheRefreshTokenFailedException();
+            throw new ParsingTokenFailedException();
         }
 
         return $this->payloadDTOFromToken($token);
@@ -47,7 +47,7 @@ final class RefreshTokenParserUsingFirebase implements RefreshTokenParser
     }
 
     /**
-     * @param array{userId: string, salt: string} $token
+     * @param array{user: string, salt: string} $token
      */
     private function payloadDTOFromToken(array $token): RefreshTokenPayload
     {

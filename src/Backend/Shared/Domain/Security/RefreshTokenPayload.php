@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Backend\Account\Application\RefreshAuthentication;
+namespace Kishlin\Backend\Shared\Domain\Security;
 
 final class RefreshTokenPayload
 {
-    public function __construct(
+    private function __construct(
         private string $userId,
         private string $salt,
     ) {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Backend\Account\Application\RefreshAuthentication;
+namespace Kishlin\Backend\Shared\Domain\Security;
 
 interface RefreshTokenParser
 {
     /**
-     * @throws ParsingTheRefreshTokenFailedException
+     * @throws ParsingTokenFailedException
      */
     public function payloadFromRefreshToken(string $refreshToken): RefreshTokenPayload;
 }

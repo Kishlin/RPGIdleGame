@@ -7,6 +7,9 @@ namespace Kishlin\Backend\Account\Application\RefreshAuthentication;
 use Kishlin\Backend\Account\Domain\AccountReaderGateway;
 use Kishlin\Backend\Account\Domain\View\JsonableSimpleAuthentication;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler;
+use Kishlin\Backend\Shared\Domain\Security\ParsingTokenFailedException;
+use Kishlin\Backend\Shared\Domain\Security\RefreshTokenParser;
+use Kishlin\Backend\Shared\Domain\Security\RefreshTokenPayload;
 
 final class RefreshAuthenticationCommandHandler implements CommandHandler
 {
@@ -38,7 +41,7 @@ final class RefreshAuthenticationCommandHandler implements CommandHandler
     {
         try {
             return $this->refreshTokenParser->payloadFromRefreshToken($command->refreshToken());
-        } catch (ParsingTheRefreshTokenFailedException $e) {
+        } catch (ParsingTokenFailedException $e) {
             throw new CannotRefreshAuthenticationException();
         }
     }

@@ -56,6 +56,18 @@ services:
       $hostname: '%kishlin.hostname%'
       $algorithm: '%kishlin.jwt.algorithm%'
 
+  Kishlin\Backend\Shared\Domain\Security\RefreshTokenParser:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Security\RefreshTokenParserUsingFirebase'
+    bind:
+      $secretKey: '%kishlin.jwt.secretKey%'
+      $algorithm: '%kishlin.jwt.algorithm%'
+
+  Kishlin\Backend\Shared\Domain\Security\TokenParser:
+    class: 'Kishlin\Backend\Shared\Infrastructure\Security\TokenParserUsingFirebase'
+    bind:
+      $secretKey: '%kishlin.jwt.secretKey%'
+      $algorithm: '%kishlin.jwt.algorithm%'
+
 
   ##> Time
 
