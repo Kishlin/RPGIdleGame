@@ -1,0 +1,5 @@
+account:
+  resource: ../../src/RPGIdleGame/Character/Controller/
+  prefix: /character
+  type: annotation
+  stateless: true

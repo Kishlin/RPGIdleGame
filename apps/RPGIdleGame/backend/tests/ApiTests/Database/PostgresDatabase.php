@@ -29,7 +29,9 @@ final class PostgresDatabase implements DatabaseInterface
      */
     public function fetchOne(string $query, array $params = []): mixed
     {
-        return self::connection()->fetchOne($query, $params) ?: null;
+        $result = self::connection()->fetchOne($query, $params);
+
+        return false !== $result ? $result : null;
     }
 
     /**

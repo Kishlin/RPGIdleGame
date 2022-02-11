@@ -41,8 +41,21 @@ services:
     tags: ['controller.service_arguments']
 
 
+##> Character
+
+  Kishlin\Apps\RPGIdleGame\Backend\RPGIdleGame\Character\Controller\:
+    resource: '../src/RPGIdleGame/Character/Controller'
+    tags: ['controller.service_arguments']
+
+
 ##> Monitoring
 
   Kishlin\Apps\RPGIdleGame\Backend\Monitoring\Controller\:
     resource: '../src/Monitoring/Controller'
     tags: ['controller.service_arguments']
+
+
+##> Security
+
+  Kishlin\Apps\RPGIdleGame\Backend\Security\RequesterIdentifier:
+    class: 'Kishlin\Apps\RPGIdleGame\Backend\Security\RequesterIdentifier'

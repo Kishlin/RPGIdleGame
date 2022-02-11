@@ -13,13 +13,17 @@ use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\Response;
 
 abstract class RPGIdleGameAPIContext implements Context
 {
+    protected const AUTHENTICATION_FOR_CLIENT   = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNmRjM2ZkOTNmNTYiLCJhdWQiOiJjNmRjM2ZkOTNmNTYiLCJpYXQiOjE2NDQ0MTczNDYsInVzZXIiOiI3ZDM4Nzc0MC01YzE1LTQ3MTItYmRjZi01MTI2YzI4ZmMxMGEifQ.zeWXeTfhDa_VNoQUtNJ-IJHJzhvesAbEpiJGMPEh-fo';
+    protected const AUTHENTICATION_FOR_STRANGER = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNmRjM2ZkOTNmNTYiLCJhdWQiOiJjNmRjM2ZkOTNmNTYiLCJpYXQiOjE2NDQ0MTczNDYsInVzZXIiOiJzdHJhbmdlciJ9.Mm5O1PjHXURatw0LGt8gPwmw52YCwKBeKc3-snCCZYo';
+
+    protected const CLIENT_UUID = '7d387740-5c15-4712-bdcf-5126c28fc10a';
+
     private const SYMFONY_SERVER = 'http://localhost:8000';
 
-    private static ?DatabaseInterface $database = null;
-
-    private static ?HTTPClientInterface $client = null;
-
     protected ?Response $response = null;
+
+    private static ?DatabaseInterface $database = null;
+    private static ?HTTPClientInterface $client = null;
 
     /**
      * @AfterScenario

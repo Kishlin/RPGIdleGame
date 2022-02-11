@@ -40,4 +40,13 @@ final class CreateCharacterCommand implements Command
     {
         return new self($characterId, $characterName, $ownerUuid);
     }
+
+    public static function fromRequest(array $request): self
+    {
+        return new self(
+            self::getString($request, 'characterId'),
+            self::getString($request, 'characterName'),
+            self::getString($request, 'ownerUuid'),
+        );
+    }
 }
