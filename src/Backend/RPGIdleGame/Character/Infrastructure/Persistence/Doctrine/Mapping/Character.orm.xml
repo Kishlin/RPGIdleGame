@@ -7,21 +7,21 @@
     <entity name="Kishlin\Backend\RPGIdleGame\Character\Domain\Character" table="characters">
         <id name="id" type="character_id" column="id" length="36" />
 
-        <embedded name="name" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName" use-column-prefix="false" />
+        <field name="name" type="character_name" column="name" />
 
         <field name="owner" type="character_owner" column="owner" length="36" />
 
-        <embedded name="skillPoint" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint" use-column-prefix="false" />
+        <field name="skillPoint" type="character_skill_point" column="skill_points" />
 
-        <embedded name="health" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth" use-column-prefix="false" />
+        <field name="health" type="character_health" column="health" />
 
-        <embedded name="attack" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack" use-column-prefix="false" />
+        <field name="attack" type="character_attack" column="attack" />
 
-        <embedded name="defense" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense" use-column-prefix="false" />
+        <field name="defense" type="character_defense" column="defense" />
 
-        <embedded name="magik" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterMagik" use-column-prefix="false" />
+        <field name="magik" type="character_magik" column="magik" />
 
-        <embedded name="rank" class="Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank" use-column-prefix="false" />
+        <field name="rank" type="character_rank" column="rank" />
 
 </entity>
 

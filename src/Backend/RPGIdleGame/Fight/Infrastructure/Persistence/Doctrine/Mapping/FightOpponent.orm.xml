@@ -9,15 +9,15 @@
 
         <field name="characterId" type="fight_participant_character_id" column="character_id" length="36" />
 
-        <embedded name="health" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantHealth" use-column-prefix="false" />
+        <field name="health" type="fight_participant_health" column="health" />
 
-        <embedded name="attack" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantAttack" use-column-prefix="false" />
+        <field name="attack" type="fight_participant_attack" column="attack" />
 
-        <embedded name="defense" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantDefense" use-column-prefix="false" />
+        <field name="defense" type="fight_participant_defense" column="defense" />
 
-        <embedded name="magik" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantMagik" use-column-prefix="false" />
+        <field name="magik" type="fight_participant_magik" column="magik" />
 
-        <embedded name="rank" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantRank" use-column-prefix="false" />
+        <field name="rank" type="fight_participant_rank" column="rank" />
     </entity>
 
 </doctrine-mapping>

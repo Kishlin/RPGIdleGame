@@ -11,21 +11,21 @@
             <join-column name="fight_id" referenced-column-name="id" nullable="false" unique="false" />
         </many-to-one>
 
-        <embedded name="index" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnIndex" use-column-prefix="false" />
+        <field name="index" type="fight_turn_index" column="index" />
 
         <field name="attackerId" type="fight_turn_attacker_id" column="attacker_id" length="36" />
 
-        <embedded name="attackerAttack" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnAttackerAttack" use-column-prefix="false" />
+        <field name="attackerAttack" type="fight_turn_attacker_attack" column="attacker_attack" />
 
-        <embedded name="attackerMagik" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnAttackerMagik" use-column-prefix="false" />
+        <field name="attackerMagik" type="fight_turn_attacker_magik" column="attacker_magik" />
 
-        <embedded name="attackerDiceRoll" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnAttackerDiceRoll" use-column-prefix="false" />
+        <field name="attackerDiceRoll" type="fight_turn_attacker_dice_roll" column="attacker_dice_roll" />
 
-        <embedded name="defenderDefense" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnDefenderDefense" use-column-prefix="false" />
+        <field name="defenderDefense" type="fight_turn_defender_defense" column="defender_defense" />
 
-        <embedded name="damageDealt" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnDamageDealt" use-column-prefix="false" />
+        <field name="damageDealt" type="fight_turn_damage_dealt" column="damage_dealt" />
 
-        <embedded name="defenderHealth" class="Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnDefenderHealth" use-column-prefix="false" />
+        <field name="defenderHealth" type="fight_turn_defender_health" column="defender_health" />
     </entity>
 
 </doctrine-mapping>

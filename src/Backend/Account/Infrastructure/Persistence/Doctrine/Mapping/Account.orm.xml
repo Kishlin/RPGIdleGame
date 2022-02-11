@@ -7,15 +7,15 @@
     <entity name="Kishlin\Backend\Account\Domain\Account" table="accounts">
         <id name="id" type="account_id" column="id" length="36" />
 
-        <embedded name="username" class="Kishlin\Backend\Account\Domain\ValueObject\AccountUsername" use-column-prefix="false" />
+        <field name="username" type="account_username" column="username" />
 
-        <embedded name="email" class="Kishlin\Backend\Account\Domain\ValueObject\AccountEmail" use-column-prefix="false" />
+        <field name="email" type="account_email" column="email" />
 
-        <embedded name="password" class="Kishlin\Backend\Account\Domain\ValueObject\AccountPassword" use-column-prefix="false" />
+        <field name="password" type="account_password" column="password" />
 
-        <embedded name="salt" class="Kishlin\Backend\Account\Domain\ValueObject\AccountSalt" use-column-prefix="false" />
+        <field name="salt" type="account_salt" column="salt" />
 
-        <embedded name="isActive" class="Kishlin\Backend\Account\Domain\ValueObject\AccountIsActive" use-column-prefix="false" />
+        <field name="isActive" type="account_is_active" column="is_active" />
     </entity>
 
 </doctrine-mapping>
