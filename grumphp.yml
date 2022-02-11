@@ -6,6 +6,8 @@ grumphp:
         enabled: true
         max_workers: 32
     tasks:
+        behat:
+            config: /rpgidlegame/behat-config.yml
         phpcsfixer:
             cache_file: /rpgidlegame/.php-cs-fixer.cache
             config: /rpgidlegame/.php-cs-fixer.php
