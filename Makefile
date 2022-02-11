@@ -27,7 +27,7 @@ composer-require: INTERACTIVE=-ti --interactive
 
 .PHONY: composer
 composer-install composer-update composer-require composer-require-module: .env.local .docker-cache
-	@docker-compose exec backend php -d xdebug.mode=off /usr/local/bin/composer $(CMD) \
+	@docker-compose exec backend php /usr/local/bin/composer $(CMD) \
 			--working-dir=/rpgidlegame \
 			--no-ansi
 
@@ -118,7 +118,7 @@ db.migrations.diff: CMD=diff
 db.migrations.migrate: CMD=migrate
 
 db.migrations.diff db.migrations.migrate:
-	@docker-compose exec backend php -d xdebug.mode=off /rpgidlegame/vendor/bin/doctrine-migrations $(CMD)
+	@docker-compose exec backend php /rpgidlegame/vendor/bin/doctrine-migrations $(CMD)
 
 frontend.sh:
 	@docker-compose exec frontend sh
@@ -133,55 +133,55 @@ frontend.build:
 
 tests.backend.usecases:
 	@echo "Running Use Case Tests for src/"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/behat --config /rpgidlegame/behat-config.yml --suite use_case_tests
 	@echo ""
 
 tests.backend.api:
 	@echo "Running Use Case Tests for src/"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/behat --config /rpgidlegame/behat-config.yml --suite api_tests
 	@echo ""
 
 tests.backend.src.isolated:
 	@echo "Running Isolated Tests for the src/ folder"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite isolated
 	@echo ""
 
 tests.backend.src.contract:
 	@echo "Running Contract Tests for the src/ folder"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite contract
 	@echo ""
 
 tests.backend.src:
 	@echo "Running Tests for the src/ folder"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml
 	@echo ""
 
 tests.backend.app.driving:
 	@echo "Running Driving Tests for the Backend App"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite driving
 	@echo ""
 
 tests.backend.app.functional:
 	@echo "Running Functional Tests for the Backend App"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite functional
 	@echo ""
 
 tests.backend.app.integration:
 	@echo "Running Integration Tests for the Backend App"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite integration
 	@echo ""
 
 tests.backend.app:
 	@echo "Running Tests for the Backend App"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml
 	@echo ""
 
@@ -201,7 +201,7 @@ tests: tests.backend tests.frontend
 
 phpstan:
 	@echo "Running PHPStan"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/phpstan analyse -c /rpgidlegame/phpstan.neon
 	@echo ""
 
@@ -209,7 +209,7 @@ phpstan:
 php-cs-fixer: DRY_RUN="--dry-run"
 php-cs-fixer php-cs-fixer.force:
 	@echo "Running PHP-Cs-Fixer ${DRY_RUN}"
-	@docker-compose exec backend php -d xdebug.mode=off \
+	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/php-cs-fixer fix --config=/rpgidlegame/.php-cs-fixer.php -vv ${DRY_RUN}
 	@echo ""
 
