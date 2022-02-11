@@ -7,9 +7,9 @@
     <entity name="Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount" table="character_counts">
         <id name="owner" type="character_count_owner" column="owner_id" length="36" />
 
-        <embedded name="count" class="Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountValue" use-column-prefix="false" />
+        <field name="count" type="character_count_value" column="character_count" />
 
-        <embedded name="reachedLimit" class="Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountReachedLimit" use-column-prefix="false" />
+        <field name="reachedLimit" type="character_count_reached_limit" column="reached_limit" />
     </entity>
 
 </doctrine-mapping>
