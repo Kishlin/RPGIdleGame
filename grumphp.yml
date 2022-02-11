@@ -11,3 +11,6 @@ grumphp:
             config: /rpgidlegame/.php-cs-fixer.php
         phpstan:
             configuration: /rpgidlegame/phpstan.neon
+        phpunit:
+            config_file: /rpgidlegame/phpunit.xml
+            always_execute: true

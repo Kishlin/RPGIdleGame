@@ -158,31 +158,31 @@ tests.backend.src.contract:
 tests.backend.src:
 	@echo "Running Tests for the src/ folder"
 	@docker-compose exec backend php \
-		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite isolated,contract
 	@echo ""
 
 tests.backend.app.driving:
 	@echo "Running Driving Tests for the Backend App"
 	@docker-compose exec backend php \
-		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite driving
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite driving
 	@echo ""
 
 tests.backend.app.functional:
 	@echo "Running Functional Tests for the Backend App"
 	@docker-compose exec backend php \
-		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite functional
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite functional
 	@echo ""
 
 tests.backend.app.integration:
 	@echo "Running Integration Tests for the Backend App"
 	@docker-compose exec backend php \
-		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml --testsuite integration
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite integration
 	@echo ""
 
 tests.backend.app:
 	@echo "Running Tests for the Backend App"
 	@docker-compose exec backend php \
-		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/apps/RPGIdleGame/backend/phpunit.xml
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite driving,functional,integration
 	@echo ""
 
 tests.frontend:

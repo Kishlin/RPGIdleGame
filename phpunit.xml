@@ -28,6 +28,9 @@
     <php>
         <ini name="display_errors" value="1" />
         <ini name="error_reporting" value="-1" />
+
+        <env name="APP_DEBUG" value="false"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
 
     <testsuites>
@@ -37,6 +40,18 @@
 
         <testsuite name="contract">
             <directory>tests/Backend/ContractTests</directory>
+        </testsuite>
+
+        <testsuite name="driving">
+            <directory>apps/RPGIdleGame/backend/tests/DrivingTests</directory>
+        </testsuite>
+
+        <testsuite name="functional">
+            <directory>apps/RPGIdleGame/backend/tests/FunctionalTests</directory>
+        </testsuite>
+
+        <testsuite name="integration">
+            <directory>apps/RPGIdleGame/backend/tests/IntegrationTests</directory>
         </testsuite>
     </testsuites>
 
