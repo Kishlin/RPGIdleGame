@@ -73,6 +73,7 @@ clean:
 		docker-compose down; \
 	fi;
 	@sudo rm -rf docker-compose.yaml vendor apps/RPGIdleGame/frontend/node_modules apps/RPGIdleGame/frontend/build
+	@sudo rm -rf .git/hooks/commit-msg .git/hooks/pre-commit
 
 start: containers vendor db.reload db.reload.test
 	@echo "All services should be running."
@@ -82,7 +83,14 @@ start: containers vendor db.reload db.reload.test
 	@echo "Run tests: \`make tests\` (see Makefile for more options)."
 
 ##> Helpers
-.PHONY: db.connect db.reload db.reload.test db.migrations.diff db.migrations.migrate
+.PHONY: xdebug.on xdebug.off
+.PHONY: db.connect db.reload db.reload.test db.migrations.diff db.migrations.migrate frontend.sh frontend.build
+
+xdebug.on:
+	@docker-compose exec backend sudo mv /usr/local/etc/php/conf.d/xdebug.ini.dis /usr/local/etc/php/conf.d/xdebug.ini
+
+xdebug.off:
+	@docker-compose exec backend sudo mv /usr/local/etc/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini.dis
 
 db.reload: ENV=dev
 db.reload.test: ENV=test
