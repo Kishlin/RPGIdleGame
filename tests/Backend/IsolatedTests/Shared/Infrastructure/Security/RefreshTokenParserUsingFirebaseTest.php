@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\IsolatedTests\Shared\Infrastructure\Security;
 
 use Firebase\JWT\JWT;
+use Kishlin\Backend\Shared\Domain\Security\ParsingTokenFailedException;
+use Kishlin\Backend\Shared\Domain\Security\RefreshTokenPayload;
 use Kishlin\Backend\Shared\Infrastructure\Security\RefreshTokenParserUsingFirebase;
 use PHPUnit\Framework\TestCase;
 
@@ -19,15 +21,48 @@ final class RefreshTokenParserUsingFirebaseTest extends TestCase
 
     public function testItParsesAPayloadFromToken(): void
     {
-        $salt   = 'salt';
-        $userId = 'uuid';
-        $parser = new RefreshTokenParserUsingFirebase(self::SECRET_KEY, self::ALGORITHM);
+        $salt = 'salt';
+        $user = 'uuid';
 
-        $refreshToken = JWT::encode(['user' => $userId, 'salt' => $salt], self::SECRET_KEY, self::ALGORITHM);
+        $payload      = ['user' => $user, 'salt' => $salt, 'exp' => strtotime('+1 month')];
+        $refreshToken = JWT::encode($payload, self::SECRET_KEY, self::ALGORITHM);
 
-        $out = $parser->payloadFromRefreshToken($refreshToken);
+        $parser = new RefreshTokenParserUsingFirebase(self::SECRET_KEY, self::ALGORITHM, true);
+        $out    = $parser->payloadFromRefreshToken($refreshToken);
 
-        self::assertSame($userId, $out->userId());
+        self::assertSame($user, $out->userId());
         self::assertSame($salt, $out->salt());
+    }
+
+    public function testItParsesATokenWithoutExpirationWhenItIsNotRequired(): void
+    {
+        $payload = ['user' => 'user', 'salt' => 'salt', 'exp' => strtotime('+1 minute')];
+
+        $refreshToken = JWT::encode($payload, self::SECRET_KEY, self::ALGORITHM);
+
+        $parser = new RefreshTokenParserUsingFirebase(self::SECRET_KEY, self::ALGORITHM, expirationClaimIsRequired: false);
+
+        self::assertInstanceOf(RefreshTokenPayload::class, $parser->payloadFromRefreshToken($refreshToken));
+    }
+
+    public function testItFailsToParseATokenWithoutExpirationWhenItIsRequired(): void
+    {
+        $refreshToken = JWT::encode(['user' => 'user', 'salt' => 'salt'], self::SECRET_KEY, self::ALGORITHM);
+
+        $parser = new RefreshTokenParserUsingFirebase(self::SECRET_KEY, self::ALGORITHM, expirationClaimIsRequired: true);
+
+        self::expectException(ParsingTokenFailedException::class);
+        $parser->payloadFromRefreshToken($refreshToken);
+    }
+
+    public function testItFailsToParseAnExpiredToken(): void
+    {
+        $payload      = ['user' => 'user', 'salt' => 'salt', 'exp' => strtotime('-1 minute')];
+        $refreshToken = JWT::encode($payload, self::SECRET_KEY, self::ALGORITHM);
+
+        $parser = new RefreshTokenParserUsingFirebase(self::SECRET_KEY, self::ALGORITHM, expirationClaimIsRequired: true);
+
+        self::expectException(ParsingTokenFailedException::class);
+        $parser->payloadFromRefreshToken($refreshToken);
     }
 }

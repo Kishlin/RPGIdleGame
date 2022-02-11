@@ -61,12 +61,14 @@ services:
     bind:
       $secretKey: '%kishlin.jwt.secretKey%'
       $algorithm: '%kishlin.jwt.algorithm%'
+      $expirationClaimIsRequired: '%kishlin.jwt.exp_claim_is_required%'
 
   Kishlin\Backend\Shared\Domain\Security\TokenParser:
     class: 'Kishlin\Backend\Shared\Infrastructure\Security\TokenParserUsingFirebase'
     bind:
       $secretKey: '%kishlin.jwt.secretKey%'
       $algorithm: '%kishlin.jwt.algorithm%'
+      $expirationClaimIsRequired: '%kishlin.jwt.exp_claim_is_required%'
 
 
   ##> Time

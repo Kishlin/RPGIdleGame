@@ -38,6 +38,10 @@ services:
 
   Kishlin\Backend\Account\Application\Authenticate\AuthenticationGenerator:
     class: 'Kishlin\Backend\Account\Infrastructure\AuthenticationGeneratorUsingFirebase'
+    bind:
+      $expirationClaimIsRequired: '%kishlin.jwt.exp_claim_is_required%'
+      $refreshTokenExpiration: '%kishlin.jwt.expire_refresh_token%'
+      $tokenExpiration: '%kishlin.jwt.expire_token%'
 
   Kishlin\Backend\Account\Application\RefreshAuthentication\SimpleAuthenticationGenerator:
     alias: 'Kishlin\Backend\Account\Application\Authenticate\AuthenticationGenerator'

@@ -15,6 +15,7 @@ final class TokenParserUsingFirebase implements TokenParser
     public function __construct(
         private string $secretKey,
         private string $algorithm,
+        private bool $expirationClaimIsRequired,
     ) {
     }
 
@@ -31,11 +32,19 @@ final class TokenParserUsingFirebase implements TokenParser
             throw new ParsingTokenFailedException();
         }
 
-        if (false === $this->tokenHasAllRequiredKeys($token)) {
+        if ($this->expirationIsRequiredButMissing($token) || false === $this->tokenHasAllRequiredKeys($token)) {
             throw new ParsingTokenFailedException();
         }
 
         return $this->payloadDTOFromToken($token);
+    }
+
+    /**
+     * @param array<string, mixed> $token
+     */
+    private function expirationIsRequiredButMissing(array $token): bool
+    {
+        return $this->expirationClaimIsRequired && false === array_key_exists('exp', $token);
     }
 
     /**

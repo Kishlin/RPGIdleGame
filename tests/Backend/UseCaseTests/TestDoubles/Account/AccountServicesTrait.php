@@ -37,6 +37,7 @@ trait AccountServicesTrait
             $this->refreshTokenParser = new RefreshTokenParserUsingFirebase(
                 'ThisKeyIsNotSoSecretButItIsTests',
                 'HS256',
+                false,
             );
         }
 
@@ -52,6 +53,7 @@ trait AccountServicesTrait
                     'test.rpgidlegame.com',
                     'HS256',
                 ),
+                false,
             );
         }
 
