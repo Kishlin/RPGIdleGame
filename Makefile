@@ -54,12 +54,16 @@ $(CACHE): .docker-cache
 
 .INTERMEDIATE: .docker-cache
 
-.PHONY: help setup start stop clean containers node_modules
+git-hooks:
+	@cp .git-hooks/commit-msg.sh .git/hooks/commit-msg
+	@cp .git-hooks/pre-commit.sh .git/hooks/pre-commit
+
+.PHONY: help setup start stop clean containers node_modules git-hooks
 
 help:
 	@echo "Run make start_working"
 
-setup: .env.local docker-compose.yaml
+setup: .env.local docker-compose.yaml git-hooks
 
 containers: setup $(CACHE)
 	@echo "Starting services"

@@ -1,0 +1,13 @@
+grumphp:
+    ascii:
+        failed: ~
+        succeeded: ~
+    parallel:
+        enabled: true
+        max_workers: 32
+    tasks:
+        phpcsfixer:
+            cache_file: /rpgidlegame/.php-cs-fixer.cache
+            config: /rpgidlegame/.php-cs-fixer.php
+        phpstan:
+            configuration: /rpgidlegame/phpstan.neon

@@ -36,7 +36,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "phpro/grumphp": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
@@ -80,6 +81,7 @@
         "ext-curl": "*",
         "behat/behat": "^3.10",
         "friendsofphp/php-cs-fixer": "^3.5",
+        "phpro/grumphp": "^1.8",
         "phpstan/phpstan": "^1.4",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-doctrine": "^1.1",
