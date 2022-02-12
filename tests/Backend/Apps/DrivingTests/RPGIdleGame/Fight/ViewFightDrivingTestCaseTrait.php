@@ -24,7 +24,7 @@ trait ViewFightDrivingTestCaseTrait
      * Returns a QueryBus mock preconfigured to simulate the behavior of the actual use case.
      * The QueryBus mock will:
      *     - Expect to receive a correct ViewFightQuery, only one time.
-     *     - Return the fightId as the initiated fight's id.
+     *     - Return a placeholder as a view for the asked fight.
      */
     public function configuredQueryBusServiceMock(string $requester, string $fightId): MockObject
     {
