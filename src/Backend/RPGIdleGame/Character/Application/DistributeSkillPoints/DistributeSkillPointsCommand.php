@@ -7,9 +7,12 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoint
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\Shared\Domain\Bus\Command\Command;
+use Kishlin\Backend\Shared\Domain\Bus\Message\Mapping;
 
 final class DistributeSkillPointsCommand implements Command
 {
+    use Mapping;
+
     private function __construct(
         private string $characterId,
         private string $requesterId,
@@ -65,6 +68,21 @@ final class DistributeSkillPointsCommand implements Command
             $attackPointsToAdd,
             $defensePointsToAdd,
             $magikPointsToAdd
+        );
+    }
+
+    /**
+     * @param array{characterId: string, requesterId: string, health: int, attack: int, defense: int, magik: int} $source
+     */
+    public static function fromRequest(array $source): self
+    {
+        return new self(
+            self::getString($source, 'characterId'),
+            self::getString($source, 'requesterId'),
+            self::getInt($source, 'health'),
+            self::getInt($source, 'attack'),
+            self::getInt($source, 'defense'),
+            self::getInt($source, 'magik'),
         );
     }
 }

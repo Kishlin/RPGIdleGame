@@ -10,7 +10,7 @@ interface HTTPClientInterface
 
     public function post(Request $request): Response;
 
-    public function update(Request $request): Response;
+    public function put(Request $request): Response;
 
     public function delete(Request $request): Response;
 }
