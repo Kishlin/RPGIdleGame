@@ -11,7 +11,8 @@ default:
     api_tests:
       paths: [ features ]
       contexts:
-        - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\AccountContext
+        - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\AccountAuthenticationContext
+        - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\AccountSignupContext
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\CharacterAccessContext
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\CharacterFixturesContext
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\CharacterManagementContext
