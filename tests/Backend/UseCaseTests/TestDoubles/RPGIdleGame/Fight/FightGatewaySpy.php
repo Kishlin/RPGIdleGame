@@ -12,7 +12,7 @@ use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightTurn;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightViewGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightListItem;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightListView;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightView;
 
 final class FightGatewaySpy implements FightGateway, FightViewGateway
@@ -58,13 +58,29 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
     /**
      * {@inheritDoc}
      */
-    public function viewAllForFighter(string $fighterId, string $requesterId): array
+    public function viewAllForFighter(string $fighterId, string $requesterId): JsonableFightListView
     {
         if (self::FIGHTER_UUID === $fighterId && self::CLIENT_UUID !== $requesterId) {
             throw new CannotAccessFightsException();
         }
 
-        return array_reduce($this->fights, [$this, 'reduceFightToView'], []);
+        return JsonableFightListView::fromSource(
+            array_map(
+                static fn(Fight $fight) => [
+                    'id'             => $fight->id()->value(),
+                    'winner_id'      => $fight->winnerId()->value(),
+                    'initiator_name' => $fight->initiator()->characterId()->value(),
+                    'initiator_rank' => $fight->initiator()->rank()->value(),
+                    'opponent_name'  => $fight->opponent()->characterId()->value(),
+                    'opponent_rank'  => $fight->opponent()->rank()->value(),
+                ],
+                array_filter(
+                    $this->fights,
+                    static fn(Fight $fight) => self::FIGHTER_UUID === $fight->initiator()->characterId()->value()
+                        || self::FIGHTER_UUID === $fight->opponent()->characterId()->value(),
+                ),
+            )
+        );
     }
 
     public function has(string $fightId): bool
@@ -114,31 +130,5 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
             'damage_dealt'       => $fightTurn->damageDealt()->value(),
             'defender_health'    => $fightTurn->defenderHealth()->value(),
         ];
-    }
-
-    /**
-     * @param JsonableFightListItem[] $carry
-     *
-     * @return JsonableFightListItem[]
-     */
-    private static function reduceFightToView(array $carry, Fight $fight): array
-    {
-        if (
-            self::FIGHTER_UUID !== $fight->initiator()->characterId()->value()
-            && self::FIGHTER_UUID !== $fight->opponent()->characterId()->value()
-        ) {
-            return $carry;
-        }
-
-        $carry[] = JsonableFightListItem::fromSource([
-            'id'             => $fight->id()->value(),
-            'winner_id'      => $fight->winnerId()->value(),
-            'initiator_name' => $fight->initiator()->characterId()->value(),
-            'initiator_rank' => $fight->initiator()->rank()->value(),
-            'opponent_name'  => $fight->opponent()->characterId()->value(),
-            'opponent_rank'  => $fight->opponent()->rank()->value(),
-        ]);
-
-        return $carry;
     }
 }

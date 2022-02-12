@@ -266,7 +266,7 @@ final class FightContext extends RPGIdleGameContext
 
         Assert::assertNotNull($this->response);
         Assert::assertInstanceOf(ViewFightsForFighterResponse::class, $this->response);
-        Assert::assertCount(2, $response->fightViews());
+        Assert::assertCount(2, $response->fights()->toArray());
     }
 
     /**
@@ -279,7 +279,7 @@ final class FightContext extends RPGIdleGameContext
 
         Assert::assertNotNull($this->response);
         Assert::assertInstanceOf(ViewFightsForFighterResponse::class, $this->response);
-        Assert::assertEmpty($response->fightViews());
+        Assert::assertEmpty($response->fights()->toArray());
     }
 
     /**

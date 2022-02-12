@@ -8,7 +8,7 @@ use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\CannotAccessFightsException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightViewGateway;
-use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightListItem;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightListView;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightView;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineRepository;
 
@@ -119,7 +119,7 @@ SQL;
      *
      * @throws CannotAccessFightsException|Exception
      */
-    public function viewAllForFighter(string $fighterId, string $requesterId): array
+    public function viewAllForFighter(string $fighterId, string $requesterId): JsonableFightListView
     {
         /**
          * @var array<array{id: string, winner_id: ?string, initiator_name: string, initiator_rank: int, opponent_name: string, opponent_rank: int}>|false $fights
@@ -133,7 +133,7 @@ SQL;
             throw new CannotAccessFightsException();
         }
 
-        return array_map(static fn ($source) => JsonableFightListItem::fromSource($source), $fights);
+        return JsonableFightListView::fromSource($fights);
     }
 
     /**

@@ -64,9 +64,9 @@ final class FightViewRepositoryTest extends RepositoryContractTestCase
     {
         $repository = new FightViewRepository(self::entityManager());
 
-        self::assertCount(4, $repository->viewAllForFighter('character-0', 'account-0'));
-        self::assertCount(1, $repository->viewAllForFighter('character-3', 'account-1'));
-        self::assertCount(0, $repository->viewAllForFighter('character-4', 'account-1'));
+        self::assertCount(4, $repository->viewAllForFighter('character-0', 'account-0')->toArray());
+        self::assertCount(1, $repository->viewAllForFighter('character-3', 'account-1')->toArray());
+        self::assertCount(0, $repository->viewAllForFighter('character-4', 'account-1')->toArray());
     }
 
     /**
