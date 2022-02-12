@@ -81,7 +81,7 @@ SELECT CASE
     END
 as character_name,  index, attacker_attack, attacker_magik, attacker_dice_roll, defender_defense, damage_dealt, defender_health
 FROM fight_turns
-WHERE fight_id = 'fight-2'
+WHERE fight_id = :fight_id
 ORDER BY index ASC
 ;
 SQL;

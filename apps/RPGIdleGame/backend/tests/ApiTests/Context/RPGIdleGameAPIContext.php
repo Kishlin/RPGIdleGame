@@ -22,6 +22,8 @@ abstract class RPGIdleGameAPIContext implements Context
     protected const FIGHTER_UUID  = '7368db1c-f067-4774-af94-0b1893ab2005';
     protected const OPPONENT_UUID = '6533ee42-e232-470c-9106-42de8b37cab9';
 
+    protected const FIGHT_UUID = '32e757f7-d8f1-428c-9ca3-d084bbb76c08';
+
     private const SYMFONY_SERVER = 'http://localhost:8000';
 
     protected ?Response $response = null;

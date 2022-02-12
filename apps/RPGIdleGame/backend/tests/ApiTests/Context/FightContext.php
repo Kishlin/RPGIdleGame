@@ -14,12 +14,19 @@ final class FightContext extends RPGIdleGameAPIContext
      */
     public function thereIsAnOpponentAvailable(): void
     {
-        $query = <<<'SQL'
+        $strangerQuery = <<<'SQL'
+INSERT INTO accounts (id, username, email, password, salt, is_active)
+VALUES (:stranger, 'Stranger', 'stranger@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$LkdneGtiWW1ZaXJIM3QxNg$u4J11lsQJLZDbrj0B5qpeMSzm7ST/ES7Pk+NJ3M2LMU', '1c9cf3d35c6a2aaa685a39dfcbf34e4dc38132b4', true)
+SQL;
+
+        $characterQuery = <<<'SQL'
 INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank)
 VALUES (:id, :stranger, 'Opponent', 0, 70, 48, 28, 30, 120);
 SQL;
 
-        self::database()->exec($query, ['id' => self::OPPONENT_UUID, 'stranger' => self::STRANGER_UUID]);
+        self::database()->exec($strangerQuery, ['stranger' => self::STRANGER_UUID]);
+
+        self::database()->exec($characterQuery, ['id' => self::OPPONENT_UUID, 'stranger' => self::STRANGER_UUID]);
     }
 
     /**

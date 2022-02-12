@@ -6,6 +6,7 @@ namespace Kishlin\Apps\RPGIdleGame\Backend\Errors\ExceptionHandlers\RPGIdleGame\
 
 use Kishlin\Apps\RPGIdleGame\Backend\Errors\KernelExceptionHandler;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\RequesterIsNotAllowedToInitiateFight;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\NoOpponentAvailableException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,10 @@ final class FightExceptionHandler implements KernelExceptionHandler
 
         if ($e instanceof NoOpponentAvailableException) {
             return new JsonResponse('No opponent available.', status: Response::HTTP_NOT_FOUND);
+        }
+
+        if ($e instanceof FightNotFoundException) {
+            return new JsonResponse(status: Response::HTTP_NOT_FOUND);
         }
 
         return null;
