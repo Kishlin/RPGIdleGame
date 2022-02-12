@@ -333,8 +333,8 @@ final class CharacterContext extends RPGIdleGameContext
     /**
      * @Then /^the character stats are updated as wanted$/
      *
-     * @see CharacterContext::itOwnsAWellAdvancedCharacter()
-     * @see CharacterContext::aClientDistributesSomeSkillPoints()
+     * @see CharacterFixturesContext::itOwnsAWellAdvancedCharacter()
+     * @see CharacterFixturesContext::aClientDistributesSomeSkillPoints()
      */
     public function theCharacterStatsAreUpdatedAsWanted(): void
     {
