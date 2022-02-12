@@ -9,8 +9,6 @@ use PHPUnit\Framework\Assert;
 
 final class CharacterContext extends RPGIdleGameAPIContext
 {
-    private ?string $characterId = null;
-
     /**
      * @Given it has reached the character limit
      */
@@ -102,14 +100,6 @@ SQL,
             ],
             params: ['characterName' => 'Kishlin']
         ));
-
-        if (201 === $this->response->httpCode()) {
-            /** @var array{characterId: string} $decodedBody */
-            $decodedBody       = $this->response->decodedBody();
-            $this->characterId = $decodedBody['characterId'];
-        } else {
-            $this->characterId = null;
-        }
     }
 
     /**
@@ -246,9 +236,18 @@ SQL,
      */
     public function theCharacterIsRegistered(): void
     {
-        Assert::assertNotNull($this->characterId);
-        $count = self::database()->fetchOne('SELECT count(1) FROM characters WHERE id = :id', ['id' => $this->characterId]);
-        Assert::assertSame(1, $count);
+        Assert::assertNotNull($this->response);
+        Assert::assertSame(201, $this->response->httpCode());
+
+        $data = $this->response->decodedBody();
+
+        Assert::assertIsArray($data);
+        Assert::assertArrayHasKey('characterId', $data);
+
+        Assert::assertSame(
+            1,
+            self::database()->fetchOne('SELECT count(1) FROM characters WHERE id = :id', ['id' => $data['characterId']]),
+        );
     }
 
     /**
@@ -266,7 +265,6 @@ SQL,
      */
     public function theCharacterCountIsIncremented(): void
     {
-        Assert::assertNotNull($this->characterId);
         $count = self::database()->fetchOne(
             'SELECT character_count FROM character_counts WHERE owner_id = :owner',
             ['owner' => self::CLIENT_UUID]
