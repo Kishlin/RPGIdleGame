@@ -10,7 +10,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
 
 /**
- * Any client willing to execute the Account/Signup use case should use this trait for its Driving Test.
+ * Any client willing to execute the Character/Create use case should use this trait for its Driving Test.
  *
  * @method MockObject          getMockForAbstractClass(string $class)
  * @method callable            callback(callable $callback)
