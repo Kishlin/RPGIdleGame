@@ -59,10 +59,41 @@ SQL;
     }
 
     /**
+     * @Given /^it owns a few characters$/
+     */
+    public function itOwnsAFewCharacters(): void
+    {
+        $queries = [
+            <<<'SQL'
+INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count)
+VALUES ('88c7ee64-27e5-409c-b8a2-0db1aba2131b', :owner, 'Fighter', 12, 10, 0, 0, 0, 0, 0, 0, 0, 0);
+SQL,
+            <<<'SQL'
+INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count)
+VALUES ('0c023953-0bfd-43ac-81f9-e608cef3e3f6', :owner, 'Brawler', 24, 56, 28, 13, 26, 125, 68, 30, 5, 33);
+SQL,
+            <<<'SQL'
+INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count)
+VALUES ('5a4440cf-4ebf-4f6a-a356-fee321f719ed', :owner, 'Magician', 13, 128, 64, 52, 35, 226, 1688, 824, 113, 751);
+SQL,
+        ];
+
+        foreach ($queries as $query) {
+            self::database()->exec($query, ['owner' => self::CLIENT_UUID]);
+        }
+
+        self::database()->exec(
+            'UPDATE character_counts SET character_count = character_count + 3 WHERE owner_id = :owner;',
+            ['owner' => self::CLIENT_UUID],
+        );
+    }
+
+    /**
      * @When a client creates a character
      */
     public function aClientCreatesACharacter(): void
     {
+        $this->response = null;
         $this->response = self::client()->post(new Request(
             uri: '/character/create',
             headers: [
@@ -86,6 +117,7 @@ SQL;
      */
     public function aClientDeletesItsCharacter(): void
     {
+        $this->response = null;
         $this->response = self::client()->delete(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
@@ -99,6 +131,7 @@ SQL;
      */
     public function aStrangerTriesToDeleteTheClientsCharacter(): void
     {
+        $this->response = null;
         $this->response = self::client()->delete(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
@@ -112,6 +145,7 @@ SQL;
      */
     public function aClientDistributesSomeSkillPoints(): void
     {
+        $this->response = null;
         $this->response = self::client()->put(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
@@ -126,6 +160,7 @@ SQL;
      */
     public function aClientTriesToDistributeMoreSkillPointsThanAvailable(): void
     {
+        $this->response = null;
         $this->response = self::client()->put(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
@@ -140,12 +175,69 @@ SQL;
      */
     public function aStrangerTriesToDistributeSkillPointsToItsCharacter(): void
     {
+        $this->response = null;
         $this->response = self::client()->put(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
                 'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
             ],
             params: ['health' => 1, 'attack' => 0, 'defense' => 0, 'magik' => 0],
+        ));
+    }
+
+    /**
+     * @When /^a client asks to read one of its character's infos$/
+     */
+    public function aClientAsksToReadOneOfItsCharactersInfos(): void
+    {
+        $this->response = null;
+        $this->response = self::client()->get(new Request(
+            uri: '/character/' . self::FIGHTER_UUID,
+            headers: [
+                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+            ],
+        ));
+    }
+
+    /**
+     * @When /^a client asks to read a character that does not exist$/
+     */
+    public function aClientAsksToReadACharacterThatDoesNotExist(): void
+    {
+        $this->response = null;
+        $this->response = self::client()->get(new Request(
+            uri: '/character/character-that-does-exist',
+            headers: [
+                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+            ],
+        ));
+    }
+
+    /**
+     * @When /^a stranger tries to read its character$/
+     */
+    public function aStrangerTriesToReadItsCharacter(): void
+    {
+        $this->response = null;
+        $this->response = self::client()->get(new Request(
+            uri: '/character/' . self::FIGHTER_UUID,
+            headers: [
+                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
+            ],
+        ));
+    }
+
+    /**
+     * @When /^a client asks to read all of its characters$/
+     */
+    public function aClientAsksToReadAllOfItsCharacters(): void
+    {
+        $this->response = null;
+        $this->response = self::client()->get(new Request(
+            uri: '/character/all',
+            headers: [
+                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+            ],
         ));
     }
 
@@ -249,6 +341,48 @@ SQL;
      * @Then /^the stats update was denied$/
      */
     public function theStatsUpdateWasDenied(): void
+    {
+        Assert::assertNotNull($this->response);
+        Assert::assertSame(403, $this->response->httpCode());
+    }
+
+    /**
+     * @Then /^details about the character were returned$/
+     */
+    public function detailsAboutTheCharacterWereReturned(): void
+    {
+        Assert::assertNotNull($this->response);
+        Assert::assertSame(200, $this->response->httpCode());
+
+        $content = $this->response->decodedBody();
+
+        Assert::assertIsArray($content);
+        Assert::assertArrayHasKey('id', $content);
+        Assert::assertSame(self::FIGHTER_UUID, $content['id']);
+    }
+
+    /**
+     * @Then /^the list of all of its characters was returned$/
+     */
+    public function theListOfAllOfItsCharactersWasReturned(): void
+    {
+        Assert::assertNotNull($this->response);
+        Assert::assertSame(200, $this->response->httpCode());
+
+        $content = $this->response->decodedBody();
+
+        Assert::assertIsArray($content);
+        Assert::assertCount(3, $content);
+
+        foreach ($content as $shouldBeACharacter) {
+            Assert::assertEmpty(array_diff(['id', 'owner', 'name'], array_keys($shouldBeACharacter)));
+        }
+    }
+
+    /**
+     * @Then /^the query was refused$/
+     */
+    public function theQueryWasRefused(): void
     {
         Assert::assertNotNull($this->response);
         Assert::assertSame(403, $this->response->httpCode());

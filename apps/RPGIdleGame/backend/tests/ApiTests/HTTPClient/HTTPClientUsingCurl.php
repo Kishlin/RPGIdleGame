@@ -18,6 +18,8 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
         curl_setopt($ch, CURLOPT_URL, "{$this->host}{$request->uri()}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $request->headers());
+
         $output = (string) curl_exec($ch);
 
         /** @var int $httpCode */
