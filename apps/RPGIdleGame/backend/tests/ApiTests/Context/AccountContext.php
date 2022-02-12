@@ -12,8 +12,6 @@ final class AccountContext extends RPGIdleGameAPIContext
     private const REFRESH_TOKEN_WITH_NO_EXPIRATION = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNmRjM2ZkOTNmNTYiLCJhdWQiOiJjNmRjM2ZkOTNmNTYiLCJpYXQiOjE2NDQ0MTczNDYsInVzZXIiOiI3ZDM4Nzc0MC01YzE1LTQ3MTItYmRjZi01MTI2YzI4ZmMxMGEiLCJzYWx0IjoiMWM5Y2YzZDM1YzZhMmFhYTY4NWEzOWRmY2JmMzRlNGRjMzgxMzJiNCJ9.4lfYorjgyPRFtvCe7OvSffgycSm_vPO0swxR5wmonh4';
     private const REFRESH_TOKEN_EXPIRED            = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjNmRjM2ZkOTNmNTYiLCJhdWQiOiJjNmRjM2ZkOTNmNTYiLCJpYXQiOjE2NDQ0MTczNDYsInVzZXIiOiI3ZDM4Nzc0MC01YzE1LTQ3MTItYmRjZi01MTI2YzI4ZmMxMGEiLCJleHAiOjE2NDQ0MTczNDYsInNhbHQiOiIxYzljZjNkMzVjNmEyYWFhNjg1YTM5ZGZjYmYzNGU0ZGMzODEzMmI0In0.B4Oayevt44xPOJQJN30kmFnVmd630P1dGTz6Cwfzwas';
 
-    protected ?string $accountId = null;
-
     /**
      * @Given /^a client has an account$/
      * @Given /^an account already exists with the email$/
@@ -47,14 +45,6 @@ SQL
             ],
             params: ['email' => 'user@example.com']
         ));
-
-        if (201 === $this->response->httpCode()) {
-            /** @var array{accountId: string} $decodedBody */
-            $decodedBody     = $this->response->decodedBody();
-            $this->accountId = $decodedBody['accountId'];
-        } else {
-            $this->accountId = null;
-        }
     }
 
     /**
@@ -104,9 +94,19 @@ SQL
      */
     public function itsCredentialsAreRegistered(): void
     {
-        Assert::assertNotNull($this->accountId);
+        Assert::assertNotNull($this->response);
+        Assert::assertSame(201, $this->response->httpCode());
 
-        $count = self::database()->fetchOne('SELECT count(1) FROM accounts WHERE id = :id', ['id' => $this->accountId]);
+        /** @var array<string, mixed> $decodedBody */
+        $decodedBody = $this->response->decodedBody();
+
+        Assert::assertIsArray($decodedBody);
+        Assert::assertArrayHasKey('accountId', $decodedBody);
+
+        $count = self::database()->fetchOne(
+            'SELECT count(1) FROM accounts WHERE id = :id',
+            ['id' => $decodedBody['accountId']],
+        );
 
         Assert::assertSame(1, $count);
     }
@@ -116,14 +116,7 @@ SQL
      */
     public function aFreshCharacterCountIsRegistered(): void
     {
-        Assert::assertNotNull($this->accountId);
-
-        $count = self::database()->fetchOne(
-            'SELECT count(1) FROM character_counts WHERE owner_id = :id',
-            ['id' => $this->accountId],
-        );
-
-        Assert::assertSame(1, $count);
+        Assert::assertSame(1, self::database()->fetchOne('SELECT count(1) FROM character_counts'));
     }
 
     /**
@@ -171,7 +164,6 @@ SQL
      */
     public function itDidNotRegisterTheNewAccount(): void
     {
-        Assert::assertNull($this->accountId);
         Assert::assertNotNull($this->response);
         Assert::assertSame(409, $this->response->httpCode());
         Assert::assertSame(1, self::database()->fetchOne('SELECT count(1) FROM accounts')); // The account already using the email
