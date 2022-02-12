@@ -13,6 +13,7 @@ default:
       contexts:
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\AccountAuthenticationContext
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\AccountSignupContext
+        - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\FightContext
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\CharacterAccessContext
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\CharacterFixturesContext
         - Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context\CharacterManagementContext

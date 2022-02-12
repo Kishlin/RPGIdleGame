@@ -1,0 +1,5 @@
+account:
+  resource: ../../src/RPGIdleGame/Fight/Controller/
+  prefix: /fight
+  type: annotation
+  stateless: true

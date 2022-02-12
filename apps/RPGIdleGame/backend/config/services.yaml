@@ -48,6 +48,13 @@ services:
     tags: ['controller.service_arguments']
 
 
+##> Fight
+
+  Kishlin\Apps\RPGIdleGame\Backend\RPGIdleGame\Fight\Controller\:
+    resource: '../src/RPGIdleGame/Fight/Controller'
+    tags: ['controller.service_arguments']
+
+
 ##> Monitoring
 
   Kishlin\Apps\RPGIdleGame\Backend\Monitoring\Controller\:
