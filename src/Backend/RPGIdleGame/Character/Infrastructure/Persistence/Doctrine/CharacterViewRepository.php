@@ -7,6 +7,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctr
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterViewGateway;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharactersListView;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharacterView;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineViewer;
 
@@ -37,7 +38,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
      *
      * @throws Exception
      */
-    public function viewAllForOwner(string $ownerUuid): array
+    public function viewAllForOwner(string $ownerUuid): JsonableCharactersListView
     {
         /**
          * @var array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int}>|false $data
@@ -51,6 +52,6 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
             throw new CharacterNotFoundException();
         }
 
-        return array_map([JsonableCharacterView::class, 'fromSource'], $data);
+        return JsonableCharactersListView::fromSource($data);
     }
 }

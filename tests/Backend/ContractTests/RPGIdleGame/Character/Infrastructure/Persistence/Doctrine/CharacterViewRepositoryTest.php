@@ -13,7 +13,6 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharacterView;
 use Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\CharacterViewRepository;
 use Kishlin\Tests\Backend\Tools\Provider\CharacterProvider;
-use Kishlin\Tests\Backend\Tools\ReflectionHelper;
 use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
 use ReflectionException;
 
@@ -68,25 +67,16 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
 
         $repository = new CharacterViewRepository(self::entityManager());
 
-        $characterViewsForOwnerOne = $repository->viewAllForOwner($ownerOne->value());
+        $characterViewsForOwnerOne = $repository->viewAllForOwner($ownerOne->value())->toArray();
 
         self::assertCount(2, $characterViewsForOwnerOne);
-        self::assertSame(
-            $characterOneOfOwnerOne->id()->value(),
-            ReflectionHelper::propertyValue($characterViewsForOwnerOne[0], 'id'),
-        );
-        self::assertSame(
-            $characterTwoOfOwnerOne->id()->value(),
-            ReflectionHelper::propertyValue($characterViewsForOwnerOne[1], 'id'),
-        );
+        self::assertSame($characterOneOfOwnerOne->id()->value(), $characterViewsForOwnerOne[0]['id']);
+        self::assertSame($characterTwoOfOwnerOne->id()->value(), $characterViewsForOwnerOne[1]['id']);
 
-        $characterViewsForOwnerTwo = $repository->viewAllForOwner($ownerTwo->value());
+        $characterViewsForOwnerTwo = $repository->viewAllForOwner($ownerTwo->value())->toArray();
 
         self::assertCount(1, $characterViewsForOwnerTwo);
-        self::assertSame(
-            $characterOneOfOwnerTwo->id()->value(),
-            ReflectionHelper::propertyValue($characterViewsForOwnerTwo[0], 'id'),
-        );
+        self::assertSame($characterOneOfOwnerTwo->id()->value(), $characterViewsForOwnerTwo[0]['id']);
     }
 
     /**

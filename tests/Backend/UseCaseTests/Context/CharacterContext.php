@@ -439,7 +439,7 @@ final class CharacterContext extends RPGIdleGameContext
         /** @var ViewAllCharactersResponse $response */
         $response = $this->response;
 
-        Assert::assertCount(3, $response->viewsList());
+        Assert::assertCount(3, $response->viewsList()->toArray());
     }
 
     /**

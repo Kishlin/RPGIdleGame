@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharactersListView;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharacterView;
 
 /**
@@ -19,8 +20,5 @@ interface CharacterViewGateway
      */
     public function viewOneById(string $characterId, string $requesterId): JsonableCharacterView;
 
-    /**
-     * @return JsonableCharacterView[]
-     */
-    public function viewAllForOwner(string $ownerUuid): array;
+    public function viewAllForOwner(string $ownerUuid): JsonableCharactersListView;
 }

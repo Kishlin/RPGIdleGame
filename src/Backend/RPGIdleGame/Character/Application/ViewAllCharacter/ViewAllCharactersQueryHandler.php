@@ -18,7 +18,7 @@ final class ViewAllCharactersQueryHandler implements QueryHandler
     {
         return new ViewAllCharactersResponse(
             $this->characterViewGateway->viewAllForOwner(
-                $query->requesterId()
+                $query->requesterId(),
             )
         );
     }
