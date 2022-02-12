@@ -27,7 +27,7 @@ Feature: It can view fights
     When a client asks to view the fights of its character
     Then details about all the fights were returned
 
-  Scenario: a client can gets an empty response when its character did not take part in any fight
+  Scenario: a client gets an empty response when its character did not take part in any fight
     Given a client has an account
     And it owns a well advanced character
     And its character did not take part in any fights
