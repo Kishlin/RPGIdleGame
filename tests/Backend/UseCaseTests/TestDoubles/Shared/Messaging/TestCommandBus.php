@@ -49,7 +49,9 @@ final class TestCommandBus implements CommandBus
         }
 
         if ($command instanceof DeleteCharacterCommand) {
-            return $this->testServiceContainer->deleteCharacterHandler()($command);
+            $this->testServiceContainer->deleteCharacterHandler()($command);
+
+            return null;
         }
 
         if ($command instanceof InitiateAFightCommand) {

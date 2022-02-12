@@ -57,6 +57,22 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
 
     public function delete(Request $request): Response
     {
-        throw new \RuntimeException('Not implemented.');
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "{$this->host}{$request->uri()}");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $request->headers());
+
+        $output = (string) curl_exec($ch);
+
+        /** @var int $httpCode */
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        return new Response($httpCode, $output);
     }
 }

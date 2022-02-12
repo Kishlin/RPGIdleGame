@@ -216,14 +216,12 @@ final class CharacterContext extends RPGIdleGameContext
     public function aClientDeletesItsCharacter(): void
     {
         try {
-            $response = self::container()->commandBus()->execute(
+            self::container()->commandBus()->execute(
                 DeleteCharacterCommand::fromScalars(
                     characterId: self::FIGHTER_UUID,
                     accountRequestingDeletionUuid: self::CLIENT_UUID,
                 )
             );
-
-            Assert::assertTrue($response);
 
             $this->exceptionThrown = null;
         } catch (Throwable $e) {

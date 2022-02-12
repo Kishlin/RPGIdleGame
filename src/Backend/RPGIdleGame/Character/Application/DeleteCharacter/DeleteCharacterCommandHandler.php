@@ -20,7 +20,7 @@ final class DeleteCharacterCommandHandler
     /**
      * @throws DeletionIsNotAllowedException
      */
-    public function __invoke(DeleteCharacterCommand $command): bool
+    public function __invoke(DeleteCharacterCommand $command): void
     {
         $characterToDeleteId     = $command->characterId();
         $ownerRequestingDeletion = $command->accountRequestingDeletion();
@@ -33,7 +33,5 @@ final class DeleteCharacterCommandHandler
 
         $this->characterGateway->delete($command->characterId());
         $this->eventDispatcher->dispatch($domainEvent);
-
-        return true;
     }
 }
