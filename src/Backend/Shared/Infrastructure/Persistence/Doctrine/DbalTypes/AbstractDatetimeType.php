@@ -44,9 +44,13 @@ abstract class AbstractDatetimeType extends DateTimeImmutableType
      *
      * @throws ConversionException
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): int
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        return parent::convertToDatabaseValue($value->value(), $platform);
+        $databaseValue = parent::convertToDatabaseValue($value->value(), $platform);
+
+        assert(null === $databaseValue || is_string($databaseValue));
+
+        return $databaseValue;
     }
 
     /**

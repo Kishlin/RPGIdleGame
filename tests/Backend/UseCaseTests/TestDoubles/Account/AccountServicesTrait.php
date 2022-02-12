@@ -8,10 +8,10 @@ use Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommandHandler;
 use Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshAuthenticationCommandHandler;
 use Kishlin\Backend\Account\Application\Signup\SignupCommandHandler;
 use Kishlin\Backend\Account\Infrastructure\AuthenticationGeneratorUsingFirebase;
-use Kishlin\Backend\Shared\Infrastructure\Security\RefreshTokenParserUsingFirebase;
 use Kishlin\Backend\Account\Infrastructure\SaltGeneratorUsingRandomBytes;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 use Kishlin\Backend\Shared\Infrastructure\Security\JWTGeneratorUsingFirebase;
+use Kishlin\Backend\Shared\Infrastructure\Security\RefreshTokenParserUsingFirebase;
 
 trait AccountServicesTrait
 {

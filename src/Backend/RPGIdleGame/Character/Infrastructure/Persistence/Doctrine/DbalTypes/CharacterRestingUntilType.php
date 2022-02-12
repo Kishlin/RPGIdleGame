@@ -11,6 +11,6 @@ final class CharacterRestingUntilType extends AbstractDatetimeType
 {
     protected function mappedClass(): string
     {
-        return  CharacterRestingUntil::class;
+        return CharacterRestingUntil::class;
     }
 }

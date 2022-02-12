@@ -30,7 +30,7 @@ final class RefreshAuthenticationControllerDrivingTest extends WebTestCase
 
         $headers = [
             'HTTP_CONTENT_TYPE'  => 'application/json',
-            'HTTP_AUTHORIZATION' => "Bearer $refreshToken",
+            'HTTP_AUTHORIZATION' => "Bearer {$refreshToken}",
         ];
 
         $client->request(method: 'POST', uri: '/account/refresh-authentication', server: $headers);

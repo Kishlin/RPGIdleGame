@@ -45,7 +45,7 @@ final class CharacterCountRepositoryTest extends RepositoryContractTestCase
 
         $repository->save($savedCharacterCount);
 
-        self::assertEquals(1, self::entityManager()->getConnection()->fetchOne(
+        self::assertSame(1, self::entityManager()->getConnection()->fetchOne(
             'SELECT 1 FROM character_counts WHERE owner_id = :owner LIMIT 1',
             ['owner' => $characterCount->owner()->value()],
         ));

@@ -29,7 +29,7 @@ final class CreateCharacterController
     {
         $command = CreateCharacterCommand::fromRequest([
             'characterId'   => $this->uuidGenerator->uuid4(),
-            'ownerUuid'     => $this->requesterIdentifier->identify($request),
+            'ownerUuid'     => $this->requesterIdentifier->identify($request)->id(),
             'characterName' => $this->readCharacterNameFromRequestBody($request),
         ]);
 

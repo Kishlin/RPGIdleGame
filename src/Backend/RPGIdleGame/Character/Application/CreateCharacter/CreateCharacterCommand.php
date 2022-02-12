@@ -41,6 +41,9 @@ final class CreateCharacterCommand implements Command
         return new self($characterId, $characterName, $ownerUuid);
     }
 
+    /**
+     * @param array{characterId: string, characterName: string, ownerUuid: string} $request
+     */
     public static function fromRequest(array $request): self
     {
         return new self(

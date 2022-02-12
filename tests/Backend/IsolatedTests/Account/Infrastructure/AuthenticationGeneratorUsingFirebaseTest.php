@@ -56,6 +56,6 @@ final class AuthenticationGeneratorUsingFirebaseTest extends TestCase
 
         $parsed = (array) JWT::decode($token, new Key(self::SECRET_KEY, self::ALGORITHM));
 
-        self::arrayHasKey('exp', $parsed);
+        self::assertArrayHasKey('exp', $parsed);
     }
 }
