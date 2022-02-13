@@ -32,9 +32,10 @@ abstract class RPGIdleGameAPIContext implements Context
     private static ?HTTPClientInterface $client = null;
 
     /**
+     * @BeforeSuite
      * @AfterScenario
      */
-    public function reloadDatabase(): void
+    public static function reloadDatabase(): void
     {
         self::database()->refreshDatabase([
             'fight_turns',
