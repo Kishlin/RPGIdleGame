@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context;
 
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\Request;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\HTTPClient\Request;
 use PHPUnit\Framework\Assert;
 
 final class AccountAuthenticationContext extends RPGIdleGameAPIContext

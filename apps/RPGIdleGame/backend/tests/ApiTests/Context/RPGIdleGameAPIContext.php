@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Context;
 
 use Behat\Behat\Context\Context;
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Database\DatabaseInterface;
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Database\PostgresDatabase;
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\HTTPClientInterface;
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\HTTPClientUsingCurl;
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient\Response;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\Database\DatabaseInterface;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\Database\PostgresDatabase;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\HTTPClient\HTTPClientInterface;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\HTTPClient\HTTPClientUsingCurl;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\HTTPClient\Response;
 
 abstract class RPGIdleGameAPIContext implements Context
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\Database;
+namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\Database;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;

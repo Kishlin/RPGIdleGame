@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\ApiTests\HTTPClient;
+namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\HTTPClient;
 
 interface HTTPClientInterface
 {
