@@ -66,7 +66,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
 
         return JsonableFightListView::fromSource(
             array_map(
-                static fn(Fight $fight) => [
+                static fn (Fight $fight) => [
                     'id'             => $fight->id()->value(),
                     'winner_id'      => $fight->winnerId()->value(),
                     'initiator_name' => $fight->initiator()->characterId()->value(),
@@ -76,7 +76,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
                 ],
                 array_filter(
                     $this->fights,
-                    static fn(Fight $fight) => self::FIGHTER_UUID === $fight->initiator()->characterId()->value()
+                    static fn (Fight $fight) => self::FIGHTER_UUID === $fight->initiator()->characterId()->value()
                         || self::FIGHTER_UUID === $fight->opponent()->characterId()->value(),
                 ),
             )

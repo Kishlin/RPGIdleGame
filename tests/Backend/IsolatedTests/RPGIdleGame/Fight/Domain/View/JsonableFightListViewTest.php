@@ -56,7 +56,7 @@ final class JsonableFightListViewTest extends TestCase
                 'initiator_rank' => 20,
                 'opponent_name'  => 'Kishlin',
                 'opponent_rank'  => 26,
-            ]
+            ],
         ];
     }
 

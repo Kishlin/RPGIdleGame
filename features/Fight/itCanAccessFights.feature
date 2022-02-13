@@ -23,6 +23,7 @@ Feature: It can view fights
   Scenario: a client can view all the fights of one of its character
     Given a client has an account
     And it owns a well advanced character
+    And there is an opponent available
     And its character took part in a few fights
     When a client asks to view the fights of its character
     Then details about all the fights were returned
