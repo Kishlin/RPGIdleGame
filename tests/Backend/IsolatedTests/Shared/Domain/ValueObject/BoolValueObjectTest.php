@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @covers \Kishlin\Backend\Shared\Domain\ValueObject\BoolValueObjectTest
+ * @covers \Kishlin\Backend\Shared\Domain\ValueObject\BoolValueObject
  */
 final class BoolValueObjectTest extends TestCase
 {
