@@ -138,7 +138,7 @@ tests.backend.usecases:
 	@echo ""
 
 tests.backend.api:
-	@echo "Running Use Case Tests for src/"
+	@echo "Running API Tests for RPGIdleGame Backend app"
 	@docker-compose exec backend php \
 		/rpgidlegame/vendor/bin/behat --config /rpgidlegame/behat-config.yml --suite api_tests
 	@echo ""
@@ -191,7 +191,7 @@ tests.frontend:
 	@echo ""
 
 
-tests.backend: tests.backend.usecases tests.backend.src tests.backend.app
+tests.backend: tests.backend.usecases tests.backend.api tests.backend.src tests.backend.app
 
 tests: tests.backend tests.frontend
 
