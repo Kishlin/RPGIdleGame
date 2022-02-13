@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <table id="table-accounts">
+        <thead>
+            <tr>
+                <td>Username</td>
+                <td>Email</td>
+                <td>Active</td>
+                <td>Characters</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+                <tr>
+                    <td>{{ account.username }}</td>
+                    <td>{{ account.email }}</td>
+                    <td>{{ account.is_active }}</td>
+                    <td>{{ account.character_count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock body %}

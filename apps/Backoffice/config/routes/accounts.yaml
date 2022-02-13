@@ -1,0 +1,5 @@
+monitoring:
+  resource: ../../src/Account/Controller/
+  prefix: /accounts
+  type: annotation
+  stateless: true
