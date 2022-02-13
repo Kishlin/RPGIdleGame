@@ -1,0 +1,5 @@
+monitoring:
+  resource: ../../src/RPGIdleGame/Character/Controller/
+  prefix: /characters
+  type: annotation
+  stateless: true
