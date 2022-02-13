@@ -56,14 +56,10 @@ SQL
         $decodedBody = $this->response->decodedBody();
 
         Assert::assertIsArray($decodedBody);
-        Assert::assertArrayHasKey('accountId', $decodedBody);
+        Assert::assertArrayHasKey('token', $decodedBody);
+        Assert::assertArrayHasKey('refreshToken', $decodedBody);
 
-        $count = self::database()->fetchOne(
-            'SELECT count(1) FROM accounts WHERE id = :id',
-            ['id' => $decodedBody['accountId']],
-        );
-
-        Assert::assertSame(1, $count);
+        Assert::assertSame(1, self::database()->fetchOne('SELECT count(1) FROM accounts'));
     }
 
     /**

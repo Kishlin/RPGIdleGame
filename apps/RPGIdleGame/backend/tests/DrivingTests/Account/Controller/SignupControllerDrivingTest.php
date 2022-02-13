@@ -46,7 +46,10 @@ final class SignupControllerDrivingTest extends WebTestCase
         $data = json_decode($client->getResponse()->getContent() ?: '', true);
         assert(is_array($data));
 
-        self::assertArrayHasKey('accountId', $data);
-        self::assertIsString($data['accountId']);
+        self::assertArrayHasKey('token', $data);
+        self::assertArrayHasKey('refreshToken', $data);
+
+        self::assertIsString($data['token']);
+        self::assertIsString($data['refreshToken']);
     }
 }

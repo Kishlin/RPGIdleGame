@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Kishlin\Apps\RPGIdleGame\Backend\Account\Controller;
 
+use Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommand;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
-use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator;
 use Kishlin\Backend\Shared\Infrastructure\Security\Authorization\BasicAuthorization;
@@ -39,14 +39,16 @@ final class SignupController
             email: $this->readEmailFromRequestBody($request),
         );
 
-        $accountId = $this->commandBus->execute($command);
+        $this->commandBus->execute($command);
 
-        assert($accountId instanceof AccountId);
-
-        return new JsonResponse(
-            ['accountId' => $accountId->value()],
-            Response::HTTP_CREATED,
+        $data = $this->commandBus->execute(
+            AuthenticateCommand::fromScalars(
+                $authorization->username(),
+                $authorization->password(),
+            )
         );
+
+        return new JsonResponse($data, Response::HTTP_CREATED, json: true);
     }
 
     /**
