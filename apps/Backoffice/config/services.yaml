@@ -24,16 +24,15 @@ services:
     bind:
       $appEnv: '%kishlin.app.environment%'
 
+  Kishlin\Apps\Backoffice\:
+    resource: '../src'
 
-  ##> Fixtures
+  _instanceof:
+    Kishlin\Backend\Shared\Infrastructure\Monitoring\Controller\Symfony\AbstractCheckHealthController:
+      tags: ['controller.service_arguments']
 
-  Kishlin\Apps\Backoffice\Fixtures\Command\:
-    resource: '../src/Fixtures/Command'
-    tags: ['console.command']
+    Symfony\Bundle\FrameworkBundle\Controller\AbstractController:
+      tags: ['controller.service_arguments']
 
-
-##> Monitoring
-
-  Kishlin\Apps\Backoffice\Monitoring\Controller\:
-    resource: '../src/Monitoring/Controller'
-    tags: ['controller.service_arguments']
+    Symfony\Component\Console\Command\Command:
+      tags: ['console.command']

@@ -1,0 +1,5 @@
+monitoring:
+  resource: ../../src/Landing/Controller/
+  prefix: /
+  type: annotation
+  stateless: true
