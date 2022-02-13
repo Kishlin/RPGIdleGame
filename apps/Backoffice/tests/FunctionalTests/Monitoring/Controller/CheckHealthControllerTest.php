@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\FunctionalTests\Monitoring\Controller;
+namespace Kishlin\Tests\Apps\Backoffice\FunctionalTests\Monitoring\Controller;
 
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\RPGIdleGameKernelTestCaseTrait;
+use Kishlin\Tests\Apps\Backoffice\Tools\BackofficeKernelTestCaseTrait;
 use Kishlin\Tests\Backend\Apps\AbstractFunctionalTests\Controller\Monitoring\CheckHealthControllerTestCase;
 
 /**
@@ -13,11 +13,11 @@ use Kishlin\Tests\Backend\Apps\AbstractFunctionalTests\Controller\Monitoring\Che
  * @see \Kishlin\Tests\Backend\Apps\AbstractFunctionalTests\Controller\Monitoring\CheckHealthControllerTestCase
  *
  * @internal
- * @covers \Kishlin\Apps\RPGIdleGame\Backend\Monitoring\Controller\CheckHealthController
+ * @covers \Kishlin\Apps\Backoffice\Monitoring\Controller\CheckHealthController
  */
 final class CheckHealthControllerTest extends CheckHealthControllerTestCase
 {
-    use RPGIdleGameKernelTestCaseTrait;
+    use BackofficeKernelTestCaseTrait;
 
     public function testTheAPIShowsStatusForAllServices(): void
     {
@@ -25,7 +25,7 @@ final class CheckHealthControllerTest extends CheckHealthControllerTestCase
         $endpointUri = '/monitoring/check-health';
 
         $expectedServices = [
-            'rpgidlegame-backend',
+            'backoffice',
             'database',
         ];
 

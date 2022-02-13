@@ -11,6 +11,8 @@ parameters:
 	paths:
 		- /rpgidlegame/src
 		- /rpgidlegame/tests
+		- /rpgidlegame/apps/Backoffice/src
+		- /rpgidlegame/apps/Backoffice/tests
 		- /rpgidlegame/apps/RPGIdleGame/backend/src
 		- /rpgidlegame/apps/RPGIdleGame/backend/tests
 	symfony:

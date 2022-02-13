@@ -1,0 +1,30 @@
+parameters:
+  kishlin.app.name: 'backoffice'
+  kishlin.app.environment: '%env(APP_ENV)%'
+  kishlin.database.url: '%env(DATABASE_URL)%'
+  kishlin.src.dir: '/rpgidlegame'
+  kishlin.jwt.secretKey: '%env(JWT_SECRET_KEY)%'
+  kishlin.jwt.algorithm: '%env(JWT_ALGORITHM)%'
+  kishlin.jwt.expire_token: '%env(default:kishlin.jwt.expire_token_default:JWT_EXP_TOKEN)%'
+  kishlin.jwt.expire_token_default: '+10 minute'
+  kishlin.jwt.expire_refresh_token: '%env(default:kishlin.jwt.expire_refresh_token_default:JWT_EXP_REFRESH_TOKEN)%'
+  kishlin.jwt.expire_refresh_token_default: '+1 month'
+  kishlin.jwt.exp_claim_is_required: '%env(bool:JWT_EXP_CLAIM_IS_REQUIRED)%'
+  kishlin.hostname: '%env(HOSTNAME)%'
+
+imports:
+  - { resource: ../../../src/Backend/RPGIdleGame/Shared/Infrastructure/DependencyInjection/Symfony/rpgidlegame_services.yaml }
+  - { resource: ../../../src/Backend/Account/Infrastructure/DependencyInjection/Symfony/account_services.yaml }
+  - { resource: ../../../src/Backend/Shared/Infrastructure/DependencyInjection/Symfony/shared_services.yaml }
+
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+
+##> Monitoring
+
+  Kishlin\Apps\Backoffice\Monitoring\Controller\:
+    resource: '../src/Monitoring/Controller'
+    tags: ['controller.service_arguments']

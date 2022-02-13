@@ -81,6 +81,7 @@ clean:
 
 start: containers vendor db.reload db.reload.test
 	@echo "All services should be running."
+	@echo "    Backoffice: http://localhost:8040/monitoring/check-health"
 	@echo "    Backend: http://localhost:8030/monitoring/check-health"
 	@echo "    Frontend: http://localhost:3000/monitoring/check-health"
 	@echo "Ports may differ if overridden in the .env.local file."
@@ -92,9 +93,11 @@ start: containers vendor db.reload db.reload.test
 
 xdebug.on:
 	@docker-compose exec backend sudo mv /usr/local/etc/php/conf.d/xdebug.ini.dis /usr/local/etc/php/conf.d/xdebug.ini
+	@docker-compose exec backoffice sudo mv /usr/local/etc/php/conf.d/xdebug.ini.dis /usr/local/etc/php/conf.d/xdebug.ini
 
 xdebug.off:
 	@docker-compose exec backend sudo mv /usr/local/etc/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini.dis
+	@docker-compose exec backoffice sudo mv /usr/local/etc/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini.dis
 
 db.reload: ENV=dev
 db.reload.test: ENV=test
@@ -129,6 +132,7 @@ frontend.build:
 ##> Tests
 .PHONY: tests.backend.usecases test.backend.api tests.backend.src.isolated tests.backend.src.contract tests.backend.src \
 		tests.backend.app.driving tests.backend.app.functional tests.backend.app.integration tests.backend.app \
+		tests.backend.backoffice.functional tests.backend.backoffice.integration tests.backend.backoffice \
 		tests.backend tests.frontend tests
 
 tests.backend.usecases:
@@ -185,13 +189,31 @@ tests.backend.app:
 		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite driving,functional,integration
 	@echo ""
 
+tests.backend.backoffice.functional:
+	@echo "Running Functional Tests for the Backoffice App"
+	@docker-compose exec backoffice php \
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite backoffice-functional
+	@echo ""
+
+tests.backend.backoffice.integration:
+	@echo "Running Integration Tests for the Backoffice App"
+	@docker-compose exec backoffice php \
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite backoffice-integration
+	@echo ""
+
+tests.backend.backoffice:
+	@echo "Running Tests for the Backoffice App"
+	@docker-compose exec backoffice php \
+		/rpgidlegame/vendor/bin/phpunit -c /rpgidlegame/phpunit.xml --testsuite backoffice-functional,backoffice-integration
+	@echo ""
+
 tests.frontend:
 	@echo "Running Tests for the Frontend App"
 	@docker-compose exec frontend yarn run test
 	@echo ""
 
 
-tests.backend: tests.backend.usecases tests.backend.api tests.backend.src tests.backend.app
+tests.backend: tests.backend.usecases tests.backend.api tests.backend.src tests.backend.app tests.backend.backoffice
 
 tests: tests.backend tests.frontend
 

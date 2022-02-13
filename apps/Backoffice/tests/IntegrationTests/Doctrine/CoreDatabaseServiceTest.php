@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\IntegrationTests\Doctrine;
+namespace Kishlin\Tests\Apps\Backoffice\IntegrationTests\Doctrine;
 
 use Doctrine\DBAL\Exception;
-use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\RPGIdleGameKernelTestCaseTrait;
+use Kishlin\Tests\Apps\Backoffice\Tools\BackofficeKernelTestCaseTrait;
 use Kishlin\Tests\Backend\Apps\AbstractIntegrationTests\Doctrine\CoreDatabaseServiceTestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -20,7 +20,7 @@ use Psr\Container\NotFoundExceptionInterface;
  */
 final class CoreDatabaseServiceTest extends CoreDatabaseServiceTestCase
 {
-    use RPGIdleGameKernelTestCaseTrait;
+    use BackofficeKernelTestCaseTrait;
 
     /**
      * @throws ContainerExceptionInterface|Exception|NotFoundExceptionInterface

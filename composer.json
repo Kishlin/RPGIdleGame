@@ -48,6 +48,7 @@
     "autoload": {
         "psr-4": {
             "Kishlin\\Apps\\RPGIdleGame\\Backend\\": "apps/RPGIdleGame/backend/src",
+            "Kishlin\\Apps\\Backoffice\\": "apps/Backoffice/src",
 
             "Kishlin\\": "src/"
         }
@@ -55,6 +56,7 @@
     "autoload-dev": {
         "psr-4": {
             "Kishlin\\Tests\\Apps\\RPGIdleGame\\Backend\\": "apps/RPGIdleGame/backend/tests",
+            "Kishlin\\Tests\\Apps\\Backoffice\\": "apps/Backoffice/tests",
 
             "Kishlin\\Tests\\": "tests/"
         }

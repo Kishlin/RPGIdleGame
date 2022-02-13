@@ -53,6 +53,14 @@
         <testsuite name="integration">
             <directory>apps/RPGIdleGame/backend/tests/IntegrationTests</directory>
         </testsuite>
+
+        <testsuite name="backoffice-functional">
+            <directory>apps/Backoffice/tests/FunctionalTests</directory>
+        </testsuite>
+
+        <testsuite name="backoffice-integration">
+            <directory>apps/Backoffice/tests/IntegrationTests</directory>
+        </testsuite>
     </testsuites>
 
 </phpunit>

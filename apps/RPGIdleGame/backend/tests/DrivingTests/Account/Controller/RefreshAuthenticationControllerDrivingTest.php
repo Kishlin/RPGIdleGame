@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\Account\Controller;
 
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
+use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\RPGIdleGameWebTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\Account\RefreshAuthenticationDrivingTestCaseTrait;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @internal
  * @covers \Kishlin\Apps\RPGIdleGame\Backend\Account\Controller\RefreshAuthenticationController
  */
-final class RefreshAuthenticationControllerDrivingTest extends WebTestCase
+final class RefreshAuthenticationControllerDrivingTest extends RPGIdleGameWebTestCase
 {
     use RefreshAuthenticationDrivingTestCaseTrait;
 

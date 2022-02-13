@@ -29,10 +29,10 @@ On first start, or if you remove required folders (like dependencies), everythin
 
 ## Links
 
-| Service      | RPGIdleGame Backend                                           | RPGIdleGame Frontend                                          |
-|--------------|---------------------------------------------------------------|---------------------------------------------------------------|
-| Check Health | [Check Health](http://localhost:8030/monitoring/check-health) | [Check Health](http://localhost:3000/monitoring/check-health) |
-| Home Page    |                                                               | [Home Page](http://localhost:3000/)                           |
+| Service      | RPGIdleGame Backend                                           | RPGIdleGame Frontend                                          | Backoffice                                                    |
+|--------------|---------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------------------------------|
+| Check Health | [Check Health](http://localhost:8030/monitoring/check-health) | [Check Health](http://localhost:3000/monitoring/check-health) | [Check Health](http://localhost:8040/monitoring/check-health) |
+| Home Page    |                                                               | [Home Page](http://localhost:3000/)                           |                                                               |
 
 Ports may differ if overridden in the .env.local file.
 

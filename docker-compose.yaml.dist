@@ -75,6 +75,38 @@ services:
     networks:
         - "docker-${PROJECT}"
 
+  backoffice:
+    env_file:
+        - .env
+        - .env.local
+    build:
+      context: .docker/php/${PHP_VERSION}
+      args:
+        DOCKER_USER: <DOCKER_USER>
+        DOCKER_USER_ID: <DOCKER_USER_ID>
+    container_name: backoffice-${PROJECT}
+    image: ${PROJECT}-backoffice:${PHP_VERSION}
+    ports:
+      - "${BACKOFFICE_SERVER_PORT_EXTERNAL}:8000"
+      - "${BACKOFFICE_XDEBUG_PORT_EXTERNAL}:9003"
+    depends_on:
+      - postgres
+    restart: on-failure
+    environment:
+        COMPOSER_CACHE_DIR: /srv/cache/composer-cache
+        SSH_AUTH_SOCK: /ssh-agent
+        TZ: ${TIMEZONE}
+        XDEBUG_SESSION: PHPSTORM
+    volumes:
+        - ${PWD}:/${PROJECT}
+        - $SSH_AUTH_SOCK:/ssh-agent
+        - cache:/srv/cache
+    working_dir: "/${PROJECT}/apps/Backoffice"
+    user: <DOCKER_USER>
+    command: symfony server:start --dir=/rpgidlegame/apps/Backoffice/public --port=8000 --force-php-discovery
+    networks:
+        - "docker-${PROJECT}"
+
 networks:
   docker-rpgidlegame:
     driver: bridge

@@ -12,6 +12,7 @@
 
 ###> Symfony/Composer ###
 /vendor/
+/apps/Backoffice/var/
 /apps/RPGIdleGame/backend/var/
 ###< Symfony ###
 
@@ -27,7 +28,5 @@
 ###< phpunit/phpunit ###
 
 ###> friendsofphp/php-cs-fixer ###
-/.php-cs-fixer.php
-/.php-cs-fixer.cache
-/apps/RPGIdleGame/backend/.php-cs-fixer.cache
+.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
