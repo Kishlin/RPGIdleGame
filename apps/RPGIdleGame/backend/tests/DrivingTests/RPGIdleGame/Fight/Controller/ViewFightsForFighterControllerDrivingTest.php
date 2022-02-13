@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\RPGIdleGame\Fight;
+namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\RPGIdleGame\Fight\Controller;
 
 use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;

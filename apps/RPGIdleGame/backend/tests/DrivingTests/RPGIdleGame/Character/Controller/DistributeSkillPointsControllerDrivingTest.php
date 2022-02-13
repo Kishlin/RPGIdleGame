@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @internal
  * @coversNothing
  */
-final class DistributeSkillPointsControllerTest extends SecuredEndpointDrivingTestCase
+final class DistributeSkillPointsControllerDrivingTest extends SecuredEndpointDrivingTestCase
 {
     use DistributeSkillPointsDrivingTestCaseTrait;
 
