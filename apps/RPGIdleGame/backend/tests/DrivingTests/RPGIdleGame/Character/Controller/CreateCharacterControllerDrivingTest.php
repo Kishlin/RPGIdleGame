@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\RPGIdleGame\Character\Controller;
 
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
+use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\CreateCharacterDrivingTestCaseTrait;
+use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\ViewCharacterDrivingTestCaseTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,11 +18,13 @@ use Symfony\Component\HttpFoundation\Response;
 final class CreateCharacterControllerDrivingTest extends SecuredEndpointDrivingTestCase
 {
     use CreateCharacterDrivingTestCaseTrait;
+    use ViewCharacterDrivingTestCaseTrait;
 
     public function testItCanCreateACharacter(): void
     {
-        $owner = self::CLIENT_ID;
-        $name  = 'Kishlin';
+        $characterId = '60ce509c-2b33-48f5-ade4-44806085465b';
+        $owner       = self::CLIENT_ID;
+        $name        = 'Kishlin';
 
         $requestData = json_encode(['characterName' => $name]);
         assert(is_string($requestData));
@@ -29,7 +33,12 @@ final class CreateCharacterControllerDrivingTest extends SecuredEndpointDrivingT
 
         $this->getContainer()->set(
             CommandBus::class,
-            self::configuredCommandBusServiceMock($owner, $name),
+            self::configuredCommandBusServiceMock($owner, $name, $characterId),
+        );
+
+        $this->getContainer()->set(
+            QueryBus::class,
+            self::configuredQueryBusServiceMock($owner, $characterId)
         );
 
         $headers = [
@@ -45,7 +54,7 @@ final class CreateCharacterControllerDrivingTest extends SecuredEndpointDrivingT
         $data = json_decode($client->getResponse()->getContent() ?: '', true);
         assert(is_array($data));
 
-        self::assertArrayHasKey('characterId', $data);
-        self::assertIsString($data['characterId']);
+        self::assertArrayHasKey('id', $data);
+        self::assertSame($characterId, $data['id']);
     }
 }

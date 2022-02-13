@@ -109,12 +109,14 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
         $data = $this->response->decodedBody();
 
         Assert::assertIsArray($data);
-        Assert::assertArrayHasKey('characterId', $data);
+        Assert::assertArrayHasKey('id', $data);
 
-        Assert::assertSame(
-            1,
-            self::database()->fetchOne('SELECT count(1) FROM characters WHERE id = :id', ['id' => $data['characterId']]),
+        $countIdDatabase = self::database()->fetchOne(
+            'SELECT count(1) FROM characters WHERE id = :id',
+            ['id' => $data['id']],
         );
+
+        Assert::assertSame(1, $countIdDatabase);
     }
 
     /**

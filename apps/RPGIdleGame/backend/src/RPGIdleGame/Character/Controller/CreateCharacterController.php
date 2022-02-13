@@ -6,8 +6,11 @@ namespace Kishlin\Apps\RPGIdleGame\Backend\RPGIdleGame\Character\Controller;
 
 use Kishlin\Apps\RPGIdleGame\Backend\Security\RequesterIdentifier;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQuery;
+use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterResponse;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
+use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,22 +25,32 @@ final class CreateCharacterController
         private RequesterIdentifier $requesterIdentifier,
         private UuidGenerator $uuidGenerator,
         private CommandBus $commandBus,
+        private QueryBus $queryBus,
     ) {
     }
 
     public function __invoke(Request $request): Response
     {
-        $command = CreateCharacterCommand::fromRequest([
-            'characterId'   => $this->uuidGenerator->uuid4(),
-            'ownerUuid'     => $this->requesterIdentifier->identify($request)->id(),
-            'characterName' => $this->readCharacterNameFromRequestBody($request),
-        ]);
+        $owner         = $this->requesterIdentifier->identify($request)->id();
+        $characterId   = $this->uuidGenerator->uuid4();
+        $characterName = $this->readCharacterNameFromRequestBody($request);
 
-        $characterId = $this->commandBus->execute($command);
+        $characterId = $this->commandBus->execute(
+            CreateCharacterCommand::fromRequest([
+                'characterId'   => $characterId,
+                'ownerUuid'     => $owner,
+                'characterName' => $characterName,
+            ]),
+        );
 
         assert($characterId instanceof CharacterId);
 
-        return new JsonResponse(['characterId' => $characterId->value()], Response::HTTP_CREATED);
+        /** @var ViewCharacterResponse $response */
+        $response = $this->queryBus->ask(
+            ViewCharacterQuery::fromScalars(characterId: $characterId->value(), requesterId: $owner),
+        );
+
+        return new JsonResponse($response->characterView(), status: Response::HTTP_CREATED, json: true);
     }
 
     /**
