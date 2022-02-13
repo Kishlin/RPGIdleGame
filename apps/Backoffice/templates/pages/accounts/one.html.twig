@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <dl id="definition-account">
+        <dt>Username</dt>
+        <dd>{{ account.username }}</dd>
+
+        <dt>Email</dt>
+        <dd>{{ account.email }}</dd>
+
+        <dt>Is Active</dt>
+        <dd>{{ account.is_active }}</dd>
+    </dl>
+
+    <a href="{{ path('accounts_all') }}" class="waves-effect waves-light btn">Back to list</a>
+
+    {% include 'blocks/tables/characters.html.twig' %}
+
+{% endblock body %}

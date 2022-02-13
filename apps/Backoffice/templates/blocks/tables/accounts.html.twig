@@ -5,11 +5,18 @@
         <td>Email</td>
         <td>Active</td>
         <td>Characters</td>
+        <td>Link</td>
     </tr>
     </thead>
     <tbody>
-    {% for account in accounts %}
-        {% include 'blocks/items/account.html.twig' %}
-    {% endfor %}
+        {% for account in accounts %}
+            <tr>
+                <td>{{ account.username }}</td>
+                <td>{{ account.email }}</td>
+                <td>{{ account.is_active }}</td>
+                <td>{{ account.character_count }}</td>
+                <td><a href="{{ path('accounts_one', { 'id': account.id }) }}">Details</a></td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>

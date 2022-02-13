@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/all', name: 'accounts_all', methods: [Request::METHOD_GET])]
+#[Route('/', name: 'accounts_all', methods: [Request::METHOD_GET])]
 final class AccountsListController extends AbstractController
 {
     const ACCOUNTS_QUERY = <<<'SQL'

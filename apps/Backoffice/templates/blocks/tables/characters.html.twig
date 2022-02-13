@@ -4,19 +4,19 @@
         <td>Name</td>
         <td>Owner</td>
         <td>
-            <a href="{{ path('characters_all', {'order': 'skill_points', 'dir': 'DESC'}) }}">&#9660;</a>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'order': 'skill_points', 'dir': 'DESC'})) }}">&#9660;</a>
             Skill Points
-            <a href="{{ path('characters_all', {'order': 'skill_points', 'dir': 'ASC'}) }}">&#9650;</a>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'order': 'skill_points', 'dir': 'ASC'})) }}">&#9650;</a>
         </td>
         <td>
-            <a href="{{ path('characters_all', {'order': 'rank', 'dir': 'DESC'}) }}">&#9660;</a>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'order': 'rank', 'dir': 'DESC'})) }}">&#9660;</a>
             Rank
-            <a href="{{ path('characters_all', {'order': 'rank', 'dir': 'ASC'}) }}">&#9650;</a>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'order': 'rank', 'dir': 'ASC'})) }}">&#9650;</a>
         </td>
         <td>
-            <a href="{{ path('characters_all', {'order': 'fights_count', 'dir': 'DESC'}) }}">&#9660;</a>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'order': 'fights_count', 'dir': 'DESC'})) }}">&#9660;</a>
             Fights Count
-            <a href="{{ path('characters_all', {'order': 'fights_count', 'dir': 'ASC'}) }}">&#9650;</a>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'order': 'fights_count', 'dir': 'ASC'})) }}">&#9650;</a>
         </td>
         <td>Wins - Draws - Losses</td>
     </tr>

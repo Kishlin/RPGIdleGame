@@ -12,7 +12,7 @@ final class AccountsListControllerTest extends BackofficeWebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/accounts/all');
+        $client->request('GET', '/accounts/');
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseFormatSame('html');
