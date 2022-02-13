@@ -55,6 +55,18 @@ final class Character extends AggregateRoot
         return $character;
     }
 
+    public function hadAFightWin(): void
+    {
+        $this->skillPoint = $this->skillPoint->earnASkillPoint();
+
+        $this->rank = $this->rank->rankUp();
+    }
+
+    public function hadAFightLoss(): void
+    {
+        $this->rank = $this->rank->rankDownIfItCan();
+    }
+
     /**
      * @throws InvalidValueException|NotEnoughSkillPointsException|PointsCanOnlyBeIncreasedException
      */

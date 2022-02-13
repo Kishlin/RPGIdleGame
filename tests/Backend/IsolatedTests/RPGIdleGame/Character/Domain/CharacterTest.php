@@ -37,6 +37,36 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
     /**
      * @throws ReflectionException
      */
+    public function testItEarnsASkillPointAndRanksUpOnFightWin(): void
+    {
+        $character = CharacterProvider::completeCharacter();
+
+        $baseSkillPoints = $character->skillPoint()->value();
+        $baseRank        = $character->rank()->value();
+
+        $character->hadAFightWin();
+
+        self::assertSame(1 + $baseSkillPoints, $character->skillPoint()->value());
+        self::assertSame(1 + $baseRank, $character->rank()->value());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testItRanksDownOnFightLoss(): void
+    {
+        $character = CharacterProvider::completeCharacter();
+
+        $baseRank = $character->rank()->value();
+
+        $character->hadAFightLoss();
+
+        self::assertSame($baseRank - 1, $character->rank()->value());
+    }
+
+    /**
+     * @throws ReflectionException
+     */
     public function testAddingOneHealthPointCostsOneSkillPoint(): void
     {
         $character = CharacterProvider::tweakedCharacter(skillPoints: 100, healthPoints: 5);

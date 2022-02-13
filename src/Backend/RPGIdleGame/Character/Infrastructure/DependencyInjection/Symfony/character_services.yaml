@@ -31,6 +31,16 @@ services:
     tags:
       - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQuery }
 
+  Kishlin\Backend\RPGIdleGame\Character\Application\OnFightResult\OnFightWinEventSubscriber:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Application\OnFightResult\OnFightWinEventSubscriber'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadAWinDomainEvent }
+
+  Kishlin\Backend\RPGIdleGame\Character\Application\OnFightResult\OnFightLossEventSubscriber:
+    class: 'Kishlin\Backend\RPGIdleGame\Character\Application\OnFightResult\OnFightLossEventSubscriber'
+    tags:
+      - { name: messenger.message_handler, handles: Kishlin\Backend\RPGIdleGame\Fight\Domain\FightParticipantHadALossDomainEvent }
+
 
   ##> Gateways
 

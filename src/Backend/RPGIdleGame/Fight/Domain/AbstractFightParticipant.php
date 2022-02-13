@@ -83,7 +83,7 @@ abstract class AbstractFightParticipant
             return 0;
         }
 
-        $this->health  = $this->health->removeHealth($actualDamages);
+        $this->health = $this->health->removeHealth($actualDamages);
 
         return $actualDamages;
     }

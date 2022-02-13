@@ -54,9 +54,9 @@ trait SignupDrivingTestCaseTrait
                 static function (AuthenticateCommand|SignupCommand $command) {
                     if ($command instanceof SignupCommand) {
                         return $command->id();
-                    } else {
-                        return JsonableAuthentication::fromScalars('token', 'refreshToken');
                     }
+
+                    return JsonableAuthentication::fromScalars('token', 'refreshToken');
                 },
             )
         ;

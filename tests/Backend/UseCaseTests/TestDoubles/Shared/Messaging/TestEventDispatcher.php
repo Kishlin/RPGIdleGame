@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\Shared\Messaging;
 
 use Kishlin\Backend\Account\Domain\AccountCreatedDomainEvent;
+use Kishlin\Backend\RPGIdleGame\Character\Application\OnFightResult\OnFightLossEventSubscriber;
+use Kishlin\Backend\RPGIdleGame\Character\Application\OnFightResult\OnFightWinEventSubscriber;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterDeletedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Application\OnAccountCreated\CharacterCountForOwnerCreator;
@@ -53,8 +55,18 @@ final class TestEventDispatcher implements EventDispatcher
         );
 
         $this->addSubscriber(
+            FightParticipantHadALossDomainEvent::class,
+            new OnFightLossEventSubscriber($testServiceContainer->characterGatewaySpy()),
+        );
+
+        $this->addSubscriber(
             FightParticipantHadAWinDomainEvent::class,
             new StatsAfterAWinUpdater($testServiceContainer->characterStatsGatewaySpy()),
+        );
+
+        $this->addSubscriber(
+            FightParticipantHadAWinDomainEvent::class,
+            new OnFightWinEventSubscriber($testServiceContainer->characterGatewaySpy()),
         );
     }
 
