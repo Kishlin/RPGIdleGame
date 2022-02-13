@@ -21,6 +21,15 @@ services:
   _defaults:
     autoconfigure: true
     autowire: true
+    bind:
+      $appEnv: '%kishlin.app.environment%'
+
+
+  ##> Fixtures
+
+  Kishlin\Apps\Backoffice\Fixtures\Command\:
+    resource: '../src/Fixtures/Command'
+    tags: ['console.command']
 
 
 ##> Monitoring
