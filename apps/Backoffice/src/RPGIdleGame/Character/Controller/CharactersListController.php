@@ -28,9 +28,20 @@ SQL;
     /**
      * @throws Exception
      */
-    public function __invoke(): Response
+    public function __invoke(Request $request): Response
     {
-        $characters = $this->entityManager->getConnection()->fetchAllAssociative(self::CHARACTERS_QUERY);
+        $query = self::CHARACTERS_QUERY;
+
+        if (
+            $request->query->has('order')
+            && $request->query->has('dir')
+            && in_array($request->query->get('dir'), ['ASC', 'DESC'])
+            && in_array($request->query->get('order'), ['skill_points', 'rank', 'fights_count'])
+        ) {
+            $query .= ' ORDER BY ' . $request->query->get('order') . ' ' . $request->query->get('dir');
+        }
+
+        $characters = $this->entityManager->getConnection()->fetchAllAssociative($query);
         assert(false !== $characters);
 
         return $this->render('characters/all.html.twig', [

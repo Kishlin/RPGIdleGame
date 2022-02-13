@@ -7,9 +7,21 @@
         <tr>
             <td>Name</td>
             <td>Owner</td>
-            <td>Skill Points</td>
-            <td>Rank</td>
-            <td>Fights Count</td>
+            <td>
+                <a href="{{ path('characters_all', {'order': 'skill_points', 'dir': 'DESC'}) }}">&#9660;</a>
+                Skill Points
+                <a href="{{ path('characters_all', {'order': 'skill_points', 'dir': 'ASC'}) }}">&#9650;</a>
+            </td>
+            <td>
+                <a href="{{ path('characters_all', {'order': 'rank', 'dir': 'DESC'}) }}">&#9660;</a>
+                Rank
+                <a href="{{ path('characters_all', {'order': 'rank', 'dir': 'ASC'}) }}">&#9650;</a>
+            </td>
+            <td>
+                <a href="{{ path('characters_all', {'order': 'fights_count', 'dir': 'DESC'}) }}">&#9660;</a>
+                Fights Count
+                <a href="{{ path('characters_all', {'order': 'fights_count', 'dir': 'ASC'}) }}">&#9650;</a>
+            </td>
             <td>Wins - Draws - Losses</td>
         </tr>
         </thead>
