@@ -33,7 +33,7 @@ SQL;
         $accounts = $this->entityManager->getConnection()->fetchAllAssociative(self::ACCOUNTS_QUERY);
         assert(false !== $accounts);
 
-        return $this->render('accounts/all.html.twig', [
+        return $this->render('pages/accounts/all.html.twig', [
             'accounts' => $accounts,
         ]);
     }

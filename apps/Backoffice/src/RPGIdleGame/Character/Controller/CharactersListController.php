@@ -44,7 +44,7 @@ SQL;
         $characters = $this->entityManager->getConnection()->fetchAllAssociative($query);
         assert(false !== $characters);
 
-        return $this->render('characters/all.html.twig', [
+        return $this->render('pages/characters/all.html.twig', [
             'characters' => $characters,
         ]);
     }

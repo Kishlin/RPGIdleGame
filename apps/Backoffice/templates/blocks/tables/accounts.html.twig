@@ -1,0 +1,15 @@
+<table id="table-accounts" class="striped">
+    <thead>
+    <tr>
+        <td>Username</td>
+        <td>Email</td>
+        <td>Active</td>
+        <td>Characters</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for account in accounts %}
+        {% include 'blocks/items/account.html.twig' %}
+    {% endfor %}
+    </tbody>
+</table>

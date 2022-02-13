@@ -50,7 +50,7 @@ SQL;
         $fights = $this->entityManager->getConnection()->fetchAllAssociative($query);
         assert(false !== $fights);
 
-        return $this->render('fights/all.html.twig', [
+        return $this->render('pages/fights/all.html.twig', [
             'fights' => $fights,
         ]);
     }

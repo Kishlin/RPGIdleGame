@@ -1,0 +1,29 @@
+<table id="table-fights" class="striped">
+    <thead>
+    <tr>
+        <td>Winner</td>
+        <td>Initiator Char</td>
+        <td>
+            <a href="{{ path('fights_all', {'order': 'fight_initiators.rank', 'dir': 'DESC'}) }}">&#9660;</a>
+            Initiator Rank
+            <a href="{{ path('fights_all', {'order': 'fight_initiators.rank', 'dir': 'ASC'}) }}">&#9650;</a>
+        </td>
+        <td>Opponent Char</td>
+        <td>
+            <a href="{{ path('fights_all', {'order': 'fight_opponents.rank', 'dir': 'DESC'}) }}">&#9660;</a>
+            Opponent Rank
+            <a href="{{ path('fights_all', {'order': 'fight_opponents.rank', 'dir': 'ASC'}) }}">&#9650;</a>
+        </td>
+        <td>
+            <a href="{{ path('fights_all', {'order': 'turns_count', 'dir': 'DESC'}) }}">&#9660;</a>
+            Turns
+            <a href="{{ path('fights_all', {'order': 'turns_count', 'dir': 'ASC'}) }}">&#9650;</a>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+        {% for fight in fights %}
+            {% include 'blocks/items/fight.html.twig' %}
+        {% endfor %}
+    </tbody>
+</table>
