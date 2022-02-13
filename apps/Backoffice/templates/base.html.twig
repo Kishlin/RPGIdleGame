@@ -4,21 +4,44 @@
         <meta charset="UTF-8">
         <title>{% block title %}Backoffice{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection">
+
+            <link href="{{ asset('css/layout.css') }}" rel="stylesheet"/>
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         {% endblock %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
+
         <nav>
-            <a href="{{ path('homepage') }}">Home</a>
-            <a href="{{ path('accounts_all') }}">Accounts</a>
+            <div class="nav-wrapper">
+                <a href="{{ path('homepage') }}" class="brand-logo">Backoffice</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{{ path('homepage') }}">Homepage</a></li>
+                    <li><a href="{{ path('accounts_all') }}">Accounts</a></li>
+                </ul>
+            </div>
         </nav>
 
-        {% block body %}{% endblock %}
+        <div class="container main">
+            {% block body %}{% endblock %}
+        </div>
     </body>
+
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                © 2021
+                <a class="grey-text text-lighten-4 right" target="_blank" href="https://pierrelouislegrand.com">Made with ♥ by Pierre-Louis Legrand</a>
+            </div>
+        </div>
+    </footer>
+
 </html>
