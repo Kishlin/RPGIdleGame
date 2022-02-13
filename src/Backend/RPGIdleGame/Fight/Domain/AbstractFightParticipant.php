@@ -78,9 +78,14 @@ abstract class AbstractFightParticipant
     public function dealDamages(int $attackValue): int
     {
         $actualDamages = $attackValue - $this->defense->value();
+
+        if (1 > $actualDamages) {
+            return 0;
+        }
+
         $this->health  = $this->health->removeHealth($actualDamages);
 
-        return max(0, $actualDamages);
+        return $actualDamages;
     }
 
     public function isStillAlive(): bool

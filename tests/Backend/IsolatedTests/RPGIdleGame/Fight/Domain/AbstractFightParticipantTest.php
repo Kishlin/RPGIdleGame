@@ -47,11 +47,13 @@ final class AbstractFightParticipantTest extends TestCase
 
     public function testDamageDealtAreZeroWhenDefenseIsTooHigh(): void
     {
-        $defender = FightParticipantProvider::fightParticipant();
+        $defender    = FightParticipantProvider::fightParticipant();
+        $startHealth = $defender->health()->value();
 
         $insufficientAttack = $defender->defense()->value() - 1;
         $totalDamages       = $defender->dealDamages($insufficientAttack);
 
         self::assertSame(0, $totalDamages);
+        self::assertSame($startHealth, $defender->health()->value());
     }
 }
