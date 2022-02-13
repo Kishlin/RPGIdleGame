@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\DBAL\Exception;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\CannotAccessFightsException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\View\JsonableFightView;
 use Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine\FightViewRepository;
@@ -76,8 +77,8 @@ final class FightViewRepositoryTest extends RepositoryContractTestCase
     {
         $repository = new FightViewRepository(self::entityManager());
 
-        self::expectException(FightNotFoundException::class);
-        $repository->viewOneById('character-0', 'account-1');
+        self::expectException(CannotAccessFightsException::class);
+        $repository->viewAllForFighter('character-0', 'account-1');
     }
 
     private static function completeFixturesQueries(): string

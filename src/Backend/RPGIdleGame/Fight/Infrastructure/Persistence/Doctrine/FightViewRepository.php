@@ -21,11 +21,7 @@ LEFT JOIN fight_initiators ON fight_initiators.id = fights.initiator
 LEFT JOIN fight_opponents ON fight_opponents.id = fights.opponent
 LEFT JOIN characters opponents ON opponents.id = fight_opponents.character_id
 LEFT JOIN characters initiators ON initiators.id = fight_initiators.character_id
-WHERE (
-    opponents.owner = :requester_id AND opponents.id = :fighter_id
-) OR (
-    initiators.owner = :requester_id AND initiators.id = :fighter_id
-)
+WHERE opponents.id = :fighter_id OR initiators.id = :fighter_id
 ;
 SQL;
 
@@ -121,6 +117,15 @@ SQL;
      */
     public function viewAllForFighter(string $fighterId, string $requesterId): JsonableFightListView
     {
+        $requesterOwnsTheFighter = $this->entityManager->getConnection()->fetchOne(
+            'SELECT 1 FROM characters WHERE owner = :requester AND id = :characterId LIMIT 1;',
+            ['requester' => $requesterId, 'characterId' => $fighterId],
+        );
+
+        if (false === $requesterOwnsTheFighter) {
+            throw new CannotAccessFightsException();
+        }
+
         /**
          * @var array<array{id: string, winner_id: ?string, initiator_name: string, initiator_rank: int, opponent_name: string, opponent_rank: int}>|false $fights
          */
