@@ -75,11 +75,11 @@ SQL;
         $data = $this->response->decodedBody();
 
         Assert::assertIsArray($data);
-        Assert::assertArrayHasKey('fightId', $data);
+        Assert::assertArrayHasKey('id', $data);
 
         Assert::assertSame(
             1,
-            self::database()->fetchOne('SELECT count(1) FROM fights WHERE id = :id', ['id' => $data['fightId']]),
+            self::database()->fetchOne('SELECT count(1) FROM fights WHERE id = :id', ['id' => $data['id']]),
         );
     }
 

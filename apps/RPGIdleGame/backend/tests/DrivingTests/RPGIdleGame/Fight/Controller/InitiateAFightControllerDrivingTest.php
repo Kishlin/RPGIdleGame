@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\RPGIdleGame\Fight\Controller;
 
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
+use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Fight\InitiateAFightDrivingTestCaseTrait;
+use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Fight\ViewFightDrivingTestCaseTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class InitiateAFightControllerDrivingTest extends SecuredEndpointDrivingTestCase
 {
     use InitiateAFightDrivingTestCaseTrait;
+    use ViewFightDrivingTestCaseTrait;
 
     public function testItCorrectlyUsesTheApplication(): void
     {
@@ -31,6 +34,11 @@ final class InitiateAFightControllerDrivingTest extends SecuredEndpointDrivingTe
             self::configuredCommandBusServiceMock($owner, $fighter, $fight),
         );
 
+        $this->getContainer()->set(
+            QueryBus::class,
+            self::configuredQueryBusServiceMock($owner, $fight),
+        );
+
         $headers = [
             'HTTP_AUTHORIZATION' => self::AUTHORIZATION,
         ];
@@ -43,7 +51,7 @@ final class InitiateAFightControllerDrivingTest extends SecuredEndpointDrivingTe
         $data = json_decode($client->getResponse()->getContent() ?: '', true);
         assert(is_array($data));
 
-        self::assertArrayHasKey('fightId', $data);
-        self::assertSame($fight, $data['fightId']);
+        self::assertArrayHasKey('id', $data);
+        self::assertSame($fight, $data['id']);
     }
 }
