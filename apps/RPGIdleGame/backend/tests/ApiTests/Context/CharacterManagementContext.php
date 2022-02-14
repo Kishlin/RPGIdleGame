@@ -160,7 +160,13 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
     public function theCharacterStatsAreUpdatedAsWanted(): void
     {
         Assert::assertNotNull($this->response);
-        Assert::assertSame(204, $this->response->httpCode());
+        Assert::assertSame(200, $this->response->httpCode());
+
+        $data = $this->response->decodedBody();
+
+        Assert::assertIsArray($data);
+        Assert::assertArrayHasKey('id', $data);
+        Assert::assertSame(self::FIGHTER_UUID, $data['id']);
 
         $data = self::database()->fetchAssociative(
             'SELECT skill_points, health, attack, defense, magik FROM characters WHERE id = :id',

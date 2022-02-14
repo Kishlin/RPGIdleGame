@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\RPGIdleGame\Character\Controller;
 
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
+use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\DistributeSkillPointsDrivingTestCaseTrait;
+use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\ViewCharacterDrivingTestCaseTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class DistributeSkillPointsControllerDrivingTest extends SecuredEndpointDrivingTestCase
 {
     use DistributeSkillPointsDrivingTestCaseTrait;
+    use ViewCharacterDrivingTestCaseTrait;
 
     public function testItCorrectlyUsesTheApplication(): void
     {
@@ -37,6 +40,11 @@ final class DistributeSkillPointsControllerDrivingTest extends SecuredEndpointDr
             self::configuredCommandBusServiceMock($owner, $character, $health, $attack, $defense, $magik),
         );
 
+        $this->getContainer()->set(
+            QueryBus::class,
+            self::configuredQueryBusServiceMock($owner, $character),
+        );
+
         $headers = [
             'HTTP_CONTENT_TYPE'  => 'application/json',
             'HTTP_AUTHORIZATION' => self::AUTHORIZATION,
@@ -45,6 +53,6 @@ final class DistributeSkillPointsControllerDrivingTest extends SecuredEndpointDr
         $client->request(method: 'PUT', uri: "/character/{$character}", server: $headers, content: $content);
 
         self::assertResponseIsSuccessful();
-        self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 }
