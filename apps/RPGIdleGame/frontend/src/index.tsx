@@ -1,18 +1,17 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import App from './App';
-import reportWebVitals from "./reportWebVitals";
-
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <React.StrictMode>
         <App />
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById('root'),
 );
 
-if ("development" !== process.env.NODE_ENV) {
+if (process.env.NODE_ENV !== 'development') {
+    // eslint-disable-next-line no-console
     reportWebVitals(console.log);
 }
-

@@ -1,7 +1,9 @@
-export const TranslationsFR: Translations = {
+const TranslationsFR: Translations = {
     fragments: {
         header: {
-            title: "RPGIdleGame en Français"
-        }
-    }
-}
+            title: 'RPGIdleGame en Français',
+        },
+    },
+};
+
+export default TranslationsFR;

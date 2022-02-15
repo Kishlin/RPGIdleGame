@@ -1,17 +1,17 @@
-import * as React from "react";
+import React, { useContext } from 'react';
 
-import {LangContext} from "../context/LangContext";
-import ChangeLangButton from "../components/i18n/ChangeLangButton";
+import { LangContext } from '../context/LangContext';
+import ChangeLangButton from '../components/i18n/ChangeLangButton';
 
-const Home = (): JSX.Element => {
-    const { t } = React.useContext<LangContextType>(LangContext);
+function Home(): JSX.Element {
+    const { t } = useContext<LangContextType>(LangContext);
 
     return (
         <>
             <ChangeLangButton />
             <p>{ t('fragments.header.title') }</p>
         </>
-    )
-};
+    );
+}
 
 export default Home;
