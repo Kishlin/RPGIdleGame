@@ -35,8 +35,10 @@
         "@typescript-eslint/no-unused-vars": ["error"],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error"],
-        "indent": ["error", 4],
+        "indent": "off",
         "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
+        "react/jsx-props-no-spreading": "off",
         "import/extensions": [
             "error",
             "ignorePackages",
