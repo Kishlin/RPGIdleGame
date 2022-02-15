@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 
-const Home = () => {
+const Home = (): JSX.Element => {
     return (
         <p>RPGIdleGame</p>
     )

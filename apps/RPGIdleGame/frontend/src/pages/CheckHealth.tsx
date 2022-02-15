@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from "react";
 import { Navigate } from "react-router-dom";
 
-const CheckHealth = () => {
+const CheckHealth = (): JSX.Element => {
     if ("development" !== process.env.NODE_ENV) {
         return <Navigate to="/" />;
     }

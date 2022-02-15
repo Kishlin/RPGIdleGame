@@ -1,9 +1,10 @@
+import * as React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
 import CheckHealth from "./pages/CheckHealth";
 
-function App() {
+function App(): JSX.Element {
 
     return (
         <Router>
