@@ -54,6 +54,7 @@
             {
                 "extensions": [".js", ".jsx", ".ts", ".tsx"]
             }
-        ]
+        ],
+        "yoda": ["error", "always"]
     }
 }

@@ -13,7 +13,7 @@ ReactDOM.render(
     document.getElementById('root'),
 );
 
-if (process.env.NODE_ENV !== 'development') {
+if ('development' !== process.env.NODE_ENV) {
     // eslint-disable-next-line no-console
     reportWebVitals(console.log);
 }

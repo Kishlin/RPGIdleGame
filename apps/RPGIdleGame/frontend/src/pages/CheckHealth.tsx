@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 function CheckHealth(): JSX.Element {
-    if (process.env.NODE_ENV !== 'development') {
+    if ('development' !== process.env.NODE_ENV) {
         return <Navigate to="/" />;
     }
 
