@@ -10,6 +10,7 @@ import {
 import { LangProvider } from './context/LangContext';
 
 import CheckHealth from './pages/CheckHealth';
+import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 
 function App(): JSX.Element {
@@ -26,6 +27,7 @@ function App(): JSX.Element {
                 <Router>
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/signup" element={<SignUp />} />
                         <Route path="/monitoring/check-health" element={<CheckHealth />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
