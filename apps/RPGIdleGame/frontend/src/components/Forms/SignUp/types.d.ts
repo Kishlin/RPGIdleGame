@@ -2,6 +2,8 @@ declare type onFormSubmitFunction = (values: { email: string, username: string, 
 
 declare type SignUpFormProps = {
     onFormSubmit: onFormSubmitFunction,
+    isLoading: boolean,
+    error: null|string
 }
 
 declare type FieldUsernameProps = {

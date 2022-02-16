@@ -3,13 +3,15 @@ import { Stack, Typography } from '@mui/material';
 
 import { LangContext } from '../../../context/LangContext';
 
+import isAValidEmail from '../../../tools/isAValidEmail';
+
 import FieldEmail from './FieldEmail';
 import FieldUsername from './FieldUsername';
 import FieldPassword from './FieldPassword';
 import FieldPasswordCheck from './FieldPasswordCheck';
 import ButtonSubmit from './ButtonSubmit';
 
-function SignUpForm({ onFormSubmit }: SignUpFormProps): JSX.Element {
+function SignUpForm({ onFormSubmit, error, isLoading }: SignUpFormProps): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);
 
     const [email, setEmail] = useState<string>('');
@@ -23,13 +25,17 @@ function SignUpForm({ onFormSubmit }: SignUpFormProps): JSX.Element {
         setShowPassword(!showPassword);
     };
 
-    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const emailIsValid = (str: string): boolean => null !== String(str).toLowerCase().match(emailRegex);
-
-    const emailError = '' !== email && false === emailIsValid(email);
+    const emailError = '' !== email && false === isAValidEmail(email);
     const passwordMatchError = '' !== password && '' !== passwordCheck && passwordCheck !== password;
 
     const formIsIncomplete = '' === email || '' === username || '' === password || '' === passwordCheck || emailError || passwordMatchError;
+
+    let subtitle;
+    if (error) {
+        subtitle = `pages.signup.form.errors.${error}`;
+    } else {
+         subtitle = `pages.signup.form.infos.${formIsIncomplete ? 'incomplete' : 'complete'}`;
+    }
 
     return (
         <Stack spacing={3}>
@@ -54,12 +60,12 @@ function SignUpForm({ onFormSubmit }: SignUpFormProps): JSX.Element {
                 togglePasswordVisibility={handleClickShowPassword}
             />
 
-            <Typography variant="subtitle1">
-                {t(`pages.signup.form.infos.${formIsIncomplete ? 'incomplete' : 'complete'}`)}
+            <Typography color={null === error ? 'default' : 'error'} variant="subtitle1">
+                {t(subtitle)}
             </Typography>
 
             <ButtonSubmit
-                disabled={formIsIncomplete}
+                disabled={formIsIncomplete || isLoading}
                 onFormSubmit={() => onFormSubmit({ email, username, password })}
             />
         </Stack>

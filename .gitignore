@@ -17,6 +17,7 @@
 ###< Symfony ###
 
 ###> Node ###
+/apps/RPGIdleGame/frontend/.env.local
 /apps/RPGIdleGame/frontend/node
 /apps/RPGIdleGame/frontend/build
 /apps/RPGIdleGame/frontend/node_modules

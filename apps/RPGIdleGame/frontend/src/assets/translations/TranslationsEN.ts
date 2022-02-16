@@ -29,6 +29,10 @@ const TranslationsEN: Translations = {
                 buttons: {
                     submit: 'Sign Up',
                 },
+                errors: {
+                    conflict: 'Email already in use.',
+                    unknown: 'An unexpected error occurred, please try again later.',
+                },
             },
         },
     },
