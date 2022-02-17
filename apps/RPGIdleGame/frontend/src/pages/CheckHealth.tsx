@@ -7,7 +7,7 @@ function CheckHealth(): JSX.Element {
     }
 
     return (
-        <pre>
+        <pre id="check-health">
             {'{\n\t"frontend": true\n}'}
         </pre>
     );

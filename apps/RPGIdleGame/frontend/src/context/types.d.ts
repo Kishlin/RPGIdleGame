@@ -7,3 +7,10 @@ declare type LangContextType = {
     t?: TranslateFunction,
     lang: LangValue,
 };
+
+declare type UserContextType = {
+    isAuthenticated: boolean,
+    characters: CharacterList,
+    setIsAuthenticated?: (value: boolean) => void,
+    setCharacters?: (value: CharacterList) => void,
+};

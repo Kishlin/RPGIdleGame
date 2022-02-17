@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
-import { Container, Fade } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Container } from '@mui/material';
+
+import { UserContext } from '../context/UserContext';
 
 import LayoutUnauthenticated from '../components/Layout/LayoutUnauthenticated';
 import SignUpForm from '../components/Forms/SignUp/SignUpForm';
 import signUpUsingFetch from '../api/signup';
 
 function SignUp(): JSX.Element {
+    const { isAuthenticated, setIsAuthenticated } = useContext<UserContextType>(UserContext);
+
+    if (isAuthenticated) {
+        return <Navigate to="/" />;
+    }
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
 
@@ -21,6 +30,7 @@ function SignUp(): JSX.Element {
                     setError(null);
                 }
 
+                setIsAuthenticated(true);
                 setIsLoading(false);
             },
         );
@@ -28,11 +38,9 @@ function SignUp(): JSX.Element {
 
     return (
         <LayoutUnauthenticated>
-            <Fade appear in easing={{ enter: 'ease-in' }}>
-                <Container maxWidth="sm">
-                    <SignUpForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />
-                </Container>
-            </Fade>
+            <Container maxWidth="sm">
+                <SignUpForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />
+            </Container>
         </LayoutUnauthenticated>
     );
 }

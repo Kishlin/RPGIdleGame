@@ -1,5 +1,4 @@
-import React from 'react';
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     BrowserRouter as Router,
     Routes,
@@ -7,33 +6,56 @@ import {
     Navigate,
 } from 'react-router-dom';
 
-import { LangProvider } from './context/LangContext';
+import { UserContext } from './context/UserContext';
 
+import UnauthenticatedHome from './pages/UnauthenticatedHome';
+import AuthenticatedHome from './pages/AuthenticatedHome';
 import CheckHealth from './pages/CheckHealth';
+import AppLoading from './pages/AppLoading';
 import SignUp from './pages/SignUp';
-import Home from './pages/Home';
+
+import getAllCharactersUsingFetch from './api/allCharacters';
 
 function App(): JSX.Element {
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-        },
-    });
+    const { isAuthenticated, setIsAuthenticated, setCharacters } = useContext(UserContext);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(
+        () => getAllCharactersUsingFetch(
+            (characters: Character[]) => {
+                const characterList: CharacterList = {};
+
+                characters.forEach((character: Character): void => {
+                    characterList[character.id] = character;
+                });
+
+                setCharacters(characterList);
+                setIsAuthenticated(true);
+                setIsLoading(false);
+            },
+            () => {
+                setIsAuthenticated(false);
+                setIsLoading(false);
+            },
+        ),
+        [],
+    );
+
+    if (isLoading) {
+        return (
+            <AppLoading />
+        );
+    }
 
     return (
-        <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
-            <LangProvider>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/signup" element={<SignUp />} />
-                        <Route path="/monitoring/check-health" element={<CheckHealth />} />
-                        <Route path="*" element={<Navigate to="/" />} />
-                    </Routes>
-                </Router>
-            </LangProvider>
-        </ThemeProvider>
+        <Router>
+            <Routes>
+                <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <UnauthenticatedHome />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/monitoring/check-health" element={<CheckHealth />} />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </Router>
     );
 }
 

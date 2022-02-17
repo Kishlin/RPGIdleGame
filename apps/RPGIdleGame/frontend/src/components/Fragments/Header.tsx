@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Grid, Typography } from '@mui/material';
 
 import { LangContext } from '../../context/LangContext';
@@ -7,6 +8,8 @@ import ChangeLangButton from '../i18n/ChangeLangButton';
 
 function Header(): JSX.Element {
     const { t } = useContext(LangContext);
+
+    const navigate = useNavigate();
 
     return (
         <header>
@@ -18,7 +21,9 @@ function Header(): JSX.Element {
                 alignItems="center"
             >
                 <Grid item xs sx={{ ml: 5 }}>
-                    <Typography variant="h6">{ t('fragments.header.title') }</Typography>
+                    <Typography variant="h6" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                        { t('fragments.header.title') }
+                    </Typography>
                 </Grid>
 
                 <Grid item xs sx={{ mr: 5 }}>

@@ -1,0 +1,18 @@
+.loader{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.loader svg {
+    max-width: 200px;
+}
+
+.loader svg path,
+.loader svg rect {
+    fill: #FF6700;
+}

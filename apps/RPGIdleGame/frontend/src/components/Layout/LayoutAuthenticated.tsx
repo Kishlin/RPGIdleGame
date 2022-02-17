@@ -3,7 +3,7 @@ import { Fade, Grid } from '@mui/material';
 
 import Header from '../Fragments/Header';
 
-function LayoutUnauthenticated({ children }: { children: React.ReactElement }): JSX.Element {
+function LayoutAuthenticated({ children }: { children: React.ReactElement }): JSX.Element {
     return (
         <>
             <Header />
@@ -16,4 +16,4 @@ function LayoutUnauthenticated({ children }: { children: React.ReactElement }): 
     );
 }
 
-export default LayoutUnauthenticated;
+export default LayoutAuthenticated;

@@ -5,6 +5,13 @@ const TranslationsEN: Translations = {
         },
     },
     pages: {
+        home: {
+            anonymous: {
+                title: 'Welcome! You need an account to continue.',
+                signup: 'If you do not have an account yet, you can sign up.',
+                connect: 'Otherwise, you can log in directly.',
+            },
+        },
         signup: {
             form: {
                 title: 'Create a new account',
