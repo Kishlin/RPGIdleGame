@@ -9,7 +9,28 @@ const TranslationsEN: Translations = {
             anonymous: {
                 title: 'Welcome! You need an account to continue.',
                 signup: 'If you do not have an account yet, you can sign up.',
-                connect: 'Otherwise, you can log in directly.',
+                login: 'Otherwise, you can log in directly.',
+            },
+        },
+        login: {
+            form: {
+                title: 'Welcome back!',
+                login: {
+                    label: 'Email',
+                },
+                password: {
+                    label: 'Password',
+                },
+                buttons: {
+                    submit: 'Log In',
+                },
+                errors: {
+                    credentials: 'The credentials do not match any existing account.',
+                    unknown: 'An unexpected error occurred, please try again later.',
+                },
+            },
+            links: {
+                signup: 'No account yet? Create a new one instead.',
             },
         },
         signup: {
@@ -40,6 +61,9 @@ const TranslationsEN: Translations = {
                     conflict: 'Email already in use.',
                     unknown: 'An unexpected error occurred, please try again later.',
                 },
+            },
+            links: {
+                login: 'Already have an account? Log in instead.',
             },
         },
     },

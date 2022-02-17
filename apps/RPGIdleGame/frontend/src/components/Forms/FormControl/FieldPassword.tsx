@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useContext } from 'react';
+import React, { ChangeEvent, MouseEvent } from 'react';
 import {
     FormControl, FormHelperText,
     IconButton,
@@ -8,30 +8,25 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { LangContext } from '../../../context/LangContext';
-
-function FieldPasswordCheck({
-    passwordCheck,
-    hasError,
-    changePasswordCheck,
+function FieldPassword({
+    label,
+    error,
+    password,
+    changePassword,
     showPasswordAsText,
     togglePasswordVisibility,
-}: FieldPasswordCheckProps): JSX.Element {
-    const { t } = useContext<LangContextType>(LangContext);
-
+}: FieldPasswordProps): JSX.Element {
     const onMouseDown = (event: MouseEvent<HTMLButtonElement>|MouseEvent<HTMLAnchorElement>) => event.preventDefault();
 
     return (
         <FormControl required fullWidth sx={{ m: 1 }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password-check">
-                {t('pages.signup.form.passwordCheck.label')}
-            </InputLabel>
+            <InputLabel error={null !== error} htmlFor="outlined-adornment-password-check">{label}</InputLabel>
             <OutlinedInput
-                error={hasError}
-                value={passwordCheck}
-                id="outlined-adornment-password-check"
+                label={label}
+                error={null !== error}
+                value={password}
                 type={showPasswordAsText ? 'text' : 'password'}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => changePasswordCheck(event.target.value)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => changePassword(event.target.value)}
                 endAdornment={(
                     <InputAdornment position="end">
                         <IconButton
@@ -44,17 +39,16 @@ function FieldPasswordCheck({
                         </IconButton>
                     </InputAdornment>
                 )}
-                label={t('pages.signup.form.passwordCheck.label')}
             />
             <FormHelperText
-                error={hasError}
-                hidden={false === hasError}
+                error={null !== error}
+                hidden={null === error}
                 about="outlined-adornment-password-check"
             >
-                {t('pages.signup.form.passwordCheck.error')}
+                {error}
             </FormHelperText>
         </FormControl>
     );
 }
 
-export default FieldPasswordCheck;
+export default FieldPassword;

@@ -7,7 +7,7 @@ function LayoutAuthenticated({ children }: { children: React.ReactElement }): JS
     return (
         <>
             <Header />
-            <Grid container direction="column">
+            <Grid container direction="column" sx={{ mt: '5vh' }}>
                 <Fade appear in easing={{ enter: 'ease-in' }}>
                     {children}
                 </Fade>

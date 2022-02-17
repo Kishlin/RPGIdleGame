@@ -13,6 +13,7 @@ import AuthenticatedHome from './pages/AuthenticatedHome';
 import CheckHealth from './pages/CheckHealth';
 import AppLoading from './pages/AppLoading';
 import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 
 import getAllCharactersUsingFetch from './api/allCharacters';
 
@@ -51,6 +52,7 @@ function App(): JSX.Element {
         <Router>
             <Routes>
                 <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <UnauthenticatedHome />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/monitoring/check-health" element={<CheckHealth />} />
                 <Route path="*" element={<Navigate to="/" />} />

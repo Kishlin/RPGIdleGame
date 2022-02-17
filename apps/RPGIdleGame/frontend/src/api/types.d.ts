@@ -10,6 +10,11 @@ declare type SignUpApi = (
     onSignUpResponse?: (response: Response) => void,
 ) => void;
 
+declare type LogInApi = (
+    params: { email: string, password: string },
+    onLogInResponse?: (response: Response) => void,
+) => void;
+
 declare type AllCharactersApi = (
     onCharactersListResponse: (characters: Array<Character>) => void,
     onAuthenticationFailed: () => void,

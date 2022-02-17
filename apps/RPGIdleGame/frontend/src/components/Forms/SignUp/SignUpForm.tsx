@@ -5,11 +5,10 @@ import { LangContext } from '../../../context/LangContext';
 
 import isAValidEmail from '../../../tools/isAValidEmail';
 
-import FieldEmail from './FieldEmail';
-import FieldUsername from './FieldUsername';
-import FieldPassword from './FieldPassword';
-import FieldPasswordCheck from './FieldPasswordCheck';
-import ButtonSubmit from './ButtonSubmit';
+import FieldEmail from '../FormControl/FieldEmail';
+import FieldUsername from '../FormControl/FieldUsername';
+import FieldPassword from '../FormControl/FieldPassword';
+import ButtonSubmit from '../FormControl/ButtonSubmit';
 
 function SignUpForm({ onFormSubmit, error, isLoading }: SignUpFormProps): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);
@@ -41,21 +40,33 @@ function SignUpForm({ onFormSubmit, error, isLoading }: SignUpFormProps): JSX.El
         <Stack spacing={3}>
             <Typography variant="h5">{t('pages.signup.form.title')}</Typography>
 
-            <FieldUsername username={username} changeUsername={setUsername} />
+            <FieldUsername
+                username={username}
+                changeUsername={setUsername}
+                label={t('pages.signup.form.username.label')}
+            />
 
-            <FieldEmail email={email} hasError={emailError} changeEmail={setEmail} />
+            <FieldEmail
+                email={email}
+                changeEmail={setEmail}
+                label={t('pages.signup.form.email.label')}
+                error={emailError ? t('pages.signup.form.email.error') : null}
+            />
 
             <FieldPassword
+                label={t('pages.signup.form.password.label')}
+                error={null}
                 password={password}
                 changePassword={setPassword}
                 showPasswordAsText={showPassword}
                 togglePasswordVisibility={handleClickShowPassword}
             />
 
-            <FieldPasswordCheck
-                passwordCheck={passwordCheck}
-                hasError={passwordMatchError}
-                changePasswordCheck={setPasswordCheck}
+            <FieldPassword
+                label={t('pages.signup.form.passwordCheck.label')}
+                error={passwordMatchError ? 'pages.signup.form.passwordCheck.error' : null}
+                password={passwordCheck}
+                changePassword={setPasswordCheck}
                 showPasswordAsText={showPassword}
                 togglePasswordVisibility={handleClickShowPassword}
             />
@@ -65,6 +76,7 @@ function SignUpForm({ onFormSubmit, error, isLoading }: SignUpFormProps): JSX.El
             </Typography>
 
             <ButtonSubmit
+                text={t('pages.signup.form.buttons.submit')}
                 disabled={formIsIncomplete || isLoading}
                 onFormSubmit={() => onFormSubmit({ email, username, password })}
             />
