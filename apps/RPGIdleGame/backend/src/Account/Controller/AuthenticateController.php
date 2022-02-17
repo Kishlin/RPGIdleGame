@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Kishlin\Apps\RPGIdleGame\Backend\Account\Controller;
 
+use Kishlin\Apps\RPGIdleGame\Backend\Security\ResponseWithCookieBuilder;
 use Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommand;
+use Kishlin\Backend\Account\Domain\View\AuthenticationDTO;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Backend\Shared\Infrastructure\Security\Authorization\BasicAuthorization;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,13 +26,18 @@ final class AuthenticateController
     {
         $authorization = BasicAuthorization::fromHeader($request->headers->get('Authorization') ?? '');
 
-        $data = $this->commandBus->execute(
+        /** @var AuthenticationDTO $authentication */
+        $authentication = $this->commandBus->execute(
             AuthenticateCommand::fromScalars(
                 $authorization->username(),
                 $authorization->password(),
             )
         );
 
-        return new JsonResponse($data, Response::HTTP_OK, json: true);
+        return ResponseWithCookieBuilder::init(new JsonResponse(status: Response::HTTP_OK))
+            ->withRefreshToken($authentication)
+            ->withToken($authentication)
+            ->build()
+        ;
     }
 }

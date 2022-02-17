@@ -18,7 +18,7 @@ final class CharacterAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }
@@ -32,7 +32,7 @@ final class CharacterAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/character/character-that-does-exist',
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }
@@ -46,7 +46,7 @@ final class CharacterAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_STRANGER,
             ],
         ));
     }
@@ -60,7 +60,7 @@ final class CharacterAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/character/all',
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }

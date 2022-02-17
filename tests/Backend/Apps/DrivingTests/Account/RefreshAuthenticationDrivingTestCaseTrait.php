@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\Apps\DrivingTests\Account;
 
 use Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshAuthenticationCommand;
-use Kishlin\Backend\Account\Domain\View\JsonableSimpleAuthentication;
+use Kishlin\Backend\Account\Domain\View\SimpleAuthenticationDTO;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
@@ -34,7 +34,7 @@ trait RefreshAuthenticationDrivingTestCaseTrait
                 return $refreshToken === $parameter->refreshToken();
             })
         )->willReturnCallback(
-            static fn (RefreshAuthenticationCommand $command) => JsonableSimpleAuthentication::fromScalars('token'),
+            static fn (RefreshAuthenticationCommand $command) => SimpleAuthenticationDTO::fromScalars('token'),
         );
 
         return $bus;

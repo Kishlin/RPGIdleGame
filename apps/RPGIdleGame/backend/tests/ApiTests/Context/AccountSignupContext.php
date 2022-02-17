@@ -52,12 +52,12 @@ SQL
         Assert::assertNotNull($this->response);
         Assert::assertSame(201, $this->response->httpCode());
 
-        /** @var array<string, mixed> $decodedBody */
-        $decodedBody = $this->response->decodedBody();
+        Assert::assertCount(2, $this->response->cookies());
 
-        Assert::assertIsArray($decodedBody);
-        Assert::assertArrayHasKey('token', $decodedBody);
-        Assert::assertArrayHasKey('refreshToken', $decodedBody);
+        $cookiesText = implode(' ', $this->response->cookies());
+
+        Assert::assertNotFalse(strpos($cookiesText, 'token'));
+        Assert::assertNotFalse(strpos($cookiesText, 'refreshToken'));
 
         Assert::assertSame(1, self::database()->fetchOne('SELECT count(1) FROM accounts'));
     }
@@ -77,6 +77,8 @@ SQL
     {
         Assert::assertNotNull($this->response);
         Assert::assertSame(409, $this->response->httpCode());
+        Assert::assertEmpty($this->response->cookies());
+
         Assert::assertSame(1, self::database()->fetchOne('SELECT count(1) FROM accounts')); // The account already using the email
     }
 }

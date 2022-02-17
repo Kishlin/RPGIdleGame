@@ -45,7 +45,7 @@ SQL;
         $this->response = self::client()->post(new Request(
             uri: '/fight/initiate/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }
@@ -59,7 +59,7 @@ SQL;
         $this->response = self::client()->post(new Request(
             uri: '/fight/initiate/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_STRANGER,
             ],
         ));
     }

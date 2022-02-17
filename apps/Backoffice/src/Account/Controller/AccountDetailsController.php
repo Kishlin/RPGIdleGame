@@ -19,17 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
 )]
 final class AccountDetailsController extends AbstractController
 {
-    const ACCOUNT_QUERY = <<<'SQL'
-SELECT accounts.id, accounts.username, accounts.email, accounts.is_active, character_counts.character_count 
-FROM accounts 
+    public const ACCOUNT_QUERY = <<<'SQL'
+SELECT accounts.id, accounts.username, accounts.email, accounts.is_active, character_counts.character_count
+FROM accounts
 LEFT JOIN character_counts ON character_counts.owner_id = accounts.id
 WHERE accounts.id = :id
 LIMIT 1
 SQL;
 
-    const CHARACTERS_QUERY = <<<'SQL'
-SELECT characters.id, characters.name, characters.skill_points, characters.rank, characters.fights_count, characters.wins_count, characters.draws_count, characters.losses_count, accounts.username as owner 
-FROM characters 
+    public const CHARACTERS_QUERY = <<<'SQL'
+SELECT characters.id, characters.name, characters.skill_points, characters.rank, characters.fights_count, characters.wins_count, characters.draws_count, characters.losses_count, accounts.username as owner
+FROM characters
 LEFT JOIN accounts ON characters.owner = accounts.id
 WHERE characters.owner = :owner
 SQL;
@@ -68,8 +68,8 @@ SQL;
         if (
             $request->query->has('order')
             && $request->query->has('dir')
-            && in_array($request->query->get('dir'), ['ASC', 'DESC'])
-            && in_array($request->query->get('order'), ['skill_points', 'rank', 'fights_count'])
+            && in_array($request->query->get('dir'), ['ASC', 'DESC'], true)
+            && in_array($request->query->get('order'), ['skill_points', 'rank', 'fights_count'], true)
         ) {
             $query .= ' ORDER BY ' . $request->query->get('order') . ' ' . $request->query->get('dir');
         }

@@ -7,6 +7,10 @@ namespace Kishlin\Tests\Apps\Backoffice\FunctionalTests\Account\Controller;
 use Kishlin\Tests\Apps\Backoffice\Tools\BackofficeWebTestCase;
 use Kishlin\Tests\Backend\Tools\Provider\AccountProvider;
 
+/**
+ * @internal
+ * @covers \Kishlin\Apps\Backoffice\Account\Controller\AccountDetailsController
+ */
 final class AccountDetailsControllerTest extends BackofficeWebTestCase
 {
     public function testItShowsTheDetailsOfOneAccount(): void

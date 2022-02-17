@@ -6,6 +6,6 @@ namespace Kishlin\Backend\Shared\Infrastructure\Security\Authorization;
 
 use RuntimeException;
 
-class FailedToDecodeHeaderException extends RuntimeException
+class FailedToReadCookieException extends RuntimeException
 {
 }

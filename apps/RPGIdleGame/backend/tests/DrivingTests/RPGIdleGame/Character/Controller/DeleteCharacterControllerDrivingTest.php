@@ -7,6 +7,7 @@ namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\RPGIdleGame\Charac
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\DeleteCharacterDrivingTestCaseTrait;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -24,16 +25,14 @@ final class DeleteCharacterControllerDrivingTest extends SecuredEndpointDrivingT
 
         $client = self::createClient();
 
+        $client->getCookieJar()->set(new Cookie('token', self::AUTHORIZATION));
+
         $this->getContainer()->set(
             CommandBus::class,
             self::configuredCommandBusServiceMock($owner, characterId: $character),
         );
 
-        $headers = [
-            'HTTP_AUTHORIZATION' => self::AUTHORIZATION,
-        ];
-
-        $client->request(method: 'DELETE', uri: "/character/{$character}", server: $headers);
+        $client->request(method: 'DELETE', uri: "/character/{$character}");
 
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);

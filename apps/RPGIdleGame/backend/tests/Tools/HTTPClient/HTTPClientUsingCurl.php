@@ -17,6 +17,7 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
 
         curl_setopt($ch, CURLOPT_URL, "{$this->host}{$request->uri()}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_COOKIELIST, true);
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $request->headers());
 
@@ -25,9 +26,12 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
         /** @var int $httpCode */
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+        /** @var string[] $cookies */
+        $cookies = curl_getinfo($ch, CURLINFO_COOKIELIST);
+
         curl_close($ch);
 
-        return new Response($httpCode, $output);
+        return new Response($httpCode, $output, $cookies);
     }
 
     public function post(Request $request): Response
@@ -36,6 +40,7 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
 
         curl_setopt($ch, CURLOPT_URL, "{$this->host}{$request->uri()}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_COOKIELIST, true);
 
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request->params()));
@@ -47,9 +52,12 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
         /** @var int $httpCode */
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+        /** @var string[] $cookies */
+        $cookies = curl_getinfo($ch, CURLINFO_COOKIELIST);
+
         curl_close($ch);
 
-        return new Response($httpCode, $output);
+        return new Response($httpCode, $output, $cookies);
     }
 
     public function put(Request $request): Response
@@ -58,6 +66,7 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
 
         curl_setopt($ch, CURLOPT_URL, "{$this->host}{$request->uri()}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_COOKIELIST, true);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request->params()));
@@ -69,9 +78,12 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
         /** @var int $httpCode */
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+        /** @var string[] $cookies */
+        $cookies = curl_getinfo($ch, CURLINFO_COOKIELIST);
+
         curl_close($ch);
 
-        return new Response($httpCode, $output);
+        return new Response($httpCode, $output, $cookies);
     }
 
     public function delete(Request $request): Response
@@ -80,6 +92,7 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
 
         curl_setopt($ch, CURLOPT_URL, "{$this->host}{$request->uri()}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_COOKIELIST, true);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 
@@ -90,8 +103,11 @@ final class HTTPClientUsingCurl implements HTTPClientInterface
         /** @var int $httpCode */
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+        /** @var string[] $cookies */
+        $cookies = curl_getinfo($ch, CURLINFO_COOKIELIST);
+
         curl_close($ch);
 
-        return new Response($httpCode, $output);
+        return new Response($httpCode, $output, $cookies);
     }
 }

@@ -17,8 +17,8 @@ use Kishlin\Backend\Account\Domain\ValueObject\AccountId;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountPassword;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountSalt;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountUsername;
-use Kishlin\Backend\Account\Domain\View\JsonableAuthentication;
-use Kishlin\Backend\Account\Domain\View\JsonableSimpleAuthentication;
+use Kishlin\Backend\Account\Domain\View\AuthenticationDTO;
+use Kishlin\Backend\Account\Domain\View\SimpleAuthenticationDTO;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
 use PHPUnit\Framework\Assert;
@@ -26,7 +26,7 @@ use Throwable;
 
 final class AccountContext extends RPGIdleGameContext
 {
-    private JsonableAuthentication|JsonableSimpleAuthentication|null $authentication = null;
+    private AuthenticationDTO|SimpleAuthenticationDTO|null $authentication = null;
 
     private ?AccountId $accountId       = null;
     private ?Throwable $exceptionThrown = null;
@@ -98,7 +98,7 @@ final class AccountContext extends RPGIdleGameContext
                 AuthenticateCommand::fromScalars('User', 'password'),
             );
 
-            assert($response instanceof JsonableAuthentication);
+            assert($response instanceof AuthenticationDTO);
 
             $this->authentication  = $response;
             $this->exceptionThrown = null;
@@ -118,7 +118,7 @@ final class AccountContext extends RPGIdleGameContext
                 AuthenticateCommand::fromScalars('User', 'wrong'),
             );
 
-            assert($response instanceof JsonableAuthentication);
+            assert($response instanceof AuthenticationDTO);
 
             $this->authentication  = $response;
             $this->exceptionThrown = null;
@@ -149,7 +149,7 @@ final class AccountContext extends RPGIdleGameContext
                 ),
             );
 
-            assert($response instanceof JsonableSimpleAuthentication);
+            assert($response instanceof SimpleAuthenticationDTO);
 
             $this->authentication  = $response;
             $this->exceptionThrown = null;
@@ -180,7 +180,7 @@ final class AccountContext extends RPGIdleGameContext
                 ),
             );
 
-            assert($response instanceof JsonableSimpleAuthentication);
+            assert($response instanceof SimpleAuthenticationDTO);
 
             $this->authentication  = $response;
             $this->exceptionThrown = null;
@@ -256,7 +256,7 @@ final class AccountContext extends RPGIdleGameContext
     public function theNewAuthenticationWasReturned(): void
     {
         Assert::assertNull($this->exceptionThrown);
-        Assert::assertInstanceOf(JsonableSimpleAuthentication::class, $this->authentication);
+        Assert::assertInstanceOf(SimpleAuthenticationDTO::class, $this->authentication);
     }
 
     /**

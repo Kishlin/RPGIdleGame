@@ -19,7 +19,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
             uri: '/character/create',
             headers: [
                 'Content-Type: application/json',
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
             params: ['characterName' => 'Kishlin']
         ));
@@ -34,7 +34,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
         $this->response = self::client()->delete(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }
@@ -48,7 +48,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
         $this->response = self::client()->delete(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_STRANGER,
             ],
         ));
     }
@@ -62,7 +62,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
         $this->response = self::client()->put(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
             params: ['health' => 85, 'attack' => 92, 'defense' => 35, 'magik' => 56],
         ));
@@ -77,7 +77,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
         $this->response = self::client()->put(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
             params: ['health' => 200, 'attack' => 300, 'defense' => 0, 'magik' => 0],
         ));
@@ -92,7 +92,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
         $this->response = self::client()->put(new Request(
             uri: '/character/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_STRANGER,
             ],
             params: ['health' => 1, 'attack' => 0, 'defense' => 0, 'magik' => 0],
         ));

@@ -18,7 +18,7 @@ final class FightAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/fight/' . self::FIGHT_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }
@@ -32,7 +32,7 @@ final class FightAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/fight/fight-that-does-not-exist',
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }
@@ -46,7 +46,7 @@ final class FightAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/fight/' . self::FIGHT_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_STRANGER,
             ],
         ));
     }
@@ -60,7 +60,7 @@ final class FightAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/fight/all/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_CLIENT,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
         ));
     }
@@ -74,7 +74,7 @@ final class FightAccessContext extends RPGIdleGameAPIContext
         $this->response = self::client()->get(new Request(
             uri: '/fight/all/' . self::FIGHTER_UUID,
             headers: [
-                'Authorization: Bearer ' . self::AUTHENTICATION_FOR_STRANGER,
+                'Cookie: token=' . self::AUTHENTICATION_FOR_STRANGER,
             ],
         ));
     }

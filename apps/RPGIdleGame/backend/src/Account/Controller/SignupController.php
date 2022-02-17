@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Kishlin\Apps\RPGIdleGame\Backend\Account\Controller;
 
+use Kishlin\Apps\RPGIdleGame\Backend\Security\ResponseWithCookieBuilder;
 use Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommand;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
+use Kishlin\Backend\Account\Domain\View\AuthenticationDTO;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator;
 use Kishlin\Backend\Shared\Infrastructure\Security\Authorization\BasicAuthorization;
-use Kishlin\Backend\Shared\Infrastructure\Security\Authorization\FailedToDecodeHeaderException;
+use Kishlin\Backend\Shared\Infrastructure\Security\Authorization\FailedToReadCookieException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +28,7 @@ final class SignupController
     }
 
     /**
-     * @throws BadRequestException|FailedToDecodeHeaderException
+     * @throws BadRequestException|FailedToReadCookieException
      */
     public function __invoke(Request $request): Response
     {
@@ -41,14 +43,19 @@ final class SignupController
 
         $this->commandBus->execute($command);
 
-        $data = $this->commandBus->execute(
+        /** @var AuthenticationDTO $authentication */
+        $authentication = $this->commandBus->execute(
             AuthenticateCommand::fromScalars(
                 $authorization->username(),
                 $authorization->password(),
             )
         );
 
-        return new JsonResponse($data, Response::HTTP_CREATED, json: true);
+        return ResponseWithCookieBuilder::init(new JsonResponse(status: Response::HTTP_CREATED))
+            ->withRefreshToken($authentication)
+            ->withToken($authentication)
+            ->build()
+        ;
     }
 
     /**

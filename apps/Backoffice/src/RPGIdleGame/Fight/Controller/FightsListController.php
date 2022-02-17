@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/all', name: 'fights_all', methods: [Request::METHOD_GET])]
 final class FightsListController extends AbstractController
 {
-    const FIGHTS_QUERY = <<<'SQL'
+    public const FIGHTS_QUERY = <<<'SQL'
 SELECT fights.id, winners.name as winner_name, initiators.name as initiator_name, fight_initiators.rank as initiator_rank, opponents.name as opponent_name, fight_opponents.rank as opponent_rank, count(fight_turns.id) as turns_count
 FROM fights
 LEFT JOIN fight_initiators ON fight_initiators.id = fights.initiator
@@ -41,8 +41,8 @@ SQL;
         if (
             $request->query->has('order')
             && $request->query->has('dir')
-            && in_array($request->query->get('dir'), ['ASC', 'DESC'])
-            && in_array($request->query->get('order'), ['turns_count', 'fight_opponents.rank', 'fight_initiators.rank'])
+            && in_array($request->query->get('dir'), ['ASC', 'DESC'], true)
+            && in_array($request->query->get('order'), ['turns_count', 'fight_opponents.rank', 'fight_initiators.rank'], true)
         ) {
             $query .= ' ORDER BY ' . $request->query->get('order') . ' ' . $request->query->get('dir');
         }

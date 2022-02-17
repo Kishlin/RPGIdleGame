@@ -17,19 +17,19 @@ final class BasicAuthorization
         sscanf($header, 'Basic %s', $encodedCredentials);
 
         if (null === $encodedCredentials) {
-            throw new FailedToDecodeHeaderException('Failed to read encoded credentials.');
+            throw new FailedToReadCookieException('Failed to read encoded credentials.');
         }
 
         $decodedCredentials = base64_decode($encodedCredentials, true);
 
         if (false === $decodedCredentials) {
-            throw new FailedToDecodeHeaderException('Failed to decode credentials.');
+            throw new FailedToReadCookieException('Failed to decode credentials.');
         }
 
         $data = explode(':', $decodedCredentials);
 
         if (2 !== count($data)) {
-            throw new FailedToDecodeHeaderException('The decoded string did not meet the expected format.');
+            throw new FailedToReadCookieException('The decoded string did not meet the expected format.');
         }
 
         return new self(...$data);

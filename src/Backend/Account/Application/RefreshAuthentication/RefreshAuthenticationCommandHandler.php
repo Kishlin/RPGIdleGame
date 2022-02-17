@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\Account\Application\RefreshAuthentication;
 
 use Kishlin\Backend\Account\Domain\AccountReaderGateway;
-use Kishlin\Backend\Account\Domain\View\JsonableSimpleAuthentication;
+use Kishlin\Backend\Account\Domain\View\SimpleAuthenticationDTO;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler;
 use Kishlin\Backend\Shared\Domain\Security\ParsingTokenFailedException;
 use Kishlin\Backend\Shared\Domain\Security\RefreshTokenParser;
@@ -23,7 +23,7 @@ final class RefreshAuthenticationCommandHandler implements CommandHandler
     /**
      * @throws CannotRefreshAuthenticationException
      */
-    public function __invoke(RefreshAuthenticationCommand $command): JsonableSimpleAuthentication
+    public function __invoke(RefreshAuthenticationCommand $command): SimpleAuthenticationDTO
     {
         $payload = $this->extractPayloadFromToken($command);
 
@@ -31,7 +31,7 @@ final class RefreshAuthenticationCommandHandler implements CommandHandler
 
         $newToken = $this->authenticationGenerator->generateToken($payload->userId());
 
-        return JsonableSimpleAuthentication::fromScalars(token: $newToken);
+        return SimpleAuthenticationDTO::fromScalars(token: $newToken);
     }
 
     /**

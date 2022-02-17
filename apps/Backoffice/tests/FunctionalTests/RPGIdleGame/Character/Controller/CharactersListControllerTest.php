@@ -6,6 +6,10 @@ namespace Kishlin\Tests\Apps\Backoffice\FunctionalTests\RPGIdleGame\Character\Co
 
 use Kishlin\Tests\Apps\Backoffice\Tools\BackofficeWebTestCase;
 
+/**
+ * @internal
+ * @covers \Kishlin\Apps\Backoffice\RPGIdleGame\Character\Controller\CharactersListController
+ */
 final class CharactersListControllerTest extends BackofficeWebTestCase
 {
     public function testItShowsTheListOfCharacters(): void

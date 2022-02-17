@@ -6,7 +6,7 @@ namespace Kishlin\Tests\Backend\Apps\DrivingTests\Account;
 
 use Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommand;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
-use Kishlin\Backend\Account\Domain\View\JsonableAuthentication;
+use Kishlin\Backend\Account\Domain\View\AuthenticationDTO;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
@@ -56,7 +56,7 @@ trait SignupDrivingTestCaseTrait
                         return $command->id();
                     }
 
-                    return JsonableAuthentication::fromScalars('token', 'refreshToken');
+                    return AuthenticationDTO::fromScalars('token', 'refreshToken');
                 },
             )
         ;

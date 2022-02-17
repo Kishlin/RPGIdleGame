@@ -6,6 +6,10 @@ namespace Kishlin\Tests\Apps\Backoffice\FunctionalTests\Account\Controller;
 
 use Kishlin\Tests\Apps\Backoffice\Tools\BackofficeWebTestCase;
 
+/**
+ * @internal
+ * @covers \Kishlin\Apps\Backoffice\Account\Controller\AccountsListController
+ */
 final class AccountsListControllerTest extends BackofficeWebTestCase
 {
     public function testItShowsTheListOfAccount(): void

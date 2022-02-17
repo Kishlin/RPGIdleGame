@@ -7,6 +7,8 @@ namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\Account\Controller
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\RPGIdleGameWebTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\Account\RefreshAuthenticationDrivingTestCaseTrait;
+use Symfony\Component\BrowserKit\Cookie as BrowserKitCookie;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -28,21 +30,18 @@ final class RefreshAuthenticationControllerDrivingTest extends RPGIdleGameWebTes
             self::configuredCommandBusServiceMock($refreshToken),
         );
 
-        $headers = [
-            'HTTP_CONTENT_TYPE'  => 'application/json',
-            'HTTP_AUTHORIZATION' => "Bearer {$refreshToken}",
-        ];
+        $client->getCookieJar()->set(new BrowserKitCookie('refreshToken', $refreshToken));
 
-        $client->request(method: 'POST', uri: '/account/refresh-authentication', server: $headers);
+        $client->request(method: 'POST', uri: '/account/refresh-authentication');
 
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $data = json_decode($client->getResponse()->getContent() ?: '', true);
+        $cookieNames = array_map(
+            static fn (Cookie $cookie) => $cookie->getName(),
+            $client->getResponse()->headers->getCookies(),
+        );
 
-        self::assertIsArray($data);
-
-        self::assertArrayHasKey('token', $data);
-        self::assertIsString($data['token']);
+        self::assertSame(['token'], $cookieNames);
     }
 }

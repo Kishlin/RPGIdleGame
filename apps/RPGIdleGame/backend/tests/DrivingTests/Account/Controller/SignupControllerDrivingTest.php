@@ -7,6 +7,7 @@ namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\Account\Controller
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\RPGIdleGameWebTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\Account\SignupDrivingTestCaseTrait;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -43,13 +44,11 @@ final class SignupControllerDrivingTest extends RPGIdleGameWebTestCase
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
-        $data = json_decode($client->getResponse()->getContent() ?: '', true);
-        assert(is_array($data));
+        $cookieNames = array_map(
+            static fn (Cookie $cookie) => $cookie->getName(),
+            $client->getResponse()->headers->getCookies(),
+        );
 
-        self::assertArrayHasKey('token', $data);
-        self::assertArrayHasKey('refreshToken', $data);
-
-        self::assertIsString($data['token']);
-        self::assertIsString($data['refreshToken']);
+        self::assertEqualsCanonicalizing(['token', 'refreshToken'], $cookieNames);
     }
 }

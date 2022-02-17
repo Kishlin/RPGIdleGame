@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/all', name: 'characters_all', methods: [Request::METHOD_GET])]
 final class CharactersListController extends AbstractController
 {
-    const CHARACTERS_QUERY = <<<'SQL'
-SELECT characters.name, characters.skill_points, characters.rank, characters.fights_count, characters.wins_count, characters.draws_count, characters.losses_count, accounts.username as owner 
-FROM characters 
+    public const CHARACTERS_QUERY = <<<'SQL'
+SELECT characters.name, characters.skill_points, characters.rank, characters.fights_count, characters.wins_count, characters.draws_count, characters.losses_count, accounts.username as owner
+FROM characters
 LEFT JOIN accounts ON characters.owner = accounts.id
 SQL;
 
@@ -35,8 +35,8 @@ SQL;
         if (
             $request->query->has('order')
             && $request->query->has('dir')
-            && in_array($request->query->get('dir'), ['ASC', 'DESC'])
-            && in_array($request->query->get('order'), ['skill_points', 'rank', 'fights_count'])
+            && in_array($request->query->get('dir'), ['ASC', 'DESC'], true)
+            && in_array($request->query->get('order'), ['skill_points', 'rank', 'fights_count'], true)
         ) {
             $query .= ' ORDER BY ' . $request->query->get('order') . ' ' . $request->query->get('dir');
         }

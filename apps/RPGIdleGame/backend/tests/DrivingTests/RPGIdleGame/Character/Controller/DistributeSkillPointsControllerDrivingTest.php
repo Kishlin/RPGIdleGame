@@ -9,6 +9,7 @@ use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\DistributeSkillPointsDrivingTestCaseTrait;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\ViewCharacterDrivingTestCaseTrait;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -35,6 +36,8 @@ final class DistributeSkillPointsControllerDrivingTest extends SecuredEndpointDr
 
         $client = self::createClient();
 
+        $client->getCookieJar()->set(new Cookie('token', self::AUTHORIZATION));
+
         $this->getContainer()->set(
             CommandBus::class,
             self::configuredCommandBusServiceMock($owner, $character, $health, $attack, $defense, $magik),
@@ -46,8 +49,7 @@ final class DistributeSkillPointsControllerDrivingTest extends SecuredEndpointDr
         );
 
         $headers = [
-            'HTTP_CONTENT_TYPE'  => 'application/json',
-            'HTTP_AUTHORIZATION' => self::AUTHORIZATION,
+            'HTTP_CONTENT_TYPE' => 'application/json',
         ];
 
         $client->request(method: 'PUT', uri: "/character/{$character}", server: $headers, content: $content);

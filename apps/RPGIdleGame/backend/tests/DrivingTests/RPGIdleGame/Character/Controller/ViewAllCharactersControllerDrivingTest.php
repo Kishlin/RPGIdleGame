@@ -7,6 +7,7 @@ namespace Kishlin\Tests\Apps\RPGIdleGame\Backend\DrivingTests\RPGIdleGame\Charac
 use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Character\ViewAllCharactersDrivingTestCaseTrait;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,16 +25,14 @@ final class ViewAllCharactersControllerDrivingTest extends SecuredEndpointDrivin
 
         $client = self::createClient();
 
+        $client->getCookieJar()->set(new Cookie('token', self::AUTHORIZATION));
+
         $this->getContainer()->set(
             QueryBus::class,
             self::configuredQueryBusServiceMock($owner),
         );
 
-        $headers = [
-            'HTTP_AUTHORIZATION' => self::AUTHORIZATION,
-        ];
-
-        $client->request(method: Request::METHOD_GET, uri: '/character/all', server: $headers);
+        $client->request(method: Request::METHOD_GET, uri: '/character/all');
 
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);

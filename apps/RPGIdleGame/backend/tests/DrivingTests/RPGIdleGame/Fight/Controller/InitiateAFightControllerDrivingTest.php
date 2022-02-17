@@ -9,6 +9,7 @@ use Kishlin\Backend\Shared\Domain\Bus\Query\QueryBus;
 use Kishlin\Tests\Apps\RPGIdleGame\Backend\Tools\SecuredEndpointDrivingTestCase;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Fight\InitiateAFightDrivingTestCaseTrait;
 use Kishlin\Tests\Backend\Apps\DrivingTests\RPGIdleGame\Fight\ViewFightDrivingTestCaseTrait;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,6 +30,8 @@ final class InitiateAFightControllerDrivingTest extends SecuredEndpointDrivingTe
 
         $client = self::createClient();
 
+        $client->getCookieJar()->set(new Cookie('token', self::AUTHORIZATION));
+
         $this->getContainer()->set(
             CommandBus::class,
             self::configuredCommandBusServiceMock($owner, $fighter, $fight),
@@ -39,11 +42,7 @@ final class InitiateAFightControllerDrivingTest extends SecuredEndpointDrivingTe
             self::configuredQueryBusServiceMock($owner, $fight),
         );
 
-        $headers = [
-            'HTTP_AUTHORIZATION' => self::AUTHORIZATION,
-        ];
-
-        $client->request(method: Request::METHOD_POST, uri: "/fight/initiate/{$fighter}", server: $headers);
+        $client->request(method: Request::METHOD_POST, uri: "/fight/initiate/{$fighter}");
 
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);

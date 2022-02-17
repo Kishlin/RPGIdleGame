@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/', name: 'accounts_all', methods: [Request::METHOD_GET])]
 final class AccountsListController extends AbstractController
 {
-    const ACCOUNTS_QUERY = <<<'SQL'
-SELECT accounts.*, character_counts.character_count 
-FROM accounts 
+    public const ACCOUNTS_QUERY = <<<'SQL'
+SELECT accounts.*, character_counts.character_count
+FROM accounts
 LEFT JOIN character_counts ON character_counts.owner_id = accounts.id
 SQL;
 

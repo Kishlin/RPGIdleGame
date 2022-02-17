@@ -35,7 +35,7 @@ final class AccountAuthenticationContext extends RPGIdleGameAPIContext
             uri: '/account/refresh-authentication',
             headers: [
                 'Content-Type: application/json',
-                'Authorization: Bearer ' . self::REFRESH_TOKEN_WITH_NO_EXPIRATION,
+                'Cookie: refreshToken=' . self::REFRESH_TOKEN_WITH_NO_EXPIRATION,
             ],
         ));
     }
@@ -49,7 +49,7 @@ final class AccountAuthenticationContext extends RPGIdleGameAPIContext
             uri: '/account/refresh-authentication',
             headers: [
                 'Content-Type: application/json',
-                'Authorization: Bearer ' . self::REFRESH_TOKEN_EXPIRED,
+                'Cookie: refreshToken=' . self::REFRESH_TOKEN_EXPIRED,
             ],
         ));
     }
@@ -62,12 +62,12 @@ final class AccountAuthenticationContext extends RPGIdleGameAPIContext
         Assert::assertNotNull($this->response);
         Assert::assertSame(200, $this->response->httpCode());
 
-        /** @var array<string, mixed> $decodedBody */
-        $decodedBody = $this->response->decodedBody();
+        Assert::assertCount(2, $this->response->cookies());
 
-        Assert::assertIsArray($decodedBody);
-        Assert::assertArrayHasKey('token', $decodedBody);
-        Assert::assertArrayHasKey('refreshToken', $decodedBody);
+        $cookiesText = implode(' ', $this->response->cookies());
+
+        Assert::assertNotFalse(strpos($cookiesText, 'token'));
+        Assert::assertNotFalse(strpos($cookiesText, 'refreshToken'));
     }
 
     /**
@@ -78,11 +78,8 @@ final class AccountAuthenticationContext extends RPGIdleGameAPIContext
         Assert::assertNotNull($this->response);
         Assert::assertSame(200, $this->response->httpCode());
 
-        /** @var array<string, mixed> $decodedBody */
-        $decodedBody = $this->response->decodedBody();
-
-        Assert::assertIsArray($decodedBody);
-        Assert::assertArrayHasKey('token', $decodedBody);
+        Assert::assertCount(1, $this->response->cookies());
+        Assert::assertNotFalse(strpos($this->response->cookies()[0], 'token'));
     }
 
     /**

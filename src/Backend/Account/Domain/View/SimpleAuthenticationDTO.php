@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\Account\Domain\View;
 
-use Kishlin\Backend\Shared\Domain\View\JsonableView;
-
-final class JsonableSimpleAuthentication extends JsonableView
+final class SimpleAuthenticationDTO
 {
     private string $token;
 
-    public function toArray(): array
+    public function token(): string
     {
-        return [
-            'token' => $this->token,
-        ];
+        return $this->token;
     }
 
     public static function fromScalars(string $token): self
