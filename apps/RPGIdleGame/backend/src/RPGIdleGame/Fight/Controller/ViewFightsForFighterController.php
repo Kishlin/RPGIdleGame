@@ -29,7 +29,7 @@ final class ViewFightsForFighterController
 
     public function __invoke(Request $request, string $fighterId): Response
     {
-        $requesterId = $this->requesterIdentifier->identify($request)->id();
+        $requesterId = $this->requesterIdentifier->fromRequest($request)->id();
 
         /** @var ViewFightsForFighterResponse $response */
         $response = $this->queryBus->ask(

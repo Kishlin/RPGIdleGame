@@ -28,7 +28,7 @@ final class DeleteCharacterController
 
     public function __invoke(Request $request, string $characterId): Response
     {
-        $requesterId = $this->requesterIdentifier->identify($request)->id();
+        $requesterId = $this->requesterIdentifier->fromRequest($request)->id();
 
         $command = DeleteCharacterCommand::fromScalars($characterId, $requesterId);
 

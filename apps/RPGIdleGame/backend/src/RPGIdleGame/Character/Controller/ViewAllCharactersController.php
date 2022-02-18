@@ -25,7 +25,7 @@ final class ViewAllCharactersController
     public function __invoke(Request $request): Response
     {
         $query = ViewAllCharactersQuery::fromScalars(
-            requesterId: $this->requesterIdentifier->identify($request)->id(),
+            requesterId: $this->requesterIdentifier->fromRequest($request)->id(),
         );
 
         /** @var ViewAllCharactersResponse $response */

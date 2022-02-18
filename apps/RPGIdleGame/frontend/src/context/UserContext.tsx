@@ -22,14 +22,24 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
         setCharacters({ ...characters, [character.id]: character });
     };
 
+    const setCharactersFromArray = (list: Character[]) => {
+        const characterList: CharacterList = {};
+
+        list.forEach((character: Character): void => {
+            characterList[character.id] = character;
+        });
+
+        setCharacters(characterList);
+    };
+
     const context = useMemo<UserContextType>(
         () => ({
             isAuthenticated,
             characters,
             connect,
             disconnect,
-            setCharacters,
             addCharacter,
+            setCharactersFromArray,
         }),
         [characters, isAuthenticated],
     );

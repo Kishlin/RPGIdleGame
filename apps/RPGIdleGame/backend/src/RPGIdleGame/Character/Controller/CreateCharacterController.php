@@ -31,7 +31,7 @@ final class CreateCharacterController
 
     public function __invoke(Request $request): Response
     {
-        $owner         = $this->requesterIdentifier->identify($request)->id();
+        $owner         = $this->requesterIdentifier->fromRequest($request)->id();
         $characterId   = $this->uuidGenerator->uuid4();
         $characterName = $this->readCharacterNameFromRequestBody($request);
 

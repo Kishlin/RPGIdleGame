@@ -15,11 +15,16 @@ final class RequesterIdentifier
     ) {
     }
 
-    public function identify(Request $request): Requester
+    public function fromRequest(Request $request): Requester
     {
         $tokenDTO = JWTAuthorization::fromCookie($request->cookies->get('token'));
 
-        $tokenPayload = $this->tokenParser->payloadFromToken($tokenDTO->token());
+        return $this->fromToken($tokenDTO->token());
+    }
+
+    public function fromToken(string $token): Requester
+    {
+        $tokenPayload = $this->tokenParser->payloadFromToken($token);
 
         return Requester::fromScalar($tokenPayload->userId());
     }

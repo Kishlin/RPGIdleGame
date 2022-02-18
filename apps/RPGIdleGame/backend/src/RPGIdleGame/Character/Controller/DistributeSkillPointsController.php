@@ -36,7 +36,7 @@ final class DistributeSkillPointsController
      */
     public function __invoke(Request $request, string $characterId): Response
     {
-        $requesterId = $this->requesterIdentifier->identify($request)->id();
+        $requesterId = $this->requesterIdentifier->fromRequest($request)->id();
         $requestData = $this->requestData($request, $characterId, $requesterId);
 
         $command = DistributeSkillPointsCommand::fromRequest($requestData);

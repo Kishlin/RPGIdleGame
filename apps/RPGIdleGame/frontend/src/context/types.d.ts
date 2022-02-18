@@ -11,7 +11,7 @@ declare type LangContextType = {
 declare type UserContextType = {
     isAuthenticated: boolean,
     characters: CharacterList,
-    setCharacters?: (value: CharacterList) => void,
+    setCharactersFromArray?: (list: Character[]) => void,
     addCharacter?: (character: Character) => void,
     disconnect?: () => void,
     connect?: () => void,

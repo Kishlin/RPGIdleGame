@@ -25,7 +25,7 @@ trait AuthenticateDrivingTestCaseTrait
      *     - Expect to receive a correct AuthenticateCommand, only one time.
      *     - Return the authentication data.
      */
-    public function configuredCommandBusServiceMock(string $login, string $password): MockObject
+    public function configuredCommandBusServiceMock(string $login, string $password, string $token): MockObject
     {
         $bus = $this->getMockForAbstractClass(CommandBus::class);
 
@@ -37,7 +37,7 @@ trait AuthenticateDrivingTestCaseTrait
                 ;
             })
         )->willReturnCallback(
-            static fn (AuthenticateCommand $command) => AuthenticationDTO::fromScalars('token', 'refreshToken'),
+            static fn (AuthenticateCommand $command) => AuthenticationDTO::fromScalars($token, 'refreshToken'),
         );
 
         return $bus;

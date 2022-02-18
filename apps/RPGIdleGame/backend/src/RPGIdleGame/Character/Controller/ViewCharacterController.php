@@ -31,7 +31,7 @@ final class ViewCharacterController
     {
         $query = ViewCharacterQuery::fromScalars(
             characterId: $characterId,
-            requesterId: $this->requesterIdentifier->identify($request)->id(),
+            requesterId: $this->requesterIdentifier->fromRequest($request)->id(),
         );
 
         /** @var ViewCharacterResponse $response */

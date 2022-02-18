@@ -26,7 +26,7 @@ function App(): JSX.Element {
         isAuthenticated,
         connect,
         disconnect,
-        setCharacters,
+        setCharactersFromArray,
     } = useContext(UserContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -34,20 +34,14 @@ function App(): JSX.Element {
     useEffect(
         () => getAllCharactersUsingFetch(
             (characters: Character[]) => {
-                const characterList: CharacterList = {};
-
-                characters.forEach((character: Character): void => {
-                    characterList[character.id] = character;
-                });
-
-                setCharacters(characterList);
+                setCharactersFromArray(characters);
                 connect();
 
                 setIsLoading(false);
             },
             () => {
-                setIsLoading(false);
                 disconnect();
+                setIsLoading(false);
             },
         ),
         [],
