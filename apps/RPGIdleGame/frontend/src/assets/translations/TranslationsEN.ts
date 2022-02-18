@@ -2,6 +2,9 @@ const TranslationsEN: Translations = {
     fragments: {
         header: {
             title: 'RPGIdleGame',
+            menu: {
+                disconnect: 'Disconnect',
+            },
         },
     },
     pages: {

@@ -1,12 +1,28 @@
-import React from 'react';
-import { Fade, Grid } from '@mui/material';
+import React, { ReactElement, useContext } from 'react';
+import { Button, Fade, Grid } from '@mui/material';
+
+import { UserContext } from '../../context/UserContext';
+import { LangContext } from '../../context/LangContext';
 
 import Header from '../Fragments/Header';
 
-function LayoutAuthenticated({ children }: { children: React.ReactElement }): JSX.Element {
+import logOutUsingFetch from '../../api/logOut';
+
+function LayoutAuthenticated({ children }: { children: ReactElement }): JSX.Element {
+    const { setIsAuthenticated } = useContext<UserContextType>(UserContext);
+    const { t } = useContext<LangContextType>(LangContext);
+
+    const disconnectThroughApi = () => logOutUsingFetch(
+        () => setIsAuthenticated(false),
+    );
+
     return (
         <>
-            <Header />
+            <Header
+                menu={
+                    <Button onClick={disconnectThroughApi}>{ t('fragments.header.menu.disconnect') }</Button>
+                }
+            />
             <Grid container direction="column" sx={{ mt: '5vh' }}>
                 <Fade appear in easing={{ enter: 'ease-in' }}>
                     {children}

@@ -15,6 +15,10 @@ declare type LogInApi = (
     onLogInResponse?: (response: Response) => void,
 ) => void;
 
+declare type LogOutApi = (
+    onLoggingOutSuccess: () => void,
+) => void;
+
 declare type AllCharactersApi = (
     onCharactersListResponse: (characters: Array<Character>) => void,
     onAuthenticationFailed: () => void,

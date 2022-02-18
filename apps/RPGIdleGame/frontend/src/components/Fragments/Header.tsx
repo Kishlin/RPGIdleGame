@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Typography } from '@mui/material';
 
@@ -6,8 +6,8 @@ import { LangContext } from '../../context/LangContext';
 
 import ChangeLangButton from '../i18n/ChangeLangButton';
 
-function Header(): JSX.Element {
-    const { t } = useContext(LangContext);
+function Header({ menu }: { menu?: ReactElement }): JSX.Element {
+    const { t } = useContext<LangContextType>(LangContext);
 
     const navigate = useNavigate();
 
@@ -20,10 +20,12 @@ function Header(): JSX.Element {
                 justifyContent="space-between"
                 alignItems="center"
             >
-                <Grid item xs sx={{ ml: 5 }}>
-                    <Typography variant="h6" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                <Grid item xs container direction="row">
+                    <Typography variant="h6" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} sx={{ mx: 5 }}>
                         { t('fragments.header.title') }
                     </Typography>
+
+                    {menu}
                 </Grid>
 
                 <Grid item xs sx={{ mr: 5 }}>
@@ -33,5 +35,9 @@ function Header(): JSX.Element {
         </header>
     );
 }
+
+Header.defaultProps = {
+    menu: (<noscript />),
+};
 
 export default Header;

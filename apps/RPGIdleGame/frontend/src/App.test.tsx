@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 test('renders learn react link', () => {
-    render(<App />);
-    const linkElement = screen.getByText(/RPGIdleGame/i);
+    const { container } = render(<App />);
+    const linkElement = container.querySelector('div.loader');
     expect(linkElement).toBeInTheDocument();
 });
