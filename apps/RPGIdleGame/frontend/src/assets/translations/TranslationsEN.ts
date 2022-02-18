@@ -1,4 +1,13 @@
 const TranslationsEN: Translations = {
+    components: {
+        character: {
+            links: {
+                skillPoints: 'Distribute skill points',
+                delete: 'Delete',
+                fight: 'Fight',
+            },
+        },
+    },
     fragments: {
         header: {
             title: 'RPGIdleGame',
@@ -8,20 +17,8 @@ const TranslationsEN: Translations = {
         },
     },
     pages: {
-        home: {
-            anonymous: {
-                title: 'Welcome! You need an account to continue.',
-                signup: 'If you do not have an account yet, you can sign up.',
-                login: 'Otherwise, you can directly log in.',
-            },
-            authenticated: {
-                buttons: {
-                    createCharacter: 'Create a new Character',
-                },
-            },
-        },
-        createCharacter: {
-            form: {
+        character: {
+            formCreate: {
                 name: {
                     label: 'Character name',
                 },
@@ -32,6 +29,18 @@ const TranslationsEN: Translations = {
             },
             links: {
                 homepage: 'Back to home',
+            },
+        },
+        home: {
+            anonymous: {
+                title: 'Welcome! You need an account to continue.',
+                signup: 'If you do not have an account yet, you can sign up.',
+                login: 'Otherwise, you can directly log in.',
+            },
+            authenticated: {
+                buttons: {
+                    createCharacter: 'Create a new Character',
+                },
             },
         },
         login: {

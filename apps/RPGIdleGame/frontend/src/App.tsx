@@ -8,9 +8,12 @@ import {
 
 import { UserContext } from './context/UserContext';
 
+import DistributeSkillPoints from './pages/Characters/DistributeSkillPoints';
+import FightWithCharacter from './pages/Characters/FightWithCharacter';
+import DeleteCharacter from './pages/Characters/DeleteCharacter';
+import CreateCharacter from './pages/Characters/CreateCharacter';
 import UnauthenticatedHome from './pages/UnauthenticatedHome';
 import AuthenticatedHome from './pages/AuthenticatedHome';
-import CreateCharacter from './pages/CreateCharacter';
 import CheckHealth from './pages/CheckHealth';
 import AppLoading from './pages/AppLoading';
 import SignUp from './pages/SignUp';
@@ -52,11 +55,21 @@ function App(): JSX.Element {
     return (
         <Router>
             <Routes>
+                <Route path="/character">
+                    <Route path="new" element={isAuthenticated ? <CreateCharacter /> : <Navigate to="/" />} />
+                    <Route path=":id">
+                        <Route path="skill-points" element={isAuthenticated ? <DistributeSkillPoints /> : <Navigate to="/" />} />
+                        <Route path="fight" element={isAuthenticated ? <FightWithCharacter /> : <Navigate to="/" />} />
+                        <Route path="delete" element={isAuthenticated ? <DeleteCharacter /> : <Navigate to="/" />} />
+                    </Route>
+                </Route>
+
                 <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <UnauthenticatedHome />} />
-                <Route path="new-character" element={<CreateCharacter />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
+
                 <Route path="/monitoring/check-health" element={<CheckHealth />} />
+
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </Router>

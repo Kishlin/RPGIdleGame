@@ -13,4 +13,5 @@ declare type UserContextType = {
     characters: CharacterList,
     setIsAuthenticated?: (value: boolean) => void,
     setCharacters?: (value: CharacterList) => void,
+    addCharacter?: (character: Character) => void,
 };

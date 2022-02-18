@@ -15,18 +15,18 @@ function CreateCharacterForm({ onFormSubmit, error, isLoading }: CreateCharacter
 
     return (
         <Stack spacing={3}>
-            <Typography variant="h5">{t('pages.createCharacter.title')}</Typography>
+            <Typography variant="h5">{t('pages.character.title')}</Typography>
 
             <FieldText
                 value={name}
                 changeValue={setName}
-                label={t('pages.createCharacter.form.name.label')}
+                label={t('pages.character.formCreate.name.label')}
             />
 
             <Typography color="error" hidden={null === error} variant="subtitle1">{error}</Typography>
 
             <ButtonSubmit
-                text={t('pages.createCharacter.form.buttons.submit')}
+                text={t('pages.character.formCreate.buttons.submit')}
                 disabled={formIsIncomplete || isLoading}
                 onFormSubmit={() => onFormSubmit({ name })}
             />

@@ -1,18 +1,23 @@
 import React, { useContext, useState } from 'react';
 import { Container, Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-import { LangContext } from '../context/LangContext';
+import { LangContext } from '../../context/LangContext';
+import { UserContext } from '../../context/UserContext';
 
-import CreateCharacterForm from '../components/Forms/CreateCharacter/CreacteCharacterForm';
-import LayoutAuthenticated from '../components/Layout/LayoutAuthenticated';
-import NavigationButton from '../components/Navigation/NavigationButton';
-import createCharacterUsingFetch from '../api/createCharacter';
+import CreateCharacterForm from '../../components/Forms/CreateCharacter/CreacteCharacterForm';
+import LayoutAuthenticated from '../../components/Layout/LayoutAuthenticated';
+import NavigationButton from '../../components/Navigation/NavigationButton';
+import createCharacterUsingFetch from '../../api/createCharacter';
 
 function CreateCharacter(): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);
+    const { addCharacter } = useContext<UserContextType>(UserContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
+
+    const navigate = useNavigate();
 
     const onFormSubmit: onCreateCharacterFormSubmitFunction = (values) => {
         setIsLoading(true);
@@ -20,12 +25,14 @@ function CreateCharacter(): JSX.Element {
         createCharacterUsingFetch(
             values,
             (character: Character) => {
-                console.log(character);
+                addCharacter(character);
                 setIsLoading(false);
+
+                navigate('/');
             },
             () => {
                 setIsLoading(false);
-                setError(t('pages.createCharacter.form.error'));
+                setError(t('pages.character.formCreate.error'));
             },
         );
     };
@@ -38,7 +45,7 @@ function CreateCharacter(): JSX.Element {
                         <CreateCharacterForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />
                     </Grid>
                     <Grid item xs={12}>
-                        <NavigationButton text="pages.createCharacter.links.homepage" to="/" variant="text" />
+                        <NavigationButton text="pages.character.links.homepage" to="/" variant="text" />
                     </Grid>
                 </Grid>
             </Container>
