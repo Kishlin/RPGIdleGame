@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material';
 
 import { LangContext } from '../../../context/LangContext';
 
-import FieldEmail from '../FormControl/FieldEmail';
+import FieldText from '../FormControl/FieldText';
 import FieldPassword from '../FormControl/FieldPassword';
 import ButtonSubmit from '../FormControl/ButtonSubmit';
 
@@ -25,11 +25,11 @@ function LogInForm({ onFormSubmit, error, isLoading }: LogInFormProps): JSX.Elem
         <Stack spacing={3}>
             <Typography variant="h5">{t('pages.login.form.title')}</Typography>
 
-            <FieldEmail
-                email={email}
-                changeEmail={setEmail}
+            <FieldText
+                type="email"
+                value={email}
+                changeValue={setEmail}
                 label={t('pages.login.form.login.label')}
-                error={null}
             />
 
             <FieldPassword

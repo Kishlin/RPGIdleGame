@@ -10,6 +10,7 @@ import { UserContext } from './context/UserContext';
 
 import UnauthenticatedHome from './pages/UnauthenticatedHome';
 import AuthenticatedHome from './pages/AuthenticatedHome';
+import CreateCharacter from './pages/CreateCharacter';
 import CheckHealth from './pages/CheckHealth';
 import AppLoading from './pages/AppLoading';
 import SignUp from './pages/SignUp';
@@ -52,6 +53,7 @@ function App(): JSX.Element {
         <Router>
             <Routes>
                 <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <UnauthenticatedHome />} />
+                <Route path="new-character" element={<CreateCharacter />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/monitoring/check-health" element={<CheckHealth />} />

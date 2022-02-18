@@ -5,8 +5,7 @@ import { LangContext } from '../../../context/LangContext';
 
 import isAValidEmail from '../../../tools/isAValidEmail';
 
-import FieldEmail from '../FormControl/FieldEmail';
-import FieldUsername from '../FormControl/FieldUsername';
+import FieldText from '../FormControl/FieldText';
 import FieldPassword from '../FormControl/FieldPassword';
 import ButtonSubmit from '../FormControl/ButtonSubmit';
 
@@ -40,15 +39,16 @@ function SignUpForm({ onFormSubmit, error, isLoading }: SignUpFormProps): JSX.El
         <Stack spacing={3}>
             <Typography variant="h5">{t('pages.signup.form.title')}</Typography>
 
-            <FieldUsername
-                username={username}
-                changeUsername={setUsername}
+            <FieldText
+                value={username}
+                changeValue={setUsername}
                 label={t('pages.signup.form.username.label')}
             />
 
-            <FieldEmail
-                email={email}
-                changeEmail={setEmail}
+            <FieldText
+                type="email"
+                value={email}
+                changeValue={setEmail}
                 label={t('pages.signup.form.email.label')}
                 error={emailError ? t('pages.signup.form.email.error') : null}
             />

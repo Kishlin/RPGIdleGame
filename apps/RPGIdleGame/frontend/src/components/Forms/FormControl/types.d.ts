@@ -1,14 +1,9 @@
-declare type FieldUsernameProps = {
-    label: string
-    username: string,
-    changeUsername: (username: string) => void,
-}
-
-declare type FieldEmailProps = {
+declare type FieldTextProps = {
     label: string,
-    error: null|string,
-    email: string,
-    changeEmail: (email: string) => void,
+    value: string,
+    changeValue: (value: string) => void,
+    error?: null|string,
+    type?: 'text'|'email',
 }
 
 declare type FieldPasswordProps = {

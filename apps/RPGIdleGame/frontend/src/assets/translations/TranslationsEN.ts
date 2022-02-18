@@ -14,6 +14,25 @@ const TranslationsEN: Translations = {
                 signup: 'If you do not have an account yet, you can sign up.',
                 login: 'Otherwise, you can directly log in.',
             },
+            authenticated: {
+                buttons: {
+                    createCharacter: 'Create a new Character',
+                },
+            },
+        },
+        createCharacter: {
+            form: {
+                name: {
+                    label: 'Character name',
+                },
+                buttons: {
+                    submit: 'Create character',
+                },
+                error: 'An unexpected error occurred. Please try again later.',
+            },
+            links: {
+                homepage: 'Back to home',
+            },
         },
         login: {
             form: {

@@ -1,5 +1,10 @@
-import React, { ReactElement, useContext } from 'react';
-import { Button, Fade, Grid } from '@mui/material';
+import React, { useContext } from 'react';
+import {
+    Box,
+    Button,
+    Fade,
+    Grid,
+} from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 import { LangContext } from '../../context/LangContext';
@@ -8,7 +13,7 @@ import Header from '../Fragments/Header';
 
 import logOutUsingFetch from '../../api/logOut';
 
-function LayoutAuthenticated({ children }: { children: ReactElement }): JSX.Element {
+function LayoutAuthenticated({ children }: { children: React.ReactNode }): JSX.Element {
     const { setIsAuthenticated } = useContext<UserContextType>(UserContext);
     const { t } = useContext<LangContextType>(LangContext);
 
@@ -25,7 +30,9 @@ function LayoutAuthenticated({ children }: { children: ReactElement }): JSX.Elem
             />
             <Grid container direction="column" sx={{ mt: '5vh' }}>
                 <Fade appear in easing={{ enter: 'ease-in' }}>
-                    {children}
+                    <Box>
+                        {children}
+                    </Box>
                 </Fade>
             </Grid>
         </>
