@@ -12,7 +12,7 @@ const TranslationsEN: Translations = {
             anonymous: {
                 title: 'Welcome! You need an account to continue.',
                 signup: 'If you do not have an account yet, you can sign up.',
-                login: 'Otherwise, you can log in directly.',
+                login: 'Otherwise, you can directly log in.',
             },
         },
         login: {
