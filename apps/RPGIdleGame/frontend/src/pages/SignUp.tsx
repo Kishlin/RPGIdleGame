@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { Container, Grid } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 
@@ -13,12 +13,12 @@ import signUpUsingFetch from '../api/signUp';
 function SignUp(): JSX.Element {
     const { isAuthenticated, setIsAuthenticated } = useContext<UserContextType>(UserContext);
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>(null);
+
     if (isAuthenticated) {
         return <Navigate to="/" />;
     }
-
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>(null);
 
     const onFormSubmit: onFormSubmitFunction = ({ username, email, password }) => {
         setIsLoading(true);
@@ -28,19 +28,13 @@ function SignUp(): JSX.Element {
             (response: Response) => {
                 if (false === response.ok) {
                     setError(409 === response.status ? 'conflict' : 'unknown');
+                    setIsLoading(false);
                 } else {
                     setIsAuthenticated(true);
-                    setError(null);
                 }
-
-                setIsLoading(false);
             },
         );
     };
-
-    if (isAuthenticated) {
-        return <Navigate to="/" />;
-    }
 
     return (
         <LayoutUnauthenticated>

@@ -26,12 +26,10 @@ function SignUp(): JSX.Element {
             (response: Response) => {
                 if (false === response.ok) {
                     setError(t(`pages.login.form.errors.${401 === response.status ? 'credentials' : 'unknown'}`));
+                    setIsLoading(false);
                 } else {
                     setIsAuthenticated(true);
-                    setError(null);
                 }
-
-                setIsLoading(false);
             },
         );
     };
