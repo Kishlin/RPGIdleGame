@@ -22,7 +22,13 @@ import Login from './pages/Login';
 import getAllCharactersUsingFetch from './api/allCharacters';
 
 function App(): JSX.Element {
-    const { isAuthenticated, setIsAuthenticated, setCharacters } = useContext(UserContext);
+    const {
+        isAuthenticated,
+        connect,
+        disconnect,
+        setCharacters,
+    } = useContext(UserContext);
+
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(
@@ -35,12 +41,13 @@ function App(): JSX.Element {
                 });
 
                 setCharacters(characterList);
-                setIsAuthenticated(true);
+                connect();
+
                 setIsLoading(false);
             },
             () => {
-                setIsAuthenticated(false);
                 setIsLoading(false);
+                disconnect();
             },
         ),
         [],

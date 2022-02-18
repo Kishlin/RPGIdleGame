@@ -14,11 +14,11 @@ import Header from '../Fragments/Header';
 import logOutUsingFetch from '../../api/logOut';
 
 function LayoutAuthenticated({ children }: { children: React.ReactNode }): JSX.Element {
-    const { setIsAuthenticated } = useContext<UserContextType>(UserContext);
+    const { disconnect } = useContext<UserContextType>(UserContext);
     const { t } = useContext<LangContextType>(LangContext);
 
     const disconnectThroughApi = () => logOutUsingFetch(
-        () => setIsAuthenticated(false),
+        () => disconnect(),
     );
 
     return (

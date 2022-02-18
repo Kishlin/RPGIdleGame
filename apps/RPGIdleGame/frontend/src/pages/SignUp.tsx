@@ -11,7 +11,7 @@ import SignUpForm from '../components/Forms/SignUp/SignUpForm';
 import signUpUsingFetch from '../api/signUp';
 
 function SignUp(): JSX.Element {
-    const { isAuthenticated, setIsAuthenticated } = useContext<UserContextType>(UserContext);
+    const { isAuthenticated, connect } = useContext<UserContextType>(UserContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
@@ -30,7 +30,7 @@ function SignUp(): JSX.Element {
                     setError(409 === response.status ? 'conflict' : 'unknown');
                     setIsLoading(false);
                 } else {
-                    setIsAuthenticated(true);
+                    connect();
                 }
             },
         );

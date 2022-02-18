@@ -12,7 +12,7 @@ import LogInForm from '../components/Forms/Login/LogInForm';
 import logInUsingFetch from '../api/logIn';
 
 function SignUp(): JSX.Element {
-    const { isAuthenticated, setIsAuthenticated } = useContext<UserContextType>(UserContext);
+    const { isAuthenticated, connect } = useContext<UserContextType>(UserContext);
     const { t } = useContext<LangContextType>(LangContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,7 +28,7 @@ function SignUp(): JSX.Element {
                     setError(t(`pages.login.form.errors.${401 === response.status ? 'credentials' : 'unknown'}`));
                     setIsLoading(false);
                 } else {
-                    setIsAuthenticated(true);
+                    connect();
                 }
             },
         );

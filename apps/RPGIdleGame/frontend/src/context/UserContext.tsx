@@ -11,6 +11,13 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [characters, setCharacters] = useState<CharacterList>({});
 
+    const connect = () => setIsAuthenticated(true);
+
+    const disconnect = () => {
+        setIsAuthenticated(false);
+        setCharacters({});
+    };
+
     const addCharacter = (character: Character) => {
         setCharacters({ ...characters, [character.id]: character });
     };
@@ -19,7 +26,8 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
         () => ({
             isAuthenticated,
             characters,
-            setIsAuthenticated,
+            connect,
+            disconnect,
             setCharacters,
             addCharacter,
         }),
