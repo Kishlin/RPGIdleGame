@@ -93,7 +93,7 @@ final class Character extends AggregateRoot
 
         for ($i = $attackPointsToAdd; $i > 0; --$i) {
             $costInSkillPoints = 0 < $this->attack->value() ?
-                (int) (ceil($this->attack->value() / 5)) :
+                (int) (ceil((1 + $this->attack->value()) / 5)) :
                 1
             ;
 
@@ -111,7 +111,7 @@ final class Character extends AggregateRoot
 
         for ($i = $defensePointsToAdd; $i > 0; --$i) {
             $costInSkillPoints = 0 < $this->defense->value() ?
-                (int) (ceil($this->defense->value() / 5)) :
+                (int) (ceil((1 + $this->defense->value()) / 5)) :
                 1
             ;
 
@@ -129,7 +129,7 @@ final class Character extends AggregateRoot
 
         for ($i = $magikPointsToAdd; $i > 0; --$i) {
             $costInSkillPoints = 0 < $this->magik->value() ?
-                (int) (ceil($this->magik->value() / 5)) :
+                (int) (ceil((1 + $this->magik->value()) / 5)) :
                 1
             ;
 

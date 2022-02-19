@@ -98,23 +98,23 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
     /**
      * @throws ReflectionException
      */
-    public function testAttackPointsCostOneFifthOfTheCurrentLevelRoundedUp(): void
+    public function testAttackPointsCostOneFifthOfTheNextLevelRoundedUp(): void
     {
-        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, attackPoints: 10);
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, attackPoints: 9);
 
         $character->increaseAttackBy(1);
 
-        self::assertSame(11, $character->attack()->value());
+        self::assertSame(10, $character->attack()->value());
         self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->skillPoint()->value());
 
         $character->increaseAttackBy(1);
 
-        self::assertSame(12, $character->attack()->value());
+        self::assertSame(11, $character->attack()->value());
         self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->skillPoint()->value());
 
         $character->increaseAttackBy(20);
 
-        self::assertSame(32, $character->attack()->value());
+        self::assertSame(31, $character->attack()->value());
         self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->skillPoint()->value());
 
         self::expectException(NotEnoughSkillPointsException::class);
@@ -137,23 +137,23 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
     /**
      * @throws ReflectionException
      */
-    public function testDefensePointsCostOneFifthOfTheCurrentLevelRoundedUp(): void
+    public function testDefensePointsCostOneFifthOfTheNextLevelRoundedUp(): void
     {
-        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, defensePoints: 10);
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, defensePoints: 9);
 
         $character->increaseDefenseBy(1);
 
-        self::assertSame(11, $character->defense()->value());
+        self::assertSame(10, $character->defense()->value());
         self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->skillPoint()->value());
 
         $character->increaseDefenseBy(1);
 
-        self::assertSame(12, $character->defense()->value());
+        self::assertSame(11, $character->defense()->value());
         self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->skillPoint()->value());
 
         $character->increaseDefenseBy(20);
 
-        self::assertSame(32, $character->defense()->value());
+        self::assertSame(31, $character->defense()->value());
         self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->skillPoint()->value());
 
         self::expectException(NotEnoughSkillPointsException::class);
@@ -176,23 +176,23 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
     /**
      * @throws ReflectionException
      */
-    public function testMagikPointsCostOneFifthOfTheCurrentLevelRoundedUp(): void
+    public function testMagikPointsCostOneFifthOfTheNextLevelRoundedUp(): void
     {
-        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, magikPoints: 10);
+        $character = CharacterProvider::tweakedCharacter(skillPoints: 100, magikPoints: 9);
 
         $character->increaseMagikBy(1);
 
-        self::assertSame(11, $character->magik()->value());
+        self::assertSame(10, $character->magik()->value());
         self::assertSame(98 /* 100 - 2 (10 / 5) */, $character->skillPoint()->value());
 
         $character->increaseMagikBy(1);
 
-        self::assertSame(12, $character->magik()->value());
+        self::assertSame(11, $character->magik()->value());
         self::assertSame(95 /* 98 - 3 (11 / 5 rounded up) */, $character->skillPoint()->value());
 
         $character->increaseMagikBy(20);
 
-        self::assertSame(32, $character->magik()->value());
+        self::assertSame(31, $character->magik()->value());
         self::assertSame(1 /* 95 - 4*3 - 5*4 - 5*5 - 5*6 - 1*7 */, $character->skillPoint()->value());
 
         self::expectException(NotEnoughSkillPointsException::class);

@@ -64,7 +64,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
             headers: [
                 'Cookie: token=' . self::AUTHENTICATION_FOR_CLIENT,
             ],
-            params: ['health' => 85, 'attack' => 92, 'defense' => 35, 'magik' => 56],
+            params: ['health' => 85, 'attack' => 92, 'defense' => 32, 'magik' => 56],
         ));
     }
 
@@ -178,7 +178,7 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
         Assert::assertSame(5, $data['skill_points']);
         Assert::assertSame(165, $data['health']);
         Assert::assertSame(148, $data['attack']);
-        Assert::assertSame(58, $data['defense']);
+        Assert::assertSame(55, $data['defense']);
         Assert::assertSame(90, $data['magik']);
     }
 

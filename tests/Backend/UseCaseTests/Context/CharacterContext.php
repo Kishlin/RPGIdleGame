@@ -153,7 +153,7 @@ final class CharacterContext extends RPGIdleGameContext
                     requesterId: self::CLIENT_UUID,
                     healthPointsToAdd: 85,
                     attackPointsToAdd: 92,
-                    defensePointsToAdd: 35,
+                    defensePointsToAdd: 32,
                     magikPointsToAdd: 56,
                 )
             );
@@ -343,7 +343,7 @@ final class CharacterContext extends RPGIdleGameContext
 
         Assert::assertSame(165 /* 80 + 85 */, $character->health()->value());
         Assert::assertSame(148 /* 56 + 92 */, $character->attack()->value());
-        Assert::assertSame(58  /* 23 + 35 */, $character->defense()->value());
+        Assert::assertSame(55  /* 23 + 32 */, $character->defense()->value());
         Assert::assertSame(90  /* 34 + 56 */, $character->magik()->value());
         Assert::assertSame(5, $character->skillPoint()->value());
     }
