@@ -26,6 +26,17 @@ const TranslationsEN: Translations = {
     },
     pages: {
         character: {
+            delete: {
+                title: 'Delete #name# forever',
+                validation1: 'Are you sure you want to delete #name#?',
+                validation2: 'This action cannot be reversed.',
+                validation3: 'The character will be gone forever.',
+                validation4: 'For. Ever.',
+                buttons: {
+                    doDelete: 'Yes. Delete forever',
+                    home: 'Safely go back to home',
+                },
+            },
             formSkillPoints: {
                 title: 'Distribute skill points to #character_name#',
                 helperNextSkillLevel: 'Next level will cost #nextCost# points.',

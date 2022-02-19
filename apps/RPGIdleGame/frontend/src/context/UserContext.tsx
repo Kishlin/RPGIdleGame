@@ -40,6 +40,7 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
             disconnect,
             addOrReplaceCharacter,
             setCharactersFromArray,
+            setCharacters,
         }),
         [characters, isAuthenticated],
     );
