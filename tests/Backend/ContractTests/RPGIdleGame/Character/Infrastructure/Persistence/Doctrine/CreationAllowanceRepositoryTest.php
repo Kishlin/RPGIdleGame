@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\DBAL\Exception;
+use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreationLimitCheckerDoesNotExistException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\CreationAllowanceRepository;
 use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
@@ -16,9 +17,9 @@ use Kishlin\Tests\Backend\Tools\Test\Contract\RepositoryContractTestCase;
 final class CreationAllowanceRepositoryTest extends RepositoryContractTestCase
 {
     /**
-     * @throws Exception
+     * @throws CreationLimitCheckerDoesNotExistException|Exception
      */
-    public function testItTellsAnOwnerCanCreateACharacter(): void
+    public function testItTellsAnOwnerHasReachedLimit(): void
     {
         $ownerUuid = 'bc13859b-05ae-43fb-b41f-a321c3dce96b';
 
@@ -26,11 +27,11 @@ final class CreationAllowanceRepositoryTest extends RepositoryContractTestCase
 
         $repository = new CreationAllowanceRepository(self::entityManager());
 
-        self::assertTrue($repository->isAllowedToCreateACharacter(new CharacterOwner($ownerUuid)));
+        self::assertFalse($repository->ownerHasReachedCharacterLimit(new CharacterOwner($ownerUuid)));
     }
 
     /**
-     * @throws Exception
+     * @throws CreationLimitCheckerDoesNotExistException|Exception
      */
     public function testItTellsAnOwnerWhoReachedLimitCannotCreateACharacter(): void
     {
@@ -40,7 +41,20 @@ final class CreationAllowanceRepositoryTest extends RepositoryContractTestCase
 
         $repository = new CreationAllowanceRepository(self::entityManager());
 
-        self::assertFalse($repository->isAllowedToCreateACharacter(new CharacterOwner($ownerUuid)));
+        self::assertTrue($repository->ownerHasReachedCharacterLimit(new CharacterOwner($ownerUuid)));
+    }
+
+    /**
+     * @throws CreationLimitCheckerDoesNotExistException|Exception
+     */
+    public function testItReturnsThrowsAnExceptionIfRecordIsMissing(): void
+    {
+        $uuidWithoutMatchingOwner = 'bab0e158-b148-4a3f-800a-655028da4934';
+
+        $repository = new CreationAllowanceRepository(self::entityManager());
+
+        self::expectException(CreationLimitCheckerDoesNotExistException::class);
+        $repository->ownerHasReachedCharacterLimit(new CharacterOwner($uuidWithoutMatchingOwner));
     }
 
     /**

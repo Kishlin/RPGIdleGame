@@ -8,5 +8,8 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 
 interface CreationAllowanceGateway
 {
-    public function isAllowedToCreateACharacter(CharacterOwner $characterOwner): bool;
+    /**
+     * @throws CreationLimitCheckerDoesNotExistException
+     */
+    public function ownerHasReachedCharacterLimit(CharacterOwner $characterOwner): bool;
 }

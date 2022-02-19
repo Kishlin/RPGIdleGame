@@ -20,11 +20,11 @@ final class CreateCharacterCommandHandler implements CommandHandler
     }
 
     /**
-     * @throws HasReachedCharacterLimitException
+     * @throws CreationLimitCheckerDoesNotExistException|HasReachedCharacterLimitException
      */
     public function __invoke(CreateCharacterCommand $command): CharacterId
     {
-        if (false === $this->canCreateCharacterGateway->isAllowedToCreateACharacter($command->characterOwner())) {
+        if (true === $this->canCreateCharacterGateway->ownerHasReachedCharacterLimit($command->characterOwner())) {
             throw new HasReachedCharacterLimitException();
         }
 

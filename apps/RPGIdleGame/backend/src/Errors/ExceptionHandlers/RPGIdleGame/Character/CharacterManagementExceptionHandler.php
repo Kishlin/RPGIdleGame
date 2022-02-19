@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Apps\RPGIdleGame\Backend\Errors\ExceptionHandlers\RPGIdleGame\Character;
 
 use Kishlin\Apps\RPGIdleGame\Backend\Errors\KernelExceptionHandler;
+use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreationLimitCheckerDoesNotExistException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\HasReachedCharacterLimitException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionIsNotAllowedException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
@@ -27,6 +28,10 @@ final class CharacterManagementExceptionHandler implements KernelExceptionHandle
 
         if ($e instanceof DeletionIsNotAllowedException || $e instanceof CharacterNotFoundException) {
             return new JsonResponse(status: Response::HTTP_FORBIDDEN);
+        }
+
+        if ($e instanceof CreationLimitCheckerDoesNotExistException) {
+            return new JsonResponse(status: Response::HTTP_UNAUTHORIZED);
         }
 
         return null;
