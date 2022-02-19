@@ -28,7 +28,7 @@ const TranslationsEN: Translations = {
         character: {
             formSkillPoints: {
                 title: 'Distribute skill points to #character_name#',
-                helperNextSkillLevel: 'Next level costs #nextCost# points.',
+                helperNextSkillLevel: 'Next level will cost #nextCost# points.',
                 subtitleAvailable: 'Available: #available#.',
                 subtitleCost: 'Current operation\'s cost: #cost#.',
                 warning: 'Changes will not be reversible after the operation is confirmed.',
