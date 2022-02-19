@@ -6,7 +6,11 @@ import { UserContext } from '../../context/UserContext';
 import CharacterInfoBox from '../../components/Character/CharacterInfoBox';
 import NavigationButton from '../../components/Navigation/NavigationButton';
 
+import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
+
 function DistributeSkillPoints(): JSX.Element {
+    useAuthenticatedPage();
+
     const { characters } = useContext<UserContextType>(UserContext);
 
     const { id } = useParams();

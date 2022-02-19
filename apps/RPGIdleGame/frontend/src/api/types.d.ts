@@ -21,7 +21,6 @@ declare type LogOutApi = (
 
 declare type AllCharactersApi = (
     onCharactersListResponse: (characters: Array<Character>) => void,
-    onAuthenticationFailed: () => void,
 ) => void;
 
 declare type CreateCharacterApi = (

@@ -9,8 +9,11 @@ import NavigationButton from '../components/Navigation/NavigationButton';
 import SignUpForm from '../components/Forms/SignUp/SignUpForm';
 
 import signUpUsingFetch from '../api/signUp';
+import useAnonymousPage from '../hooks/useAnonymousPage';
 
 function SignUp(): JSX.Element {
+    useAnonymousPage();
+
     const { isAuthenticated, connect } = useContext<UserContextType>(UserContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);

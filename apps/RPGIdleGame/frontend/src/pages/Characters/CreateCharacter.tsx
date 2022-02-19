@@ -8,9 +8,13 @@ import { UserContext } from '../../context/UserContext';
 import CreateCharacterForm from '../../components/Forms/CreateCharacter/CreacteCharacterForm';
 import LayoutAuthenticated from '../../components/Layout/LayoutAuthenticated';
 import NavigationButton from '../../components/Navigation/NavigationButton';
+
+import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
 import createCharacterUsingFetch from '../../api/createCharacter';
 
 function CreateCharacter(): JSX.Element {
+    useAuthenticatedPage();
+
     const { t } = useContext<LangContextType>(LangContext);
     const { addCharacter } = useContext<UserContextType>(UserContext);
 

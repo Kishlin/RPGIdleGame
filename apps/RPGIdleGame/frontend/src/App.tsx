@@ -20,6 +20,7 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 
 import getAllCharactersUsingFetch from './api/allCharacters';
+import refreshAuthenticationUsingFetch from './api/account/refreshAuthentication';
 
 function App(): JSX.Element {
     const {
@@ -31,18 +32,33 @@ function App(): JSX.Element {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(
-        () => getAllCharactersUsingFetch(
+    const onRefreshAuthenticationResponse = (response: Response) => {
+        if (false === response.ok) {
+            disconnect();
+            setIsLoading(false);
+
+            return;
+        }
+
+        getAllCharactersUsingFetch(
             (characters: Character[]) => {
                 setCharactersFromArray(characters);
                 connect();
 
                 setIsLoading(false);
             },
-            () => {
-                disconnect();
-                setIsLoading(false);
-            },
+        );
+    };
+
+    const onRefreshAuthenticationFailure = () => {
+        disconnect();
+        setIsLoading(false);
+    };
+
+    useEffect(
+        () => refreshAuthenticationUsingFetch(
+            onRefreshAuthenticationResponse,
+            onRefreshAuthenticationFailure,
         ),
         [],
     );

@@ -11,7 +11,11 @@ import LogInForm from '../components/Forms/Login/LogInForm';
 
 import logInUsingFetch from '../api/logIn';
 
+import useAnonymousPage from '../hooks/useAnonymousPage';
+
 function SignUp(): JSX.Element {
+    useAnonymousPage();
+
     const { isAuthenticated, connect, setCharactersFromArray } = useContext<UserContextType>(UserContext);
     const { t } = useContext<LangContextType>(LangContext);
 

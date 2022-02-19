@@ -5,7 +5,11 @@ import LayoutAuthenticated from '../components/Layout/LayoutAuthenticated';
 import NavigationButton from '../components/Navigation/NavigationButton';
 import CharactersList from '../components/Character/CharactersList';
 
+import useAuthenticatedPage from '../hooks/useAuthenticatedPage';
+
 function AuthenticatedHome(): JSX.Element {
+    useAuthenticatedPage();
+
     return (
         <LayoutAuthenticated>
             <Container maxWidth="sm">

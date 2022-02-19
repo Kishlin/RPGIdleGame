@@ -6,7 +6,11 @@ import { LangContext } from '../context/LangContext';
 import LayoutUnauthenticated from '../components/Layout/LayoutUnauthenticated';
 import NavigationButton from '../components/Navigation/NavigationButton';
 
+import useAnonymousPage from '../hooks/useAnonymousPage';
+
 function UnauthenticatedHome(): JSX.Element {
+    useAnonymousPage();
+
     const { t } = useContext<LangContextType>(LangContext);
 
     return (
