@@ -26,6 +26,7 @@ final class ResponseWithCookieBuilder
         $this->response->headers->setCookie(new Cookie(
             name: 'token',
             value: $dto->token(),
+            expire: '+6 month',
             httpOnly: true,
         ));
 
@@ -37,6 +38,7 @@ final class ResponseWithCookieBuilder
         $this->response->headers->setCookie(new Cookie(
             name: 'refreshToken',
             value: $dto->refreshToken(),
+            expire: '+6 month',
             httpOnly: true,
         ));
 
