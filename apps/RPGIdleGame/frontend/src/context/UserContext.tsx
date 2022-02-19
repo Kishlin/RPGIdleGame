@@ -18,7 +18,7 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
         setCharacters({});
     };
 
-    const addCharacter = (character: Character) => {
+    const addOrReplaceCharacter = (character: Character) => {
         setCharacters({ ...characters, [character.id]: character });
     };
 
@@ -38,7 +38,7 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
             characters,
             connect,
             disconnect,
-            addCharacter,
+            addOrReplaceCharacter,
             setCharactersFromArray,
         }),
         [characters, isAuthenticated],

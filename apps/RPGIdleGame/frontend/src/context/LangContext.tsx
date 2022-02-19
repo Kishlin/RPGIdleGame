@@ -41,7 +41,7 @@ export function LangProvider({ children }: { children: ReactNode }): JSX.Element
             schema = schema[keyList[i]];
         } // schema is now the translation string.
 
-        if ('object' !== typeof parameters || 0 === Object.keys(parameters.length).length) {
+        if ('object' !== typeof parameters || 0 === Object.keys(parameters).length) {
             return schema;
         }
 

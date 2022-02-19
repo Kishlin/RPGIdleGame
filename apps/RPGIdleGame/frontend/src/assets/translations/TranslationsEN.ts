@@ -8,6 +8,14 @@ const TranslationsEN: Translations = {
             },
         },
     },
+    entities: {
+        character: {
+            health: 'Health',
+            attack: 'Attack',
+            defense: 'Defense',
+            magik: 'Magik',
+        },
+    },
     fragments: {
         header: {
             title: 'RPGIdleGame',
@@ -18,6 +26,20 @@ const TranslationsEN: Translations = {
     },
     pages: {
         character: {
+            formSkillPoints: {
+                title: 'Distribute skill points to #character_name#',
+                helperNextSkillLevel: 'Next level costs #nextCost# points.',
+                subtitleAvailable: 'Available: #available#.',
+                subtitleCost: 'Current operation\'s cost: #cost#.',
+                warning: 'Changes will not be reversible after the operation is confirmed.',
+                stats: '(Current: #stat#)',
+                buttons: {
+                    plusOne: '+1',
+                    minusOne: '-1',
+                    submit: 'Confirm operation',
+                    home: 'Cancel',
+                },
+            },
             formCreate: {
                 name: {
                     label: 'Character name',

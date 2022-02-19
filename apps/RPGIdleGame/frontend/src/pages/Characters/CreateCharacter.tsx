@@ -16,7 +16,7 @@ function CreateCharacter(): JSX.Element {
     useAuthenticatedPage();
 
     const { t } = useContext<LangContextType>(LangContext);
-    const { addCharacter } = useContext<UserContextType>(UserContext);
+    const { addOrReplaceCharacter } = useContext<UserContextType>(UserContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
@@ -29,7 +29,7 @@ function CreateCharacter(): JSX.Element {
         createCharacterUsingFetch(
             values,
             (character: Character) => {
-                addCharacter(character);
+                addOrReplaceCharacter(character);
                 setIsLoading(false);
 
                 navigate('/');

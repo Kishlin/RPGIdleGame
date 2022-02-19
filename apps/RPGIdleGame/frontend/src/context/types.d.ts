@@ -12,7 +12,7 @@ declare type UserContextType = {
     isAuthenticated: boolean,
     characters: CharacterList,
     setCharactersFromArray?: (list: Character[]) => void,
-    addCharacter?: (character: Character) => void,
+    addOrReplaceCharacter?: (character: Character) => void,
     disconnect?: () => void,
     connect?: () => void,
 };
