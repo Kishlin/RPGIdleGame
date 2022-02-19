@@ -71,6 +71,7 @@ const TranslationsEN: Translations = {
                 login: 'Otherwise, you can directly log in.',
             },
             authenticated: {
+                limitReached: 'You have reached the limit of characters allowed.',
                 buttons: {
                     createCharacter: 'Create a new Character',
                 },

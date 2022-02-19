@@ -32,6 +32,8 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
         setCharacters(characterList);
     };
 
+    const characterCreationIsAllowed = () => 10 > Object.keys(characters).length;
+
     const context = useMemo<UserContextType>(
         () => ({
             isAuthenticated,
@@ -41,6 +43,7 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
             addOrReplaceCharacter,
             setCharactersFromArray,
             setCharacters,
+            characterCreationIsAllowed,
         }),
         [characters, isAuthenticated],
     );

@@ -14,6 +14,7 @@ declare type UserContextType = {
     setCharactersFromArray?: (list: Character[]) => void,
     addOrReplaceCharacter?: (character: Character) => void,
     setCharacters?: (list: CharacterList) => void,
+    characterCreationIsAllowed?: () => boolean,
     disconnect?: () => void,
     connect?: () => void,
 };

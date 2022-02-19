@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,13 +15,23 @@ import createCharacterUsingFetch from '../../api/createCharacter';
 function CreateCharacter(): JSX.Element {
     useAuthenticatedPage();
 
+    const { addOrReplaceCharacter, characterCreationIsAllowed } = useContext<UserContextType>(UserContext);
+
+    const navigate = useNavigate();
+
+    useEffect(
+        () => {
+            if (false === characterCreationIsAllowed()) {
+                navigate('/');
+            }
+        },
+        [],
+    );
+
     const { t } = useContext<LangContextType>(LangContext);
-    const { addOrReplaceCharacter } = useContext<UserContextType>(UserContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
-
-    const navigate = useNavigate();
 
     const onFormSubmit: onCreateCharacterFormSubmitFunction = (values) => {
         setIsLoading(true);
@@ -30,7 +40,6 @@ function CreateCharacter(): JSX.Element {
             values,
             (character: Character) => {
                 addOrReplaceCharacter(character);
-                setIsLoading(false);
 
                 navigate('/');
             },
