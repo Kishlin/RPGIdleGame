@@ -14,14 +14,14 @@ import DeleteCharacter from './pages/Characters/DeleteCharacter';
 import CreateCharacter from './pages/Characters/CreateCharacter';
 import UnauthenticatedHome from './pages/UnauthenticatedHome';
 import AuthenticatedHome from './pages/AuthenticatedHome';
+import ViewFight from './pages/Fight/ViewFight';
 import CheckHealth from './pages/CheckHealth';
 import AppLoading from './pages/AppLoading';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
+import SignUp from './pages/Account/SignUp';
+import Login from './pages/Account/Login';
 
-import getAllCharactersUsingFetch from './api/allCharacters';
 import refreshAuthenticationUsingFetch from './api/account/refreshAuthentication';
-import ViewFight from './pages/Fight/ViewFight';
+import getAllCharactersUsingFetch from './api/character/allCharacters';
 
 function App(): JSX.Element {
     const {

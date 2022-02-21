@@ -2,18 +2,18 @@ import React, { useContext, useState } from 'react';
 import { Container, Grid } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
-import { UserContext } from '../context/UserContext';
-import { LangContext } from '../context/LangContext';
+import { UserContext } from '../../context/UserContext';
+import { LangContext } from '../../context/LangContext';
 
-import LayoutUnauthenticated from '../components/Layout/LayoutUnauthenticated';
-import NavigationButton from '../components/Navigation/NavigationButton';
-import LogInForm from '../components/Forms/Login/LogInForm';
+import LayoutUnauthenticated from '../../components/Layout/LayoutUnauthenticated';
+import NavigationButton from '../../components/Navigation/NavigationButton';
+import LogInForm from '../../components/Forms/Login/LogInForm';
 
-import logInUsingFetch from '../api/logIn';
+import logInUsingFetch from '../../api/account/logIn';
 
-import useAnonymousPage from '../hooks/useAnonymousPage';
+import useAnonymousPage from '../../hooks/useAnonymousPage';
 
-function SignUp(): JSX.Element {
+function LogIn(): JSX.Element {
     useAnonymousPage();
 
     const { isAuthenticated, connect, setCharactersFromArray } = useContext<UserContextType>(UserContext);
@@ -61,4 +61,4 @@ function SignUp(): JSX.Element {
     );
 }
 
-export default SignUp;
+export default LogIn;

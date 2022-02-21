@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Container, Grid } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 
-import LayoutUnauthenticated from '../components/Layout/LayoutUnauthenticated';
-import NavigationButton from '../components/Navigation/NavigationButton';
-import SignUpForm from '../components/Forms/SignUp/SignUpForm';
+import LayoutUnauthenticated from '../../components/Layout/LayoutUnauthenticated';
+import NavigationButton from '../../components/Navigation/NavigationButton';
+import SignUpForm from '../../components/Forms/SignUp/SignUpForm';
 
-import signUpUsingFetch from '../api/signUp';
-import useAnonymousPage from '../hooks/useAnonymousPage';
+import signUpUsingFetch from '../../api/account/signUp';
+import useAnonymousPage from '../../hooks/useAnonymousPage';
 
 function SignUp(): JSX.Element {
     useAnonymousPage();

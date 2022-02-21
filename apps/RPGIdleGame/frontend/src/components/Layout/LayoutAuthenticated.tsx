@@ -11,7 +11,7 @@ import { LangContext } from '../../context/LangContext';
 
 import Header from '../Fragments/Header';
 
-import logOutUsingFetch from '../../api/logOut';
+import logOutUsingFetch from '../../api/account/logOut';
 
 function LayoutAuthenticated({ children }: { children: React.ReactNode }): JSX.Element {
     const { disconnect } = useContext<UserContextType>(UserContext);

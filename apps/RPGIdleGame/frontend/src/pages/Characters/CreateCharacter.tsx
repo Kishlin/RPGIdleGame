@@ -10,7 +10,7 @@ import LayoutAuthenticated from '../../components/Layout/LayoutAuthenticated';
 import NavigationButton from '../../components/Navigation/NavigationButton';
 
 import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
-import createCharacterUsingFetch from '../../api/createCharacter';
+import createCharacterUsingFetch from '../../api/character/createCharacter';
 
 function CreateCharacter(): JSX.Element {
     useAuthenticatedPage();

@@ -3,6 +3,13 @@ declare module '*.svg' {
     export default content;
 }
 
+declare module 'base-64' {
+    const base64: {
+        encode: (value: string) => string
+    };
+    export default base64;
+}
+
 declare interface Character {
     [key: string]: string|number,
     id: string,
