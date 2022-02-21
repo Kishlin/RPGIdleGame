@@ -21,7 +21,7 @@ function AuthenticatedHome(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
                 <Stack spacing={3}>
                     <CharactersList />
 

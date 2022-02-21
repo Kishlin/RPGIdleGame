@@ -4,6 +4,7 @@ declare module '*.svg' {
 }
 
 declare interface Character {
+    [key: string]: string|number,
     id: string,
     owner: string,
     name: string,

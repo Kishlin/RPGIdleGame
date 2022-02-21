@@ -3,7 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import { UserContext } from '../../context/UserContext';
 
-import CharacterInfoBox from '../../components/Character/CharacterInfoBox';
+import CharacterCard from '../../components/Character/CharacterCard';
 import NavigationButton from '../../components/Navigation/NavigationButton';
 
 import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
@@ -25,7 +25,7 @@ function FightWithCharacter(): JSX.Element {
         <>
             <p>Fight</p>
 
-            <CharacterInfoBox character={character} />
+            <CharacterCard character={character} withActions={false} />
 
             <NavigationButton text="pages.character.links.homepage" to="/" />
         </>

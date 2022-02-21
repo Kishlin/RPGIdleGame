@@ -1,8 +1,14 @@
 const TranslationsEN: Translations = {
     components: {
         character: {
+            meta: {
+                rank: 'Rank: #rank#',
+                skillPoints: 'Skill Points: #skillPoints#',
+                stats: 'Fights: #fights# (#wins# - #draws# - #losses#)',
+            },
             links: {
                 skillPoints: 'Distribute skill points',
+                details: 'Details',
                 delete: 'Delete',
                 fight: 'Fight',
             },
@@ -33,7 +39,7 @@ const TranslationsEN: Translations = {
                 validation3: 'The character will be gone forever.',
                 validation4: 'For. Ever.',
                 buttons: {
-                    doDelete: 'Yes. Delete forever',
+                    doDelete: 'I\'m sure, delete forever',
                     home: 'Safely go back to home',
                 },
             },
