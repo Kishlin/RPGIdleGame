@@ -11,10 +11,12 @@ declare type LangContextType = {
 declare type UserContextType = {
     isAuthenticated: boolean,
     characters: CharacterList,
+    fights: FightList,
     setCharactersFromArray?: (list: Character[]) => void,
     addOrReplaceCharacter?: (character: Character) => void,
     setCharacters?: (list: CharacterList) => void,
     characterCreationIsAllowed?: () => boolean,
+    storeFight?: (fight: Fight) => void,
     disconnect?: () => void,
     connect?: () => void,
 };

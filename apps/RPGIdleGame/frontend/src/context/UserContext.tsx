@@ -5,11 +5,12 @@ import React, {
     useState,
 } from 'react';
 
-export const UserContext = createContext<UserContextType>({ isAuthenticated: false, characters: {} });
+export const UserContext = createContext<UserContextType>({ isAuthenticated: false, characters: {}, fights: {} });
 
 export function UserProvider({ children }: { children: ReactNode }): JSX.Element {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [characters, setCharacters] = useState<CharacterList>({});
+    const [fights, setFights] = useState<FightList>({});
 
     const connect = () => setIsAuthenticated(true);
 
@@ -34,18 +35,24 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
 
     const characterCreationIsAllowed = () => 10 > Object.keys(characters).length;
 
+    const storeFight = (fight: Fight) => {
+        setFights({ ...fights, [fight.id]: fight });
+    };
+
     const context = useMemo<UserContextType>(
         () => ({
             isAuthenticated,
             characters,
+            fights,
             connect,
             disconnect,
             addOrReplaceCharacter,
             setCharactersFromArray,
             setCharacters,
             characterCreationIsAllowed,
+            storeFight,
         }),
-        [characters, isAuthenticated],
+        [characters, fights, isAuthenticated],
     );
 
     return (

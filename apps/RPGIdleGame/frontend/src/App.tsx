@@ -21,6 +21,7 @@ import Login from './pages/Login';
 
 import getAllCharactersUsingFetch from './api/allCharacters';
 import refreshAuthenticationUsingFetch from './api/account/refreshAuthentication';
+import ViewFight from './pages/Fight/ViewFight';
 
 function App(): JSX.Element {
     const {
@@ -79,6 +80,10 @@ function App(): JSX.Element {
                         <Route path="fight" element={isAuthenticated ? <FightWithCharacter /> : <Navigate to="/" />} />
                         <Route path="delete" element={isAuthenticated ? <DeleteCharacter /> : <Navigate to="/" />} />
                     </Route>
+                </Route>
+
+                <Route path="/fight">
+                    <Route path=":id" element={isAuthenticated ? <ViewFight /> : <Navigate to="/" />} />
                 </Route>
 
                 <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <UnauthenticatedHome />} />

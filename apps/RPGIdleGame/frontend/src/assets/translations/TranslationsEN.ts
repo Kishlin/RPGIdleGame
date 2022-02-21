@@ -43,6 +43,22 @@ const TranslationsEN: Translations = {
                     home: 'Safely go back to home',
                 },
             },
+            fight: {
+                title: 'Fight with #name#',
+                explanations1: 'You will be matched against an opponent close to your own level. '
+                    + 'Fights are random and turn-based. '
+                    + 'Each turn, the attacker rolls a dice from 1 to its attack stat (minimum 1). '
+                    + 'If the roll equals the magik stat, it is multiplied by two. '
+                    + 'The defender\'s defense is then subtracted before it loses health points. ',
+                explanations2: 'If you win, you gain one skill points and rank up by one. '
+                    + 'If you lose, you rank down, but not lower than Rank 1. '
+                    + 'Nothing happens if it is a draw (both fighter\'s ).',
+                doFight: 'Fight now',
+                errors: {
+                    noOpponent: 'No opponent available, please try again later.',
+                    unknown: 'Failed to fight, please try again later.',
+                },
+            },
             formSkillPoints: {
                 title: 'Distribute skill points to #character_name#',
                 helperNextSkillLevel: 'Next level will cost #nextCost# points.',

@@ -20,4 +20,35 @@ declare interface Character {
     losses_count: number,
 }
 
+declare interface FightParticipant {
+    character_name: string,
+    account_username: string,
+    health: number,
+    attack: number,
+    defense: number,
+    magik: number,
+    rank: number
+}
+
+declare interface FightTurn {
+    index: number,
+    character_name: string,
+    attacker_attack: number,
+    attacker_dice_roll: number,
+    attacker_magik: number,
+    damage_dealt: number,
+    defender_defense: number,
+    defender_health: number,
+}
+
+declare interface Fight {
+    id: string,
+    initiator: FightParticipant,
+    opponent: FightParticipant,
+    turns: FightTurn[],
+    winner_id: null|number
+}
+
 declare type CharacterList = { [key: string]: Character };
+
+declare type FightList = { [key: string]: Fight };
