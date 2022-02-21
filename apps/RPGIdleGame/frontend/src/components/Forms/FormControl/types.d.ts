@@ -19,4 +19,6 @@ declare type ButtonSubmitProps = {
     text: string
     disabled: boolean,
     onFormSubmit: () => void,
+    // @ts-ignore
+    endIcon: OverridableComponent<SvgIconTypeMap>
 }

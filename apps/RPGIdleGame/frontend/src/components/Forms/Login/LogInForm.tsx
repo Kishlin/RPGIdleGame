@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Stack, Typography } from '@mui/material';
+import { AccountCircle } from '@mui/icons-material';
 
 import { LangContext } from '../../../context/LangContext';
 
@@ -47,6 +48,7 @@ function LogInForm({ onFormSubmit, error, isLoading }: LogInFormProps): JSX.Elem
                 text={t('pages.login.form.buttons.submit')}
                 disabled={formIsIncomplete || isLoading}
                 onFormSubmit={() => onFormSubmit({ email, password })}
+                endIcon={<AccountCircle />}
             />
         </Stack>
     );

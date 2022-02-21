@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Stack, Typography } from '@mui/material';
+import { Add } from '@mui/icons-material';
 
 import { LangContext } from '../../../context/LangContext';
 
@@ -27,8 +28,9 @@ function CreateCharacterForm({ onFormSubmit, error, isLoading }: CreateCharacter
 
             <ButtonSubmit
                 text={t('pages.character.formCreate.buttons.submit')}
-                disabled={formIsIncomplete || isLoading}
                 onFormSubmit={() => onFormSubmit({ name })}
+                disabled={formIsIncomplete || isLoading}
+                endIcon={<Add />}
             />
         </Stack>
     );

@@ -1,14 +1,18 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-function ButtonSubmit({ text, disabled, onFormSubmit }: ButtonSubmitProps): JSX.Element {
+function ButtonSubmit({
+    text,
+    disabled,
+    onFormSubmit,
+    endIcon,
+}: ButtonSubmitProps): JSX.Element {
     return (
         <Button
             variant="contained"
             disabled={disabled}
             onClick={onFormSubmit}
-            endIcon={<AccountCircleIcon />}
+            endIcon={endIcon}
         >
             {text}
         </Button>

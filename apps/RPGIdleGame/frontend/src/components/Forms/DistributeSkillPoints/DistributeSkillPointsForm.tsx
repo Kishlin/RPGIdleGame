@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { Check } from '@mui/icons-material';
 import {
     Grid,
     Stack,
@@ -90,6 +91,7 @@ function distributeSkillPointsForm({
             <ButtonSubmit
                 text={t('pages.character.formSkillPoints.buttons.submit')}
                 disabled={isLoading || costsMoreThanPointsAvailable || 0 === cost}
+                endIcon={<Check />}
                 onFormSubmit={() => onFormSubmit({
                     health,
                     attack,
