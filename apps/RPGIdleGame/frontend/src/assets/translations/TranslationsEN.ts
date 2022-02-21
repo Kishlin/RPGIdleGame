@@ -21,6 +21,31 @@ const TranslationsEN: Translations = {
             defense: 'Defense',
             magik: 'Magik',
         },
+        fight: {
+            vs: 'VS',
+            participant: {
+                headline: '#player# - #fighter#, Rank #rank#',
+                health: 'Health',
+                attack: 'Attack',
+                defense: 'Defense',
+                magik: 'Magik',
+            },
+            draw: 'This fight was a draw because nobody had any chance to damage the other.',
+            noTurns: 'A participant had no chance to damage the other, because its maximum damage output is not greater than the other\'s defense.',
+            turns: {
+                checkbox: {
+                    allTurns: 'Show turns with 0 damages dealt',
+                },
+                header: {
+                    index: 'Turn',
+                    attacker: 'Attacker',
+                    diceRoll: 'Dice Roll',
+                    defenderDefense: 'Defender Defense',
+                    damage: 'Damage',
+                    defenderHealth: 'Defender Health',
+                },
+            },
+        },
     },
     fragments: {
         header: {

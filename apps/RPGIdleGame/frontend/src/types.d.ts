@@ -28,6 +28,7 @@ declare interface Character {
 }
 
 declare interface FightParticipant {
+    [key: string]: string|number,
     character_name: string,
     account_username: string,
     health: number,

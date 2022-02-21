@@ -4,9 +4,11 @@ import { Container } from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 
-import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
 import LayoutAuthenticated from '../../components/Layout/LayoutAuthenticated';
+import FightView from '../../components/Fight/FightView';
 import Loading from '../../components/Loading/Loading';
+
+import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
 import viewFightUsingFetch from '../../api/fight/viewFight';
 
 function ViewFight(): JSX.Element {
@@ -29,7 +31,7 @@ function ViewFight(): JSX.Element {
         [fights],
     );
 
-    const content = null === fight ? <Loading /> : <p>{fight.id}</p>;
+    const content = null === fight ? <Loading /> : <FightView fight={fight} />;
 
     return (
         <LayoutAuthenticated>
