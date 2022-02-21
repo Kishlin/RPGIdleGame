@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Container } from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
@@ -20,7 +20,7 @@ function DistributeSkillPoints(): JSX.Element {
     const character = characters[id];
 
     if (undefined === character) {
-        navigate('/');
+        return <Navigate to="/" />;
     }
 
     const [isLoading, setIsLoading] = useState<boolean>(false);

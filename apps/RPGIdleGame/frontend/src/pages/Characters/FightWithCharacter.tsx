@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
     Button,
     Container,
@@ -32,7 +32,7 @@ function FightWithCharacter(): JSX.Element {
     const character = characters[id];
 
     if (undefined === character) {
-        navigate('/');
+        return <Navigate to="/" />;
     }
 
     const onFightResponse = (response: Response) => {
