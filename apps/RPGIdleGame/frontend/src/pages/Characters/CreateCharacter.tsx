@@ -41,7 +41,7 @@ function CreateCharacter(): JSX.Element {
             (character: Character) => {
                 addOrReplaceCharacter(character);
 
-                navigate('/');
+                navigate(`/character/${character.id}/skill-points`);
             },
             () => {
                 setIsLoading(false);
