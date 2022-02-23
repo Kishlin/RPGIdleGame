@@ -30,6 +30,7 @@ function distributeSkillPointsForm({
     const skillPointCostComputer = (value: number): number => Math.ceil((value) / 5);
 
     const costModifier = (value: number): void => setCost(cost + value);
+    const availablePoints = character.skill_points - cost;
 
     return (
         <Stack spacing={3}>
@@ -54,6 +55,7 @@ function distributeSkillPointsForm({
                 label="entities.character.health"
                 skillLevel={character.health}
                 amountToAdd={health}
+                availablePoints={availablePoints}
                 amountToAddSetter={setHealth}
                 costModifier={costModifier}
                 costComputer={healthPointCostComputer}
@@ -63,6 +65,7 @@ function distributeSkillPointsForm({
                 label="entities.character.attack"
                 skillLevel={character.attack}
                 amountToAdd={attack}
+                availablePoints={availablePoints}
                 amountToAddSetter={setAttack}
                 costModifier={costModifier}
                 costComputer={skillPointCostComputer}
@@ -72,6 +75,7 @@ function distributeSkillPointsForm({
                 label="entities.character.defense"
                 skillLevel={character.defense}
                 amountToAdd={defense}
+                availablePoints={availablePoints}
                 amountToAddSetter={setDefense}
                 costModifier={costModifier}
                 costComputer={skillPointCostComputer}
@@ -81,6 +85,7 @@ function distributeSkillPointsForm({
                 label="entities.character.magik"
                 skillLevel={character.magik}
                 amountToAdd={magik}
+                availablePoints={availablePoints}
                 amountToAddSetter={setMagik}
                 costModifier={costModifier}
                 costComputer={skillPointCostComputer}

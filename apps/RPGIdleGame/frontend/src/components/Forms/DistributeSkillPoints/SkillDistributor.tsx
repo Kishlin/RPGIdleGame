@@ -8,6 +8,7 @@ function SkillDistributor({
     label,
     skillLevel,
     amountToAdd,
+    availablePoints,
     amountToAddSetter,
     costComputer,
     costModifier,
@@ -37,7 +38,7 @@ function SkillDistributor({
                     <Typography>{skillLevel}</Typography>
                     <ArrowRightAlt />
                     <Typography>{skillLevel + amountToAdd}</Typography>
-                    <Button onClick={onPlusOneClick} variant="contained" color="success">
+                    <Button disabled={nextLevelCost > availablePoints} onClick={onPlusOneClick} variant="contained" color="success">
                         {t('pages.character.formSkillPoints.buttons.plusOne')}
                     </Button>
                 </Grid>
