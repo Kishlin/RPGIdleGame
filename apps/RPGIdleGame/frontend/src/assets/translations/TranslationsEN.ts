@@ -46,6 +46,15 @@ const TranslationsEN: Translations = {
                 },
             },
         },
+        shortFight: {
+            tooltipRank: 'Rank before the fight',
+            detailsLink: 'Details',
+            initiatorName: 'Initiator',
+            initiatorRank: 'Rank',
+            opponentName: 'Opponent',
+            opponentRank: 'Rank',
+            winner: 'Winner',
+        },
     },
     fragments: {
         header: {
@@ -109,6 +118,12 @@ const TranslationsEN: Translations = {
             },
             links: {
                 homepage: 'Back to home',
+            },
+            view: {
+                title: 'Character #name#',
+                rank: 'Rank: #rank#',
+                score: 'Score: #wins# - #draws# - #losses#',
+                home: 'Back to Home',
             },
         },
         home: {

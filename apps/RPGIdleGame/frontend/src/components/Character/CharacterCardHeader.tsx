@@ -1,15 +1,19 @@
-import React from 'react';
-import { CardHeader, IconButton } from '@mui/material';
+import { CardHeader } from '@mui/material';
 import { Add } from '@mui/icons-material';
+import React from 'react';
 
-function CharacterCardHeader({ name }: CharacterCardHeaderProps): JSX.Element {
+import NavigationIcon from '../Navigation/NavigationIcon';
+
+function CharacterCardHeader({ id, name }: CharacterCardHeaderProps): JSX.Element {
     return (
         <CardHeader
             title={name}
             action={(
-                <IconButton aria-label="details">
-                    <Add />
-                </IconButton>
+                <NavigationIcon
+                    to={`/character/${id}/details`}
+                    icon={<Add />}
+                    label="components.character.links.details"
+                />
             )}
         />
     );

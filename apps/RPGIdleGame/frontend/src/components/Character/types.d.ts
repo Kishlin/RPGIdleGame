@@ -4,6 +4,7 @@ declare type CharacterCardProps = {
 };
 
 declare type CharacterCardHeaderProps = {
+    id: string,
     name: string,
 };
 

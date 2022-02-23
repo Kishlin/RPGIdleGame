@@ -57,6 +57,15 @@ declare interface Fight {
     winner_id: null|number
 }
 
+declare interface FightShort {
+    id: string,
+    initiator_name: string,
+    initiator_rank: number,
+    opponent_name: string,
+    opponent_rank: number,
+    winner_id: string
+}
+
 declare type CharacterList = { [key: string]: Character };
 
 declare type FightList = { [key: string]: Fight };

@@ -10,6 +10,7 @@ import { UserContext } from './context/UserContext';
 
 import DistributeSkillPoints from './pages/Characters/DistributeSkillPoints';
 import FightWithCharacter from './pages/Characters/FightWithCharacter';
+import CharacterDetails from './pages/Characters/CharacterDetails';
 import DeleteCharacter from './pages/Characters/DeleteCharacter';
 import CreateCharacter from './pages/Characters/CreateCharacter';
 import UnauthenticatedHome from './pages/UnauthenticatedHome';
@@ -76,6 +77,7 @@ function App(): JSX.Element {
                 <Route path="/character">
                     <Route path="new" element={isAuthenticated ? <CreateCharacter /> : <Navigate to="/" />} />
                     <Route path=":id">
+                        <Route path="details" element={isAuthenticated ? <CharacterDetails /> : <Navigate to="/" />} />
                         <Route path="skill-points" element={isAuthenticated ? <DistributeSkillPoints /> : <Navigate to="/" />} />
                         <Route path="fight" element={isAuthenticated ? <FightWithCharacter /> : <Navigate to="/" />} />
                         <Route path="delete" element={isAuthenticated ? <DeleteCharacter /> : <Navigate to="/" />} />

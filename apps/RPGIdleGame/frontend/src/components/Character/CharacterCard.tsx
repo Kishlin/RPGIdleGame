@@ -8,7 +8,7 @@ import CharacterCardActions from './CharacterCardActions';
 function CharacterCard({ character, withActions }: CharacterCardProps): JSX.Element {
     return (
         <Card>
-            <CharacterCardHeader name={character.name} />
+            <CharacterCardHeader name={character.name} id={character.id} />
             <CharacterCardContent character={character} />
             {withActions ? <CharacterCardActions id={character.id} /> : <noscript />}
         </Card>
