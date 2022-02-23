@@ -12,6 +12,7 @@ final class AccountSignupContext extends RPGIdleGameAPIContext
     /**
      * @Given /^a client has an account$/
      * @Given /^an account already exists with the email$/
+     * @Given /^an account already exists with the username$/
      *
      * @noinspection SpellCheckingInspection
      */
@@ -31,6 +32,7 @@ SQL
     /**
      * @When /^a client creates an account$/
      * @When /^a client creates an account with the same email$/
+     * @When /^a client creates an account with the same username$/
      */
     public function aClientCreatesAnAccount(): void
     {

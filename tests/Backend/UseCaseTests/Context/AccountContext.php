@@ -9,7 +9,7 @@ use Kishlin\Backend\Account\Application\Authenticate\AuthenticateCommand;
 use Kishlin\Backend\Account\Application\Authenticate\AuthenticationDeniedException;
 use Kishlin\Backend\Account\Application\RefreshAuthentication\CannotRefreshAuthenticationException;
 use Kishlin\Backend\Account\Application\RefreshAuthentication\RefreshAuthenticationCommand;
-use Kishlin\Backend\Account\Application\Signup\AnAccountAlreadyUsesTheEmailException;
+use Kishlin\Backend\Account\Application\Signup\AnAccountAlreadyExistsException;
 use Kishlin\Backend\Account\Application\Signup\SignupCommand;
 use Kishlin\Backend\Account\Domain\Account;
 use Kishlin\Backend\Account\Domain\ValueObject\AccountEmail;
@@ -51,12 +51,13 @@ final class AccountContext extends RPGIdleGameContext
 
     /**
      * @Given /^an account already exists with the email$/
+     * @Given /^an account already exists with the username$/
      */
     public function anAccountAlreadyExistsWithTheEmail(): void
     {
         self::container()->accountGatewaySpy()->save(Account::createActiveAccount(
             new AccountId(self::EXISTING_ACCOUNT_UUID),
-            new AccountUsername('Existing'),
+            new AccountUsername('User'),
             new AccountPassword('password'),
             new AccountEmail(self::EMAIL_TO_USE),
             new AccountSalt('salt'),
@@ -66,6 +67,7 @@ final class AccountContext extends RPGIdleGameContext
     /**
      * @When /^a client creates an account$/
      * @When /^a client creates an account with the same email$/
+     * @When /^a client creates an account with the same username$/
      */
     public function aClientCreatesAnAccount(): void
     {
@@ -82,7 +84,7 @@ final class AccountContext extends RPGIdleGameContext
             assert($response instanceof AccountId);
 
             $this->accountId = $response;
-        } catch (AnAccountAlreadyUsesTheEmailException $e) {
+        } catch (AnAccountAlreadyExistsException $e) {
             $this->exceptionThrown = $e;
             $this->accountId       = null;
         }
@@ -218,7 +220,7 @@ final class AccountContext extends RPGIdleGameContext
     public function itDidRegisterTheNewAccount(): void
     {
         Assert::assertNotNull($this->exceptionThrown);
-        Assert::assertInstanceOf(AnAccountAlreadyUsesTheEmailException::class, $this->exceptionThrown);
+        Assert::assertInstanceOf(AnAccountAlreadyExistsException::class, $this->exceptionThrown);
 
         Assert::assertNotContains(
             self::NEW_ACCOUNT_UUID,

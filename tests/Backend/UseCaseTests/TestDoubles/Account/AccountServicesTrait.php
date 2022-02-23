@@ -109,6 +109,7 @@ trait AccountServicesTrait
             $this->signupCommandHandler = new SignupCommandHandler(
                 $this->accountGatewaySpy(),
                 $this->accountGatewaySpy(),
+                $this->accountGatewaySpy(),
                 $this->saltGenerator(),
                 $this->eventDispatcher(),
             );

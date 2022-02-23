@@ -31,7 +31,10 @@ services:
     class: 'Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountReaderRepository'
 
   Kishlin\Backend\Account\Application\Signup\AccountWithEmailGateway:
-    class: 'Kishlin\Backend\Account\Infrastructure\Persistence\Doctrine\AccountWithEmailRepository'
+    alias: 'Kishlin\Backend\Account\Domain\AccountReaderGateway'
+
+  Kishlin\Backend\Account\Application\Signup\AccountWithUsernameGateway:
+    alias: 'Kishlin\Backend\Account\Domain\AccountReaderGateway'
 
 
   ##> Security

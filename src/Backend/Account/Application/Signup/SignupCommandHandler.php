@@ -15,6 +15,7 @@ use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 final class SignupCommandHandler implements CommandHandler
 {
     public function __construct(
+        private AccountWithUsernameGateway $accountWithUsernameGateway,
         private AccountWithEmailGateway $accountWithEmailGateway,
         private AccountGateway $accountGateway,
         private SaltGenerator $saltGenerator,
@@ -23,10 +24,18 @@ final class SignupCommandHandler implements CommandHandler
     }
 
     /**
-     * @throws AnAccountAlreadyUsesTheEmailException
+     * @throws AnAccountAlreadyExistsException
      */
     public function __invoke(SignupCommand $command): AccountId
     {
+        if ($this->accountWithUsernameGateway->thereAlreadyIsAnAccountWithUsername($command->username())) {
+            throw new AnAccountAlreadyExistsException('username');
+        }
+
+        if ($this->accountWithEmailGateway->thereAlreadyIsAnAccountWithEmail($command->email())) {
+            throw new AnAccountAlreadyExistsException('email');
+        }
+
         $salt = new AccountSalt($this->saltGenerator->salt());
 
         $account = Account::createActiveAccount(
@@ -36,10 +45,6 @@ final class SignupCommandHandler implements CommandHandler
             $command->email(),
             $salt,
         );
-
-        if ($this->accountWithEmailGateway->thereAlreadyIsAnAccountWithEmail($command->email())) {
-            throw new AnAccountAlreadyUsesTheEmailException($command->email());
-        }
 
         $this->accountGateway->save($account);
 

@@ -170,7 +170,10 @@ const TranslationsEN: Translations = {
                     submit: 'Sign Up',
                 },
                 errors: {
-                    conflict: 'Email already in use.',
+                    conflict: {
+                        email: 'This email is already used.',
+                        username: 'This username is already used.',
+                    },
                     unknown: 'An unexpected error occurred, please try again later.',
                 },
             },

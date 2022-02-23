@@ -30,7 +30,12 @@ function SignUp(): JSX.Element {
             { username, email, password },
             (response: Response) => {
                 if (false === response.ok) {
-                    setError(409 === response.status ? 'conflict' : 'unknown');
+                    if (409 === response.status) {
+                        response.json().then((body: { field: string }) => setError(`conflict.${body.field}`));
+                    } else {
+                        setError('unknown');
+                    }
+
                     setIsLoading(false);
                 } else {
                     connect();
