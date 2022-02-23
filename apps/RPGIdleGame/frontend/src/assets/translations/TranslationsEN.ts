@@ -128,7 +128,7 @@ const TranslationsEN: Translations = {
             form: {
                 title: 'Welcome back!',
                 login: {
-                    label: 'Email',
+                    label: 'Email or username',
                 },
                 password: {
                     label: 'Password',

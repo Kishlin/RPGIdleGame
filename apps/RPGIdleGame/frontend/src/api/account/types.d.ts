@@ -1,5 +1,5 @@
 declare type LogInApi = (
-    params: { email: string, password: string },
+    params: { login: string, password: string },
     onLogInResponse?: (response: Response) => void,
 ) => void;
 

@@ -22,11 +22,11 @@ function LogIn(): JSX.Element {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
 
-    const onFormSubmit: onLogInFormSubmitFunction = ({ email, password }) => {
+    const onFormSubmit: onLogInFormSubmitFunction = ({ login, password }) => {
         setIsLoading(true);
 
         logInUsingFetch(
-            { email, password },
+            { login, password },
             (response: Response) => {
                 if (false === response.ok) {
                     setError(t(`pages.login.form.errors.${401 === response.status ? 'credentials' : 'unknown'}`));

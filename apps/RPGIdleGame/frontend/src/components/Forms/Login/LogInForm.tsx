@@ -11,7 +11,7 @@ import ButtonSubmit from '../FormControl/ButtonSubmit';
 function LogInForm({ onFormSubmit, error, isLoading }: LogInFormProps): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);
 
-    const [email, setEmail] = useState<string>('');
+    const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -20,16 +20,16 @@ function LogInForm({ onFormSubmit, error, isLoading }: LogInFormProps): JSX.Elem
         setShowPassword(!showPassword);
     };
 
-    const formIsIncomplete = '' === email || '' === password;
+    const formIsIncomplete = '' === login || '' === password;
 
     return (
         <Stack spacing={3}>
             <Typography variant="h5">{t('pages.login.form.title')}</Typography>
 
             <FieldText
-                type="email"
-                value={email}
-                changeValue={setEmail}
+                type="text"
+                value={login}
+                changeValue={setLogin}
                 label={t('pages.login.form.login.label')}
             />
 
@@ -47,7 +47,7 @@ function LogInForm({ onFormSubmit, error, isLoading }: LogInFormProps): JSX.Elem
             <ButtonSubmit
                 text={t('pages.login.form.buttons.submit')}
                 disabled={formIsIncomplete || isLoading}
-                onFormSubmit={() => onFormSubmit({ email, password })}
+                onFormSubmit={() => onFormSubmit({ login, password })}
                 endIcon={<AccountCircle />}
             />
         </Stack>

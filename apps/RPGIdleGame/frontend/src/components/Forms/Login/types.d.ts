@@ -1,4 +1,4 @@
-declare type onLogInFormSubmitFunction = (values: { email: string, password: string }) => void;
+declare type onLogInFormSubmitFunction = (values: { login: string, password: string }) => void;
 
 declare type LogInFormProps = {
     onFormSubmit: onLogInFormSubmitFunction,
