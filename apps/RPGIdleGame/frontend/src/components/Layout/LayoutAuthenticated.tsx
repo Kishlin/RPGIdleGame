@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import {
-    Box,
-    Button,
+    Button, Container,
     Fade,
     Grid,
 } from '@mui/material';
@@ -30,9 +29,9 @@ function LayoutAuthenticated({ children }: { children: React.ReactNode }): JSX.E
             />
             <Grid container direction="column" sx={{ mt: '5vh' }}>
                 <Fade appear in easing={{ enter: 'ease-in' }}>
-                    <Box>
+                    <Container maxWidth="md">
                         {children}
-                    </Box>
+                    </Container>
                 </Fade>
             </Grid>
         </>

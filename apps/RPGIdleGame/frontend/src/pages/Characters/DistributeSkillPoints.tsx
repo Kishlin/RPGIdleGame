@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { Container } from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 
@@ -37,13 +36,11 @@ function DistributeSkillPoints(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="sm">
-                <DistributeSkillPointsForm
-                    onFormSubmit={onFormSubmit}
-                    character={character}
-                    isLoading={isLoading}
-                />
-            </Container>
+            <DistributeSkillPointsForm
+                onFormSubmit={onFormSubmit}
+                character={character}
+                isLoading={isLoading}
+            />
         </LayoutAuthenticated>
     );
 }

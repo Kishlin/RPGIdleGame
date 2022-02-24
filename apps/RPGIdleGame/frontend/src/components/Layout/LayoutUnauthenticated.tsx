@@ -9,7 +9,9 @@ function LayoutUnauthenticated({ children }: { children: React.ReactElement }): 
             <Header />
             <Grid container direction="column" sx={{ mt: '5vh' }}>
                 <Fade appear in easing={{ enter: 'ease-in' }}>
-                    {children}
+                    <Grid container maxWidth="md">
+                        {children}
+                    </Grid>
                 </Fade>
             </Grid>
         </>

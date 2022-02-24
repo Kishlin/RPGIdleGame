@@ -32,8 +32,8 @@ function FightView({ fight }: FightViewProps): JSX.Element {
                 <Grid item xs={12} sm={5}>
                     <FightParticipantView result={resultInitiator} participant={fight.initiator} />
                 </Grid>
-                <Grid item xs={12} sm={1}>
-                    <Typography>{t('entities.fight.vs')}</Typography>
+                <Grid item xs={12} sm={1} sx={{ my: 1 }}>
+                    <Typography textAlign="center">{t('entities.fight.vs')}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={5}>
                     <FightParticipantView result={resultOpponent} participant={fight.opponent} />

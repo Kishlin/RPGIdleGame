@@ -1,11 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import {
-    Button,
-    Container,
-    Stack,
-    Typography,
-} from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 import { LangContext } from '../../context/LangContext';
@@ -49,24 +44,22 @@ function DeleteCharacter(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="sm">
-                <Stack spacing={3}>
-                    <Typography variant="h5" color="error">{t('pages.character.delete.title', { name: character.name })}</Typography>
+            <Stack spacing={3}>
+                <Typography variant="h5" color="error">{t('pages.character.delete.title', { name: character.name })}</Typography>
 
-                    <CharacterCard character={character} withActions={false} />
+                <CharacterCard character={character} withActions={false} />
 
-                    <Typography color="error">{t('pages.character.delete.validation1', { name: character.name })}</Typography>
-                    <Typography color="error">{t('pages.character.delete.validation2', { name: character.name })}</Typography>
-                    <Typography color="error">{t('pages.character.delete.validation3', { name: character.name })}</Typography>
-                    <Typography color="error">{t('pages.character.delete.validation4', { name: character.name })}</Typography>
+                <Typography color="error">{t('pages.character.delete.validation1', { name: character.name })}</Typography>
+                <Typography color="error">{t('pages.character.delete.validation2', { name: character.name })}</Typography>
+                <Typography color="error">{t('pages.character.delete.validation3', { name: character.name })}</Typography>
+                <Typography color="error">{t('pages.character.delete.validation4', { name: character.name })}</Typography>
 
-                    <NavigationButton text="pages.character.delete.buttons.home" to="/" color="primary" />
+                <NavigationButton text="pages.character.delete.buttons.home" to="/" color="primary" />
 
-                    <Button onClick={onDeletionConfirmed} disabled={isLoading} variant="contained" color="error">
-                        {t('pages.character.delete.buttons.doDelete', { name: character.name })}
-                    </Button>
-                </Stack>
-            </Container>
+                <Button onClick={onDeletionConfirmed} disabled={isLoading} variant="contained" color="error">
+                    {t('pages.character.delete.buttons.doDelete', { name: character.name })}
+                </Button>
+            </Stack>
         </LayoutAuthenticated>
     );
 }

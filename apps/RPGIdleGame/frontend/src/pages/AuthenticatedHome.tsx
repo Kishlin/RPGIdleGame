@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Container, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import { UserContext } from '../context/UserContext';
 import { LangContext } from '../context/LangContext';
@@ -28,13 +28,11 @@ function AuthenticatedHome(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="md">
-                <Stack spacing={3}>
-                    <CharactersList />
+            <Stack spacing={3}>
+                <CharactersList />
 
-                    { characterCreation }
-                </Stack>
-            </Container>
+                { characterCreation }
+            </Stack>
         </LayoutAuthenticated>
     );
 }

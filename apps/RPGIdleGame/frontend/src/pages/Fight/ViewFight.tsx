@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container } from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 
@@ -35,9 +34,7 @@ function ViewFight(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="sm">
-                {content}
-            </Container>
+            {content}
         </LayoutAuthenticated>
     );
 }

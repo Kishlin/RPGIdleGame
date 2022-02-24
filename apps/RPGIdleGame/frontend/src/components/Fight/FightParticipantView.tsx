@@ -37,7 +37,7 @@ function FightParticipantView({ participant, result }: FightParticipantViewProps
         (row) => (
             <TableRow key={row}>
                 <TableCell>{t(`entities.fight.participant.${row}`)}</TableCell>
-                <TableCell>{participant[row]}</TableCell>
+                <TableCell align="right">{participant[row]}</TableCell>
             </TableRow>
         ),
     );
@@ -46,7 +46,7 @@ function FightParticipantView({ participant, result }: FightParticipantViewProps
         <Grid container direction="column" alignItems="center">
             {resultHeader}
             <Typography>{t('entities.fight.participant.headline', headlineData)}</Typography>
-            <TableContainer>
+            <TableContainer sx={{ maxWidth: '250px' }}>
                 <Table
                     size="small"
                     sx={{

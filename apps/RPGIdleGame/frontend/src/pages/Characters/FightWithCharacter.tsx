@@ -1,11 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import {
-    Button,
-    Container,
-    Stack,
-    Typography,
-} from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 import { LangContext } from '../../context/LangContext';
@@ -59,22 +54,20 @@ function FightWithCharacter(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="sm">
-                <Stack spacing={3}>
-                    <Typography variant="h5">{t('pages.character.fight.title', { name: character.name })}</Typography>
+            <Stack spacing={3}>
+                <Typography variant="h5">{t('pages.character.fight.title', { name: character.name })}</Typography>
 
-                    <Typography align="justify">{t('pages.character.fight.explanations1')}</Typography>
-                    <Typography align="justify">{t('pages.character.fight.explanations2')}</Typography>
+                <Typography align="justify">{t('pages.character.fight.explanations1')}</Typography>
+                <Typography align="justify">{t('pages.character.fight.explanations2')}</Typography>
 
-                    {errorMessage}
+                {errorMessage}
 
-                    <Button disabled={isLoading} onClick={initiateFight} variant="contained">
-                        {t('pages.character.fight.doFight')}
-                    </Button>
+                <Button disabled={isLoading} onClick={initiateFight} variant="contained">
+                    {t('pages.character.fight.doFight')}
+                </Button>
 
-                    <NavigationButton text="pages.character.links.homepage" to="/" variant="text" />
-                </Stack>
-            </Container>
+                <NavigationButton text="pages.character.links.homepage" to="/" variant="text" />
+            </Stack>
         </LayoutAuthenticated>
     );
 }

@@ -1,11 +1,6 @@
+import { Box, Stack, Typography } from '@mui/material';
 import { Navigate, useParams } from 'react-router-dom';
 import React, { useContext } from 'react';
-import {
-    Box,
-    Container,
-    Stack,
-    Typography,
-} from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 import { LangContext } from '../../context/LangContext';
@@ -38,22 +33,20 @@ function CharacterDetails(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="sm">
-                <Stack spacing={3} sx={{ mb: 5 }}>
-                    <Typography variant="h5">
-                        {t('pages.character.view.title', { name: character.name })}
-                    </Typography>
+            <Stack spacing={3} sx={{ mb: 5 }}>
+                <Typography variant="h5">
+                    {t('pages.character.view.title', { name: character.name })}
+                </Typography>
 
-                    <Box textAlign="center">
-                        <Typography>{t('pages.character.view.rank', { rank: character.rank })}</Typography>
-                        <Typography>{t('pages.character.view.score', score)}</Typography>
-                    </Box>
+                <Box textAlign="center">
+                    <Typography>{t('pages.character.view.rank', { rank: character.rank })}</Typography>
+                    <Typography>{t('pages.character.view.score', score)}</Typography>
+                </Box>
 
-                    <FightShortList fighterId={character.id} />
+                <FightShortList fighterId={character.id} />
 
-                    <NavigationButton text="pages.character.view.home" to="/" variant="text" />
-                </Stack>
-            </Container>
+                <NavigationButton text="pages.character.view.home" to="/" variant="text" />
+            </Stack>
         </LayoutAuthenticated>
     );
 }

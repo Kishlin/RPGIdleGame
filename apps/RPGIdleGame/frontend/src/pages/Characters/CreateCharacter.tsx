@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
 
 import { LangContext } from '../../context/LangContext';
 import { UserContext } from '../../context/UserContext';
@@ -52,16 +52,14 @@ function CreateCharacter(): JSX.Element {
 
     return (
         <LayoutAuthenticated>
-            <Container maxWidth="sm">
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <CreateCharacterForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <NavigationButton text="pages.character.links.homepage" to="/" variant="text" />
-                    </Grid>
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <CreateCharacterForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />
                 </Grid>
-            </Container>
+                <Grid item xs={12}>
+                    <NavigationButton text="pages.character.links.homepage" to="/" variant="text" />
+                </Grid>
+            </Grid>
         </LayoutAuthenticated>
     );
 }
