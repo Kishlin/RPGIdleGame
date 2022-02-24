@@ -53,7 +53,12 @@ const TranslationsEN: Translations = {
             initiatorRank: 'Rank',
             opponentName: 'Opponent',
             opponentRank: 'Rank',
-            winner: 'Winner',
+            result: 'Result',
+            results: {
+                win: 'Win',
+                draw: 'Draw',
+                loss: 'Loss',
+            },
         },
     },
     fragments: {
