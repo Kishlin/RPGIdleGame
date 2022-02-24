@@ -29,9 +29,13 @@ const TranslationsEN: Translations = {
                 attack: 'Attack',
                 defense: 'Defense',
                 magik: 'Magik',
+                headers: {
+                    win: 'Victory',
+                    loss: 'Defeat',
+                },
             },
             draw: 'This fight was a draw because nobody had any chance to damage the other.',
-            noTurns: 'A participant had no chance to damage the other, because its maximum damage output is not greater than the other\'s defense.',
+            noTurns: 'The loser had no chance to damage the winner, because its maximum damage output is not greater than the winner\'s defense.',
             turns: {
                 checkbox: {
                     allTurns: 'Show turns with 0 damages dealt',

@@ -30,6 +30,7 @@ declare interface Character {
 declare interface FightParticipant {
     [key: string]: string|number,
     character_name: string,
+    character_id: string,
     account_username: string,
     health: number,
     attack: number,
@@ -54,7 +55,7 @@ declare interface Fight {
     initiator: FightParticipant,
     opponent: FightParticipant,
     turns: FightTurn[],
-    winner_id: null|number
+    winner_id: null|string
 }
 
 declare interface FightShort {

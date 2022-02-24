@@ -1,5 +1,6 @@
 declare type FightParticipantViewProps = {
     participant: FightParticipant,
+    result: 'win'|'draw'|'loss'|string
 };
 
 declare type FightShortListProps = {

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { tableCellClasses } from '@mui/material/TableCell';
 import {
-    Grid,
+    Grid, styled,
     Table,
     TableBody,
     TableCell,
@@ -11,8 +11,27 @@ import {
 
 import { LangContext } from '../../context/LangContext';
 
-function FightParticipantView({ participant }: FightParticipantViewProps): JSX.Element {
+const ResultTypography = styled(Typography)(({ theme }) => ({
+    '&.win': {
+        color: theme.palette.success.main,
+    },
+    '&.loss': {
+        color: theme.palette.error.main,
+    },
+}));
+
+function FightParticipantView({ participant, result }: FightParticipantViewProps): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);
+
+    const resultHeader = 'draw' !== result
+        ? <ResultTypography className={result}>{t(`entities.fight.participant.headers.${result}`)}</ResultTypography>
+        : <noscript />;
+
+    const headlineData = {
+        player: participant.account_username,
+        fighter: participant.character_name,
+        rank: participant.rank,
+    };
 
     const tableRows = ['health', 'attack', 'defense', 'magik'].map(
         (row) => (
@@ -23,18 +42,10 @@ function FightParticipantView({ participant }: FightParticipantViewProps): JSX.E
         ),
     );
 
-    const headline = t(
-        'entities.fight.participant.headline',
-        {
-            player: participant.account_username,
-            fighter: participant.character_name,
-            rank: participant.rank,
-        },
-    );
-
     return (
         <Grid container direction="column" alignItems="center">
-            <Typography>{headline}</Typography>
+            {resultHeader}
+            <Typography>{t('entities.fight.participant.headline', headlineData)}</Typography>
             <TableContainer>
                 <Table
                     size="small"

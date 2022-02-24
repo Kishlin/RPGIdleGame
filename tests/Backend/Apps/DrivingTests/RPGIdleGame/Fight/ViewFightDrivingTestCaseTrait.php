@@ -48,6 +48,7 @@ trait ViewFightDrivingTestCaseTrait
                         'initiator' => [
                             'account_username' => 'Stranger',
                             'character_name'   => 'Fighter',
+                            'character_id'     => '23829de0-dd2e-4de4-921c-272a2ab206b5',
                             'health'           => 30,
                             'attack'           => 25,
                             'defense'          => 5,
@@ -57,6 +58,7 @@ trait ViewFightDrivingTestCaseTrait
                         'opponent' => [
                             'account_username' => 'User',
                             'character_name'   => 'Kishlin',
+                            'character_id'     => '08a1c683-9a8f-4ce5-8ebb-e5ace0f0df2f',
                             'health'           => 25,
                             'attack'           => 18,
                             'defense'          => 12,

@@ -33,7 +33,7 @@ final class JsonableFightView extends JsonableView
     }
 
     /**
-     * @param array{id: string, initiator: array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}, opponent: array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}, turns: array<array{character_name: string, index: int, attacker_attack: int, attacker_magik: int, attacker_dice_roll: int, defender_defense: int, damage_dealt: int, defender_health: int}>, winner_id: ?string} $source
+     * @param array{id: string, initiator: array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}, opponent: array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}, turns: array<array{character_name: string, index: int, attacker_attack: int, attacker_magik: int, attacker_dice_roll: int, defender_defense: int, damage_dealt: int, defender_health: int}>, winner_id: ?string} $source
      */
     public static function fromSource(array $source): self
     {
