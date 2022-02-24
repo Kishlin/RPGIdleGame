@@ -44,7 +44,7 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
          * @var array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int}>|false $data
          */
         $data = $this->entityManager->getConnection()->fetchAllAssociative(
-            'SELECT * from characters WHERE owner = :owner',
+            'SELECT * from characters WHERE owner = :owner ORDER BY name ASC',
             ['owner' => $ownerUuid],
         );
 
