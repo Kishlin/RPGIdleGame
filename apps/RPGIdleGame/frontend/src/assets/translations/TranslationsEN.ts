@@ -135,6 +135,11 @@ const TranslationsEN: Translations = {
                 home: 'Back to Home',
             },
         },
+        fights: {
+            buttons: {
+                homepage: 'Back to home',
+            },
+        },
         home: {
             anonymous: {
                 title: 'Welcome! You need an account to continue.',

@@ -43,9 +43,9 @@ function CharacterDetails(): JSX.Element {
                     <Typography>{t('pages.character.view.score', score)}</Typography>
                 </Box>
 
-                <FightShortList fighterId={character.id} />
-
                 <NavigationButton text="pages.character.view.home" to="/" variant="text" />
+
+                <FightShortList fighterId={character.id} />
             </Stack>
         </LayoutAuthenticated>
     );

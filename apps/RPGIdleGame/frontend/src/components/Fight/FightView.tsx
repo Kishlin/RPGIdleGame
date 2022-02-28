@@ -4,6 +4,7 @@ import FightParticipantView from './FightParticipantView';
 
 import { LangContext } from '../../context/LangContext';
 import FightTurnsView from './FightTurnsView';
+import NavigationButton from '../Navigation/NavigationButton';
 
 function resultsForParticipants(fight: Fight): ['win'|'draw'|'loss', 'win'|'draw'|'loss'] {
     if (null === fight.winner_id) {
@@ -39,6 +40,7 @@ function FightView({ fight }: FightViewProps): JSX.Element {
                     <FightParticipantView result={resultOpponent} participant={fight.opponent} />
                 </Grid>
             </Grid>
+            <NavigationButton variant="text" text="pages.fights.buttons.homepage" to="/" />
             { turnsView }
         </Stack>
     );
