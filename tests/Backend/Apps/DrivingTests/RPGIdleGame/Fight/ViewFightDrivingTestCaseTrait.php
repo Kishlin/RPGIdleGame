@@ -65,8 +65,9 @@ trait ViewFightDrivingTestCaseTrait
                             'magik'            => 10,
                             'rank'             => 26,
                         ],
-                        'turns'     => [],
-                        'winner_id' => null,
+                        'turns'      => [],
+                        'winner_id'  => null,
+                        'fight_date' => 753926409,
                     ]),
                 )
             )

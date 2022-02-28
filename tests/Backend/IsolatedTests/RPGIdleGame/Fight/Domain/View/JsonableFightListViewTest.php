@@ -36,7 +36,7 @@ final class JsonableFightListViewTest extends TestCase
     }
 
     /**
-     * @return array<array{id: string, winner_id: string, initiator_name: string, initiator_rank: int, opponent_name: string, opponent_rank: int}>
+     * @return array<array{id: string, winner_id: ?string, initiator_name: string, initiator_rank: int, opponent_name: string, opponent_rank: int, fight_date: int}>
      */
     private static function source(): array
     {
@@ -48,6 +48,7 @@ final class JsonableFightListViewTest extends TestCase
                 'initiator_rank' => 26,
                 'opponent_name'  => 'Brawler',
                 'opponent_rank'  => 20,
+                'fight_date'     => 753926409,
             ],
             [
                 'id'             => 'fight-1',
@@ -56,6 +57,7 @@ final class JsonableFightListViewTest extends TestCase
                 'initiator_rank' => 20,
                 'opponent_name'  => 'Kishlin',
                 'opponent_rank'  => 26,
+                'fight_date'     => 753926409,
             ],
         ];
     }
@@ -63,7 +65,7 @@ final class JsonableFightListViewTest extends TestCase
     private static function json(): string
     {
         return <<<'JSON'
-[{"id":"fight-0","winner_id":"character-0","initiator_name":"Kishlin","initiator_rank":26,"opponent_name":"Brawler","opponent_rank":20},{"id":"fight-1","winner_id":"character-1","initiator_name":"Brawler","initiator_rank":20,"opponent_name":"Kishlin","opponent_rank":26}]
+[{"id":"fight-0","winner_id":"character-0","initiator_name":"Kishlin","initiator_rank":26,"opponent_name":"Brawler","opponent_rank":20,"fight_date":753926409},{"id":"fight-1","winner_id":"character-1","initiator_name":"Brawler","initiator_rank":20,"opponent_name":"Kishlin","opponent_rank":26,"fight_date":753926409}]
 JSON;
     }
 }

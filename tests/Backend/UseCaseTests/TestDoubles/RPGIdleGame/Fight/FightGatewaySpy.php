@@ -45,11 +45,12 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
         assert(is_array($turns));
 
         $source = [
-            'id'        => $fightId,
-            'initiator' => self::mapParticipantToArray($fight->initiator()),
-            'opponent'  => self::mapParticipantToArray($fight->opponent()),
-            'turns'     => array_map([$this, 'mapTurnsToArray'], $turns),
-            'winner_id' => $fight->winnerId()->value(),
+            'id'         => $fightId,
+            'initiator'  => self::mapParticipantToArray($fight->initiator()),
+            'opponent'   => self::mapParticipantToArray($fight->opponent()),
+            'turns'      => array_map([$this, 'mapTurnsToArray'], $turns),
+            'winner_id'  => $fight->winnerId()->value(),
+            'fight_date' => $fight->date()->value()->getTimestamp(),
         ];
 
         return JsonableFightView::fromSource($source);
@@ -73,6 +74,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
                     'initiator_rank' => $fight->initiator()->rank()->value(),
                     'opponent_name'  => $fight->opponent()->characterId()->value(),
                     'opponent_rank'  => $fight->opponent()->rank()->value(),
+                    'fight_date'     => $fight->date()->value()->getTimestamp(),
                 ],
                 array_filter(
                     $this->fights,

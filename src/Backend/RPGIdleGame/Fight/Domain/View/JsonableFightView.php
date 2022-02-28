@@ -14,6 +14,8 @@ final class JsonableFightView extends JsonableView
 
     private JsonableFightParticipantView $opponent;
 
+    private int $fightDate;
+
     /**
      * @var JsonableFightTurnView[]
      */
@@ -23,28 +25,32 @@ final class JsonableFightView extends JsonableView
 
     public function toArray(): array
     {
+        $turnToView = static fn (JsonableFightTurnView $view) => $view->toArray();
+
         return [
-            'id'        => $this->id,
-            'initiator' => $this->initiator->toArray(),
-            'opponent'  => $this->opponent->toArray(),
-            'turns'     => array_map(static fn (JsonableFightTurnView $view)     => $view->toArray(), $this->turns),
-            'winner_id' => $this->winnerId,
+            'id'         => $this->id,
+            'initiator'  => $this->initiator->toArray(),
+            'opponent'   => $this->opponent->toArray(),
+            'turns'      => array_map($turnToView, $this->turns),
+            'winner_id'  => $this->winnerId,
+            'fight_date' => $this->fightDate,
         ];
     }
 
     /**
-     * @param array{id: string, initiator: array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}, opponent: array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}, turns: array<array{character_name: string, index: int, attacker_attack: int, attacker_magik: int, attacker_dice_roll: int, defender_defense: int, damage_dealt: int, defender_health: int}>, winner_id: ?string} $source
+     * @param array{id: string, initiator: array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}, opponent: array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}, turns: array<array{character_name: string, index: int, attacker_attack: int, attacker_magik: int, attacker_dice_roll: int, defender_defense: int, damage_dealt: int, defender_health: int}>, winner_id: ?string, fight_date: int} $source
      */
     public static function fromSource(array $source): self
     {
         $view = new self();
 
         [
-            'id'        => $view->id,
-            'initiator' => $initiator,
-            'opponent'  => $opponent,
-            'turns'     => $turns,
-            'winner_id' => $view->winnerId,
+            'id'         => $view->id,
+            'initiator'  => $initiator,
+            'opponent'   => $opponent,
+            'turns'      => $turns,
+            'winner_id'  => $view->winnerId,
+            'fight_date' => $view->fightDate,
         ] = $source;
 
         $view->initiator = JsonableFightParticipantView::fromSource($initiator);

@@ -51,6 +51,7 @@ trait ViewFightsForFighterDrivingTestCaseTrait
                             'initiator_rank' => 26,
                             'opponent_name'  => 'Brawler',
                             'opponent_rank'  => 20,
+                            'fight_date'     => 753926409,
                         ],
                         [
                             'id'             => 'ff52c32a-0ea9-425f-80d9-0f7a1b0aa4cc',
@@ -59,6 +60,7 @@ trait ViewFightsForFighterDrivingTestCaseTrait
                             'initiator_rank' => 20,
                             'opponent_name'  => 'Kishlin',
                             'opponent_rank'  => 26,
+                            'fight_date'     => 753926409,
                         ],
                     ]),
                 )

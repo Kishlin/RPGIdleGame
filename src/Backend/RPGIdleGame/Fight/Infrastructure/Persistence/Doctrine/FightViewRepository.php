@@ -15,7 +15,7 @@ use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\Doctri
 final class FightViewRepository extends DoctrineRepository implements FightViewGateway
 {
     private const ALL_FIGHTS_FOR_FIGHTER_QUERY = <<<'SQL'
-SELECT fights.id, fights.winner_id, initiators.name as initiator_name, fight_initiators.rank as initiator_rank, opponents.name as opponent_name, fight_opponents.rank as opponent_rank
+SELECT fights.id, fights.winner_id, initiators.name as initiator_name, fight_initiators.rank as initiator_rank, opponents.name as opponent_name, fight_opponents.rank as opponent_rank, cast(extract(epoch from fight_date) as integer) as fight_date
 FROM fights
 LEFT JOIN fight_initiators ON fight_initiators.id = fights.initiator
 LEFT JOIN fight_opponents ON fight_opponents.id = fights.opponent
@@ -26,7 +26,7 @@ WHERE opponents.id = :fighter_id OR initiators.id = :fighter_id
 SQL;
 
     private const FIGHT_QUERY = <<<'SQL'
-SELECT fights.id, fights.winner_id
+SELECT fights.id, fights.winner_id, cast(extract(epoch from fight_date) as integer) as fight_date
 FROM characters
 LEFT JOIN fight_initiators ON fight_initiators.character_id = characters.id
 LEFT JOIN fight_opponents ON fight_opponents.character_id = characters.id
@@ -90,7 +90,7 @@ SQL;
         $connection = $this->entityManager->getConnection();
 
         /**
-         * @var array{id: string, winner_id: ?string}|false $fight
+         * @var array{id: string, winner_id: ?string, fight_date: int}|false $fight
          */
         $fight = $connection->fetchAssociative(
             self::FIGHT_QUERY,
@@ -127,7 +127,7 @@ SQL;
         }
 
         /**
-         * @var array<array{id: string, winner_id: ?string, initiator_name: string, initiator_rank: int, opponent_name: string, opponent_rank: int}>|false $fights
+         * @var array<array{id: string, winner_id: ?string, initiator_name: string, initiator_rank: int, opponent_name: string, opponent_rank: int, fight_date: int}>|false $fights
          */
         $fights = $this->entityManager->getConnection()->fetchAllAssociative(
             self::ALL_FIGHTS_FOR_FIGHTER_QUERY,
