@@ -129,7 +129,7 @@ const TranslationsEN: Translations = {
                 homepage: 'Back to home',
             },
             view: {
-                title: 'Character #name#',
+                title: 'Character: #name#',
                 rank: 'Rank: #rank#',
                 score: 'Score: #wins# - #draws# - #losses#',
                 home: 'Back to Home',
