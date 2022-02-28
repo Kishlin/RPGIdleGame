@@ -19,7 +19,7 @@ function resultsForParticipants(fight: Fight): ['win'|'draw'|'loss', 'win'|'draw
 }
 
 function FightView({ fight }: FightViewProps): JSX.Element {
-    const { t } = useContext<LangContextType>(LangContext);
+    const { t, lang } = useContext<LangContextType>(LangContext);
 
     const [resultInitiator, resultOpponent] = resultsForParticipants(fight);
 
@@ -29,6 +29,7 @@ function FightView({ fight }: FightViewProps): JSX.Element {
 
     return (
         <Stack spacing={3}>
+            <Typography textAlign="center">{(new Date(fight.fight_date * 1000).toLocaleString(lang))}</Typography>
             <Grid container direction="row" columns={{ xs: 12, sm: 11 }} alignItems="center">
                 <Grid item xs={12} sm={5}>
                     <FightParticipantView result={resultInitiator} participant={fight.initiator} />

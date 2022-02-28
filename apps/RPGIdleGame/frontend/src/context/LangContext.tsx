@@ -9,8 +9,8 @@ import TranslationsEN from '../assets/translations/TranslationsEN';
 import TranslationsFR from '../assets/translations/TranslationsFR';
 
 export enum Lang {
-    English = 'EN',
-    French = 'FR',
+    English = 'en-US',
+    French = 'fr-FR',
 }
 
 export const LangContext = createContext<LangContextType>({ lang: Lang.English });

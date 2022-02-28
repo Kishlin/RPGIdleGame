@@ -51,6 +51,7 @@ const TranslationsEN: Translations = {
             },
         },
         shortFight: {
+            date: 'Date',
             tooltipRank: 'Rank before the fight',
             detailsLink: 'Details',
             initiatorName: 'Initiator',
@@ -132,6 +133,7 @@ const TranslationsEN: Translations = {
                 title: 'Character: #name#',
                 rank: 'Rank: #rank#',
                 score: 'Score: #wins# - #draws# - #losses#',
+                creation: 'Creation: #date#',
                 home: 'Back to Home',
             },
         },

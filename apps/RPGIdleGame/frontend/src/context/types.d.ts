@@ -1,4 +1,4 @@
-declare type LangValue = 'EN' | 'FR';
+declare type LangValue = 'en-US' | 'fr-FR';
 
 declare type TranslateFunction = (key: string, parameters?: { [key: string]: any }) => string;
 

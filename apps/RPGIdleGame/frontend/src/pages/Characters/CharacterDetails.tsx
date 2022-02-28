@@ -15,7 +15,7 @@ function CharacterDetails(): JSX.Element {
     useAuthenticatedPage();
 
     const { characters } = useContext<UserContextType>(UserContext);
-    const { t } = useContext<LangContextType>(LangContext);
+    const { t, lang } = useContext<LangContextType>(LangContext);
 
     const { id } = useParams();
 
@@ -31,6 +31,8 @@ function CharacterDetails(): JSX.Element {
         losses: character.losses_count,
     };
 
+    const creationDate = new Date(character.created_on * 1000).toLocaleString(lang);
+
     return (
         <LayoutAuthenticated>
             <Stack spacing={3} sx={{ mb: 5 }}>
@@ -41,6 +43,7 @@ function CharacterDetails(): JSX.Element {
                 <Box textAlign="center">
                     <Typography>{t('pages.character.view.rank', { rank: character.rank })}</Typography>
                     <Typography>{t('pages.character.view.score', score)}</Typography>
+                    <Typography>{t('pages.character.view.creation', { date: creationDate })}</Typography>
                 </Box>
 
                 <NavigationButton text="pages.character.view.home" to="/" variant="text" />

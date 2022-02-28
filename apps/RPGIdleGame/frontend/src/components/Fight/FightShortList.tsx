@@ -37,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function FightShortList({ fighterId }: FightShortListProps): JSX.Element {
-    const { t } = useContext<LangContextType>(LangContext);
+    const { lang, t } = useContext<LangContextType>(LangContext);
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [fights, setFights] = useState<FightShort[]>([]);
@@ -65,9 +65,11 @@ function FightShortList({ fighterId }: FightShortListProps): JSX.Element {
 
     const tableRows = fights.reverse().map((fight: FightShort) => {
         const result = resultKey(fight.winner_id);
+        const fightDate = new Date(fight.fight_date * 1000);
 
         return (
             <StyledTableRow key={fight.id}>
+                <TableCell>{fightDate.toLocaleDateString(lang)}</TableCell>
                 <TableCell>{fight.initiator_name}</TableCell>
                 <TableCell>{fight.initiator_rank}</TableCell>
                 <TableCell>{fight.opponent_name}</TableCell>
@@ -91,6 +93,7 @@ function FightShortList({ fighterId }: FightShortListProps): JSX.Element {
             <Table>
                 <TableHead>
                     <TableRow>
+                        <TableCell>{t('entities.shortFight.date')}</TableCell>
                         <TableCell>{t('entities.shortFight.initiatorName')}</TableCell>
                         <Tooltip title={t('entities.shortFight.tooltipRank')}>
                             <TableCell>{t('entities.shortFight.initiatorRank')}</TableCell>
