@@ -21,8 +21,8 @@ final class JsonableCharacterView extends JsonableView
     private int $winsCount;
     private int $drawsCount;
     private int $lossesCount;
-    private string $creationDate;
-    private string $availableAsOf;
+    private int $creationDate;
+    private int $availableAsOf;
 
     public function toArray(): array
     {
@@ -46,7 +46,7 @@ final class JsonableCharacterView extends JsonableView
     }
 
     /**
-     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: string, available_as_of: string} $source
+     * @param array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: int, available_as_of: int} $source
      */
     public static function fromSource(array $source): self
     {

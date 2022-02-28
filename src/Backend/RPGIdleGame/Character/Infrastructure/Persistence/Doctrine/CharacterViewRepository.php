@@ -13,16 +13,30 @@ use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\Doctri
 
 class CharacterViewRepository extends DoctrineViewer implements CharacterViewGateway
 {
+    private const SELECT_ONE_FOR_OWNER = <<<'SQL'
+SELECT id, name, owner, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count, cast(extract(epoch from created_on) as integer) as created_on, cast(extract(epoch from available_as_of) as integer) as available_as_of
+FROM characters
+WHERE id = :id AND owner = :owner AND is_active IS TRUE
+LIMIT 1
+SQL;
+
+    private const SELECT_ALL_FOR_OWNER = <<<'SQL'
+SELECT id, name, owner, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count, cast(extract(epoch from created_on) as integer) as created_on, cast(extract(epoch from available_as_of) as integer) as available_as_of
+FROM characters
+WHERE owner = :owner AND is_active IS TRUE
+ORDER BY created_on ASC
+SQL;
+
     /**
      * @throws CharacterNotFoundException|Exception
      */
     public function viewOneById(string $characterId, string $requesterId): JsonableCharacterView
     {
         /**
-         * @var array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: string, available_as_of: string}|false $data
+         * @var array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: int, available_as_of: int}|false $data
          */
         $data = $this->entityManager->getConnection()->fetchAssociative(
-            'SELECT * from characters WHERE id = :id AND owner = :owner AND is_active IS TRUE',
+            self::SELECT_ONE_FOR_OWNER,
             ['id' => $characterId, 'owner' => $requesterId],
         );
 
@@ -41,10 +55,10 @@ class CharacterViewRepository extends DoctrineViewer implements CharacterViewGat
     public function viewAllForOwner(string $ownerUuid): JsonableCharactersListView
     {
         /**
-         * @var array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: string, available_as_of: string}>|false $data
+         * @var array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: int, available_as_of: int}>|false $data
          */
         $data = $this->entityManager->getConnection()->fetchAllAssociative(
-            'SELECT * from characters WHERE owner = :owner AND is_active IS TRUE ORDER BY created_on ASC',
+            self::SELECT_ALL_FOR_OWNER,
             ['owner' => $ownerUuid],
         );
 

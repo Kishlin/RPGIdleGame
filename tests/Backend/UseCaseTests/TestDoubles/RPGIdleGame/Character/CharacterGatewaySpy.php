@@ -72,7 +72,7 @@ class CharacterGatewaySpy implements CharacterGateway, CharacterViewGateway
     }
 
     /**
-     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: string, available_as_of: string}
+     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: int, available_as_of: int}
      */
     private static function characterToArray(Character $character): array
     {
@@ -90,8 +90,8 @@ class CharacterGatewaySpy implements CharacterGateway, CharacterViewGateway
             'wins_count'      => 0,
             'draws_count'     => 0,
             'losses_count'    => 0,
-            'created_on'      => $character->creationDate()->value()->format(DATE_ATOM),
-            'available_as_of' => $character->availability()->value()->format(DATE_ATOM),
+            'created_on'      => $character->creationDate()->value()->getTimestamp(),
+            'available_as_of' => $character->availability()->value()->getTimestamp(),
         ];
     }
 }

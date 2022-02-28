@@ -36,7 +36,7 @@ final class JsonableCharacterViewTest extends TestCase
     }
 
     /**
-     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: string, available_as_of: string}
+     * @return array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: int, available_as_of: int}
      */
     private function source(): array
     {
@@ -54,15 +54,15 @@ final class JsonableCharacterViewTest extends TestCase
             'wins_count'      => 15,
             'draws_count'     => 2,
             'losses_count'    => 3,
-            'created_on'      => '1993-11-22 01:00:00',
-            'available_as_of' => '1993-11-22 01:00:00',
+            'created_on'      => 753926409,
+            'available_as_of' => 753926409,
         ];
     }
 
     private static function json(): string
     {
         return <<<'JSON'
-{"id":"30fb4cf4-00b9-4e01-88c7-88bf9612eaf1","name":"Kishlin","owner":"10e5a3e9-6ab9-41ba-9f80-898a233b020b","skill_points":5,"health":12,"attack":15,"defense":3,"magik":5,"rank":12,"fights_count":20,"wins_count":15,"draws_count":2,"losses_count":3,"created_on":"1993-11-22 01:00:00","available_as_of":"1993-11-22 01:00:00"}
+{"id":"30fb4cf4-00b9-4e01-88c7-88bf9612eaf1","name":"Kishlin","owner":"10e5a3e9-6ab9-41ba-9f80-898a233b020b","skill_points":5,"health":12,"attack":15,"defense":3,"magik":5,"rank":12,"fights_count":20,"wins_count":15,"draws_count":2,"losses_count":3,"created_on":753926409,"available_as_of":753926409}
 JSON;
     }
 }

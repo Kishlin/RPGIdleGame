@@ -57,8 +57,8 @@ trait ViewCharacterDrivingTestCaseTrait
                         'wins_count'      => 0,
                         'draws_count'     => 0,
                         'losses_count'    => 0,
-                        'created_on'      => '1993-11-22 01:00:00',
-                        'available_as_of' => '1993-11-22 01:00:00',
+                        'created_on'      => 753926409,
+                        'available_as_of' => 753926409,
                     ]),
                 )
             )

@@ -36,40 +36,44 @@ final class JsonableCharactersListViewTest extends TestCase
     }
 
     /**
-     * @return array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int}>
+     * @return array<array{id: string, name: string, owner: string, skill_points: int, health: int, attack: int, defense: int, magik: int, rank: int, fights_count: int, wins_count: int, draws_count: int, losses_count: int, created_on: int, available_as_of: int}>
      */
     private function source(): array
     {
         return [
             [
-                'id'           => '30fb4cf4-00b9-4e01-88c7-88bf9612eaf1',
-                'name'         => 'Kishlin',
-                'owner'        => 'aaa74d22-6934-42fe-9783-b0ae9173ba0e',
-                'skill_points' => 5,
-                'health'       => 12,
-                'attack'       => 15,
-                'defense'      => 3,
-                'magik'        => 5,
-                'rank'         => 12,
-                'fights_count' => 20,
-                'wins_count'   => 15,
-                'draws_count'  => 2,
-                'losses_count' => 3,
+                'id'              => '30fb4cf4-00b9-4e01-88c7-88bf9612eaf1',
+                'name'            => 'Kishlin',
+                'owner'           => 'aaa74d22-6934-42fe-9783-b0ae9173ba0e',
+                'skill_points'    => 5,
+                'health'          => 12,
+                'attack'          => 15,
+                'defense'         => 3,
+                'magik'           => 5,
+                'rank'            => 12,
+                'fights_count'    => 20,
+                'wins_count'      => 15,
+                'draws_count'     => 2,
+                'losses_count'    => 3,
+                'created_on'      => 753926409,
+                'available_as_of' => 753926409,
             ],
             [
-                'id'           => '30fb4cf4-00b9-4e01-88c7-88bf9612eaf1',
-                'name'         => 'Character',
-                'owner'        => '10e5a3e9-6ab9-41ba-9f80-898a233b020b',
-                'skill_points' => 7,
-                'health'       => 24,
-                'attack'       => 28,
-                'defense'      => 13,
-                'magik'        => 26,
-                'rank'         => 35,
-                'fights_count' => 61,
-                'wins_count'   => 27,
-                'draws_count'  => 5,
-                'losses_count' => 28,
+                'id'              => '30fb4cf4-00b9-4e01-88c7-88bf9612eaf1',
+                'name'            => 'Character',
+                'owner'           => '10e5a3e9-6ab9-41ba-9f80-898a233b020b',
+                'skill_points'    => 7,
+                'health'          => 24,
+                'attack'          => 28,
+                'defense'         => 13,
+                'magik'           => 26,
+                'rank'            => 35,
+                'fights_count'    => 61,
+                'wins_count'      => 27,
+                'draws_count'     => 5,
+                'losses_count'    => 28,
+                'created_on'      => 753926409,
+                'available_as_of' => 753926409,
             ],
         ];
     }
@@ -77,7 +81,7 @@ final class JsonableCharactersListViewTest extends TestCase
     private static function json(): string
     {
         return <<<'JSON'
-[{"id":"30fb4cf4-00b9-4e01-88c7-88bf9612eaf1","name":"Kishlin","owner":"aaa74d22-6934-42fe-9783-b0ae9173ba0e","skill_points":5,"health":12,"attack":15,"defense":3,"magik":5,"rank":12,"fights_count":20,"wins_count":15,"draws_count":2,"losses_count":3},{"id":"30fb4cf4-00b9-4e01-88c7-88bf9612eaf1","name":"Character","owner":"10e5a3e9-6ab9-41ba-9f80-898a233b020b","skill_points":7,"health":24,"attack":28,"defense":13,"magik":26,"rank":35,"fights_count":61,"wins_count":27,"draws_count":5,"losses_count":28}]
+[{"id":"30fb4cf4-00b9-4e01-88c7-88bf9612eaf1","name":"Kishlin","owner":"aaa74d22-6934-42fe-9783-b0ae9173ba0e","skill_points":5,"health":12,"attack":15,"defense":3,"magik":5,"rank":12,"fights_count":20,"wins_count":15,"draws_count":2,"losses_count":3,"created_on":753926409,"available_as_of":753926409},{"id":"30fb4cf4-00b9-4e01-88c7-88bf9612eaf1","name":"Character","owner":"10e5a3e9-6ab9-41ba-9f80-898a233b020b","skill_points":7,"health":24,"attack":28,"defense":13,"magik":26,"rank":35,"fights_count":61,"wins_count":27,"draws_count":5,"losses_count":28,"created_on":753926409,"available_as_of":753926409}]
 JSON;
     }
 }
