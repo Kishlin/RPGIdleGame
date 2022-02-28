@@ -7,6 +7,7 @@ namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Fight\Infrastructure\P
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
@@ -86,6 +87,24 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
     /**
      * @throws Exception|NoOpponentAvailableException
      */
+    public function testItPrioritiesCharactersOfOtherPlayers(): void
+    {
+        $otherOfSameOwner    = $this->otherCharacterOfSameOwner();
+        $otherOfAnotherOwner = $this->otherCharacterOfAnotherOwner();
+
+        $initiator  = CharacterProvider::freshCharacter();
+        $repository = new FightOpponentRepository(self::uuidGenerator(), self::entityManager());
+
+        self::loadFixtures($initiator, $otherOfSameOwner, $otherOfAnotherOwner);
+
+        $opponent = $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->id());
+
+        self::assertFightOpponentRepresentsTheCharacter($otherOfAnotherOwner, $opponent);
+    }
+
+    /**
+     * @throws Exception|NoOpponentAvailableException
+     */
     public function testItPicksTheCharacterWhoFoughtTheInitiatorTheLeast(): void
     {
         $otherWhoFoughtInitiatorTwice = $this->otherCharacter('c421cd88-92cd-4ff3-8718-279f3ef1815b');
@@ -136,6 +155,23 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
             return CharacterProvider::customCharacter([
                 'id'   => new CharacterId('4ee1dccc-96dc-42e3-9330-d4b07002cf0c'),
                 'rank' => new CharacterRank(20),
+            ]);
+        } catch (ReflectionException $e) {
+            self::fail($e->getMessage());
+        }
+    }
+
+    private function otherCharacterOfSameOwner(): Character
+    {
+        return $this->otherCharacter('17a20c4d-7ae9-4fa6-95c6-36733112724b');
+    }
+
+    private function otherCharacterOfAnotherOwner(): Character
+    {
+        try {
+            return CharacterProvider::customCharacter([
+                'id'    => new CharacterId('a9a5a675-163b-4650-bbf3-c59508288b18'),
+                'owner' => new CharacterOwner('e7771f1b-2a16-48f6-a908-a371760d6d7f'),
             ]);
         } catch (ReflectionException $e) {
             self::fail($e->getMessage());
