@@ -25,6 +25,8 @@ declare interface Character {
     wins_count: number,
     draws_count: number,
     losses_count: number,
+    created_on: number,
+    available_as_of: number
 }
 
 declare interface FightParticipant {
@@ -55,7 +57,8 @@ declare interface Fight {
     initiator: FightParticipant,
     opponent: FightParticipant,
     turns: FightTurn[],
-    winner_id: null|string
+    winner_id: null|string,
+    fight_date: number
 }
 
 declare interface FightShort {
@@ -64,7 +67,8 @@ declare interface FightShort {
     initiator_rank: number,
     opponent_name: string,
     opponent_rank: number,
-    winner_id: string
+    winner_id: string,
+    fight_date: number
 }
 
 declare type CharacterList = { [key: string]: Character };
