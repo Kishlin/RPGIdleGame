@@ -10,10 +10,12 @@ use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponentGateway;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\NoOpponentAvailableException;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightDate;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 use Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator;
+use Kishlin\Backend\Shared\Domain\Time\Clock;
 
 final class InitiateAFightCommandHandler implements CommandHandler
 {
@@ -23,6 +25,7 @@ final class InitiateAFightCommandHandler implements CommandHandler
         private FightOpponentGateway $fightOpponentGateway,
         private FightGateway $fightGateway,
         private UuidGenerator $uuidGenerator,
+        private Clock $clock,
         private Dice $dice,
         private EventDispatcher $eventDispatcher,
     ) {
@@ -66,6 +69,8 @@ final class InitiateAFightCommandHandler implements CommandHandler
         $initiator = $this->fightInitiatorGateway->createFromExternalDetailsOfInitiator($fighterId);
         $opponent  = $this->fightOpponentGateway->createFromExternalDetailsOfAnAvailableOpponent($fighterId);
 
-        return Fight::initiate(new FightId($this->uuidGenerator->uuid4()), $initiator, $opponent);
+        $fightDate = new FightDate($this->clock->now());
+
+        return Fight::initiate(new FightId($this->uuidGenerator->uuid4()), $initiator, $opponent, $fightDate);
     }
 }

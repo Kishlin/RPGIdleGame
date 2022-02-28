@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\Tools\Provider;
 
+use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightTurn;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightDate;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnIndex;
@@ -20,6 +22,7 @@ final class FightProvider
             new FightId('5c0efde2-135d-4118-98d3-0ca073577551'),
             FightParticipantProvider::fightInitiatorWithValues('a34f3829-b9bc-48c5-9fe5-7d58fe5f3db7', 25, 5, 1, 4, 17),
             FightParticipantProvider::fightOpponentWithValues('8cc8142a-d055-4e6d-b9dc-f2e06c967f93', 21, 4, 3, 1, 15),
+            new FightDate(new DateTimeImmutable()),
         );
     }
 
@@ -29,6 +32,7 @@ final class FightProvider
             new FightId('f098058d-c568-4c58-8ff2-47d0dfc339ae'),
             FightParticipantProvider::fightInitiatorWithValues('127c8abd-7b0f-4e50-b315-5bbee38bd0e1', 25, 5, 5, 4, 17),
             FightParticipantProvider::fightOpponentWithValues('a0b5c4da-4814-4dc6-ab19-d6584f240410', 21, 4, 9, 1, 15),
+            new FightDate(new DateTimeImmutable()),
         );
     }
 
@@ -38,6 +42,7 @@ final class FightProvider
             new FightId('6dab89d9-0784-431b-a41e-83a682d6232e'),
             FightParticipantProvider::fightInitiatorWithValues('4611b1eb-282a-4863-80d5-6e51a3e8f765', 25, 5, 5, 4, 17),
             FightParticipantProvider::fightOpponentWithValues('c8d23fa7-ecdc-48fd-8d19-dd2ba7e37245', 21, 4, 3, 1, 15),
+            new FightDate(new DateTimeImmutable()),
         );
     }
 
@@ -47,6 +52,7 @@ final class FightProvider
             new FightId('f098058d-c568-4c58-8ff2-47d0dfc339ae'),
             FightParticipantProvider::fightInitiatorWithValues('127c8abd-7b0f-4e50-b315-5bbee38bd0e1', 25, 5, 1, 4, 17),
             FightParticipantProvider::fightOpponentWithValues('a0b5c4da-4814-4dc6-ab19-d6584f240410', 21, 4, 9, 1, 15),
+            new FightDate(new DateTimeImmutable()),
         );
     }
 

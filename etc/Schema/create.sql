@@ -150,7 +150,8 @@ CREATE TABLE public.fights (
     id character varying(36) NOT NULL,
     initiator character varying(255) NOT NULL,
     opponent character varying(255) NOT NULL,
-    winner_id character varying(36) DEFAULT NULL::character varying
+    winner_id character varying(36) DEFAULT NULL::character varying,
+    fight_date timestamp(0) without time zone NOT NULL
 );
 
 
@@ -192,6 +193,7 @@ Kishlin\\Migrations\\Version20220201163853	2022-02-02 05:48:48	19
 Kishlin\\Migrations\\Version20220207181914	2022-02-07 18:25:57	6
 Kishlin\\Migrations\\Version20220228131426	2022-02-28 12:16:40	7
 Kishlin\\Migrations\\Version20220228153043	2022-02-28 14:35:18	11
+Kishlin\\Migrations\\Version20220228160006	2022-02-28 15:02:01	7
 \.
 
 
@@ -223,7 +225,7 @@ COPY public.fight_turns (id, fight_id, attacker_id, index, attacker_attack, atta
 -- Data for Name: fights; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
 --
 
-COPY public.fights (id, initiator, opponent, winner_id) FROM stdin;
+COPY public.fights (id, initiator, opponent, winner_id, fight_date) FROM stdin;
 \.
 
 

@@ -31,6 +31,8 @@
         </many-to-one>
 
         <field name="winnerId" type="fight_winner_id" column="winner_id" length="36" nullable="true" />
+
+        <field name="date" type="fight_date" column="fight_date" />
     </entity>
 
 </doctrine-mapping>

@@ -111,11 +111,11 @@ INSERT INTO fight_opponents (id, character_id, health, attack, defense, magik, r
     ('opponent-3', 'character-3', 23, 1, 40, 1, 24)
 ;
 
-INSERT INTO fights (id, initiator, opponent, winner_id) VALUES
-    ('fight-0', 'initiator-0', 'opponent-0', 'character-0'),
-    ('fight-1', 'initiator-1', 'opponent-1', 'character-1'),
-    ('fight-2', 'initiator-2', 'opponent-2', 'character-2'),
-    ('fight-3', 'initiator-3', 'opponent-3', null)
+INSERT INTO fights (id, initiator, opponent, winner_id, fight_date) VALUES
+    ('fight-0', 'initiator-0', 'opponent-0', 'character-0', '1993-11-22 15:00:00'),
+    ('fight-1', 'initiator-1', 'opponent-1', 'character-1', '1993-11-22 16:00:00'),
+    ('fight-2', 'initiator-2', 'opponent-2', 'character-2', '1993-11-22 17:00:00'),
+    ('fight-3', 'initiator-3', 'opponent-3', null, '1993-11-22 18:00:00')
 ;
 
 INSERT INTO fight_turns (id, fight_id, attacker_id, index, attacker_attack, attacker_magik, attacker_dice_roll, defender_defense, damage_dealt, defender_health) VALUES

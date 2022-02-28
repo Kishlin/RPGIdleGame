@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
+use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightCommand;
@@ -18,6 +19,7 @@ use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponent;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\NoOpponentAvailableException;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightDate;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantAttack;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantDefense;
@@ -317,6 +319,7 @@ final class FightContext extends RPGIdleGameContext
                 new FightParticipantMagik(30),
                 new FightParticipantRank(120),
             ),
+            new FightDate(new DateTimeImmutable()),
         );
 
         $fight->unfold($dice, $uuidGenerator);

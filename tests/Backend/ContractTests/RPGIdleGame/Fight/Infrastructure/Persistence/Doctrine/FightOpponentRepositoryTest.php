@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Fight\Infrastructure\Persistence\Doctrine;
 
+use DateTimeImmutable;
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
@@ -13,6 +14,7 @@ use Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponent;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\NoOpponentAvailableException;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightDate;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantAttack;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightParticipantDefense;
@@ -183,22 +185,27 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
      */
     private function fights(Character $initiator, Character $otherWhoFoughtTwice, Character $otherWhoFoughtOnce): iterable
     {
+        $fightDate = new DateTimeImmutable();
+
         yield Fight::initiate(
             new FightId('8e746417-ed2a-4284-b510-3e27a8e6b5cb'),
             self::fightInitiator($initiator),
             self::fightOpponent($otherWhoFoughtTwice),
+            new FightDate($fightDate),
         );
 
         yield Fight::initiate(
             new FightId('92be6c4e-9cf2-485f-847a-48c28c6e47f2'),
             self::fightInitiator($initiator),
             self::fightOpponent($otherWhoFoughtTwice),
+            new FightDate($fightDate),
         );
 
         yield Fight::initiate(
             new FightId('359c1a9a-e7eb-4b43-92a6-b7164e063ea4'),
             self::fightInitiator($initiator),
             self::fightOpponent($otherWhoFoughtOnce),
+            new FightDate($fightDate),
         );
     }
 

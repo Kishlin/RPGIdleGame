@@ -10,6 +10,7 @@ use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFightsForCharacter\ViewFig
 use Kishlin\Backend\RPGIdleGame\Fight\Infrastructure\RandomDice;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
 use Kishlin\Backend\Shared\Infrastructure\Randomness\UuidGeneratorUsingRamsey;
+use Kishlin\Backend\Shared\Infrastructure\Time\SystemClock;
 use Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Character\CharacterGatewaySpy;
 
 trait FightServicesTrait
@@ -55,6 +56,7 @@ trait FightServicesTrait
                 fightOpponentGateway: $this->fightParticipantGatewaySpy(),
                 fightGateway: $this->fightGatewaySpy(),
                 uuidGenerator: new UuidGeneratorUsingRamsey(),
+                clock: new SystemClock(),
                 dice: new RandomDice(),
                 eventDispatcher: $this->eventDispatcher(),
             );

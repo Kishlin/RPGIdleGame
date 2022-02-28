@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kishlin\Backend\RPGIdleGame\Fight\Domain;
 
 use ArrayIterator;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightDate;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\ValueObject\FightTurnIndex;
@@ -23,13 +24,18 @@ final class Fight extends AggregateRoot
         private FightId $id,
         private FightInitiator $initiator,
         private FightOpponent $opponent,
+        private FightDate $date,
     ) {
         $this->winnerId = new FightWinnerId(null);
     }
 
-    public static function initiate(FightId $id, FightInitiator $initiator, FightOpponent $opponent): self
-    {
-        return new self($id, $initiator, $opponent);
+    public static function initiate(
+        FightId $id,
+        FightInitiator $initiator,
+        FightOpponent $opponent,
+        FightDate $date,
+    ): self {
+        return new self($id, $initiator, $opponent, $date);
     }
 
     /**
@@ -78,6 +84,11 @@ final class Fight extends AggregateRoot
     public function winnerId(): FightWinnerId
     {
         return $this->winnerId;
+    }
+
+    public function date(): FightDate
+    {
+        return $this->date;
     }
 
     /**
