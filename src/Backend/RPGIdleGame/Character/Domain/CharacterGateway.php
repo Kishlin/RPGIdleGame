@@ -17,8 +17,6 @@ interface CharacterGateway
 {
     public function save(Character $character): void;
 
-    public function delete(CharacterId $characterId): void;
-
     public function findOneById(CharacterId $characterId): ?Character;
 
     public function findOneByIdAndOwner(CharacterId $characterId, CharacterOwner $requester): ?Character;

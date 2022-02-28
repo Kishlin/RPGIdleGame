@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Character;
 
-use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionAllowanceGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
@@ -14,7 +13,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharactersListView;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\View\JsonableCharacterView;
 
-class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway, CharacterViewGateway
+class CharacterGatewaySpy implements CharacterGateway, CharacterViewGateway
 {
     /** @var array<string, Character> */
     private array $characters = [];
@@ -22,11 +21,6 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function save(Character $character): void
     {
         $this->characters[$character->id()->value()] = $character;
-    }
-
-    public function delete(CharacterId $characterId): void
-    {
-        unset($this->characters[$characterId->value()]);
     }
 
     public function findOneById(CharacterId $characterId): ?Character
@@ -47,7 +41,9 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function viewOneById(string $characterId, string $requesterId): JsonableCharacterView
     {
         if (false === $this->has($characterId)
-            || $this->characters[$characterId]->owner()->value() !== $requesterId) {
+            || $this->characters[$characterId]->owner()->value() !== $requesterId
+            || false === $this->characters[$characterId]->activeStatus()->isActive()
+        ) {
             throw new CharacterNotFoundException();
         }
 
@@ -59,7 +55,7 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
     public function viewAllForOwner(string $ownerUuid): JsonableCharactersListView
     {
         $filterForOwner = static function (Character $character) use ($ownerUuid) {
-            return $character->owner()->value() === $ownerUuid;
+            return $character->owner()->value() === $ownerUuid && true === $character->activeStatus()->isActive();
         };
 
         return JsonableCharactersListView::fromSource(
@@ -68,15 +64,6 @@ class CharacterGatewaySpy implements CharacterGateway, DeletionAllowanceGateway,
                 array_filter($this->characters, $filterForOwner)
             ),
         );
-    }
-
-    public function requesterIsTheRightfulOwner(CharacterOwner $deletionRequester, CharacterId $characterId): bool
-    {
-        if (false === $this->has($characterId->value())) {
-            return false;
-        }
-
-        return $deletionRequester->equals($this->characters[$characterId->value()]->owner());
     }
 
     public function has(string $characterId): bool

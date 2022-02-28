@@ -25,7 +25,6 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint;
-use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\ValueObject\CharacterCountOwner;
 use Kishlin\Backend\RPGIdleGame\CharacterStats\Domain\CharacterStats;
 use Kishlin\Backend\RPGIdleGame\CharacterStats\Domain\ValueObject\CharacterStatsCharacterId;
@@ -106,7 +105,7 @@ final class CharacterContext extends RPGIdleGameContext
         $opponent = Character::createFresh(
             new CharacterId(self::OPPONENT_UUID),
             new CharacterName('Opponent'),
-            new CharacterOwner(self::STRANGER_UUID),
+            new CharacterOwner(self::CLIENT_UUID),
         );
 
         ReflectionHelper::writePropertyValue($opponent, 'health', new CharacterHealth(70));
@@ -353,7 +352,10 @@ final class CharacterContext extends RPGIdleGameContext
      */
     public function theCharacterIsDeleted(): void
     {
-        Assert::assertFalse(self::container()->characterGatewaySpy()->has(self::FIGHTER_UUID));
+        $character = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::FIGHTER_UUID));
+        Assert::assertNotNull($character);
+
+        Assert::assertFalse($character->activeStatus()->isActive());
     }
 
     /**
@@ -454,19 +456,12 @@ final class CharacterContext extends RPGIdleGameContext
 
     private function addCharacterToDatabase(Character $character): void
     {
-        $this->container()->characterGatewaySpy()->save($character);
+        self::container()->characterGatewaySpy()->save($character);
 
-        $characterCount = $this->container()->characterCountGatewaySpy()->findForOwner(
-            CharacterCountOwner::fromOther($character->owner()),
-        ) ?? CharacterCount::createForOwner(CharacterCountOwner::fromOther($character->owner()))
-        ;
-
-        $characterCount->incrementOnCharacterCreation();
-
-        $this->container()->characterCountGatewaySpy()->save($characterCount);
-
-        $this->container()->characterStatsGatewaySpy()->save(CharacterStats::initiate(
+        self::container()->characterStatsGatewaySpy()->save(CharacterStats::initiate(
             CharacterStatsCharacterId::fromOther($character->id()),
         ));
+
+        self::container()->eventDispatcher()->dispatch(...$character->pullDomainEvents());
     }
 }

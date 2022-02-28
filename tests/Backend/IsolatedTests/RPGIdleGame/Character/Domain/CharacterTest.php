@@ -28,6 +28,8 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         $character = Character::createFresh($characterId, $characterName, $characterOwner);
 
+        self::assertTrue($character->activeStatus()->isActive());
+
         self::assertItRecordedDomainEvents(
             $character,
             new CharacterCreatedDomainEvent($characterId, $characterOwner),

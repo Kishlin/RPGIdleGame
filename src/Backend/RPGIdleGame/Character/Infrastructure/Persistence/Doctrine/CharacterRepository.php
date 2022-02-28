@@ -6,6 +6,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctr
 
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterActiveStatus;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\Repository\DoctrineRepository;
@@ -18,22 +19,16 @@ final class CharacterRepository extends DoctrineRepository implements CharacterG
         $this->entityManager->flush();
     }
 
-    public function delete(CharacterId $characterId): void
-    {
-        $this->entityManager->getConnection()->executeQuery(
-            'DELETE FROM characters WHERE id = :id;',
-            ['id' => $characterId->value()],
-        );
-    }
-
     public function findOneById(CharacterId $characterId): ?Character
     {
-        return $this->entityManager->getRepository(Character::class)->findOneBy(['id' => $characterId]);
+        $criteria = ['id' => $characterId, 'activeStatus' => new CharacterActiveStatus(true)];
+
+        return $this->entityManager->getRepository(Character::class)->findOneBy($criteria);
     }
 
     public function findOneByIdAndOwner(CharacterId $characterId, CharacterOwner $requester): ?Character
     {
-        $criteria = ['id' => $characterId, 'owner' => $requester];
+        $criteria = ['id' => $characterId, 'owner' => $requester, 'activeStatus' => new CharacterActiveStatus(true)];
 
         return $this->entityManager->getRepository(Character::class)->findOneBy($criteria);
     }

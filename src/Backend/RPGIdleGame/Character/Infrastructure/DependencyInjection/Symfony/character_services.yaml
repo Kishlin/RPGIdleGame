@@ -52,6 +52,3 @@ services:
 
   Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreationAllowanceGateway:
     class: 'Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\CreationAllowanceRepository'
-
-  Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeletionAllowanceGateway:
-    class: 'Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine\DeletionAllowanceRepository'

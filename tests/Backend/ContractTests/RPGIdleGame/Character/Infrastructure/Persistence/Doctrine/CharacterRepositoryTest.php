@@ -40,21 +40,4 @@ final class CharacterRepositoryTest extends RepositoryContractTestCase
 
         self::assertNull($repository->findOneByIdAndOwner($character->id(), $stranger));
     }
-
-    /**
-     * @depends testItCanSaveAndRetrieveACharacter
-     */
-    public function testItCanDeleteACharacter(): void
-    {
-        $character  = CharacterProvider::freshCharacter();
-        $repository = new CharacterRepository(self::entityManager());
-
-        self::loadFixtures($character);
-
-        self::assertCount(1, self::entityManager()->getRepository(Character::class)->findAll());
-
-        $repository->delete($character->id());
-
-        self::assertCount(0, self::entityManager()->getRepository(Character::class)->findAll());
-    }
 }

@@ -1,11 +1,10 @@
 <?php
 
-/** @noinspection PhpPropertyOnlyWrittenInspection */
-
 declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterActiveStatus;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
@@ -30,6 +29,7 @@ final class Character extends AggregateRoot
         private CharacterDefense $defense,
         private CharacterMagik $magik,
         private CharacterRank $rank,
+        private CharacterActiveStatus $activeStatus,
     ) {
     }
 
@@ -48,6 +48,7 @@ final class Character extends AggregateRoot
             new CharacterDefense(0),
             new CharacterMagik(0),
             new CharacterRank(1),
+            new CharacterActiveStatus(true),
         );
 
         $character->record(new CharacterCreatedDomainEvent($id, $owner));
@@ -138,6 +139,13 @@ final class Character extends AggregateRoot
         }
     }
 
+    public function softDelete(): void
+    {
+        $this->activeStatus = $this->activeStatus->flagAsInactive();
+
+        $this->record(new CharacterDeletedDomainEvent($this->id, $this->owner));
+    }
+
     public function id(): CharacterId
     {
         return $this->id;
@@ -181,6 +189,11 @@ final class Character extends AggregateRoot
     public function rank(): CharacterRank
     {
         return $this->rank;
+    }
+
+    public function activeStatus(): CharacterActiveStatus
+    {
+        return $this->activeStatus;
     }
 
     /**

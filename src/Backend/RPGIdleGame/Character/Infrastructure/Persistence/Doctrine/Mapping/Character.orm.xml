@@ -23,6 +23,7 @@
 
         <field name="rank" type="character_rank" column="rank" />
 
+        <field name="activeStatus" type="character_active_status" column="is_active" />
 </entity>
 
 </doctrine-mapping>

@@ -89,12 +89,12 @@ INSERT INTO accounts (id, username, email, password, salt, is_active) VALUES
     ('account-1', 'Stranger', 'stranger@example.com', 'password', 'salt-1', true)
 ;
 
-INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count) VALUES
-    ('character-0', 'account-0', 'Kishlin', 12, 25, 18, 12, 10, 25, 4, 1, 1, 2),
-    ('character-1', 'account-1', 'Brawler', 8, 20, 16, 8, 12, 20, 2, 1, 0, 1),
-    ('character-2', 'account-1', 'Fighter', 15, 30, 25, 5, 10, 32, 1, 1, 0, 0),
-    ('character-3', 'account-1', 'OnlyDraws', 5, 23, 1, 40, 1, 24, 1, 0, 1, 0),
-    ('character-4', 'account-1', 'NoFights', 12, 10, 0, 0, 0, 0, 0, 0, 0, 0)
+INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, is_active, fights_count, wins_count, draws_count, losses_count) VALUES
+    ('character-0', 'account-0', 'Kishlin', 12, 25, 18, 12, 10, 25, true, 4, 1, 1, 2),
+    ('character-1', 'account-1', 'Brawler', 8, 20, 16, 8, 12, 20, true, 2, 1, 0, 1),
+    ('character-2', 'account-1', 'Fighter', 15, 30, 25, 5, 10, 32, true, 1, 1, 0, 0),
+    ('character-3', 'account-1', 'OnlyDraws', 5, 23, 1, 40, 1, 24, true, 1, 0, 1, 0),
+    ('character-4', 'account-1', 'NoFights', 12, 10, 0, 0, 0, 0, true, 0, 0, 0, 0)
 ;
 
 INSERT INTO fight_initiators (id, character_id, health, attack, defense, magik, rank) VALUES

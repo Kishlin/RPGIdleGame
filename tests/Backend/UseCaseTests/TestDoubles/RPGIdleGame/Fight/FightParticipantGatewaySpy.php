@@ -39,9 +39,9 @@ final class FightParticipantGatewaySpy implements FightInitiationAllowanceGatewa
 
     public function requesterIsAllowedToFightWithFighter(FightRequesterId $requesterId, FighterId $fighterId): bool
     {
-        return $this->characterGatewaySpy->requesterIsTheRightfulOwner(
-            CharacterOwner::fromOther($requesterId),
+        return null !== $this->characterGatewaySpy->findOneByIdAndOwner(
             CharacterId::fromOther($fighterId),
+            CharacterOwner::fromOther($requesterId),
         );
     }
 

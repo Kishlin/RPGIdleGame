@@ -20,8 +20,8 @@ VALUES (:stranger, 'Stranger', 'stranger@gmail.com', '$argon2i$v=19$m=65536,t=4,
 SQL;
 
         $characterQuery = <<<'SQL'
-INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank)
-VALUES (:id, :stranger, 'Opponent', 0, 70, 48, 28, 30, 120);
+INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, is_active)
+VALUES (:id, :stranger, 'Opponent', 0, 70, 48, 28, 30, 120, true);
 SQL;
 
         self::database()->exec($strangerQuery, ['stranger' => self::STRANGER_UUID]);

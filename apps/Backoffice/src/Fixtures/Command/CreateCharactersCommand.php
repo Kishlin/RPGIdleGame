@@ -24,8 +24,8 @@ final class CreateCharactersCommand extends Command
 
     private const CHAR_COUNT_QUERY = 'UPDATE character_counts SET character_count = :character_count, reached_limit = :reached_limit WHERE owner_id = :owner';
     private const CHARACTER_QUERY  = <<<'SQL'
-INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank)
-VALUES (:id, :owner, :character_name, 12, 10, 0, 0, 0, 1)
+INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, is_active)
+VALUES (:id, :owner, :character_name, 12, 10, 0, 0, 0, 1, true)
 SQL;
 
     public function __construct(

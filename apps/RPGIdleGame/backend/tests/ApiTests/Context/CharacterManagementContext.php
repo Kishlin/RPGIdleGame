@@ -126,7 +126,11 @@ final class CharacterManagementContext extends RPGIdleGameAPIContext
     {
         Assert::assertNotNull($this->response);
         Assert::assertSame(204, $this->response->httpCode());
-        Assert::assertSame(0, self::database()->fetchOne('SELECT count(1) FROM characters;'));
+
+        /** @var array{is_active: boolean} $charData */
+        $charData = self::database()->fetchAssociative('SELECT is_active FROM characters');
+
+        Assert::assertFalse($charData['is_active']);
     }
 
     /**

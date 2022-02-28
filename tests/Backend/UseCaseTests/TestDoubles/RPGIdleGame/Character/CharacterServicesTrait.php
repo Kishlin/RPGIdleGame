@@ -65,8 +65,7 @@ trait CharacterServicesTrait
         if (null === $this->deleteCharacterCommandHandler) {
             $this->deleteCharacterCommandHandler = new DeleteCharacterCommandHandler(
                 $this->characterGatewaySpy(),
-                $this->characterGatewaySpy(),
-                $this->eventDispatcher()
+                $this->eventDispatcher(),
             );
         }
 
