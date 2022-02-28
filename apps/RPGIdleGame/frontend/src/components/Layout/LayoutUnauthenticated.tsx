@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fade, Grid } from '@mui/material';
+import { Container, Fade, Grid } from '@mui/material';
 
 import Header from '../Fragments/Header';
 
@@ -9,9 +9,9 @@ function LayoutUnauthenticated({ children }: { children: React.ReactElement }): 
             <Header />
             <Grid container direction="column" sx={{ mt: '5vh' }}>
                 <Fade appear in easing={{ enter: 'ease-in' }}>
-                    <Grid container maxWidth="md">
+                    <Container maxWidth="md">
                         {children}
-                    </Grid>
+                    </Container>
                 </Fade>
             </Grid>
         </>
