@@ -16,7 +16,7 @@ abstract class StrictlyPositiveIntValueObject extends IntValueObject
     private function ensureIsStrictlyPositive(int $value): void
     {
         if (0 >= $value) {
-            throw new InvalidValueException("Given value {$value} is not positive.");
+            throw new InvalidValueException("Given value {$value} is not strictly positive.");
         }
     }
 }
