@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 
+use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\CreateCharacterCommand;
 use Kishlin\Backend\RPGIdleGame\Character\Application\CreateCharacter\HasReachedCharacterLimitException;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DeleteCharacter\DeleteCharacterCommand;
@@ -49,6 +50,7 @@ final class CharacterContext extends RPGIdleGameContext
             new CharacterId(self::FIGHTER_UUID),
             new CharacterName('Kishlin'),
             new CharacterOwner(self::CLIENT_UUID),
+            new DateTimeImmutable(),
         ));
     }
 
@@ -63,6 +65,7 @@ final class CharacterContext extends RPGIdleGameContext
             new CharacterId(self::FIGHTER_UUID),
             new CharacterName('Kishlin'),
             new CharacterOwner(self::CLIENT_UUID),
+            new DateTimeImmutable(),
         );
 
         ReflectionHelper::writePropertyValue($character, 'skillPoint', new CharacterSkillPoint(3000));
@@ -91,6 +94,7 @@ final class CharacterContext extends RPGIdleGameContext
                 new CharacterId($characterUuid),
                 new CharacterName($characterName),
                 new CharacterOwner(self::CLIENT_UUID),
+                new DateTimeImmutable(),
             ));
         }
     }
@@ -106,6 +110,7 @@ final class CharacterContext extends RPGIdleGameContext
             new CharacterId(self::OPPONENT_UUID),
             new CharacterName('Opponent'),
             new CharacterOwner(self::CLIENT_UUID),
+            new DateTimeImmutable(),
         );
 
         ReflectionHelper::writePropertyValue($opponent, 'health', new CharacterHealth(70));

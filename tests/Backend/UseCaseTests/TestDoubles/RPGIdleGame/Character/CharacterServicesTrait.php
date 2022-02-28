@@ -10,6 +10,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\Dist
 use Kishlin\Backend\RPGIdleGame\Character\Application\ViewAllCharacter\ViewAllCharactersQueryHandler;
 use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacterQueryHandler;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
+use Kishlin\Backend\Shared\Infrastructure\Time\SystemClock;
 
 trait CharacterServicesTrait
 {
@@ -54,6 +55,7 @@ trait CharacterServicesTrait
                 $this->characterCountGatewaySpy(),
                 $this->characterGatewaySpy(),
                 $this->eventDispatcher(),
+                new SystemClock(),
             );
         }
 

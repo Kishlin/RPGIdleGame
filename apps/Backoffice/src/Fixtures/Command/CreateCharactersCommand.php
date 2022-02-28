@@ -7,6 +7,7 @@ namespace Kishlin\Apps\Backoffice\Fixtures\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Kishlin\Backend\RPGIdleGame\CharacterCount\Domain\CharacterCount;
 use Kishlin\Backend\Shared\Domain\Randomness\UuidGenerator;
+use Kishlin\Backend\Shared\Domain\Time\Clock;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,13 +25,14 @@ final class CreateCharactersCommand extends Command
 
     private const CHAR_COUNT_QUERY = 'UPDATE character_counts SET character_count = :character_count, reached_limit = :reached_limit WHERE owner_id = :owner';
     private const CHARACTER_QUERY  = <<<'SQL'
-INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, is_active)
-VALUES (:id, :owner, :character_name, 12, 10, 0, 0, 0, 1, true)
+INSERT INTO characters (id, owner, name, skill_points, health, attack, defense, magik, rank, is_active, created_on, available_as_of)
+VALUES (:id, :owner, :character_name, 12, 10, 0, 0, 0, 1, true, :create_date, :create_date)
 SQL;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UuidGenerator $uuidGenerator,
+        private Clock $clock,
         private string $appEnv,
     ) {
         parent::__construct();
@@ -135,12 +137,14 @@ EOT
         $connection = $this->entityManager->getConnection();
 
         for ($key = strtotime('now'), $i = 0; $i < $countOfCharacters; ++$i, ++$key) {
-            $id = $this->uuidGenerator->uuid4();
+            $id  = $this->uuidGenerator->uuid4();
+            $now = $this->clock->now();
 
             $params = [
                 'id'             => $id,
                 'owner'          => $owner,
                 'character_name' => "Character{$key}",
+                'creation_date'  => $now,
             ];
 
             $connection->executeStatement(self::CHARACTER_QUERY, $params);

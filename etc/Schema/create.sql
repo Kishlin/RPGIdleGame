@@ -67,7 +67,9 @@ CREATE TABLE public.characters (
     wins_count integer DEFAULT 0 NOT NULL,
     draws_count integer DEFAULT 0 NOT NULL,
     losses_count integer DEFAULT 0 NOT NULL,
-    is_active boolean NOT NULL
+    is_active boolean NOT NULL,
+    created_on timestamp(0) without time zone NOT NULL,
+    available_as_of timestamp(0) without time zone NOT NULL
 );
 
 
@@ -174,7 +176,7 @@ COPY public.character_counts (owner_id, character_count, reached_limit) FROM std
 -- Data for Name: characters; Type: TABLE DATA; Schema: public; Owner: rpgidlegame
 --
 
-COPY public.characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count, is_active) FROM stdin;
+COPY public.characters (id, owner, name, skill_points, health, attack, defense, magik, rank, fights_count, wins_count, draws_count, losses_count, is_active, created_on, available_as_of) FROM stdin;
 \.
 
 
@@ -189,6 +191,7 @@ Kishlin\\Migrations\\Version20220125013925	2022-01-25 01:40:16	12
 Kishlin\\Migrations\\Version20220201163853	2022-02-02 05:48:48	19
 Kishlin\\Migrations\\Version20220207181914	2022-02-07 18:25:57	6
 Kishlin\\Migrations\\Version20220228131426	2022-02-28 12:16:40	7
+Kishlin\\Migrations\\Version20220228153043	2022-02-28 14:35:18	11
 \.
 
 

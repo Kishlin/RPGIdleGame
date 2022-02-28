@@ -24,6 +24,10 @@
         <field name="rank" type="character_rank" column="rank" />
 
         <field name="activeStatus" type="character_active_status" column="is_active" />
+
+        <field name="creationDate" type="character_creation_date" column="created_on" />
+
+        <field name="availability" type="character_availability" column="available_as_of" />
 </entity>
 
 </doctrine-mapping>

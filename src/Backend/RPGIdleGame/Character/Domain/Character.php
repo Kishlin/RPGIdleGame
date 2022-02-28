@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Kishlin\Backend\RPGIdleGame\Character\Domain;
 
+use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterActiveStatus;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAvailability;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterCreationDate;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
@@ -30,6 +33,8 @@ final class Character extends AggregateRoot
         private CharacterMagik $magik,
         private CharacterRank $rank,
         private CharacterActiveStatus $activeStatus,
+        private CharacterAvailability $availability,
+        private CharacterCreationDate $creationDate,
     ) {
     }
 
@@ -37,6 +42,7 @@ final class Character extends AggregateRoot
         CharacterId $id,
         CharacterName $name,
         CharacterOwner $owner,
+        DateTimeImmutable $creationDate,
     ): self {
         $character = new self(
             $id,
@@ -49,6 +55,8 @@ final class Character extends AggregateRoot
             new CharacterMagik(0),
             new CharacterRank(1),
             new CharacterActiveStatus(true),
+            new CharacterAvailability($creationDate),
+            new CharacterCreationDate($creationDate),
         );
 
         $character->record(new CharacterCreatedDomainEvent($id, $owner));
@@ -194,6 +202,16 @@ final class Character extends AggregateRoot
     public function activeStatus(): CharacterActiveStatus
     {
         return $this->activeStatus;
+    }
+
+    public function availability(): CharacterAvailability
+    {
+        return $this->availability;
+    }
+
+    public function creationDate(): CharacterCreationDate
+    {
+        return $this->creationDate;
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\ContractTests\RPGIdleGame\Character\Infrastructure\Persistence\Doctrine;
 
+use DateTimeImmutable;
 use Doctrine\DBAL\Exception;
 use Kishlin\Backend\RPGIdleGame\Character\Application\DistributeSkillPoints\CharacterNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
@@ -86,6 +87,8 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
      */
     public function complexDatasetProvider(): iterable
     {
+        $creationDate = new DateTimeImmutable();
+
         $ownerOne = new CharacterOwner('83539398-2758-4194-a98c-bd693f0aa987');
         $ownerTwo = new CharacterOwner('8fd7312d-04e8-4b56-89eb-403647652e77');
 
@@ -94,9 +97,9 @@ final class CharacterViewRepositoryTest extends RepositoryContractTestCase
         $characterIdThree = new CharacterId('f35cfe72-41ad-4406-af46-d8305414751d');
 
         yield [
-            Character::createFresh($characterIdOne, new CharacterName('Owner 1, char 1'), $ownerOne),
-            Character::createFresh($characterIdTwo, new CharacterName('Owner 1, char 2'), $ownerOne),
-            Character::createFresh($characterIdThree, new CharacterName('Owner 2, char 1'), $ownerTwo),
+            Character::createFresh($characterIdOne, new CharacterName('Owner 1, char 1'), $ownerOne, $creationDate),
+            Character::createFresh($characterIdTwo, new CharacterName('Owner 1, char 2'), $ownerOne, $creationDate),
+            Character::createFresh($characterIdThree, new CharacterName('Owner 2, char 1'), $ownerTwo, $creationDate),
             $ownerOne,
             $ownerTwo,
         ];

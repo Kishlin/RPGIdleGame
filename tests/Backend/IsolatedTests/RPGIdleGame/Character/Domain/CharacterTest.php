@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\IsolatedTests\RPGIdleGame\Character\Domain;
 
+use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterCreatedDomainEvent;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\NotEnoughSkillPointsException;
@@ -26,7 +27,9 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
         $characterOwner = new CharacterOwner('d71ddce2-ca04-4066-abb0-189f481b5ac9');
         $characterName  = new CharacterName('Kishlin');
 
-        $character = Character::createFresh($characterId, $characterName, $characterOwner);
+        $creationDate = new DateTimeImmutable();
+
+        $character = Character::createFresh($characterId, $characterName, $characterOwner, $creationDate);
 
         self::assertTrue($character->activeStatus()->isActive());
 

@@ -7,7 +7,7 @@ namespace Kishlin\Backend\RPGIdleGame\Character\Infrastructure\Persistence\Doctr
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAvailability;
 use Kishlin\Backend\Shared\Infrastructure\Persistence\Doctrine\DbalTypes\AbstractDatetimeType;
 
-final class CharacterRestingUntilType extends AbstractDatetimeType
+final class CharacterAvailabilityType extends AbstractDatetimeType
 {
     protected function mappedClass(): string
     {

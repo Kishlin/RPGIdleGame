@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\Tools\Provider;
 
+use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
@@ -25,6 +26,7 @@ final class CharacterProvider
             new CharacterId('9f7c029c-bd83-4e7f-bf37-c973671bc8b7'),
             new CharacterName('Kishlin'),
             new CharacterOwner('e880eafd-b195-4f18-b140-fd196aaac21a'),
+            new DateTimeImmutable(),
         );
     }
 

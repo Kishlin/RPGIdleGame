@@ -9,6 +9,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\CharacterGateway;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\Shared\Domain\Bus\Command\CommandHandler;
 use Kishlin\Backend\Shared\Domain\Bus\Event\EventDispatcher;
+use Kishlin\Backend\Shared\Domain\Time\Clock;
 
 final class CreateCharacterCommandHandler implements CommandHandler
 {
@@ -16,6 +17,7 @@ final class CreateCharacterCommandHandler implements CommandHandler
         private CreationAllowanceGateway $canCreateCharacterGateway,
         private CharacterGateway $characterGateway,
         private EventDispatcher $eventDispatcher,
+        private Clock $clock,
     ) {
     }
 
@@ -32,6 +34,7 @@ final class CreateCharacterCommandHandler implements CommandHandler
             $command->characterId(),
             $command->characterName(),
             $command->characterOwner(),
+            creationDate: $this->clock->now(),
         );
 
         $this->characterGateway->save($character);
