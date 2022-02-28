@@ -89,7 +89,7 @@ final class FightGatewaySpy implements FightGateway, FightViewGateway
     }
 
     /**
-     * @return array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}
+     * @return array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}
      */
     private static function mapParticipantToArray(AbstractFightParticipant $participant): array
     {

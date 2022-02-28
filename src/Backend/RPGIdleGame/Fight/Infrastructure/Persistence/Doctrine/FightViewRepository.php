@@ -144,11 +144,11 @@ SQL;
     /**
      * @throws Exception
      *
-     * @return array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}
+     * @return array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}
      */
     private function initiator(string $fightId): array
     {
-        /** @var array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}|false $ret */
+        /** @var array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}|false $ret */
         $ret = $this->entityManager->getConnection()->fetchAssociative(self::INITIATOR_QUERY, ['fight_id' => $fightId]);
         assert(false !== $ret);
 
@@ -158,11 +158,11 @@ SQL;
     /**
      * @throws Exception
      *
-     * @return array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}
+     * @return array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}
      */
     private function opponent(string $fightId): array
     {
-        /** @var array{account_username: string, character_name: string, health: int, attack: int, defense: int, magik: int, rank: int}|false $ret */
+        /** @var array{account_username: string, character_name: string, character_id: string, health: int, attack: int, defense: int, magik: int, rank: int}|false $ret */
         $ret = $this->entityManager->getConnection()->fetchAssociative(self::OPPONENT_QUERY, ['fight_id' => $fightId]);
         assert(false !== $ret);
 
