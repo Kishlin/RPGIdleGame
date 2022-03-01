@@ -8,9 +8,17 @@ declare type FightResultHeaderProps = {
 };
 
 declare type FightTurnsViewProps = {
+    winnerId: null|string,
     turns: FightTurn[],
-}
+};
 
 declare type FightViewProps = {
     fight: Fight,
+};
+
+declare type FightViewHeaderProps = {
+    initiatorResult: FightResult,
+    opponentResult: FightResult,
+    initiator: FightParticipant,
+    opponent: FightParticipant,
 };

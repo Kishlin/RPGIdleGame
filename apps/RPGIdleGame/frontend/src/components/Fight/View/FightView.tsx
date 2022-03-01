@@ -1,39 +1,30 @@
 import React, { useContext } from 'react';
-import { Grid, Stack, Typography } from '@mui/material';
-import FightParticipantView from './FightParticipantView';
+import { Stack, Typography } from '@mui/material';
 
 import { LangContext } from '../../../context/LangContext';
 
 import NavigationButton from '../../Navigation/NavigationButton';
+import FightViewHeader from './FightViewHeader';
 import FightTurnsView from './FightTurnsView';
 
 import resultsForParticipants from '../../../tools/resultsForParticipants';
 
 function FightView({ fight }: FightViewProps): JSX.Element {
-    const { t, lang } = useContext<LangContextType>(LangContext);
+    const { lang } = useContext<LangContextType>(LangContext);
 
     const [resultInitiator, resultOpponent] = resultsForParticipants(fight);
-
-    const turnsView = null === fight.winner_id
-        ? <Typography>{t('entities.fight.draw')}</Typography>
-        : <FightTurnsView turns={fight.turns} />;
 
     return (
         <Stack spacing={3}>
             <Typography textAlign="center">{(new Date(fight.fight_date * 1000).toLocaleString(lang))}</Typography>
-            <Grid container direction="row" columns={{ xs: 12, sm: 11 }} alignItems="center">
-                <Grid item xs={12} sm={5}>
-                    <FightParticipantView result={resultInitiator} participant={fight.initiator} />
-                </Grid>
-                <Grid item xs={12} sm={1} sx={{ my: 1 }}>
-                    <Typography textAlign="center">{t('entities.fight.vs')}</Typography>
-                </Grid>
-                <Grid item xs={12} sm={5}>
-                    <FightParticipantView result={resultOpponent} participant={fight.opponent} />
-                </Grid>
-            </Grid>
+            <FightViewHeader
+                initiatorResult={resultInitiator}
+                opponentResult={resultOpponent}
+                initiator={fight.initiator}
+                opponent={fight.opponent}
+            />
             <NavigationButton variant="text" text="pages.fights.buttons.homepage" to="/" />
-            { turnsView }
+            <FightTurnsView winnerId={fight.winner_id} turns={fight.turns} />
         </Stack>
     );
 }

@@ -1,4 +1,4 @@
-const resultsForParticipants = (fight: Fight): ['win'|'draw'|'loss', 'win'|'draw'|'loss'] => {
+const resultsForParticipants = (fight: Fight): [FightResult, FightResult] => {
     if (null === fight.winner_id) {
         return ['draw', 'draw'];
     }
