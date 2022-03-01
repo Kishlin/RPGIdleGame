@@ -5,7 +5,7 @@ import { Button, Stack, Typography } from '@mui/material';
 import { UserContext } from '../../context/UserContext';
 import { LangContext } from '../../context/LangContext';
 
-import CharacterCard from '../../components/Character/CharacterCard';
+import CharacterCard from '../../components/Character/Card/CharacterCard';
 import NavigationButton from '../../components/Navigation/NavigationButton';
 import LayoutAuthenticated from '../../components/Layout/LayoutAuthenticated';
 

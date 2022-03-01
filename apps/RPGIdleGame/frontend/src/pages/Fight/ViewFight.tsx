@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 import LayoutAuthenticated from '../../components/Layout/LayoutAuthenticated';
-import FightView from '../../components/Fight/FightView';
+import FightView from '../../components/Fight/View/FightView';
 import Loading from '../../components/Loading/Loading';
 
 import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';

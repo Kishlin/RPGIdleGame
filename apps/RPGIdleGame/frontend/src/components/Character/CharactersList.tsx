@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 
-import CharacterCard from './CharacterCard';
+import CharacterCard from './Card/CharacterCard';
 
 function CharactersList(): JSX.Element {
     const { characters } = useContext<UserContextType>(UserContext);

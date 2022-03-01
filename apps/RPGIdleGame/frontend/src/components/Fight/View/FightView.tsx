@@ -2,21 +2,12 @@ import React, { useContext } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
 import FightParticipantView from './FightParticipantView';
 
-import { LangContext } from '../../context/LangContext';
+import { LangContext } from '../../../context/LangContext';
+
+import NavigationButton from '../../Navigation/NavigationButton';
 import FightTurnsView from './FightTurnsView';
-import NavigationButton from '../Navigation/NavigationButton';
 
-function resultsForParticipants(fight: Fight): ['win'|'draw'|'loss', 'win'|'draw'|'loss'] {
-    if (null === fight.winner_id) {
-        return ['draw', 'draw'];
-    }
-
-    if (fight.winner_id === fight.initiator.character_id) {
-        return ['win', 'loss'];
-    }
-
-    return ['loss', 'win'];
-}
+import resultsForParticipants from '../../../tools/resultsForParticipants';
 
 function FightView({ fight }: FightViewProps): JSX.Element {
     const { t, lang } = useContext<LangContextType>(LangContext);

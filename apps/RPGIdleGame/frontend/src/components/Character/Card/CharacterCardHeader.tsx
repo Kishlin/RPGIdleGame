@@ -2,7 +2,7 @@ import { CardHeader } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import React from 'react';
 
-import NavigationIcon from '../Navigation/NavigationIcon';
+import NavigationIcon from '../../Navigation/NavigationIcon';
 
 function CharacterCardHeader({ id, name }: CharacterCardHeaderProps): JSX.Element {
     return (

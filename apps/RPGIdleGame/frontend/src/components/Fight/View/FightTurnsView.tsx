@@ -8,11 +8,13 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableContainer, TableHead,
-    TableRow, Typography,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from '@mui/material';
 
-import { LangContext } from '../../context/LangContext';
+import { LangContext } from '../../../context/LangContext';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&.index-modulo-0': {

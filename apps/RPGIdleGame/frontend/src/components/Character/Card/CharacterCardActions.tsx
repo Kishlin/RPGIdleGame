@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { Button, CardActions, Grid } from '@mui/material';
 import { Delete, Edit, RemoveRedEye } from '@mui/icons-material';
 
-import NavigationButton from '../Navigation/NavigationButton';
-import NavigationIcon from '../Navigation/NavigationIcon';
+import { LangContext } from '../../../context/LangContext';
 
-import characterIsReadyToFight from '../../tools/characterIsReadyToFight';
-import { LangContext } from '../../context/LangContext';
-import timeFormat from '../../tools/dates';
+import NavigationButton from '../../Navigation/NavigationButton';
+import NavigationIcon from '../../Navigation/NavigationIcon';
+
+import characterIsReadyToFight from '../../../tools/characterIsReadyToFight';
+import timeFormat from '../../../tools/dates';
 
 function CharacterCardActions({ id, availableAsOf }: CharacterCardActionsProps): JSX.Element {
     const { t, lang } = useContext<LangContextType>(LangContext);

@@ -10,7 +10,7 @@ import {
     Typography,
 } from '@mui/material';
 
-import { LangContext } from '../../context/LangContext';
+import { LangContext } from '../../../context/LangContext';
 
 function CharacterCardContent({ character }: CharacterCardContentProps): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);

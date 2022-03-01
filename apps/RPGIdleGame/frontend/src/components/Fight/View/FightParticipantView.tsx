@@ -1,31 +1,21 @@
 import React, { useContext } from 'react';
 import { tableCellClasses } from '@mui/material/TableCell';
 import {
-    Grid, styled,
+    Grid,
     Table,
     TableBody,
     TableCell,
     TableContainer,
-    TableRow, Typography,
+    TableRow,
+    Typography,
 } from '@mui/material';
 
-import { LangContext } from '../../context/LangContext';
+import { LangContext } from '../../../context/LangContext';
 
-const ResultTypography = styled(Typography)(({ theme }) => ({
-    '&.win': {
-        color: theme.palette.success.main,
-    },
-    '&.loss': {
-        color: theme.palette.error.main,
-    },
-}));
+import FightParticipantResultHeader from './FightParticipantResultHeader';
 
 function FightParticipantView({ participant, result }: FightParticipantViewProps): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);
-
-    const resultHeader = 'draw' !== result
-        ? <ResultTypography className={result}>{t(`entities.fight.participant.headers.${result}`)}</ResultTypography>
-        : <noscript />;
 
     const headlineData = {
         player: participant.account_username,
@@ -44,7 +34,7 @@ function FightParticipantView({ participant, result }: FightParticipantViewProps
 
     return (
         <Grid container direction="column" alignItems="center">
-            {resultHeader}
+            <FightParticipantResultHeader result={result} />
             <Typography>{t('entities.fight.participant.headline', headlineData)}</Typography>
             <TableContainer sx={{ maxWidth: '250px' }}>
                 <Table

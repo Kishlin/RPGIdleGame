@@ -71,6 +71,8 @@ declare interface FightShort {
     fight_date: number
 }
 
+declare type FightResult = 'win'|'draw'|'loss'|string;
+
 declare type CharacterList = { [key: string]: Character };
 
 declare type FightList = { [key: string]: Fight };
