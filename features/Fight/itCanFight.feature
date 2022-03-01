@@ -7,6 +7,7 @@ Feature: It can fight against other characters
     When a client wants to fight with its character
     Then the fight is registered
     And the fighting stats of both participants where updated
+    And the loser has to rest before it can fight again
 
   Scenario: a stranger cannot fight with a client's character
     Given a client has an account

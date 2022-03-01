@@ -11,6 +11,8 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\NotEnoughSkillPointsException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterName;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
+use Kishlin\Backend\Shared\Domain\ValueObject\DateTimeValueObject;
+use Kishlin\Tests\Backend\IsolatedTests\RPGIdleGame\Character\Domain\Constraint\CharacterIsUnavailableUntilConstraint;
 use Kishlin\Tests\Backend\Tools\Provider\CharacterProvider;
 use Kishlin\Tests\Backend\Tools\Test\Isolated\AggregateRootIsolatedTestCase;
 use ReflectionException;
@@ -58,15 +60,19 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
     /**
      * @throws ReflectionException
      */
-    public function testItRanksDownOnFightLoss(): void
+    public function testItRanksDownAndIsUnavailableForOneHourOnFightLoss(): void
     {
+        $refTime   = new DateTimeImmutable('1993-11-22 01:00:00');
+        $refTimeVO = new class($refTime) extends DateTimeValueObject {};
+
         $character = CharacterProvider::completeCharacter();
 
         $baseRank = $character->rank()->value();
 
-        $character->hadAFightLoss();
+        $character->hadAFightLoss($refTimeVO);
 
         self::assertSame($baseRank - 1, $character->rank()->value());
+        self::assertCharacterIsUnavailableUntil('1993-11-22 02:00:00', $character);
     }
 
     /**
@@ -202,5 +208,10 @@ final class CharacterTest extends AggregateRootIsolatedTestCase
 
         self::expectException(NotEnoughSkillPointsException::class);
         $character->increaseMagikBy(1); // Would cost 7, but it has 1 skill point
+    }
+
+    public static function assertCharacterIsUnavailableUntil(string $expected, Character $character): void
+    {
+        self::assertThat($character, new CharacterIsUnavailableUntilConstraint($expected));
     }
 }

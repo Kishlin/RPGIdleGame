@@ -10,7 +10,7 @@ use PHPUnit\Framework\Assert;
 final class CharacterStatsContext extends RPGIdleGameContext
 {
     /**
-     * @Given /^the fighting stats of both participants where updated$/
+     * @Then /^the fighting stats of both participants where updated$/
      */
     public function theFightingStatsOfBothParticipantsWhereUpdated(): void
     {

@@ -27,7 +27,7 @@ final class OnFightLossEventSubscriber implements DomainEventSubscriber
             throw new CharacterNotFoundException();
         }
 
-        $character->hadAFightLoss();
+        $character->hadAFightLoss($event->fightDate());
 
         $this->gateway->save($character);
     }

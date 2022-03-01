@@ -134,7 +134,7 @@ final class Fight extends AggregateRoot
         $this->winnerId = FightWinnerId::fromOther($winner->characterId());
 
         $this->record(new FightParticipantHadAWinDomainEvent($this->id, $winner->characterId()));
-        $this->record(new FightParticipantHadALossDomainEvent($this->id, $loser->characterId()));
+        $this->record(new FightParticipantHadALossDomainEvent($this->id, $loser->characterId(), $this->date));
     }
 
     /**

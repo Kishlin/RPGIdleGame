@@ -19,6 +19,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterRank;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterSkillPoint;
 use Kishlin\Backend\Shared\Domain\Aggregate\AggregateRoot;
 use Kishlin\Backend\Shared\Domain\Exception\InvalidValueException;
+use Kishlin\Backend\Shared\Domain\ValueObject\DateTimeValueObject;
 
 final class Character extends AggregateRoot
 {
@@ -71,9 +72,10 @@ final class Character extends AggregateRoot
         $this->rank = $this->rank->rankUp();
     }
 
-    public function hadAFightLoss(): void
+    public function hadAFightLoss(DateTimeValueObject $lossDateTime): void
     {
-        $this->rank = $this->rank->rankDownIfItCan();
+        $this->availability = $this->availability->oneHourAfter($lossDateTime);
+        $this->rank         = $this->rank->rankDownIfItCan();
     }
 
     /**

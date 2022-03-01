@@ -81,7 +81,7 @@ final class FightTest extends TestCase
         self::assertFightRecordedDomainEvents(
             $fight,
             new FightParticipantHadAWinDomainEvent($fight->id(), $expectedWinner->characterId()),
-            new FightParticipantHadALossDomainEvent($fight->id(), $expectedLoser->characterId()),
+            new FightParticipantHadALossDomainEvent($fight->id(), $expectedLoser->characterId(), $fight->date()),
         );
     }
 
@@ -98,7 +98,7 @@ final class FightTest extends TestCase
         self::assertFightRecordedDomainEvents(
             $fight,
             new FightParticipantHadAWinDomainEvent($fight->id(), FightParticipantCharacterId::fromOther($fight->winnerId())),
-            new FightParticipantHadALossDomainEvent($fight->id(), $loser->characterId()),
+            new FightParticipantHadALossDomainEvent($fight->id(), $loser->characterId(), $fight->date()),
         );
     }
 

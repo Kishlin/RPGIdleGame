@@ -7,6 +7,7 @@ namespace Kishlin\Tests\Backend\UseCaseTests\Context;
 use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
+use Kishlin\Backend\RPGIdleGame\CharacterStats\Domain\ValueObject\CharacterStatsCharacterId;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\InitiateAFightCommand;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\RequesterIsNotAllowedToInitiateFight;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFight\ViewFightQuery;
@@ -219,6 +220,31 @@ final class FightContext extends RPGIdleGameContext
         Assert::assertNotNull($this->fightId);
         Assert::assertTrue(self::container()->fightGatewaySpy()->has($this->fightId->value()));
         Assert::assertNotEmpty(self::container()->fightGatewaySpy()->findOneById($this->fightId)?->turns());
+    }
+
+    /**
+     * @Then /^the loser has to rest before it can fight again$/
+     *
+     * Initially, the availability dates are equals to the creation date.
+     * The loser should have an availability date set latter than its creation date, the winner still has equal dates.
+     */
+    public function theLoserHasToRestBeforeItCanFightAgain(): void
+    {
+        $fighterId    = new CharacterStatsCharacterId(self::FIGHTER_UUID);
+        $fighterStats = self::container()->characterStatsGatewaySpy()->findForCharacter($fighterId);
+
+        $fighter  = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::FIGHTER_UUID));
+        $opponent = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::OPPONENT_UUID));
+
+        assert(null !== $fighterStats && null !== $fighter && null !== $opponent);
+
+        if (1 === $fighterStats->lossesCount()->value()) { // The fighter has lost
+            Assert::assertSame($opponent->creationDate()->value(), $opponent->availability()->value());
+            Assert::assertGreaterThan($fighter->creationDate()->value(), $fighter->availability()->value());
+        } else { // The opponent has lost
+            Assert::assertSame($fighter->creationDate()->value(), $fighter->availability()->value());
+            Assert::assertGreaterThan($opponent->creationDate()->value(), $opponent->availability()->value());
+        }
     }
 
     /**

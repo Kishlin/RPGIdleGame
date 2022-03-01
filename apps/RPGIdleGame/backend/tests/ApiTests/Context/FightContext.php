@@ -103,6 +103,28 @@ SQL;
     }
 
     /**
+     * @Then /^the loser has to rest before it can fight again$/
+     *
+     * Initially, the availability dates are equals to the creation date.
+     * The loser should have an availability date set latter than its creation date, the winner still has equal dates.
+     */
+    public function theLoserHasToRestBeforeItCanFightAgain(): void
+    {
+        /** @var array<array{created_on: string, available_as_of: string, losses_count: int}> $fightersStats */
+        $fightersStats = self::database()->fetchAllAssociative(
+            'SELECT created_on, available_as_of, losses_count FROM characters',
+        );
+
+        foreach ($fightersStats as $fightersStat) {
+            if (1 === $fightersStat['losses_count']) {
+                Assert::assertGreaterThan($fightersStat['created_on'], $fightersStat['available_as_of']);
+            } else {
+                Assert::assertSame($fightersStat['created_on'], $fightersStat['available_as_of']);
+            }
+        }
+    }
+
+    /**
      * @Then /^the fight request was refused$/
      */
     public function theFightRequestWasRefused(): void
