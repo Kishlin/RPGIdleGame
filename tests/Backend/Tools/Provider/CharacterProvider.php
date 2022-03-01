@@ -6,6 +6,7 @@ namespace Kishlin\Tests\Backend\Tools\Provider;
 
 use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterActiveStatus;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
@@ -28,6 +29,19 @@ final class CharacterProvider
             new CharacterOwner('e880eafd-b195-4f18-b140-fd196aaac21a'),
             new DateTimeImmutable(),
         );
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public static function inactiveCharacter(): Character
+    {
+        $overrides = [
+            'id'           => new CharacterId('53da9580-0753-4e7f-9859-b4114b7e9950'),
+            'activeStatus' => new CharacterActiveStatus(false),
+        ];
+
+        return self::customCharacter($overrides);
     }
 
     /**
