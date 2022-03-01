@@ -10,6 +10,7 @@ import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
 import LayoutAuthenticated from '../../components/Layout/LayoutAuthenticated';
 import NavigationButton from '../../components/Navigation/NavigationButton';
 import initiateFightUsingFetch from '../../api/fight/initiateFight';
+import characterIsReadyToFight from '../../tools/characterIsReadyToFight';
 
 function FightWithCharacter(): JSX.Element {
     useAuthenticatedPage();
@@ -52,6 +53,8 @@ function FightWithCharacter(): JSX.Element {
         ? <Typography color="error">{t(`pages.character.fight.errors.${error}`)}</Typography>
         : <noscript />;
 
+    const fightButtonDisabled = isLoading || false === characterIsReadyToFight(character.available_as_of);
+
     return (
         <LayoutAuthenticated>
             <Stack spacing={3}>
@@ -62,7 +65,7 @@ function FightWithCharacter(): JSX.Element {
 
                 {errorMessage}
 
-                <Button disabled={isLoading} onClick={initiateFight} variant="contained">
+                <Button disabled={fightButtonDisabled} onClick={initiateFight} variant="contained">
                     {t('pages.character.fight.doFight')}
                 </Button>
 

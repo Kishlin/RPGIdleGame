@@ -5,6 +5,8 @@ const TranslationsEN: Translations = {
                 rank: 'Rank: #rank#',
                 skillPoints: 'Skill Points: #skillPoints#',
                 stats: 'Fights: #fights# (#wins# - #draws# - #losses#)',
+                available: 'Ready to fight',
+                resting: 'Resting until #date#',
             },
             links: {
                 skillPoints: 'Distribute skill points',
@@ -20,6 +22,7 @@ const TranslationsEN: Translations = {
             attack: 'Attack',
             defense: 'Defense',
             magik: 'Magik',
+            resting: 'Resting until #date#',
         },
         fight: {
             vs: 'VS',

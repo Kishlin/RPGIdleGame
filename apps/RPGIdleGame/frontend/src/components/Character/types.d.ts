@@ -14,4 +14,5 @@ declare type CharacterCardContentProps = {
 
 declare type CharacterCardActionsProps = {
     id: string,
+    availableAsOf: number,
 };

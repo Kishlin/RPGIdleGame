@@ -11,6 +11,9 @@ import useAuthenticatedPage from '../../hooks/useAuthenticatedPage';
 import FightShortList from '../../components/Fight/FightShortList';
 import NavigationButton from '../../components/Navigation/NavigationButton';
 
+import characterIsReadyToFight from '../../tools/characterIsReadyToFight';
+import timeFormat from '../../tools/dates';
+
 function CharacterDetails(): JSX.Element {
     useAuthenticatedPage();
 
@@ -33,6 +36,20 @@ function CharacterDetails(): JSX.Element {
 
     const creationDate = new Date(character.created_on * 1000).toLocaleString(lang);
 
+    const fightAvailabilityTypography = characterIsReadyToFight(character.available_as_of)
+        ? (
+            <NavigationButton
+                variant="text"
+                color="success"
+                to={`/character/${character.id}/fight`}
+                text="components.character.meta.available"
+            />
+        ) : (
+            <Typography color="error">
+                {t('components.character.meta.resting', { date: timeFormat(character.available_as_of, lang) })}
+            </Typography>
+        );
+
     return (
         <LayoutAuthenticated>
             <Stack spacing={3} sx={{ mb: 5 }}>
@@ -44,6 +61,7 @@ function CharacterDetails(): JSX.Element {
                     <Typography>{t('pages.character.view.rank', { rank: character.rank })}</Typography>
                     <Typography>{t('pages.character.view.score', score)}</Typography>
                     <Typography>{t('pages.character.view.creation', { date: creationDate })}</Typography>
+                    {fightAvailabilityTypography}
                 </Box>
 
                 <NavigationButton text="pages.character.view.home" to="/" variant="text" />
