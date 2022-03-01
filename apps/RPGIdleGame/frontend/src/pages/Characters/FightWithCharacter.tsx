@@ -1,6 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { Button, Stack, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    Stack,
+    Typography,
+} from '@mui/material';
 
 import { UserContext } from '../../context/UserContext';
 import { LangContext } from '../../context/LangContext';
@@ -60,8 +65,18 @@ function FightWithCharacter(): JSX.Element {
             <Stack spacing={3}>
                 <Typography variant="h5">{t('pages.character.fight.title', { name: character.name })}</Typography>
 
-                <Typography align="justify">{t('pages.character.fight.explanations1')}</Typography>
-                <Typography align="justify">{t('pages.character.fight.explanations2')}</Typography>
+                <Typography align="justify">{t('pages.character.fight.explanations.main')}</Typography>
+
+                <Box mt={0}>
+                    <Typography align="justify">{t('pages.character.fight.explanations.example.title')}</Typography>
+                    <Typography align="justify">{t('pages.character.fight.explanations.example.init')}</Typography>
+                    <Typography align="justify">{t('pages.character.fight.explanations.example.roll')}</Typography>
+                    <Typography align="justify">{t('pages.character.fight.explanations.example.bonus')}</Typography>
+                    <Typography align="justify">{t('pages.character.fight.explanations.example.damage')}</Typography>
+                    <Typography align="justify">{t('pages.character.fight.explanations.example.final')}</Typography>
+                </Box>
+
+                <Typography align="justify">{t('pages.character.fight.explanations.onResult')}</Typography>
 
                 {errorMessage}
 
