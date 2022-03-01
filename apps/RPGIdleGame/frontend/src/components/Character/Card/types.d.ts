@@ -1,6 +1,20 @@
-declare type CharacterCardProps = {
+declare type CharacterCardActionFightProps = {
+    id: string,
+    availableAsOf: number,
+};
+
+declare type CharacterCardActionNavigation = {
+    id: string,
+};
+
+declare type CharacterCardActionsProps = {
+    id: string,
+    availableAsOf: number,
+    withActions: boolean,
+};
+
+declare type CharacterCardContentProps = {
     character: Character,
-    withActions?: boolean,
 };
 
 declare type CharacterCardHeaderProps = {
@@ -8,11 +22,11 @@ declare type CharacterCardHeaderProps = {
     name: string,
 };
 
-declare type CharacterCardContentProps = {
+declare type CharacterCardProps = {
     character: Character,
+    withActions?: boolean,
 };
 
-declare type CharacterCardActionsProps = {
+declare type NavigationButtonToCharacterDetailsProps = {
     id: string,
-    availableAsOf: number,
 };

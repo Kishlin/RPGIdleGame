@@ -4,7 +4,7 @@ const TranslationsEN: Translations = {
             meta: {
                 rank: 'Rank: #rank#',
                 skillPoints: 'Skill Points: #skillPoints#',
-                stats: 'Fights: #fights# (#wins# - #draws# - #losses#)',
+                stats: 'Fights: #fights_count# (#wins_count# - #draws_count# - #losses_count#)',
                 available: 'Ready to fight',
                 resting: 'Resting until #date#',
             },

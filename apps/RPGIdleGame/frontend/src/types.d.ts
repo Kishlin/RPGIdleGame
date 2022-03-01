@@ -10,21 +10,27 @@ declare module 'base-64' {
     export default base64;
 }
 
-declare interface Character {
+declare interface CharacterFightingStats {
+    fights_count: number,
+    wins_count: number,
+    draws_count: number,
+    losses_count: number,
+}
+
+declare interface CharacterSkills {
+    health: number,
+    attack: number,
+    magik: number,
+    defense: number,
+}
+
+declare interface Character extends CharacterSkills, CharacterFightingStats{
     [key: string]: string|number,
     id: string,
     owner: string,
     name: string,
     skill_points: number,
-    health: number,
-    attack: number,
-    magik: number,
-    defense: number,
     rank: number,
-    fights_count: number,
-    wins_count: number,
-    draws_count: number,
-    losses_count: number,
     created_on: number,
     available_as_of: number
 }

@@ -10,11 +10,11 @@ function CharacterCard({ character, withActions }: CharacterCardProps): JSX.Elem
         <Card>
             <CharacterCardHeader name={character.name} id={character.id} />
             <CharacterCardContent character={character} />
-            {
-                withActions
-                    ? <CharacterCardActions id={character.id} availableAsOf={character.available_as_of} />
-                    : <noscript />
-            }
+            <CharacterCardActions
+                availableAsOf={character.available_as_of}
+                withActions={withActions}
+                id={character.id}
+            />
         </Card>
     );
 }
