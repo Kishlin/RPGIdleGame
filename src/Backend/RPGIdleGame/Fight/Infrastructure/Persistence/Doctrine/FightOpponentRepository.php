@@ -34,6 +34,7 @@ FROM characters as opponent
 LEFT JOIN characters as initiator ON initiator.id = :id
 WHERE opponent.id != :id
 AND opponent.is_active = true
+AND opponent.available_as_of < NOW()
 ORDER BY abs(opponent.rank - initiator.rank) ASC,
 opponent.owner != initiator.owner DESC, -- This sorting prioritizes characters of other owners.
 (

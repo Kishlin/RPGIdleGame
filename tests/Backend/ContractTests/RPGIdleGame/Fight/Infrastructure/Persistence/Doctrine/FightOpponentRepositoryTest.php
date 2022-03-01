@@ -139,6 +139,22 @@ final class FightOpponentRepositoryTest extends RepositoryContractTestCase
         $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->id());
     }
 
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testItWillNotPickARestingOpponent(): void
+    {
+        $initiator  = CharacterProvider::freshCharacter();
+        $repository = new FightOpponentRepository(self::uuidGenerator(), self::entityManager());
+
+        $restingOpponent = CharacterProvider::restingCharacter();
+
+        self::loadFixtures($initiator, $restingOpponent);
+
+        self::expectException(NoOpponentAvailableException::class);
+        $repository->createFromExternalDetailsOfAnAvailableOpponent($initiator->id());
+    }
+
     public static function assertFightOpponentRepresentsTheCharacter(Character $expected, FightOpponent $actual): void
     {
         self::assertThat($actual, new FightParticipantRepresentsTheCharacterConstraint($expected));

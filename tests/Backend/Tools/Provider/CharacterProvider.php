@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterActiveStatus;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAvailability;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
@@ -39,6 +40,19 @@ final class CharacterProvider
         $overrides = [
             'id'           => new CharacterId('53da9580-0753-4e7f-9859-b4114b7e9950'),
             'activeStatus' => new CharacterActiveStatus(false),
+        ];
+
+        return self::customCharacter($overrides);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public static function restingCharacter(): Character
+    {
+        $overrides = [
+            'id'           => new CharacterId('8d16c85a-8136-4c2b-acf0-4b4757b0a294'),
+            'availability' => new CharacterAvailability(new DateTimeImmutable('+1 hour')),
         ];
 
         return self::customCharacter($overrides);
