@@ -19,7 +19,7 @@ function FightViewHeader({
                 <FightParticipantView result={initiatorResult} participant={initiator} />
             </Grid>
             <Grid item xs={12} sm={1} sx={{ my: 1 }}>
-                <Typography textAlign="center">{t('entities.fight.vs')}</Typography>
+                <Typography textAlign="center">{t('components.fight.vs')}</Typography>
             </Grid>
             <Grid item xs={12} sm={5}>
                 <FightParticipantView result={opponentResult} participant={opponent} />

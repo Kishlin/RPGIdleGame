@@ -15,6 +15,16 @@ const TranslationsEN: Translations = {
                 fight: 'Fight',
             },
         },
+        fight: {
+            vs: 'VS',
+            draw: 'This fight was a draw because nobody had any chance to damage the other.',
+            noTurns: 'The loser had no chance to damage the winner, because its maximum damage output is not greater than the winner\'s defense.',
+            turns: {
+                checkbox: {
+                    allTurns: 'Show turns with 0 damages dealt',
+                },
+            },
+        },
     },
     entities: {
         character: {
@@ -25,7 +35,6 @@ const TranslationsEN: Translations = {
             resting: 'Resting until #date#',
         },
         fight: {
-            vs: 'VS',
             participant: {
                 headline: '#player# - #fighter#, Rank #rank#',
                 health: 'Health',
@@ -40,17 +49,12 @@ const TranslationsEN: Translations = {
             draw: 'This fight was a draw because nobody had any chance to damage the other.',
             noTurns: 'The loser had no chance to damage the winner, because its maximum damage output is not greater than the winner\'s defense.',
             turns: {
-                checkbox: {
-                    allTurns: 'Show turns with 0 damages dealt',
-                },
-                header: {
-                    index: 'Turn',
-                    attacker: 'Attacker',
-                    diceRoll: 'Dice Roll',
-                    defenderDefense: 'Defender Defense',
-                    damage: 'Damage',
-                    defenderHealth: 'Defender Health',
-                },
+                index: 'Turn',
+                attacker: 'Attacker',
+                diceRoll: 'Dice Roll',
+                defenderDefense: 'Defender Defense',
+                damage: 'Damage',
+                defenderHealth: 'Defender Health',
             },
         },
         shortFight: {

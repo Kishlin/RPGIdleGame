@@ -10,7 +10,7 @@ function FightTurnsDetailedView({ turns }: FightTurnsDetailedViewProps): JSX.Ele
     const { t } = useContext<LangContextType>(LangContext);
 
     if (0 === turns.length) {
-        return <Typography>{t('entities.fight.noTurns')}</Typography>;
+        return <Typography>{t('components.fight.noTurns')}</Typography>;
     }
 
     const [showTurnsWithoutDamage, setShowTurnsWithoutDamage] = useState<boolean>(false);

@@ -9,12 +9,12 @@ function FightTurnsTableHead(): JSX.Element {
     return (
         <TableHead>
             <TableRow>
-                <TableCell>{t('entities.fight.turns.header.index')}</TableCell>
-                <TableCell>{t('entities.fight.turns.header.attacker')}</TableCell>
-                <TableCell>{t('entities.fight.turns.header.diceRoll')}</TableCell>
-                <TableCell>{t('entities.fight.turns.header.defenderDefense')}</TableCell>
-                <TableCell>{t('entities.fight.turns.header.damage')}</TableCell>
-                <TableCell>{t('entities.fight.turns.header.defenderHealth')}</TableCell>
+                <TableCell>{t('entities.fight.turns.index')}</TableCell>
+                <TableCell>{t('entities.fight.turns.attacker')}</TableCell>
+                <TableCell>{t('entities.fight.turns.diceRoll')}</TableCell>
+                <TableCell>{t('entities.fight.turns.defenderDefense')}</TableCell>
+                <TableCell>{t('entities.fight.turns.damage')}</TableCell>
+                <TableCell>{t('entities.fight.turns.defenderHealth')}</TableCell>
             </TableRow>
         </TableHead>
     );

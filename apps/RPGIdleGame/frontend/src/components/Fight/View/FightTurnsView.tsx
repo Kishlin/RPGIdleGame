@@ -9,7 +9,7 @@ function FightTurnsView({ turns, winnerId }: FightTurnsViewProps): JSX.Element {
     const { t } = useContext<LangContextType>(LangContext);
 
     if (null === winnerId) {
-        return <Typography>{t('entities.fight.draw')}</Typography>;
+        return <Typography>{t('components.fight.draw')}</Typography>;
     }
 
     return <FightTurnsDetailedView turns={turns} />;

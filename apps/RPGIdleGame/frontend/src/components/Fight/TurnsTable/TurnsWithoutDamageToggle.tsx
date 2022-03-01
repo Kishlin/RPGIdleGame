@@ -12,7 +12,7 @@ function TurnsWithoutDamageToggle(
         <FormGroup>
             <FormControlLabel
                 control={<Checkbox onChange={() => setValue(!value)} />}
-                label={t('entities.fight.turns.checkbox.allTurns')}
+                label={t('components.fight.turns.checkbox.allTurns')}
             />
         </FormGroup>
     );
