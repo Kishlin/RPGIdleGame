@@ -67,9 +67,9 @@ const TranslationsEN: Translations = {
             opponentRank: 'Rank',
             result: 'Result',
             results: {
-                win: 'Win',
+                win: 'Victory',
                 draw: 'Draw',
-                loss: 'Loss',
+                loss: 'Defeat',
             },
         },
     },
