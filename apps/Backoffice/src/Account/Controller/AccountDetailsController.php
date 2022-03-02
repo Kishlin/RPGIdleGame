@@ -50,7 +50,9 @@ SQL;
             return new Response(status: Response::HTTP_NOT_FOUND);
         }
 
-        $characters = $this->characters($request, $id);
+        $query = $this->charactersQuery($request, $id);
+
+        $characters = $this->entityManager->getConnection()->fetchAllAssociative($query, ['owner' => $id]);
 
         return $this->render('pages/accounts/one.html.twig', [
             'account'    => $account,
@@ -58,10 +60,7 @@ SQL;
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    private function characters(Request $request, string $id): array
+    private function charactersQuery(Request $request, string $id): string
     {
         $query = self::CHARACTERS_QUERY;
 
@@ -74,6 +73,6 @@ SQL;
             $query .= ' ORDER BY ' . $request->query->get('order') . ' ' . $request->query->get('dir');
         }
 
-        return $this->entityManager->getConnection()->fetchAllAssociative($query, ['owner' => $id]);
+        return $query;
     }
 }
