@@ -13,3 +13,5 @@ RUN addgroup -S sudo \
     && adduser ${DOCKER_USER} sudo \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
     && export HOME=/home/${DOCKER_USER}
+
+RUN npm install react-scripts@latest
