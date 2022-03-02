@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Container, Grid } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
 import { UserContext } from '../../context/UserContext';
 import { LangContext } from '../../context/LangContext';
 
-import LayoutUnauthenticated from '../../components/Layout/LayoutUnauthenticated';
+import LayoutUnauthenticatedForm from '../../components/Layout/LayoutUnauthenticatedForm';
 import NavigationButton from '../../components/Navigation/NavigationButton';
 import LogInForm from '../../components/Forms/Login/LogInForm';
 
@@ -46,18 +45,10 @@ function LogIn(): JSX.Element {
     }
 
     return (
-        <LayoutUnauthenticated>
-            <Container maxWidth="sm">
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <LogInForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />
-                    </Grid>
-                    <Grid item xs={12} container justifyContent="center">
-                        <NavigationButton text="pages.login.links.signup" to="/signup" variant="text" />
-                    </Grid>
-                </Grid>
-            </Container>
-        </LayoutUnauthenticated>
+        <LayoutUnauthenticatedForm
+            form={<LogInForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />}
+            navigationButton={<NavigationButton text="pages.login.links.signup" to="/signup" variant="text" />}
+        />
     );
 }
 
