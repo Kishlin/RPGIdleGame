@@ -18,6 +18,7 @@ use Kishlin\Backend\RPGIdleGame\Character\Application\ViewCharacter\ViewCharacte
 use Kishlin\Backend\RPGIdleGame\Character\Domain\Character;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\NotEnoughSkillPointsException;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAttack;
+use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterAvailability;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterDefense;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterHealth;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
@@ -76,6 +77,21 @@ final class CharacterContext extends RPGIdleGameContext
         ReflectionHelper::writePropertyValue($character, 'rank', new CharacterRank(125));
 
         $this->addCharacterToDatabase($character);
+    }
+
+    /**
+     * @Given /^its well advanced character has to rest for a while$/
+     *
+     * @throws ReflectionException
+     */
+    public function itsWellAdvancedCharacterHasToRestForAWhile(): void
+    {
+        $character = self::container()->characterGatewaySpy()->findOneById(new CharacterId(self::FIGHTER_UUID));
+        assert(null !== $character);
+
+        $unavailable = new CharacterAvailability(new DateTimeImmutable('now + 1 hour'));
+
+        ReflectionHelper::writePropertyValue($character, 'availability', $unavailable);
     }
 
     /**

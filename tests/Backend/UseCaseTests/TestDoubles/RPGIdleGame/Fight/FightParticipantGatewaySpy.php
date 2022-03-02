@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kishlin\Tests\Backend\UseCaseTests\TestDoubles\RPGIdleGame\Fight;
 
+use DateTimeImmutable;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterId;
 use Kishlin\Backend\RPGIdleGame\Character\Domain\ValueObject\CharacterOwner;
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\FighterId;
@@ -11,6 +12,7 @@ use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\FightInitiation
 use Kishlin\Backend\RPGIdleGame\Fight\Application\InitiateAFight\FightRequesterId;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorGateway;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorIsRestingException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponent;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponentGateway;
@@ -48,8 +50,13 @@ final class FightParticipantGatewaySpy implements FightInitiationAllowanceGatewa
     public function createFromExternalDetailsOfInitiator(UuidValueObject $initiatorId): FightInitiator
     {
         $character = $this->characterGatewaySpy->findOneById(CharacterId::fromOther($initiatorId));
+
         if (null === $character) {
             throw new FightInitiatorNotFoundException();
+        }
+
+        if ($character->availability()->value() > new DateTimeImmutable()) {
+            throw new FightInitiatorIsRestingException();
         }
 
         return FightInitiator::create(

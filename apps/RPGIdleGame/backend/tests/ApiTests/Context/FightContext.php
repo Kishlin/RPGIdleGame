@@ -135,6 +135,16 @@ SQL;
     }
 
     /**
+     * @Then /^the fight request was rejected$/
+     */
+    public function theFightRequestWasRejected(): void
+    {
+        Assert::assertNotNull($this->response);
+        Assert::assertSame(400, $this->response->httpCode());
+        Assert::assertSame(0, self::database()->fetchOne('SELECT count(1) FROM fights'));
+    }
+
+    /**
      * @Then /^the fight request failed to find an opponent$/
      */
     public function theFightRequestFailedToFindAnOpponent(): void

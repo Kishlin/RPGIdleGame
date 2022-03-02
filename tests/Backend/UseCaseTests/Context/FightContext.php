@@ -17,6 +17,7 @@ use Kishlin\Backend\RPGIdleGame\Fight\Application\ViewFightsForCharacter\ViewFig
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\CannotAccessFightsException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\Fight;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiator;
+use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightInitiatorIsRestingException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightNotFoundException;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\FightOpponent;
 use Kishlin\Backend\RPGIdleGame\Fight\Domain\NoOpponentAvailableException;
@@ -254,6 +255,15 @@ final class FightContext extends RPGIdleGameContext
     {
         Assert::assertNotNull($this->exceptionThrown);
         Assert::assertInstanceOf(RequesterIsNotAllowedToInitiateFight::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then /^the fight request was rejected$/
+     */
+    public function theFightRequestWasRejected(): void
+    {
+        Assert::assertNotNull($this->exceptionThrown);
+        Assert::assertInstanceOf(FightInitiatorIsRestingException::class, $this->exceptionThrown);
     }
 
     /**

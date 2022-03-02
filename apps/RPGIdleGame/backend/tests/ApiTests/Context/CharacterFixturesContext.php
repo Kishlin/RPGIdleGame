@@ -54,6 +54,19 @@ SQL;
     }
 
     /**
+     * @Given /^its well advanced character has to rest for a while$/
+     */
+    public function itsWellAdvancedCharacterHasToRestForAWhile(): void
+    {
+        $dateInTheFuture = (new \DateTimeImmutable('now + 1 hour'))->format('Y-m-d H:i:s');
+
+        self::database()->exec(
+            'UPDATE characters SET available_as_of = :dateInTheFuture WHERE id = :id',
+            ['id' => self::FIGHTER_UUID, 'dateInTheFuture' => $dateInTheFuture]
+        );
+    }
+
+    /**
      * @Given /^it owns a few characters$/
      */
     public function itOwnsAFewCharacters(): void

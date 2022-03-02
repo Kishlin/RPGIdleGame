@@ -15,7 +15,7 @@ use Kishlin\Backend\Shared\Domain\ValueObject\UuidValueObject;
 interface FightInitiatorGateway
 {
     /**
-     * @throws FightInitiatorNotFoundException
+     * @throws FightInitiatorIsRestingException|FightInitiatorNotFoundException
      */
     public function createFromExternalDetailsOfInitiator(UuidValueObject $initiatorId): FightInitiator;
 }
