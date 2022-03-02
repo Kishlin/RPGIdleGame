@@ -116,6 +116,7 @@ const TranslationsEN: Translations = {
                 },
                 doFight: 'Fight now',
                 errors: {
+                    resting: 'This character recently lost a fight and is resting, come back later.',
                     noOpponent: 'No opponent available, please try again later.',
                     unknown: 'Failed to fight, please try again later.',
                 },

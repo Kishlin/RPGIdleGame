@@ -17,6 +17,12 @@ import NavigationButton from '../../components/Navigation/NavigationButton';
 import initiateFightUsingFetch from '../../api/fight/initiateFight';
 import characterIsReadyToFight from '../../tools/characterIsReadyToFight';
 
+const mapResponseStatusToError = (status: number): string => {
+    if (404 === status) return 'noOpponent';
+    if (400 === status) return 'resting';
+    return 'unknown';
+};
+
 function FightWithCharacter(): JSX.Element {
     useAuthenticatedPage();
 
@@ -38,7 +44,7 @@ function FightWithCharacter(): JSX.Element {
 
     const onFightResponse = (response: Response) => {
         if (false === response.ok) {
-            setError(404 === response.status ? 'noOpponent' : 'unknown');
+            setError(mapResponseStatusToError(response.status));
             setIsLoading(false);
         } else {
             response.json().then((fight: Fight) => {
@@ -58,7 +64,9 @@ function FightWithCharacter(): JSX.Element {
         ? <Typography color="error">{t(`pages.character.fight.errors.${error}`)}</Typography>
         : <noscript />;
 
-    const fightButtonDisabled = isLoading || false === characterIsReadyToFight(character.available_as_of);
+    const fightButtonDisabled = isLoading
+        || false === characterIsReadyToFight(character.available_as_of)
+        || 'resting' === error;
 
     return (
         <LayoutAuthenticated>
