@@ -32,7 +32,7 @@ const TranslationsFR: Translations = {
             attack: 'Attaque',
             defense: 'Défense',
             magik: 'Magie',
-            resting: 'Repose jusqu\'à #date#',
+            resting: 'Repos jusqu\'à #date#',
         },
         fight: {
             participant: {
