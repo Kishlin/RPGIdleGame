@@ -65,7 +65,7 @@ function SignUpForm({ onFormSubmit, error, isLoading }: SignUpFormProps): JSX.El
 
             <FieldPassword
                 label={t('pages.signup.form.passwordCheck.label')}
-                error={passwordMatchError ? 'pages.signup.form.passwordCheck.error' : null}
+                error={passwordMatchError ? t('pages.signup.form.passwordCheck.error') : null}
                 password={passwordCheck}
                 changePassword={setPasswordCheck}
                 showPasswordAsText={showPassword}
