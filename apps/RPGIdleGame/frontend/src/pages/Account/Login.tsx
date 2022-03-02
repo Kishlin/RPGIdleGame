@@ -52,7 +52,7 @@ function LogIn(): JSX.Element {
                     <Grid item xs={12}>
                         <LogInForm onFormSubmit={onFormSubmit} isLoading={isLoading} error={error} />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} container justifyContent="center">
                         <NavigationButton text="pages.login.links.signup" to="/signup" variant="text" />
                     </Grid>
                 </Grid>
