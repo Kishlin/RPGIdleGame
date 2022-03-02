@@ -46,8 +46,6 @@ const TranslationsEN: Translations = {
                     loss: 'Defeat',
                 },
             },
-            draw: 'This fight was a draw because nobody had any chance to damage the other.',
-            noTurns: 'The loser had no chance to damage the winner, because its maximum damage output is not greater than the winner\'s defense.',
             turns: {
                 index: 'Turn',
                 attacker: 'Attacker',
@@ -111,7 +109,7 @@ const TranslationsEN: Translations = {
                         final: '- The defender loses 4 health points. If it is down to 0, the defender has lost.',
                     },
                     onResult: 'If you win, you gain one skill points and rank up by one. '
-                        + 'If you lose, you rank down, but not lower than Rank 1. '
+                        + 'If you lose, you rank down, but not lower than Rank 1, and must rest for one hour. '
                         + 'Nothing happens if it is a draw (fighters cannot damage each other).',
                 },
                 doFight: 'Fight now',
