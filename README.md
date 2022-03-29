@@ -32,7 +32,7 @@ On first start, or if you remove required folders (like dependencies), everythin
 | Service      | RPGIdleGame Backend                                           | RPGIdleGame Frontend                                          | Backoffice                                                    |
 |--------------|---------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------------------------------|
 | Check Health | [Check Health](http://localhost:8030/monitoring/check-health) | [Check Health](http://localhost:3000/monitoring/check-health) | [Check Health](http://localhost:8040/monitoring/check-health) |
-| Home Page    |                                                               | [Home Page](http://localhost:3000/)                           |                                                               |
+| Home Page    |                                                               | [Home Page](http://localhost:3000/)                           | [Home Page](http://localhost:8040/)                           |
 
 Ports may differ if overridden in the .env.local file.
 
@@ -41,20 +41,23 @@ Ports may differ if overridden in the .env.local file.
 ```shell
 make tests
 ```
-This requires containers to be running, containers will be started automatically if they are down.
+Tests require containers to be running.
 
-You can be more precise and run tests for a specific app:
+You can be more precise and run tests for a specific environment:
 ```shell
 make tests.frontend && make tests.backend
 ```
-Or specific test suites:
+Or even more specific test suites:
 ```shell
-make tests.backend.usecases && make tests.backend.src && make tests.backend.app
-make tests.backend.app.driving && make tests.backend.app.functional && make make tests.backend.app.integration 
+make tests.backend.usecases && make tests.backend.api && make tests.backend.src && make tests.backend.app && make tests.backend.backoffice && \
+make tests.backend.app.driving && make tests.backend.app.functional && make make tests.backend.app.integration && \
+make tests.backend.backoffice.functional && make tests.backend.backoffice.integration && \
 make tests.backend.src.isolated && make tests.backend.src.contract
 ```
 
-Tests use a specific database, created on startup.
+## Documentation
+
+Learn more about the project [here](docs/Documentation.md).
 
 
 ## Alternative Installation
