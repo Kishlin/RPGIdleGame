@@ -10,7 +10,7 @@
 ## Download locally
 
 ```shell
-git clone git@github.com:Kishlin/RPGIdleGame.git
+git clone https://github.com/Kishlin/RPGIdleGame.git
 cd RPGIdleGame
 ```
 
