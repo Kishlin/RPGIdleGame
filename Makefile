@@ -84,6 +84,9 @@ start: containers vendor db.reload db.reload.test
 	@echo "    Backoffice: http://localhost:8040/monitoring/check-health"
 	@echo "    Backend: http://localhost:8030/monitoring/check-health"
 	@echo "    Frontend: http://localhost:3000/monitoring/check-health"
+	@echo "You can access services with the root links."
+	@echo "    Front App: http://localhost:3000/"
+	@echo "    Backoffice: http://localhost:8040/"
 	@echo "Ports may differ if overridden in the .env.local file."
 	@echo "Run tests: \`make tests\` (see Makefile for more options)."
 
